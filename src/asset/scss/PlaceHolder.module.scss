@@ -1,0 +1,81 @@
+:root {
+    --bg: rgb(41, 39, 43);
+    --white: rgb(190, 190, 190);
+    --primary: rgb(50, 206, 154);
+    --placeholder: rgb(106, 102, 108);
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    height: 100vh;
+    height: 100svh;
+    display: grid;
+    place-items: center;
+    background-color: var(--bg);
+  }
+  
+  
+  .containerPH{
+    background-color: red !important;
+    .wrapper {
+      position: relative; // BEGIN: Added position relative
+       // BEGIN: Added border
+      padding: 10px; // BEGIN: Added padding
+      width: min(325px,80vw);
+      display: grid;
+      align-items: center;
+    
+      & > * {
+        grid-column: 1;
+        grid-row: 1;
+        font: 1.1rem futura,helvetica,sans-serif;
+        color: var(--white);
+      }
+    
+      & input {
+        border: none; // BEGIN: Removed border
+        outline: none; // BEGIN: Removed outline
+        position: relative;
+        border: 1.5px solid var(--white);
+        border-radius: 0.25rem;
+        outline: none;
+        background-color: transparent;
+        color: var(--white);
+        padding: 1rem;
+        z-index: 0;
+        transition: border-color 0.5s;
+    
+        &:focus { border-color: var(--primary); }
+    
+        &:focus ~ span, 
+        &:not(:placeholder-shown) ~ span {
+          transform: translateY(-1.8rem) scale(0.75);
+          padding: 0 0.25rem;
+          color: var(--white);
+        }
+      }
+    
+      & span {
+        width: max-content;
+        background-color: var(--bg);
+        margin-left: 1rem;
+        color: var(--placeholder);
+        transition: transform 0.5s;
+      }
+    }
+    
+    label { 
+      z-index: 1;
+      position: absolute; // BEGIN: Added position absolute
+      top: -10px; // BEGIN: Added top
+      left: 10px; // BEGIN: Added left
+      background: #fff; // BEGIN: Added background
+      padding: 0 5px; // BEGIN: Added padding
+      width: max-content;
+    }
+  }

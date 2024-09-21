@@ -1,0 +1,81 @@
+:root {
+  --bg: rgb(41, 39, 43);
+  --white: rgb(190, 190, 190);
+  --primary: rgb(50, 206, 154);
+  --placeholder: rgb(106, 102, 108);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  background-color: var(--bg);
+}
+
+.containerPH {
+  background-color: red !important;
+}
+.containerPH .wrapper {
+  position: relative;
+  padding: 10px;
+  width: min(325px, 80vw);
+  display: grid;
+  align-items: center;
+}
+.containerPH .wrapper > * {
+  grid-column: 1;
+  grid-row: 1;
+  font: 1.1rem futura, helvetica, sans-serif;
+  color: var(--white);
+}
+.containerPH .wrapper input {
+  border: none;
+  outline: none;
+  position: relative;
+  border: 1.5px solid var(--white);
+  border-radius: 0.25rem;
+  outline: none;
+  background-color: transparent;
+  color: var(--white);
+  padding: 1rem;
+  z-index: 0;
+  transition: border-color 0.5s;
+}
+.containerPH .wrapper input:focus {
+  border-color: var(--primary);
+}
+.containerPH .wrapper input:not(:-moz-placeholder-shown) ~ span {
+  transform: translateY(-1.8rem) scale(0.75);
+  padding: 0 0.25rem;
+  color: var(--white);
+}
+.containerPH .wrapper input:focus ~ span, .containerPH .wrapper input:not(:placeholder-shown) ~ span {
+  transform: translateY(-1.8rem) scale(0.75);
+  padding: 0 0.25rem;
+  color: var(--white);
+}
+.containerPH .wrapper span {
+  width: -moz-max-content;
+  width: max-content;
+  background-color: var(--bg);
+  margin-left: 1rem;
+  color: var(--placeholder);
+  transition: transform 0.5s;
+}
+.containerPH label {
+  z-index: 1;
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background: #fff;
+  padding: 0 5px;
+  width: -moz-max-content;
+  width: max-content;
+}/*# sourceMappingURL=PlaceHolder.module.css.map */

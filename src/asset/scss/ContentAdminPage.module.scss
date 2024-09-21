@@ -1,0 +1,60 @@
+.container {
+    width: 100vw;
+    .header {
+        // Add styles for header here
+        .demoNotifications{
+            background-color: red;
+        }
+    }
+    .status_bar {
+        width: 60%;
+        .custom_steps {
+            // Add styles for custom steps here
+            .ant-steps-item-process .ant-steps-item-icon {
+                background: rgb(85, 85, 163);
+                border-color: white;
+            }
+            .ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
+                color: white;
+            }
+        }
+    }
+    .performance_bar {
+        // Add styles for performance bar here
+        height: 700px;
+        .demoPerformance {
+            text-align: center;
+            height: 700px;
+        }
+        .cash_deposits {
+            // Add styles for cash deposits here
+        }
+        .invest_divident {
+            // Add styles for invest divident here
+        }
+        .capital_gains {
+            // Add styles for capital gains here
+        }
+        .total_access {
+            // Add styles for total access here
+        }
+    }
+    .dashboard {
+        // Add styles for dashboard here
+        .overview {
+            // Add styles for overview here
+            .line_chart {
+                // Add styles for line chart here
+            }
+            .pie_chart {
+                // Add styles for pie chart here
+            }
+        }
+        .specifics {
+            // Add styles for specifics here
+        }
+    }
+    .stastitis {
+        // Add styles for statistics here
+    }
+}
