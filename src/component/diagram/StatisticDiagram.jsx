@@ -29,7 +29,7 @@ const StatisticDiagram = () => {
       };
 
   return (
-    <div className='containerStatisticsDiagram'>
+    <div className='containerStatisticsDiagram' style={{background:''}} >
         <Line data={data} options={options}></Line>
     </div>
   )

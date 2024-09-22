@@ -2,7 +2,7 @@ import React from 'react';
 import { SmileOutlined } from '@ant-design/icons';
 import { Timeline } from 'antd';
 const TimelineDemo = () => (
-  <Timeline
+  <Timeline style={{color:'#ffffff'}}
     items={[
       {
         color: 'green',
