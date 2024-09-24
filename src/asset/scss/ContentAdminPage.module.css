@@ -1,18 +1,23 @@
 .container {
   width: 100vw;
 }
-.container .header .demoNotifications {
-  background-color: red;
+.container .header .alert_block {
+  height: 200px;
+  width: -moz-max-content;
+  width: max-content;
+  color: white;
 }
 .container .status_bar {
   width: 60%;
+  border: 1px solid red;
+  border-radius: 30px;
 }
 .container .status_bar .custom_steps .ant-steps-item-process .ant-steps-item-icon {
-  background: rgb(85, 85, 163);
-  border-color: white;
+  background: rgb(214, 147, 46);
+  border-color: rgb(133, 65, 65);
 }
 .container .status_bar .custom_steps .ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
-  color: white;
+  color: rgb(48, 170, 231);
 }
 .container .performance_bar {
   height: 700px;

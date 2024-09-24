@@ -19,9 +19,6 @@ body {
   background-color: var(--bg);
 }
 
-.containerPH {
-  background-color: red !important;
-}
 .containerPH .wrapper {
   position: relative;
   padding: 10px;

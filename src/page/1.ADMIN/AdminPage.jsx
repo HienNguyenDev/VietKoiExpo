@@ -120,7 +120,7 @@ const HomePage = () => {
         >
           <div className='containerHeader' style={{right:'0'}}>
           {/* <NotificationBlock/> */}
-          <AccountMenu/>
+          {/* <AccountMenu/> */}
           </div>
         </Header>
         <Content

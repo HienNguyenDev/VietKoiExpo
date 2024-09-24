@@ -1,21 +1,25 @@
 .container {
     width: 100vw;
     .header {
-        // Add styles for header here
-        .demoNotifications{
-            background-color: red;
+        
+        .alert_block{
+            height: 200px;
+            width: max-content;
+            color: white;
         }
     }
     .status_bar {
         width: 60%;
+        border: 1px solid red;
+        border-radius: 30px;
         .custom_steps {
             // Add styles for custom steps here
             .ant-steps-item-process .ant-steps-item-icon {
-                background: rgb(85, 85, 163);
-                border-color: white;
+                background: rgb(214, 147, 46);
+                border-color: rgb(133, 65, 65);
             }
             .ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
-                color: white;
+                color: rgb(48, 170, 231);
             }
         }
     }
@@ -58,3 +62,4 @@
         // Add styles for statistics here
     }
 }
+
