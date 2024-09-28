@@ -1,131 +1,100 @@
-import React from 'react';
-import { AppstoreOutlined, UserOutlined, TrophyOutlined, SettingOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { createTheme } from '@mui/material/styles';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import { AppProvider } from '@toolpad/core/AppProvider';
+import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 
-const items = [
+const NAVIGATION = [
   {
-    key: 'home',
-    label: 'Trang chủ',
-    icon: <AppstoreOutlined />,
-    children: [
-      {
-        key: 'info',
-        label: 'Thông tin cuộc thi',
-      },
-      {
-        key: 'rules',
-        label: 'Luật thi đấu',
-      },
-      {
-        key: 'criteria',
-        label: 'Tiêu chí chấm điểm',
-      },
-      {
-        key: 'news',
-        label: 'Tin tức',
-      },
-    ],
+    segment: 'dashboard',
+    title: 'Dashboard',
+    icon: <DashboardIcon />,
   },
   {
-    key: 'tournaments',
-    label: 'Các cuộc thi',
-    icon: <TrophyOutlined />,
-    children: [
-      {
-        key: 'ongoing',
-        label: 'Đang diễn ra',
-      },
-      {
-        key: 'upcoming',
-        label: 'Sắp diễn ra',
-      },
-      {
-        key: 'past',
-        label: 'Đã diễn ra',
-      },
-    ],
+    segment: 'orders',
+    title: 'Orders',
+    icon: <ShoppingCartIcon />,
   },
   {
-    key: 'register',
-    label: 'Đăng ký tham gia',
-    icon: <UserOutlined />,
-    children: [
-      {
-        key: 'account',
-        label: 'Tài khoản',
-      },
-      {
-        key: 'koi-profile',
-        label: 'Hồ sơ cá Koi',
-      },
-    ],
-  },
-  {
-    key: 'management',
-    label: 'Quản lý cuộc thi',
-    icon: <SettingOutlined />,
-    children: [
-      {
-        key: 'registration-review',
-        label: 'Xét duyệt đơn đăng ký',
-      },
-      {
-        key: 'category-assignment',
-        label: 'Phân hạng thi đấu',
-      },
-      {
-        key: 'checkin',
-        label: 'Check-in cá Koi',
-      },
-      {
-        key: 'results',
-        label: 'Kết quả cuộc thi',
-      },
-    ],
-  },
-  {
-    key: 'predictions',
-    label: 'Dự đoán kết quả',
-    icon: <TrophyOutlined />,
-  },
-  {
-    key: 'statistics',
-    label: 'Thống kê & Báo cáo',
-    icon: <AppstoreOutlined />,
-    children: [
-      {
-        key: 'competition-stats',
-        label: 'Bảng thống kê cuộc thi',
-      },
-      {
-        key: 'koi-achievements',
-        label: 'Thành tích cá Koi',
-      },
-      {
-        key: 'reports',
-        label: 'Dashboard & Report',
-      },
-    ],
+    segment: 'reports',
+    title: 'Reports',
+    icon: <BarChartIcon />,
   },
 ];
 
-const Referee = () => {
-  const onClick = (e) => {
-    console.log('click ', e);
-  };
+const Theme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'data-toolpad-color-scheme',
+  },
+  colorSchemes: { light: true, dark: true },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 600,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
 
+function DemoPageContent({ pathname }) {
   return (
-    <div style={{ height: '100vh' }}>
-      <Menu
-        onClick={onClick}
-        style={{ height: '100%' }}
-        defaultSelectedKeys={['home']}
-        defaultOpenKeys={['home']}
-        mode="inline"
-        items={items}
-      />
-    </div>
+    <Box
+      sx={{
+        py: 4,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+      }}
+    >
+      <Typography>Dashboard content for {pathname}</Typography>
+    </Box>
   );
+}
+
+DemoPageContent.propTypes = {
+  pathname: PropTypes.string.isRequired,
 };
+
+function Referee(props) {
+  const { window } = props;
+
+  const [pathname, setPathname] = React.useState('/dashboard');
+
+  const router = React.useMemo(() => {
+    return {
+      pathname,
+      searchParams: new URLSearchParams(),
+      navigate: (path) => setPathname(String(path)),
+    };
+  }, [pathname]);
+
+  
+  return (
+    <AppProvider
+      navigation={NAVIGATION}
+      branding={{
+        logo: <img src="https://mui.com/static/logo.png" alt="VietKoiExpo logo" />,
+        title: 'VietKoiExpo',
+      }}
+      router={router}
+      theme={Theme}
+
+    >
+      <DashboardLayout >
+        <DemoPageContent pathname={pathname} />
+      </DashboardLayout>
+    </AppProvider>
+  );
+}
+
+
 
 export default Referee;
