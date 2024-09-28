@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+// import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AdminPage from './page/1.ADMIN/AdminPage';
 import HomePage from './page/1.ADMIN/HomePage';
 import LoginPage from './page/2.LOGIN/LoginPage'
 import IntroComponent from './page/0.INTRO/IntroComponent';
+import Referee from './page/3.REFEREE/Referee';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
    {/* <AdminPage/> */}
    {/* <LoginPage/> */}
-   <IntroComponent/>
+   <div >
+   <Referee/>
+   </div>
   </React.StrictMode>
 );
 
