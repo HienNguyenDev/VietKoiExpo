@@ -1,0 +1,19 @@
+/* CustomizeButton.module.css */
+.button {
+  background-color: rgb(209, 125, 125);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+  font: 1.1rem futura, helvetica, sans-serif;
+}
+
+.button:hover {
+  background-color: rgb(223, 131, 131);
+  transform: scale(1.1);
+  font: 1.1rem futura, helvetica, sans-serif;
+  font-size: 20px;
+}/*# sourceMappingURL=CustomizeButton.module.css.map */

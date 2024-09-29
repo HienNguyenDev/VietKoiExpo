@@ -1,6 +1,6 @@
 :root {
   --bg: rgb(41, 39, 43);
-  --white: rgb(190, 190, 190);
+  --white: rgb(151, 141, 141);
   --primary: rgb(50, 206, 154);
   --placeholder: rgb(106, 102, 108);
 }
@@ -71,8 +71,9 @@ body {
   position: absolute;
   top: -10px;
   left: 10px;
-  background: #fff;
-  padding: 0 5px;
+  padding: 0 0px;
+  background: #ffffff;
+  border-radius: 7px;
   width: -moz-max-content;
   width: max-content;
 }/*# sourceMappingURL=PlaceHolder.module.css.map */

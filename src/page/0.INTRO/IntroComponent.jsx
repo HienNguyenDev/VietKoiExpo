@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from '../../asset/scss/IntroComponent.scss';
-import LoginPage from '../2.LOGIN/LoginPage';
+import LoginPage from '../2.LOGIN/LoginForm';
 
 const IntroComponent = () => {
     useEffect(() => {
@@ -27,9 +27,9 @@ const IntroComponent = () => {
 
     return (
         <>
-            <div className="text-container">
+            {/* <div className="text-container">
                 <LoginPage/>
-            </div>
+            </div> */}
             <div className="gradient-bg">
                 <svg xmlns="http://www.w3.org/2000/svg">
                     <defs>

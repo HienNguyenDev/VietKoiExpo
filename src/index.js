@@ -5,18 +5,27 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AdminPage from './page/1.ADMIN/AdminPage';
 import HomePage from './page/1.ADMIN/HomePage';
-import LoginPage from './page/2.LOGIN/LoginPage'
 import IntroComponent from './page/0.INTRO/IntroComponent';
 import Referee from './page/3.REFEREE/Referee';
+import RegisterPage from './page/2.LOGIN/RegisterPage';
+import LoginPage from './page/2.LOGIN/LoginPage';
+import LoginForm from './page/2.LOGIN/LoginForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route path="/admin" element={<AdminPage/>}/>
+        </Route>
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path='/register' element={<RegisterPage/>}></Route>
+      </Routes>
+    </BrowserRouter>
    {/* <AdminPage/> */}
    {/* <LoginPage/> */}
-   <div >
-   <Referee/>
-   </div>
+   {/* <IntroComponent/> */}
   </React.StrictMode>
 );
 

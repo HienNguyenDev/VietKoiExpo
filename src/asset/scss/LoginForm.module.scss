@@ -1,0 +1,94 @@
+@font-face {
+  font-family: 'UtRightMilksDemoRegular';
+  src: url('../font/ut-right-milks-font/UtRightMilksDemoRegular-JpZo7.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'AutumnFlowerFont';
+  src: url('../font/autumn-flowers-font/AutumnFlowers-9YVZK.otf') format('opentype');
+}
+
+.container {
+  // -webkit-backdrop-filter: blur(20px);
+  // backdrop-filter: blur(20px);
+  font-family: 'UtRightMilksDemoRegular' !important;
+
+  
+  .loginForm {
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.103);
+   border-top-right-radius: 30px;
+   border-bottom-right-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    height: 100vh;
+    //  
+    background-color: #ffffff;
+    // justify-content: center;
+    
+    // -webkit-backdrop-filter: blur(5px);
+    // backdrop-filter: blur(5px);
+
+    .tittleLogin {
+      text-align: center;
+
+      h1 {
+        color: rgb(202, 140, 140);
+        font-size: 60px;
+        padding-left: 100px;
+        font-family: 'AutumnFlowerFont';
+      }
+    }
+
+    .usernameItem {
+
+      .usernameLabel {
+        color: rgb(146, 52, 52);
+        font-size: 1rem;
+      }
+    }
+
+    .passwordItem {
+      .passwordLabel {
+        color: rgb(189, 133, 133);
+        font-size: 1rem;
+      }
+    }
+
+    .rememberItem {
+      // text-align: start;
+      width: 100%;
+    }
+
+    .registerItem {
+      text-align: start;
+      color: red;
+    }
+  }
+  .loginWithGoogleItem {
+
+    .loginWithGoogle{
+      text-align: center;
+      display: flex;
+    }
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 0;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

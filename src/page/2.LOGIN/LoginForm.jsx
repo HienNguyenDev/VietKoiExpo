@@ -21,7 +21,7 @@ const onFinishFailed = (errorInfo) => {
 //   );
 // };
 
-const RegisterPage = () => (
+const LoginForm = () => (
   <div  style={{zIndex:'99'}} className={`${styles.container}`}>
     <Form
     name="basic"
@@ -102,7 +102,7 @@ const RegisterPage = () => (
       <Col span={10}>
       <Form.Item
       wrapperCol={{
-        offset: 8,
+        offset: 1,
         span: 16,
       }}
     >
@@ -130,4 +130,4 @@ const RegisterPage = () => (
   </Form>
   </div>
 );
-export default RegisterPage;
+export default LoginForm;

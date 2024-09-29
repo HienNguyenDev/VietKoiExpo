@@ -1,6 +1,6 @@
 :root {
     --bg: rgb(41, 39, 43);
-    --white: rgb(190, 190, 190);
+    --white: rgb(151, 141, 141);
     --primary: rgb(50, 206, 154);
     --placeholder: rgb(106, 102, 108);
   }
@@ -73,8 +73,19 @@
       position: absolute; // BEGIN: Added position absolute
       top: -10px; // BEGIN: Added top
       left: 10px; // BEGIN: Added left
-      background: #fff; // BEGIN: Added background
-      padding: 0 5px; // BEGIN: Added padding
+      padding: 0 0px; // BEGIN: Added padding
+      background: #ffffff;
+      border-radius: 7px;
       width: max-content;
+      // &::after {
+      //   z-index: 1;
+      //   content: "";
+      //   position: absolute;
+      //   bottom: 12.5px; // Position it over the border
+      //   left: 0;
+      //   right: 0;
+      //   height: 1.5px; // Make it the same height as the border
+      //   background: transparent; // Make it the same color as the label's background
+      // }
     }
   }
