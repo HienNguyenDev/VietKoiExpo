@@ -8,7 +8,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-
+//import logo from 'src/asset/photo/logo.jpg';
 const NAVIGATION = [
   {
     segment: 'dashboard',
@@ -65,6 +65,30 @@ DemoPageContent.propTypes = {
 
 function Referee(props) {
   const { window } = props;
+  const [session, setSession] = React.useState({
+    user: {
+      name: 'Bharat Kashyap',
+      email: 'bharatkashyap@outlook.com',
+      image: 'https://avatars.githubusercontent.com/u/19550456',
+    },
+  });
+
+  const authentication = React.useMemo(() => {
+    return {
+      signIn: () => {
+        setSession({
+          user: {
+            name: 'Bharat Kashyap',
+            email: 'bharatkashyap@outlook.com',
+            image: 'https://avatars.githubusercontent.com/u/19550456',
+          },
+        });
+      },
+      signOut: () => {
+        setSession(null);
+      },
+    };
+  }, []);
 
   const [pathname, setPathname] = React.useState('/dashboard');
 
@@ -80,14 +104,16 @@ function Referee(props) {
   return (
     <AppProvider
       navigation={NAVIGATION}
+      authentication={authentication}
       branding={{
-        logo: <img src="https://mui.com/static/logo.png" alt="VietKoiExpo logo" />,
+        logo: <img src="https://imgur.com/V1zXtZN.jpg"  alt="VietKoiExpo Logo" />,
         title: 'VietKoiExpo',
       }}
       router={router}
       theme={Theme}
 
     >
+      
       <DashboardLayout >
         <DemoPageContent pathname={pathname} />
       </DashboardLayout>
@@ -95,6 +121,9 @@ function Referee(props) {
   );
 }
 
+Referee.propTypes = {
+  window: PropTypes.func,
+};
 
 
 export default Referee;
