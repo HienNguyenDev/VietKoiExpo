@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AdminPage from './page/1.ADMIN/AdminPage';
 import HomePage from './page/1.ADMIN/HomePage';
 import IntroComponent from './page/0.INTRO/IntroComponent';
-import Referee from './page/3.REFEREE/Referee';
+import RefereePage from './page/3.REFEREE/RefereePage';
 import RegisterPage from './page/2.LOGIN/RegisterPage';
 import LoginPage from './page/2.LOGIN/LoginPage';
 import LoginForm from './page/2.LOGIN/LoginForm';
@@ -19,13 +19,20 @@ root.render(
         <Route path="/">
           <Route path="/admin" element={<AdminPage/>}/>
         </Route>
+        <Route path="/referee" element={<RefereePage/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path='/register' element={<RegisterPage/>}></Route>
       </Routes>
     </BrowserRouter>
    {/* <AdminPage/> */}
+   {/* <RefereePage/> */}
    {/* <LoginPage/> */}
    {/* <IntroComponent/> */}
+
+  {/* //test */}
+   <div >
+   <RefereePage/>
+   </div>
   </React.StrictMode>
 );
 

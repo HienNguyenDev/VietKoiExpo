@@ -8,7 +8,9 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-//import logo from 'src/asset/photo/logo.jpg';
+import { Account, AuthenticationContext, SessionContext } from '@toolpad/core';
+import CustomMenu from '../../component/AccountMenu/CustomMenu2';
+
 const NAVIGATION = [
   {
     segment: 'dashboard',
@@ -20,7 +22,7 @@ const NAVIGATION = [
     title: 'Orders',
     icon: <ShoppingCartIcon />,
   },
-  {
+  { 
     segment: 'reports',
     title: 'Reports',
     icon: <BarChartIcon />,
@@ -63,67 +65,61 @@ DemoPageContent.propTypes = {
   pathname: PropTypes.string.isRequired,
 };
 
-function Referee(props) {
-  const { window } = props;
-  const [session, setSession] = React.useState({
-    user: {
-      name: 'Bharat Kashyap',
-      email: 'bharatkashyap@outlook.com',
-      image: 'https://avatars.githubusercontent.com/u/19550456',
-    },
-  });
+const demoSession = {
+  user: {
+    name: 'Bharat Kashyap',
+    email: 'bharatkashyap@outlook.com',
+    image: 'https://avatars.githubusercontent.com/u/19550456',
+  },
+};
 
-  const authentication = React.useMemo(() => {
-    return {
-      signIn: () => {
-        setSession({
-          user: {
-            name: 'Bharat Kashyap',
-            email: 'bharatkashyap@outlook.com',
-            image: 'https://avatars.githubusercontent.com/u/19550456',
-          },
-        });
-      },
-      signOut: () => {
-        setSession(null);
-      },
-    };
-  }, []);
+function Referee() {
+  const [session, setSession] = React.useState(demoSession);
+  const authentication = React.useMemo(() => ({
+    signIn: () => {
+      setSession(demoSession);
+    },
+    signOut: () => {
+      setSession(null);
+    },
+  }), []);
 
   const [pathname, setPathname] = React.useState('/dashboard');
 
-  const router = React.useMemo(() => {
-    return {
-      pathname,
-      searchParams: new URLSearchParams(),
-      navigate: (path) => setPathname(String(path)),
-    };
-  }, [pathname]);
+  const router = React.useMemo(() => ({
+    pathname,
+    searchParams: new URLSearchParams(),
+    navigate: (path) => setPathname(String(path)),
+  }), [pathname]);
 
-  
+  const AccountComponent = React.useCallback(() => (
+    <AuthenticationContext.Provider value={authentication}>
+      <SessionContext.Provider value={session}>
+        <Account
+          slots={{
+            menuItems: CustomMenu,
+          }}
+        />
+      </SessionContext.Provider>
+    </AuthenticationContext.Provider>
+  ), [authentication, session]);
+
   return (
     <AppProvider
+      session={session}
       navigation={NAVIGATION}
-      authentication={authentication}
       branding={{
-        logo: <img src="https://imgur.com/V1zXtZN.jpg"  alt="VietKoiExpo Logo" />,
+        logo: <img src="https://imgur.com/V1zXtZN.jpg" alt="VietKoiExpo Logo" />,
         title: 'VietKoiExpo',
       }}
       router={router}
       theme={Theme}
-
-    >
-      
-      <DashboardLayout >
+    >   
+      <DashboardLayout slots={{ toolbarActions: AccountComponent }}>
         <DemoPageContent pathname={pathname} />
       </DashboardLayout>
     </AppProvider>
   );
 }
-
-Referee.propTypes = {
-  window: PropTypes.func,
-};
-
 
 export default Referee;

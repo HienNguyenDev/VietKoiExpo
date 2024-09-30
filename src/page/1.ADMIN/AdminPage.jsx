@@ -49,7 +49,7 @@ const items = [
   getItem('Manage Koi Entries', 'sub3', <KoiIcon/>, [
     getItem('Review Koi Entries', '51',undefined,undefined, '/review-koi-entries'),
     getItem('Approve Koi Entriess', '52',undefined,undefined, '/approve-koi-entries'),
-    getItem('Assign Koi to Categorie', '5',undefined,undefined, '/assign-koi-to-category'),
+    getItem('Assign Koi to Categorie', '53',undefined,undefined, '/assign-koi-to-category'),
     getItem('Manage Check-in Process', '54',undefined,undefined, '/manage-check-in-process'),
   ]),
   getItem('Manage Judging Process', 'sub4', <TorriJapanIcon/>, [
