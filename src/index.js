@@ -10,10 +10,14 @@ import RefereePage from './page/3.REFEREE/RefereePage';
 import RegisterPage from './page/2.LOGIN/RegisterPage';
 import LoginPage from './page/2.LOGIN/LoginPage';
 import LoginForm from './page/2.LOGIN/LoginForm';
+import Referee from './page/3.REFEREE/Referee';
+import { Provider } from 'react-redux';
+import { store } from './redux/configStore';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path="/">
@@ -26,6 +30,7 @@ root.render(
         <Route path='/register' element={<RegisterPage/>}></Route>
       </Routes>
     </BrowserRouter>
+    </Provider>
    {/* <AdminPage/> */}
    {/* <RefereePage/> */}
    {/* <LoginPage/> */}

@@ -1,133 +1,65 @@
 import React from 'react';
-import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
+import { Button, Checkbox, Col, Row } from 'antd';
 import styles from '../../asset/scss/LoginForm.module.scss'
 import PlaceHolder from '../../component/placeholder/PlaceHolder';
 import { Link } from 'react-router-dom';
+import * as yup from  'yup'
 import CustomizeButton from '../../component/button/CustomizeButton';
 import logoGoogle from '../../asset/logo/Google_Icons-09-512.webp'
-const onFinish = (values) => {
-  console.log('Success:', values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
+import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import { registerActionApi } from '../../redux/action/userAction'; 
 
-// const PasswordWithPlaceholder = ({ id, label, placeholder }) => {
-//   return (
-//     <Input.Password
-//       id={id}
-//       placeholder={placeholder}
-//     />
-//   );
-// };
-
-const RegisterPage = () => (
-  <div  style={{zIndex:'99'}} className={`${styles.container}`}>
-    <Form
-    name="basic"
-    labelCol={{
-      span: 8,
-    }}
-    wrapperCol={{
-      span: 16,
-    }}
-    style={{
-      maxWidth:450,
-    }}
-    initialValues={{
-      remember: true,
-    }}
-    onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
-    autoComplete="off"
-    className={`${styles.loginForm}`}
-  >
-    <Form.Item > 
-      <div className={`${styles.tittleLogin}`}>
-      <h1 style={{}}>Login</h1>
-      </div>
-     
-    </Form.Item>
-    <Form.Item
-  className={`${styles.usernameItem}`}
-  // label={<span className={`${styles.usernameLabel}`}>Username</span>}
-  name="username"
-  rules={[
-    {
-      required: true,
-      message: 'Please input your username!',
+  const dispatch=useDispatch();
+  const frm=useFormik({
+    initialValues:{
+      email:'', 
+      password:'',
+      confirmPassword: '', 
+      fullName: '',
+      phone: '', 
+      roleID: 'member' 
     },
-  ]}
->
-  <PlaceHolder id='username' label='Username' placeholder='Enter your username' type='text' />
-</Form.Item>
-
-<Form.Item
-  className={`${styles.passwordItem}`}
-  // label={<span className={`${styles.passwordLabel}`}>Password</span>}
-  name="password"
-  rules={[
-    {
-      required: true,
-      message: 'Please input your password!',
+    onSubmit:(values)=>{
+      console.log('value',values);
+      const actionAsync=registerActionApi(values); 
+      dispatch(actionAsync)
     },
-  ]}
->
-  <PlaceHolder id='password' label='Password' placeholder='Enter your password' type='password' />
-</Form.Item>
+  })
 
-    <Form.Item
-     className={`${styles.rememberItem}`}
-      name="remember"
-      valuePropName="checked"
-      wrapperCol={{
-        offset: 1,
-        span: 12,
-      }}
-    >
-      <Checkbox style={{fontFamily:'futura,helvetica,sans-serif',color:'  rgb(202, 140, 140)'}}>Remember me</Checkbox>
-    </Form.Item>
-    <Row>
-      <Col span={14}>
-        <Form.Item 
-          className={`${styles.registerItem}`}
-          wrapperCol={{
-            offset:1,
-            span: 16,
-          }}
-        >
-          <Link to='/register' style={{color:'rgb(202, 140, 140)'}}>Chưa có tài khoản?</Link>
-        </Form.Item>
-      </Col>
-      <Col span={10}>
-      <Form.Item
-      wrapperCol={{
-        offset: 8,
-        span: 16,
-      }}
-    >
-      <CustomizeButton/>
-    </Form.Item>
-      </Col>
-    </Row>
-    {/* create a login with google */}
-    <Form.Item
-    className={styles.loginWithGoogleItem}
-      wrapperCol={{
-        offset: 5,
-        span: 16,
-      }}
-    >
-      <Button type="primary" htmlType="submit">
-       <div className={styles.loginWithGoogle}>
-       <p>Login With Google</p>
-        <img src={logoGoogle} style={{width:'20px',height:'20px'}}></img>
-        
-       </div>
-      </Button>
-    </Form.Item>
-    
-  </Form>
-  </div>
-);
-export default RegisterPage;
+  return  (
+    <div  style={{zIndex:'99'}} className={`${styles.container}`}>
+      <form
+        style={{
+          maxWidth:450,
+        }}
+        onSubmit={frm.handleSubmit}
+        autoComplete="off"
+        className={`${styles.loginForm}`}
+      >
+        <div className={`${styles.tittleLogin}`}>
+          <h1>Register</h1> // Change title to Register
+        </div>
+        <div className={`${styles.usernameItem}`}>
+          <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Enter your email' type='email' /> // Change username to email
+        </div>
+        <div className={`${styles.passwordItem}`}>
+          <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
+        </div>
+        <div className={`${styles.passwordItem}`}>
+          <PlaceHolder onChange={frm.handleChange} id='confirmPassword' label='Confirm Password' placeholder='Confirm your password' type='password' /> // Add confirmPassword field
+        </div>
+        <div className={`${styles.usernameItem}`}>
+          <PlaceHolder onChange={frm.handleChange} id='fullName' label='Full Name' placeholder='Enter your full name' type='text' /> // Add fullName field
+        </div>
+        <div className={`${styles.usernameItem}`}>
+          <PlaceHolder onChange={frm.handleChange} id='phone' label='Phone' placeholder='Enter your phone number' type='tel' /> // Add phone field
+        </div>
+        <div>
+          <CustomizeButton/>
+        </div>
+      </form>
+    </div>
+  );
+}
+export default RegisterForm; // Export RegisterForm
