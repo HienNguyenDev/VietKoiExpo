@@ -8,18 +8,21 @@ import CustomizeButton from '../../component/button/CustomizeButton';
 import logoGoogle from '../../asset/logo/Google_Icons-09-512.webp'
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import { loginActionApi } from '../../redux/action/userAction';
+import { registerActionApi } from '../../redux/action/userAction'; 
 
-const LoginForm = () =>{
   const dispatch=useDispatch();
   const frm=useFormik({
     initialValues:{
-      username:'',
-      password:''
+      email:'', 
+      password:'',
+      confirmPassword: '', 
+      fullName: '',
+      phone: '', 
+      roleID: 'member' 
     },
     onSubmit:(values)=>{
       console.log('value',values);
-      const actionAsync=loginActionApi  (values);
+      const actionAsync=registerActionApi(values); 
       dispatch(actionAsync)
     },
   })
@@ -35,40 +38,28 @@ const LoginForm = () =>{
         className={`${styles.loginForm}`}
       >
         <div className={`${styles.tittleLogin}`}>
-          <h1>Login</h1>
+          <h1>Register</h1> // Change title to Register
         </div>
         <div className={`${styles.usernameItem}`}>
-          <PlaceHolder onChange={frm.handleChange} id='username' label='Username' placeholder='Enter your username' type='text' />
+          <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Enter your email' type='email' /> // Change username to email
         </div>
         <div className={`${styles.passwordItem}`}>
           <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
         </div>
-        <div className={`${styles.rememberItem}`}>
-          <Checkbox style={{fontFamily:'futura,helvetica,sans-serif',color:'  rgb(202, 140, 140)'}}>Remember me</Checkbox>
+        <div className={`${styles.passwordItem}`}>
+          <PlaceHolder onChange={frm.handleChange} id='confirmPassword' label='Confirm Password' placeholder='Confirm your password' type='password' /> // Add confirmPassword field
         </div>
-        <Row>
-          <Col span={14}>
-            <div className={`${styles.registerItem}`}>
-              <Link to='/register' style={{color:'rgb(202, 140, 140)'}}>Chưa có tài khoản?</Link>
-            </div>
-          </Col>
-          <Col span={10}>
-            <div>
-              <CustomizeButton/>
-            </div>
-          </Col>
-        </Row>
-        {/* create a login with google */}
-        <div className={styles.loginWithGoogleItem}>
-          <Button type="primary" htmlType="submit">
-            <div className={styles.loginWithGoogle}>
-              <p>Login With Google</p>
-              <img src={logoGoogle} style={{width:'20px',height:'20px'}}></img>
-            </div>
-          </Button>
+        <div className={`${styles.usernameItem}`}>
+          <PlaceHolder onChange={frm.handleChange} id='fullName' label='Full Name' placeholder='Enter your full name' type='text' /> // Add fullName field
+        </div>
+        <div className={`${styles.usernameItem}`}>
+          <PlaceHolder onChange={frm.handleChange} id='phone' label='Phone' placeholder='Enter your phone number' type='tel' /> // Add phone field
+        </div>
+        <div>
+          <CustomizeButton/>
         </div>
       </form>
     </div>
   );
 }
-export default LoginForm;
+export default RegisterForm; // Export RegisterForm
