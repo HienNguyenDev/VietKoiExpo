@@ -6,14 +6,17 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AdminPage from './page/1.ADMIN/AdminPage';
 import HomePage from './page/1.ADMIN/HomePage';
 import IntroComponent from './page/0.INTRO/IntroComponent';
-import Referee from './page/3.REFEREE/Referee';
 import RegisterPage from './page/2.LOGIN/RegisterPage';
 import LoginPage from './page/2.LOGIN/LoginPage';
 import LoginForm from './page/2.LOGIN/LoginForm';
+import Referee from './page/3.REFEREE/Referee';
+import { Provider } from 'react-redux';
+import { store } from './redux/configStore';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path="/">
@@ -23,9 +26,13 @@ root.render(
         <Route path='/register' element={<RegisterPage/>}></Route>
       </Routes>
     </BrowserRouter>
+    </Provider>
    {/* <AdminPage/> */}
    {/* <LoginPage/> */}
    {/* <IntroComponent/> */}
+   {/* <div>
+     <Referee/>
+   </div> */}
   </React.StrictMode>
 );
 
