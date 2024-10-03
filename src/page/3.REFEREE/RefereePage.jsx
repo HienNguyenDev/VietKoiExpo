@@ -3,29 +3,43 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import HomeIcon from '@mui/icons-material/Home';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { Account, AuthenticationContext, SessionContext } from '@toolpad/core';
 import CustomMenu from '../../component/AccountMenu/CustomMenu2';
+import HomePage from '../1.ADMIN/HomePage'; 
+import AdminPage from '../1.ADMIN/AdminPage'; 
 
 const NAVIGATION = [
   {
-    segment: 'dashboard',
-    title: 'Dashboard',
-    icon: <DashboardIcon />,
+    segment: 'home',
+    title: 'Home',
+    icon: <HomeIcon />,
+    onClick: (router) => router.navigate('/home'),
   },
   {
-    segment: 'orders',
-    title: 'Orders',
-    icon: <ShoppingCartIcon />,
+    segment: 'Competitions',
+    title: 'Competitions',
+    icon: <EmojiEventsIcon />,
+    onClick: (router) => router.navigate('/Competitions'),
+    children: [
+      {
+        segment: 'MyShow',
+        title: 'My Show',
+        icon: <ShoppingCartIcon />,
+        onClick: (router) => router.navigate('/MyShow'),
+      },
+    ],
   },
   { 
     segment: 'reports',
     title: 'Reports',
     icon: <BarChartIcon />,
+    onClick: (router) => router.navigate('/MyShow'),
   },
 ];
 
@@ -46,6 +60,16 @@ const Theme = createTheme({
 });
 
 function DemoPageContent({ pathname }) {
+  let content;
+  switch (pathname) {
+    case '/home':
+      content = <HomePage/>;
+      break;
+   
+    default:
+      content = <Typography>Page not found</Typography>;
+      break;
+  }
   return (
     <Box
       sx={{
@@ -56,7 +80,8 @@ function DemoPageContent({ pathname }) {
         textAlign: 'center',
       }}
     >
-      <Typography>Dashboard content for {pathname}</Typography>
+        {content}
+
     </Box>
   );
 }
@@ -70,8 +95,16 @@ const demoSession = {
     name: 'Bharat Kashyap',
     email: 'bharatkashyap@outlook.com',
     image: 'https://avatars.githubusercontent.com/u/19550456',
+    role: 'Referee',
+   
   },
+ 
 };
+//Duyệt role + hiển thị
+demoSession.user.name = demoSession.user.role === 'Referee' 
+  ? `${demoSession.user.name} (Referee)` 
+  : demoSession.user.name;
+
 
 function Referee() {
   const [session, setSession] = React.useState(demoSession);
@@ -83,6 +116,7 @@ function Referee() {
       setSession(null);
     },
   }), []);
+  
 
   const [pathname, setPathname] = React.useState('/dashboard');
 
@@ -107,7 +141,10 @@ function Referee() {
   return (
     <AppProvider
       session={session}
-      navigation={NAVIGATION}
+      navigation={NAVIGATION.map((navItem) => ({
+        ...navItem,
+        onClick: () => navItem.onClick(router), // Kết nối onClick với router
+      }))}
       branding={{
         logo: <img src="https://imgur.com/V1zXtZN.jpg" alt="VietKoiExpo Logo" />,
         title: 'VietKoiExpo',

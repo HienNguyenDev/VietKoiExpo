@@ -18,8 +18,10 @@ root.render(
       <Routes>
         <Route path="/">
           <Route path="/admin" element={<AdminPage/>}/>
+          <Route path="/referee" element={<RefereePage/>}/>
+          
         </Route>
-        <Route path="/referee" element={<RefereePage/>}/>
+        
         <Route path="/login" element={<LoginPage/>}/>
         <Route path='/register' element={<RegisterPage/>}></Route>
       </Routes>
@@ -30,9 +32,9 @@ root.render(
    {/* <IntroComponent/> */}
 
   {/* //test */}
-   <div >
+   {/* <div >
    <RefereePage/>
-   </div>
+   </div> */}
   </React.StrictMode>
 );
 
