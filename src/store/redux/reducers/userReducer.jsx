@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { USER_LOGIN, getStoreJson, setCookieJson, setStoreJson } from '../../util/config';
+import { USER_LOGIN, getStoreJson, setCookieJson, setStoreJson } from '../../../util/config';
 
 const initialState = {
     userLogin:getStoreJson(USER_LOGIN),

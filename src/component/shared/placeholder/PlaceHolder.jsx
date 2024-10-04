@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../asset/scss/PlaceHolder.module.scss';
+import styles from '../../../asset/scss/PlaceHolder.module.scss';
 
 const PlaceHolder = (props) => {
   return (

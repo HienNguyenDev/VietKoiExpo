@@ -1,14 +1,15 @@
 import React from 'react';
 import { Button, Checkbox, Col, Row } from 'antd';
 import styles from '../../asset/scss/LoginForm.module.scss'
-import PlaceHolder from '../../component/placeholder/PlaceHolder';
+import PlaceHolder from '../../component/shared/placeholder/PlaceHolder';
 import { Link } from 'react-router-dom';
 import * as yup from  'yup'
-import CustomizeButton from '../../component/button/CustomizeButton';
-import logoGoogle from '../../asset/logo/Google_Icons-09-512.webp'
+import CustomizeButton from '../../component/shared/button/CustomizeButton';
+import logoGoogle from '../../asset/logo/Google_Icons-09-512.webp' 
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import { registerActionApi } from '../../redux/action/userAction'; 
+import { registerActionApi } from '../../store/redux/action/userAction';
+
 
 const RegisterForm = () => {
   const dispatch=useDispatch();
@@ -23,7 +24,7 @@ const RegisterForm = () => {
     },
     onSubmit:(values)=>{
       console.log('value',values);
-      const actionAsync=registerActionApi(values); 
+      const actionAsync=registerActionApi  (values); 
       dispatch(actionAsync)
     },
   })

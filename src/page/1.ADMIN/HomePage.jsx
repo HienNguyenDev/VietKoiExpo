@@ -1,6 +1,6 @@
 import React from 'react'
 import {Steps} from 'antd'
-import PlaceHolder from '../../component/placeholder/PlaceHolder'
+import PlaceHolder from '../../component/shared/placeholder/PlaceHolder'
 const description="vĩnh nguyên là số mấy nhỉ?"
 const HomePage = () => {
   return (

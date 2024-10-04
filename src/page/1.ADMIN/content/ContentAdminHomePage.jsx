@@ -1,14 +1,13 @@
 import React from 'react'
 import { Steps, Timeline, Row, Col,Config } from 'antd';
 import styles from '../../../asset/scss/ContentAdminPage.module.scss'
-import NotificationBlock from '../../../component/notification/NotificationBlock'
-import TimelineDemo from '../../../component/timeline/Timeline'
-import StatisticComp from '../../../component/statistic/Statistic'
-import StatisticDiagram from '../../../component/diagram/StatisticDiagram'
-import NewsComp from '../../../component/news/NewsComp';
-import ProgressChart from '../../../component/diagram/progresspresentbypiechart/ProgressChart';
+import NotificationBlock from '../../../component/shared/notification/NotificationBlock'
+import StatisticComp from '../../../component/shared/statistic/Statistic'
+import StatisticDiagram from '../../../component/shared/diagram/StatisticDiagram'
+import NewsComp from '../../../component/shared/news/NewsComp';
+import ProgressChart from '../../../component/shared/diagram/progresspresentbypiechart/ProgressChart';
 import { height, style } from '@mui/system';
-import Timeline2 from '../../../component/timeline/TimeLine2';
+import Timeline2 from '../../../component/shared/timeline/TimeLine2';
 const description1="dự án hoàn thành 10%"
 const description2="dự án hoàn thành 60%"
 const description3="dự án hoàn thành 100%"

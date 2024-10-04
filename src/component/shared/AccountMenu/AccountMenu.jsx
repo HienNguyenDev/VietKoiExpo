@@ -16,10 +16,10 @@ import Logout from '@mui/icons-material/Logout';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 import SvgIcon from '@mui/material/SvgIcon';
-import { IconHome } from '../../asset/SVGMUI/IconSVGMUI';
+import { IconHome } from '../../../asset/SVGMUI/IconSVGMUI';
 
 //scss
-import '../../asset/scss/AccountMenu.module.scss'
+import '../../../asset/scss/AccountMenu.module.scss';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);

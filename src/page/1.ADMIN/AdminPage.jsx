@@ -17,8 +17,6 @@ import {
 } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import ContentAdminHomePage from './content/ContentAdminHomePage';
-import NotificationBlock from '../../component/notification/NotificationBlock';
-import AccountMenu from '../../component/AccountMenu/AccountMenu';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children, navigator) {
   return {
@@ -34,22 +32,22 @@ const items = [
 
   getItem('..', '2', <DesktopOutlined />),
 
-  getItem('Manage Contests', 'sub1', <DarumaIcon />, [
+  getItem('Manage Contests', 'sub1' ,<DarumaIcon />, [
     getItem('Create Contest', '31',undefined,undefined, '/create-contest'),
-    getItem('View All Users', '32',undefined,undefined, '/view-all-contests'),
-    getItem('View All Contests', '33',undefined,undefined, '/view-all-contests'),
+    getItem('UpateContest', '32',undefined,undefined, '/update-contest'),
+    getItem('View Contests', '33',undefined,undefined, '/view-contests'),
     getItem('Delete Contest', '34',undefined,undefined, '/delete-contest'),
-  ]),
+  ],'/manage-contests'),
   getItem('Manage Users', 'sub2', <MountIcon/>, [
-    getItem('CreateUser', '41',undefined,undefined, '/create-user'),
-    getItem('View All Users', '42',undefined,undefined, '/view-all-users'),
-    getItem('Update User Details', '43',undefined,undefined, '/update-user'),
-    getItem('Manage User Roles and Permissions', '44',undefined,undefined, '/manage-user-roles'),
+    getItem('CreateUser', '41',undefined,undefined, '/admin/manage-users/create-user'),
+    getItem('View Users', '42',undefined,undefined, '/admin/manage-users/view-users'),
+    getItem('Update User Details', '43',undefined,undefined, '/admin/manage-users//update-user'),
+    getItem('Manage User Roles and Permissions', '44',undefined,undefined, '/admin/manage-users//manage-user-roles'),
 ]),
   getItem('Manage Koi Entries', 'sub3', <KoiIcon/>, [
     getItem('Review Koi Entries', '51',undefined,undefined, '/review-koi-entries'),
-    getItem('Approve Koi Entriess', '52',undefined,undefined, '/approve-koi-entries'),
-    getItem('Assign Koi to Categorie', '53',undefined,undefined, '/assign-koi-to-category'),
+    getItem('Approve Koi Entries', '52',undefined,undefined, '/approve-koi-entries'),
+    getItem('Assign Koi to Categorie', '5',undefined,undefined, '/assign-koi-to-category'),
     getItem('Manage Check-in Process', '54',undefined,undefined, '/manage-check-in-process'),
   ]),
   getItem('Manage Judging Process', 'sub4', <TorriJapanIcon/>, [
@@ -98,6 +96,18 @@ const HomePage = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const navigate = useNavigate();
+
+  const handleMenuClick = (key) => {
+    const item = flattenedItems.find((item) => item.key === key);
+    if (item && item.navigator) {
+      navigate(item.navigator);
+      console.log(item.navigator);
+    }
+  };
+  
+
   return (
     <Layout
       style={{
@@ -105,9 +115,9 @@ const HomePage = () => {
         width: '100vw',
       }}
     >
-      <Sider width={350} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      <Sider width={250} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}  onClick={({ key }) => handleMenuClick(key)}/>
       </Sider>
       <Layout>
         <Header
