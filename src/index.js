@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AdminPage from './page/1.ADMIN/AdminPage';
 import HomePage from './page/1.ADMIN/HomePage';
 import IntroComponent from './page/0.INTRO/IntroComponent';
+// import RefereePage from './page/3.REFEREE/RefereePage';
 import RegisterPage from './page/2.LOGIN/RegisterPage';
 import LoginPage from './page/2.LOGIN/LoginPage';
 import LoginForm from './page/2.LOGIN/LoginForm';
