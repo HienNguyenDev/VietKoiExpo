@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { registerActionApi } from '../../redux/action/userAction'; 
 
+const RegisterForm = () => {
   const dispatch=useDispatch();
   const frm=useFormik({
     initialValues:{
@@ -41,19 +42,19 @@ import { registerActionApi } from '../../redux/action/userAction';
           <h1>Register</h1> // Change title to Register
         </div>
         <div className={`${styles.usernameItem}`}>
-          <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Enter your email' type='email' /> // Change username to email
+          <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Enter your email' type='email' /> 
         </div>
         <div className={`${styles.passwordItem}`}>
           <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
         </div>
         <div className={`${styles.passwordItem}`}>
-          <PlaceHolder onChange={frm.handleChange} id='confirmPassword' label='Confirm Password' placeholder='Confirm your password' type='password' /> // Add confirmPassword field
+          <PlaceHolder onChange={frm.handleChange} id='confirmPassword' label='Confirm Password' placeholder='Confirm your password' type='password' />
         </div>
         <div className={`${styles.usernameItem}`}>
-          <PlaceHolder onChange={frm.handleChange} id='fullName' label='Full Name' placeholder='Enter your full name' type='text' /> // Add fullName field
+          <PlaceHolder onChange={frm.handleChange} id='fullName' label='Full Name' placeholder='Enter your full name' type='text' />
         </div>
         <div className={`${styles.usernameItem}`}>
-          <PlaceHolder onChange={frm.handleChange} id='phone' label='Phone' placeholder='Enter your phone number' type='tel' /> // Add phone field
+          <PlaceHolder onChange={frm.handleChange} id='phone' label='Phone' placeholder='Enter your phone number' type='tel' /> 
         </div>
         <div>
           <CustomizeButton/>
@@ -62,4 +63,5 @@ import { registerActionApi } from '../../redux/action/userAction';
     </div>
   );
 }
-export default RegisterForm; // Export RegisterForm
+
+export default RegisterForm; 
