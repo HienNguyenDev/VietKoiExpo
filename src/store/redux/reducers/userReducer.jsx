@@ -5,12 +5,9 @@ import { USER_LOGIN, getStoreJson, setCookieJson, setStoreJson } from '../../../
 
 const initialState = {
     userLogin:getStoreJson(USER_LOGIN),
-    userProfile:{
-
-    },
-    userRegister:{
-
-    }
+    userProfile:{},
+    userRegister:{},
+    listUser:[]
 }
 
 const userReducer = createSlice({
@@ -24,10 +21,12 @@ const userReducer = createSlice({
         state.userProfile=action.payload
     },registerAction:(state,action)=>{
         state.userRegister=action.payload;
+    },setUserAction:(state,action)=>{
+        state.listUser=action.payload
     }
   }
 });
 
-export const {loginAction,setProfileAction,registerAction} = userReducer.actions
+export const {loginAction,setProfileAction,registerAction,setUserAction} = userReducer.actions
 
 export default userReducer.reducer

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USER_LOGIN,USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson } from '../../../util/config';
-import { loginAction, registerAction, updateUserAction, removeUserAction } from '../reducers/userReducer';
+import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction } from '../reducers/userReducer';
 import { loginUser, registerUser } from '../../../service/userAPI';
 
 //async actions
@@ -59,6 +59,18 @@ export const registerActionApi = (userRegister, history) => {
     };
 };
 
+export const fetchUsersActionApi = () => {
+    return async (dispatch) => {
+        try {
+            const res = await axios.get('/api/users'); 
+            const action = setUserAction(res.data);
+            dispatch(action);
+        } catch (error) {
+            console.error("Failed to fetch users:", error.response ? error.response.data : error.message);
+        }
+    };
+};
+
 export const updateUserActionApi=(userDetails,history)=>{
     // existing update user code
 };
@@ -66,3 +78,4 @@ export const updateUserActionApi=(userDetails,history)=>{
 export const removeUserActionApi=(history)=>{
     // existing remove user code
 };
+

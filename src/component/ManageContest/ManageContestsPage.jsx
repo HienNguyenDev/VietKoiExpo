@@ -1,9 +1,12 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
-const ManageContests = () => {
+const ManageContestsPage = () => {
   return (
-    <div>ManageContests</div>
+    <div style={{height:'100vh'}}>
+      <Outlet/>
+    </div>
   )
 }
 
-export default ManageContests
+export default ManageContestsPage

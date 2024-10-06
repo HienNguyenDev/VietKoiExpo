@@ -3,7 +3,9 @@ export const USER_REGISTER='userRegister';
 export const USER_UPDATE='userUpdate';
 export const USER_REMOVE='userRemove';
 export const USER_LOGIN='userLogin';
+const SET_USERS = 'SetUsers';
 
+export const CONTEST_CREATE='contestCreate';
 export const TOKEN='accessToken';
 export const DOMAIN='https://shop.cyberlearn.vn/api/Users/signin'
  const configClient={
