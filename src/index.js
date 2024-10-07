@@ -2,25 +2,37 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store/configStore';
+import { Outlet } from 'react-router-dom';
+
+//Page
 import AdminPage from './page/1.ADMIN/AdminPage';
 import HomePage from './page/1.ADMIN/HomePage';
 import RegisterPage from './page/2.LOGIN/RegisterPage';
 import LoginPage from './page/2.LOGIN/LoginPage';
-import { Provider } from 'react-redux';
-import { store } from './store/configStore';
-import ManageContestsPage from './component/ManageContest/ManageContestsPage';
+import RefereePage from './page/3.REFEREE/RefereePage';
+
+//ManageUser
 import ManageUsers from './component/ManageUser/ManageUsers';
 import CreateUser from './component/ManageUser/CreateUser';
 import UpdateUsers from './component/ManageUser/UpdateUsers';
 import ManageUserPermissons from './component/ManageUser/MangeUserPermissions';
 import ViewUser from './component/ManageUser/ViewUser';
-import { Outlet } from 'react-router-dom';
+import ManageUsersPage from './component/ManageUser/ManageUsers';
+
+//ManageContest
+import ManageContestsPage from './component/ManageContest/ManageContestsPage';
 import CreateContest from './component/ManageContest/CreateContest';
 import UpdateContest from './component/ManageContest/UpdateContest';
 import ViewContests from './component/ManageContest/ViewContests';
 import DeleteContests from './component/ManageContest/DeleteContests';
-import ManageUsersPage from './component/ManageUser/ManageUsers';
+
+
 import ManagementTask from './page/1.ADMIN/ManagementTask';
+//ManageJudging
+import ManageJudingPage from './component/ManageJudging/ManageJudingPage';
+import AsssignJugingProcess from './component/ManageJudging/AssignJudgingProcess';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -67,6 +79,12 @@ root.render(
 
       </Route>
 
+      {/* Main Route for Refering */}
+
+
+      <Route path="referee" element={<RefereePage />}>
+        <Route path='manage-judging' element={<ManageJudingPage/>}/>
+      </Route>
     </Routes>
   </BrowserRouter>
     </Provider>

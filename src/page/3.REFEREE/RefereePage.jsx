@@ -7,39 +7,22 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import HomeIcon from '@mui/icons-material/Home';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { Account, AuthenticationContext, SessionContext } from '@toolpad/core';
-import CustomMenu from '../../component/AccountMenu/CustomMenu2';
+import CustomMenu from '../../component/shared/AccountMenu/CustomMenu2';
 import HomePage from '../1.ADMIN/HomePage'; 
 import AdminPage from '../1.ADMIN/AdminPage'; 
+import { Outlet, useNavigate } from 'react-router-dom'; // Import useNavigate
+import ManageJudgingPage from '../../component/ManageJudging/ManageJudingPage';
 
 const NAVIGATION = [
-  {
-    segment: 'home',
-    title: 'Home',
-    icon: <HomeIcon />,
-    onClick: (router) => router.navigate('/home'),
-  },
-  {
-    segment: 'Competitions',
-    title: 'Competitions',
-    icon: <EmojiEventsIcon />,
-    onClick: (router) => router.navigate('/Competitions'),
-    children: [
-      {
-        segment: 'MyShow',
-        title: 'My Show',
-        icon: <ShoppingCartIcon />,
-        onClick: (router) => router.navigate('/MyShow'),
-      },
-    ],
-  },
   { 
-    segment: 'reports',
-    title: 'Reports',
-    icon: <BarChartIcon />,
-    onClick: (router) => router.navigate('/MyShow'),
+    segment: 'referee/manage-judging',//
+    title: 'Manage Judging',
+    icon: <AssignmentIcon />,
+    
   },
 ];
 
@@ -59,17 +42,7 @@ const Theme = createTheme({
   },
 });
 
-function DemoPageContent({ pathname }) {
-  let content;
-  switch (pathname) {
-    case '/home':
-      content = <HomePage/>;
-      break;
-   
-    default:
-      content = <Typography>Page not found</Typography>;
-      break;
-  }
+function PageContent() {
   return (
     <Box
       sx={{
@@ -80,15 +53,11 @@ function DemoPageContent({ pathname }) {
         textAlign: 'center',
       }}
     >
-        {content}
-
+        {/* The Outlet component will render the current route's child components */}
+        <Outlet/>
     </Box>
   );
 }
-
-DemoPageContent.propTypes = {
-  pathname: PropTypes.string.isRequired,
-};
 
 const demoSession = {
   user: {
@@ -96,17 +65,15 @@ const demoSession = {
     email: 'bharatkashyap@outlook.com',
     image: 'https://avatars.githubusercontent.com/u/19550456',
     role: 'Referee',
-   
   },
- 
 };
-//Duyệt role + hiển thị
+
+// Append role to user name for display
 demoSession.user.name = demoSession.user.role === 'Referee' 
   ? `${demoSession.user.name} (Referee)` 
   : demoSession.user.name;
 
-
-function Referee() {
+function RefereePage() {
   const [session, setSession] = React.useState(demoSession);
   const authentication = React.useMemo(() => ({
     signIn: () => {
@@ -116,15 +83,8 @@ function Referee() {
       setSession(null);
     },
   }), []);
-  
 
-  const [pathname, setPathname] = React.useState('/dashboard');
-
-  const router = React.useMemo(() => ({
-    pathname,
-    searchParams: new URLSearchParams(),
-    navigate: (path) => setPathname(String(path)),
-  }), [pathname]);
+  const navigate = useNavigate(); // Use navigate from react-router
 
   const AccountComponent = React.useCallback(() => (
     <AuthenticationContext.Provider value={authentication}>
@@ -141,22 +101,18 @@ function Referee() {
   return (
     <AppProvider
       session={session}
-      navigation={NAVIGATION.map((navItem) => ({
-        ...navItem,
-        onClick: () => navItem.onClick(router), // Kết nối onClick với router
-      }))}
+      navigation={NAVIGATION}
       branding={{
         logo: <img src="https://imgur.com/V1zXtZN.jpg" alt="VietKoiExpo Logo" />,
         title: 'VietKoiExpo',
       }}
-      router={router}
       theme={Theme}
     >   
       <DashboardLayout slots={{ toolbarActions: AccountComponent }}>
-        <DemoPageContent pathname={pathname} />
+        <PageContent />
       </DashboardLayout>
     </AppProvider>
   );
 }
 
-export default Referee;
+export default RefereePage;
