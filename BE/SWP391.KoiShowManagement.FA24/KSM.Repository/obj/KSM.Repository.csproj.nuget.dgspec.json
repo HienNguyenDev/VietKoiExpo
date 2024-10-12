@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391.FinalProject\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\KSM.Repository.csproj": {}
+    "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391-Github\\VietKoiExpo\\BE\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\KSM.Repository.csproj": {}
   },
   "projects": {
-    "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391.FinalProject\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\KSM.Repository.csproj": {
+    "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391-Github\\VietKoiExpo\\BE\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\KSM.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391.FinalProject\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\KSM.Repository.csproj",
+        "projectUniqueName": "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391-Github\\VietKoiExpo\\BE\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\KSM.Repository.csproj",
         "projectName": "KSM.Repository",
-        "projectPath": "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391.FinalProject\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\KSM.Repository.csproj",
+        "projectPath": "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391-Github\\VietKoiExpo\\BE\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\KSM.Repository.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391.FinalProject\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\obj\\",
+        "outputPath": "D:\\Tai lieu hoc FPTU\\(S5) FALL 2024\\SWP391-Github\\VietKoiExpo\\BE\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
