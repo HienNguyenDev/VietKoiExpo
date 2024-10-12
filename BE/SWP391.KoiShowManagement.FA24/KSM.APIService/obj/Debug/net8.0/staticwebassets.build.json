@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "70ZAuTRj+GTQ4XSw0NV1k7+O9l2TUwKgdA9A7FfRpzY=",
+  "Source": "KSM.APIService",
+  "BasePath": "_content/KSM.APIService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

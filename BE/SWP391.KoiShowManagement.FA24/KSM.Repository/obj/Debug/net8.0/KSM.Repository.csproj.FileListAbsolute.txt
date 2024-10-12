@@ -1,0 +1,14 @@
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\bin\Debug\net8.0\KSM.Repository.deps.json
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\bin\Debug\net8.0\KSM.Repository.runtimeconfig.json
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\bin\Debug\net8.0\KSM.Repository.dll
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\bin\Debug\net8.0\KSM.Repository.pdb
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\KSM.Repository.csproj.AssemblyReference.cache
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\KSM.Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\KSM.Repository.AssemblyInfoInputs.cache
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\KSM.Repository.AssemblyInfo.cs
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\KSM.Repository.csproj.CoreCompileInputs.cache
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\KSM.Repository.dll
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\refint\KSM.Repository.dll
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\KSM.Repository.pdb
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\KSM.Repository.genruntimeconfig.cache
+D:\Tai lieu hoc FPTU\(S5) FALL 2024\SWP391.FinalProject\SWP391.KoiShowManagement.FA24\KSM.Repository\obj\Debug\net8.0\ref\KSM.Repository.dll
