@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\KSM.APIService.props" />
-</Project>
