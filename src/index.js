@@ -31,7 +31,9 @@ import DeleteContests from './component/ManageContest/DeleteContests';
 
 import ManagementTask from './page/1.ADMIN/ManagementTask';
 //ManageJudging
-import ManageJudingPage from './component/ManageJudging/ManageJudingPage';
+import ManageShowJudingPage from './component/ManageJudging/ManageShowJudgingPage';
+import ManageScoringProcess from './component/ManageJudging/ManageScoringProcess';
+import ManageKoiJudgingPage from './component/ManageJudging/ManageKoiJudgingPage';
 import AsssignJugingProcess from './component/ManageJudging/AssignJudgingProcess';
 import IntroComponent from './page/0.INTRO/IntroComponent';
 import WaveAnimation from './page/0.INTRO/wave/WaveAnimation';
@@ -95,7 +97,6 @@ root.render(
 
       <Route path="referee" element={<RefereePage />}>
         <Route path='manage-judging' element={<ManageJudingPage/>}/>
-        <Route path='prediction' element={<KoiFishCompetition/>}></Route>
       </Route>
       <Route path='login' element={<LoginPage/>}></Route>
       <Route path='register' element={<RegisterPage/>}></Route>

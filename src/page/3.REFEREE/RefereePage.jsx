@@ -15,7 +15,7 @@ import CustomMenu from '../../component/shared/AccountMenu/CustomMenu2';
 import HomePage from '../1.ADMIN/HomePage'; 
 import AdminPage from '../1.ADMIN/AdminPage'; 
 import { Outlet, useNavigate } from 'react-router-dom'; // Import useNavigate
-import ManageJudgingPage from '../../component/ManageJudging/ManageJudingPage';
+import ManageShowJudgingPage from '../../component/ManageJudging/ManageShowJudgingPage';
 
 const NAVIGATION = [
   { 
