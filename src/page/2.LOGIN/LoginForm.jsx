@@ -95,7 +95,7 @@ const LoginForm = () =>{
             </div>
           </Col>
         </Row>
-        {/* create a login with google */}
+   
         <div className={styles.loginWithGoogleItem}>
           <Button type="primary" htmlType="submit">
             <div className={styles.loginWithGoogle}>

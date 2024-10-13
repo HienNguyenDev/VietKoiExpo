@@ -40,7 +40,7 @@ const RegisterForm = () => {
         className={`${styles.loginForm}`}
       >
         <div className={`${styles.tittleLogin}`}>
-          <h1>Register</h1> // Change title to Register
+          <h1>Register</h1>
         </div>
         <div className={`${styles.usernameItem}`}>
           <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Enter your email' type='email' /> 

@@ -33,6 +33,14 @@ import ManagementTask from './page/1.ADMIN/ManagementTask';
 //ManageJudging
 import ManageJudingPage from './component/ManageJudging/ManageJudingPage';
 import AsssignJugingProcess from './component/ManageJudging/AssignJudgingProcess';
+import IntroComponent from './page/0.INTRO/IntroComponent';
+import WaveAnimation from './page/0.INTRO/wave/WaveAnimation';
+import KoiFishCompetition from './page/5.MEMBER/KoiFishCompetition';
+import ManageKoiEntriesPage from './component/ManageKoiEntries/ManageKoiEntries';
+import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
+import NewsComp from './component/shared/news/NewsComp';
+import FishKoiEventDetail from './page/5.MEMBER/FishKoiEventDetail';
+import NotificationBlock from './component/shared/notification/NotificationBlock';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -40,7 +48,7 @@ root.render(
     <Provider store={store}>
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" />
 
       {/* Main Route for Managing */}
       <Route path="admin" element={<AdminPage />}>
@@ -81,10 +89,18 @@ root.render(
 
       {/* Main Route for Refering */}
 
+      <Route path='koiManage' element={<ManageKoiEntriesPage/>}>
+          <Route path='assignKoi' element={<ApproveKoiEntries/>}></Route>
+      </Route>
 
       <Route path="referee" element={<RefereePage />}>
         <Route path='manage-judging' element={<ManageJudingPage/>}/>
+        <Route path='prediction' element={<KoiFishCompetition/>}></Route>
       </Route>
+      <Route path='login' element={<LoginPage/>}></Route>
+      <Route path='register' element={<RegisterPage/>}></Route>
+      <Route path='notif' element={<NotificationBlock/>}></Route>
+      <Route path='fishkoi' element={<FishKoiEventDetail/>}></Route>
     </Routes>
   </BrowserRouter>
     </Provider>

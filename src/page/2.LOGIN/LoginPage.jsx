@@ -2,6 +2,7 @@ import { Col, Row } from 'antd'
 import styles from '../../asset/scss/LoginPage.module.scss'
 import React from 'react'
 import LoginForm from './LoginForm'
+import RegisterForm from './RegisterPage'
 
 const LoginPage = () => {
   return (
@@ -10,7 +11,7 @@ const LoginPage = () => {
         <Row>
             <Col span={8}  >
                 <div className={`${styles.leftSide}` }>
-                    <LoginForm/>
+                    <RegisterForm/>
                 </div>
             </Col>
             <Col span={16}>

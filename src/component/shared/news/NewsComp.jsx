@@ -20,14 +20,14 @@ const IconText = ({ icon, text }) => (
 );
 const NewsComp = () => ( <List
   
-    style={{overflowY:'scroll',height:'100%'}}
+    style={{overflowY:'scroll',width:'60vw',height:'100%',backgroundColor:'white'}}
     itemLayout="vertical"
     size="small"
     pagination={{
       onChange: (page) => {
         console.log(page);
       },
-      pageSize: 2,
+      pageSize: 3,
     }}
     dataSource={data}
     footer={
