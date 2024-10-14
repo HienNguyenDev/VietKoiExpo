@@ -1,6 +1,7 @@
 using KSM.Repository;
 using KSM.Repository.Models;
 using KSM.Repository.Repositories.UserRepository;
+using KSM.Repository.Repositories.VarietyRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,8 @@ builder.Services.AddDbContext<VietKoiExpoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IVarietyRepository, VarietyRepository>();
+
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
