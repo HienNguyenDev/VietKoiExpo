@@ -1,7 +1,7 @@
-﻿using KSM.Repository.Models;
+﻿using AutoMapper;
+using KSM.Repository.Models;
 using KSM.Repository.Repositories.Generic;
-using KSM.Repository.Repositories.UserRepository;
-using Microsoft.EntityFrameworkCore;
+using KSM.Repository.Repositories.KoifishRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +14,6 @@ namespace KSM.Repository.Repositories.VarietyRepository
     {
         public VarietyRepository(VietKoiExpoContext context) : base(context)
         {
-        }
-
-        public async Task<Tblvariety> GetVarietyByVarietyNameAsync(string VarietyName)
-        {
-            if (string.IsNullOrWhiteSpace(VarietyName))
-            {
-                throw new ArgumentException("VarietyName cannot be null or empty", nameof(VarietyName));
-            }
-
-            return await DbSet.FirstOrDefaultAsync(e => e.VarietyId == VarietyName);
         }
     }
 }

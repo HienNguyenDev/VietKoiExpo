@@ -1,114 +1,88 @@
-﻿using KSM.Repository.Models;
-using KSM.Repository.Repositories.UserRepository;
+﻿using AutoMapper;
+using KSM.Repository.Models;
+using KSM.Repository.ModelsMapper;
+using KSM.Repository.Repositories.KoifishRepository;
 using KSM.Repository.Repositories.VarietyRepository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using static KSM.APIService.Controllers.UserController;
 
 namespace KSM.APIService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VarietyController : Controller
+    public class VarietyController : ControllerBase
     {
-        private readonly IVarietyRepository _varietyRepository;
-        public VarietyController(IVarietyRepository varietyRepository)
+        private readonly IVarietyRepository _varietyRepo;
+        private readonly IMapper _mapper;
+        public VarietyController(IVarietyRepository repo, IMapper mapper)
         {
-            _varietyRepository = varietyRepository;
+            _varietyRepo = repo;
+            _mapper = mapper;
         }
 
-        // GET: api/Variety
         [HttpGet]
-        public async Task<IEnumerable<Tblvariety>> GetVariety()
+        public async Task<IActionResult> GetAllVariety()
         {
-            return await _varietyRepository.GetAllAsync();
-        }
-
-        // GET: api/Variety/5
-        [HttpGet("{id}")]
-        public async Task<Tblvariety> GetVariety(string id)
-        {
-            var variety = await _varietyRepository.GetByIDAsync(id);
-            return variety;
-        }
-
-        public class Variety
-        {
-            public string VarietyId { get; set; }
-
-            public string VarietyName { get; set; }
-
-            public string Origin { get; set; }
-
-            public string VarietyDescription { get; set; }
-        }
-
-        [HttpPost]
-        public async Task<Tblvariety> PostVariety(Variety variety)
-        {
-            var CreateVariety = new Tblvariety()
-            {
-                VarietyId = variety.VarietyId,
-                VarietyName = variety.VarietyName,
-                Origin = variety.Origin,
-                VarietyDescription = variety.VarietyDescription
-            };
             try
             {
-                await _varietyRepository.CreateAsync(CreateVariety);
+                var varieties = await _varietyRepo.GetAllAsync();
+                return Ok(_mapper.Map<List<VarietyModel>>(varieties));
             }
-            catch (DbUpdateConcurrencyException)
-            {
-
-            }
-            return CreateVariety;
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutVariety(string id, Tblvariety variety)
-        {
-            if (!id.Equals(variety.VarietyId))
+            catch
             {
                 return BadRequest();
             }
+        }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVarietyById(string id)
+        {
+            var varieties = await _varietyRepo.GetByIDAsync(id);
+            return Ok(_mapper.Map<VarietyModel>(varieties));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewVariety(VarietyModel model)
+        {
             try
             {
-                await _varietyRepository.UpdateAsync(variety);
+                var newVariety = _mapper.Map<Tblvariety>(model);
+                await _varietyRepo.CreateAsync(newVariety);
+                string newVarietyID = newVariety.VarietyId;
+                var variety = await _varietyRepo.GetByIDAsync(newVarietyID);
+                var varietyhModel = _mapper.Map<VarietyModel>(variety);
+                return varietyhModel == null ? NotFound() : Ok(varietyhModel);
+
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!VarietyExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest();
             }
-
-            return NoContent();
         }
 
-        private bool VarietyExists(string id)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVariety(string id, [FromBody] VarietyModel model)
         {
-            return _varietyRepository.GetByIDAsync(id) != null;
-        }
-
-        // DELETE: api/Variety/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVariety(string id)
-        {
-            var variety = await _varietyRepository.GetByIDAsync(id);
-            if (variety == null)
+            if (id != model.VarietyId)
             {
                 return NotFound();
             }
+            var updateVariety = _mapper.Map<Tblvariety>(model);
+            await _varietyRepo.UpdateAsync(updateVariety);
+            return Ok();
+        }
 
-            await _varietyRepository.DeleteAsync(variety);
-
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVariety([FromRoute] string id)
+        {
+            var deleteVariety = await _varietyRepo.GetByIDAsync(id);
+            if (deleteVariety == null)
+            {
+                return NotFound();
+            }
+            await _varietyRepo.DeleteAsync(deleteVariety);
             return NoContent();
+
         }
     }
 }
