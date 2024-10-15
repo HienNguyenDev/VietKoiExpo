@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\SWP391.KoiShowManagement.FA24"
+    "\\SWP391.KoiShowManagement.FA24",
+    "\\SWP391.KoiShowManagement.FA24\\KSM.Repository",
+    "\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\Mapper"
   ],
-  "SelectedNode": "\\SWP391.KoiShowManagement.FA24\\SWP391.KoiShowManagement.FA24.sln",
+  "SelectedNode": "\\SWP391.KoiShowManagement.FA24\\KSM.Repository\\Mapper\\ApplicationMapper.cs",
   "PreviewInSolutionExplorer": false
 }

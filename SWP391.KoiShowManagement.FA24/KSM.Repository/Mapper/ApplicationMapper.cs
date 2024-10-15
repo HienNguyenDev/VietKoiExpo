@@ -11,6 +11,7 @@ namespace KSM.Repository.Mapper
         {
             CreateMap<TblkoiFish, KoifishModel>().ReverseMap();
             CreateMap<Tblvariety, VarietyModel>().ReverseMap();
+            CreateMap<Tblnews, NewsModel>().ReverseMap();
         }
     }
 }
