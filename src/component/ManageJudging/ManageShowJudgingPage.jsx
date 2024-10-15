@@ -9,8 +9,17 @@ const competitions = [
   { CompID: '2', CompName: 'Cuộc thi Koi Quốc tế', Location: 'TP. HCM', StartDate: '2024-12-01', EndDate: '2024-12-05', Status: 0 },
   { CompID: '3', CompName: 'Cuộc thi Koi Nhật Bản', Location: 'Tokyo', StartDate: '2025-01-10', EndDate: '2025-01-12', Status: 2 },
 ];
+  /* const [competitions, setcompetitions] = useState({
+    CompName: '',
+    CompDescription: '',
+    Location: '',
+    StartDate: '',
+    EndDate: '',
+    Status: '',
+  });
+  const [open, setOpen] = useState(false); */
 
-const ManageShowJudgingPage = () => {
+const ManageShowJudgingPage = () => { 
   const [selectedCompetition, setSelectedCompetition] = useState(null);
   const { status } = useParams(); // Lấy trạng thái từ URL (nếu có)
 

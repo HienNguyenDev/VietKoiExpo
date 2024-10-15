@@ -44,9 +44,9 @@ const items = [
 
       // Nhóm 4: Manage Judging Process
       getItem('Manage Judging Process', 'sub4', <TorriJapanIcon />, [
-        getItem('Assign Judges to Contests', '61', undefined, undefined, '/assign-judges-to-contest'),
-        getItem('Manage Scoring Process', '62', undefined, undefined, '/manage-scoring-process'),
-        getItem('Finalize Contest Results', '63', undefined, undefined, '/finalize-contest-results'),
+        getItem('Assign Judges to Contests', '61', undefined, undefined, 'assign-judges-to-contest'),
+        getItem('Manage Scoring Process', '62', undefined, undefined, 'manage-scoring-process'),
+        getItem('Finalize Contest Results', '63', undefined, undefined, 'finalize-contest-results'),
       ]),
 
       // Nhóm 5: Manage Predictions
@@ -68,6 +68,12 @@ const items = [
       getItem('Manage Contest Categories', '101', undefined, undefined, '/manage-contest-categories'),
       getItem('Manage Judging Criteria', '102', undefined, undefined, '/manage-judging-criteria'),
     ]),
+
+    // Nhóm 9: Task allocation
+    getItem('Task allocation', 'sub9', <PaperLanternIcon />, [
+      getItem('Assign Task', '111', undefined, undefined, 'manage-task-allocation'),
+      
+    ]),
 ];
 
 function flattenItems(items) {
@@ -88,7 +94,7 @@ const breadcrumbItems = flattenedItems.map(item => (
     {item.label}
   </Breadcrumb.Item>
 ));
-const HomePage = () => {
+const AdminPage = () => {
 
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -164,4 +170,4 @@ const HomePage = () => {
     </Layout>
   );
 };
-export default HomePage;
+export default AdminPage;
