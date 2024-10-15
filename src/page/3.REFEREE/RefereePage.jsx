@@ -1,55 +1,28 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import HomeIcon from '@mui/icons-material/Home';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { Account, AuthenticationContext, SessionContext } from '@toolpad/core';
 import CustomMenu from '../../component/shared/AccountMenu/CustomMenu2';
+import HomePage from '../1.ADMIN/HomePage'; 
+import AdminPage from '../1.ADMIN/AdminPage'; 
 import { Outlet, useNavigate } from 'react-router-dom'; // Import useNavigate
+import ManageShowJudgingPage from '../../component/ManageJudging/ManageShowJudgingPage';
 
 const NAVIGATION = [
-  {
-    kind: 'header',
-    title: 'Main items',
-  },
-  {
-    title: 'Dashboard',
-    icon: <DashboardIcon />,
-    segment: 'referee',
-  },
-  {
-    kind: 'divider',
-  },
-  {
-    kind: 'header',
-    title: 'Manage Judging',
-  },
-  {
+  { 
+    segment: 'referee/manage-judging',//
     title: 'Manage Judging',
     icon: <AssignmentIcon />,
-    segment: 'referee/manage-judging',
-    children: [
-      {
-        title: 'Đang diễn ra',
-        segment: 'ongoing',
-      },
-      {
-        title: 'Sắp diễn ra',
-        segment: 'upcoming',
-      },
-      {
-        title: 'Đã kết thúc',
-        segment: 'completed',
-      },
-      {
-        title: 'All',
-        segment: '',
-      },
-    ],
+    
   },
 ];
 
@@ -80,7 +53,8 @@ function PageContent() {
         textAlign: 'center',
       }}
     >
-      <Outlet />
+        {/* The Outlet component will render the current route's child components */}
+        <Outlet/>
     </Box>
   );
 }
@@ -94,14 +68,13 @@ const demoSession = {
   },
 };
 
-demoSession.user.name = demoSession.user.role === 'Referee'
-  ? `${demoSession.user.name} (Referee)`
+// Append role to user name for display
+demoSession.user.name = demoSession.user.role === 'Referee' 
+  ? `${demoSession.user.name} (Referee)` 
   : demoSession.user.name;
 
-function RefereePage({ children }) {
+function RefereePage() {
   const [session, setSession] = React.useState(demoSession);
-  const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
-
   const authentication = React.useMemo(() => ({
     signIn: () => {
       setSession(demoSession);
@@ -110,6 +83,8 @@ function RefereePage({ children }) {
       setSession(null);
     },
   }), []);
+
+  const navigate = useNavigate(); // Use navigate from react-router
 
   const AccountComponent = React.useCallback(() => (
     <AuthenticationContext.Provider value={authentication}>
@@ -123,36 +98,21 @@ function RefereePage({ children }) {
     </AuthenticationContext.Provider>
   ), [authentication, session]);
 
-  // Hàm điều hướng bằng cách sử dụng navigate
-  const handleNavigationClick = (segment) => {
-    navigate(`/${segment}`); // Điều hướng đến URL tương ứng mà không reload trang
-  };
-
   return (
     <AppProvider
       session={session}
-      navigation={NAVIGATION.map((item) => ({
-        ...item,
-        onClick: () => handleNavigationClick(item.segment), // Điều hướng mỗi khi nhấn vào item
-      }))}
+      navigation={NAVIGATION}
       branding={{
         logo: <img src="https://imgur.com/V1zXtZN.jpg" alt="VietKoiExpo Logo" />,
         title: 'VietKoiExpo',
       }}
       theme={Theme}
-    >
-      <DashboardLayout
-        slots={{ toolbarActions: AccountComponent }}
-      >
+    >   
+      <DashboardLayout slots={{ toolbarActions: AccountComponent }}>
         <PageContent />
       </DashboardLayout>
-      {children}
     </AppProvider>
   );
 }
-
-RefereePage.propTypes = {
-  children: PropTypes.node,
-};
 
 export default RefereePage;

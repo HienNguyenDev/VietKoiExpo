@@ -12,10 +12,7 @@ import HomePage from './page/1.ADMIN/HomePage';
 import RegisterPage from './page/2.LOGIN/RegisterPage';
 import LoginPage from './page/2.LOGIN/LoginPage';
 import RefereePage from './page/3.REFEREE/RefereePage';
-import IntroComponent from './page/0.INTRO/IntroComponent';
-import WaveAnimation from './page/0.INTRO/wave/WaveAnimation';
-import KoiFishCompetition from './page/5.MEMBER/KoiFishCompetition';
-import FishKoiEventDetail from './page/5.MEMBER/FishKoiEventDetail';
+
 //ManageUser
 import ManageUsers from './component/ManageUser/ManageUsers';
 import CreateUser from './component/ManageUser/CreateUser';
@@ -34,17 +31,17 @@ import DeleteContests from './component/ManageContest/DeleteContests';
 
 import ManagementTask from './page/1.ADMIN/ManagementTask';
 //ManageJudging
-import ManageShowJudgingPage from './component/ManageJudging/ManageShowJudgingPage';
+import ManageShowJudingPage from './component/ManageJudging/ManageShowJudgingPage';
 import ManageScoringProcess from './component/ManageJudging/ManageScoringProcess';
 import ManageKoiJudgingPage from './component/ManageJudging/ManageKoiJudgingPage';
 import AsssignJugingProcess from './component/ManageJudging/AssignJudgingProcess';
-
-
-
+import IntroComponent from './page/0.INTRO/IntroComponent';
+import WaveAnimation from './page/0.INTRO/wave/WaveAnimation';
+import KoiFishCompetition from './page/5.MEMBER/KoiFishCompetition';
 import ManageKoiEntriesPage from './component/ManageKoiEntries/ManageKoiEntries';
 import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
 import NewsComp from './component/shared/news/NewsComp';
-
+import FishKoiEventDetail from './page/5.MEMBER/FishKoiEventDetail';
 import NotificationBlock from './component/shared/notification/NotificationBlock';
 import ManageNewsUpdatesPage from './component/ManageNewsnUpdates/ManageNewsUpdatesPage';
 
@@ -108,10 +105,7 @@ root.render(
       </Route>
 
       <Route path="referee" element={<RefereePage />}>
-        <Route path='manage-judging' element={<ManageShowJudgingPage/>}>
-          {/* Định tuyến dựa trên trạng thái của Manage Judging */}
-          <Route path=":status" element={<ManageShowJudgingPage />} />
-        </Route>
+        <Route path='manage-judging' element={<ManageShowJudingPage/>}/>
       </Route>
       <Route path='login' element={<LoginPage/>}></Route>
       <Route path='register' element={<RegisterPage/>}></Route>
