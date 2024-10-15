@@ -25,7 +25,7 @@ const LoginForm = () => {
     },
     validationSchema: yup.object().shape({
       username: yup.string().required('Username is required'),
-      password: yup.number().typeError("Password must be a number").required('Password is required')
+      password: yup.string().required('Username is required'),
     })
   });
 

@@ -19,7 +19,6 @@ export const loginActionApi=(userLogin,history)=>{
             } else if (res.data.content.role === 'user') {
                 history.push('/user');
             } else {
-                // default route if role is not recognized
                 history.push('/');
             }
         } catch (error) {
