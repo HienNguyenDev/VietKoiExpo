@@ -43,6 +43,7 @@ import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
 import NewsComp from './component/shared/news/NewsComp';
 import FishKoiEventDetail from './page/5.MEMBER/FishKoiEventDetail';
 import NotificationBlock from './component/shared/notification/NotificationBlock';
+import ManageNewsUpdatesPage from './component/ManageNewsnUpdates/ManageNewsUpdatesPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -53,9 +54,10 @@ root.render(
       <Route path="/" />
 
       {/* Main Route for Managing */}
-      <Route path="admin" element={<AdminPage />}>
-        
-        <Route path='manangement-task' element={<ManagementTask/>}></Route>
+      <Route path="admin" element={<AdminPage/>}>
+
+
+        <Route path='manange-task' element={<ManagementTask/>}></Route>
 
         {/* Manage Contests Group */}
         <Route path="manage-contests" elemenmt={<ManageContestsPage />}>
@@ -71,6 +73,13 @@ root.render(
           <Route path="view-users" element={<ViewUser />} />
           <Route path="update-user" element={<UpdateUsers />} />
           <Route path="manage-user-roles" element={<ManageUserPermissons />} />
+        </Route>
+
+        {/* Manage new */}
+        <Route path='manage-news' element={<ManageNewsUpdatesPage/>}>
+          <Route path='create-news' element={<NewsComp/>}></Route>
+          <Route path='update-news' element={<NewsComp/>}></Route>
+          <Route path='delete-news' element={<NewsComp/>}></Route>
         </Route>
 
         {/* Reports Group */}
@@ -96,7 +105,7 @@ root.render(
       </Route>
 
       <Route path="referee" element={<RefereePage />}>
-        <Route path='manage-judging' element={<ManageJudingPage/>}/>
+        <Route path='manage-judging' element={<ManageShowJudingPage/>}/>
       </Route>
       <Route path='login' element={<LoginPage/>}></Route>
       <Route path='register' element={<RegisterPage/>}></Route>

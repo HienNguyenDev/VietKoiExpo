@@ -11,7 +11,7 @@ const LoginPage = () => {
         <Row>
             <Col span={8}  >
                 <div className={`${styles.leftSide}` }>
-                    <RegisterForm/>
+                    <LoginForm/>
                 </div>
             </Col>
             <Col span={16}>

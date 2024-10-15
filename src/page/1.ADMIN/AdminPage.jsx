@@ -17,6 +17,7 @@ import {
 } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import ContentAdminHomePage from './content/ContentAdminHomePage';
+import ControlledOpenSpeedDialCustom from '../../component/shared/speed dial/SpeedDial';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children, navigator) {
   return {
@@ -29,8 +30,8 @@ function getItem(label, key, icon, children, navigator) {
 }
 const items = [
         // Gộp tất cả các mục con vào một getItem chính
-        getItem('Home', '1', <PieChartOutlined />, undefined),
-        getItem('..', '2', <DesktopOutlined />),
+        getItem('Home', '1', <PieChartOutlined />,undefined,'/admin'),
+        getItem('Task Management', '2', <DesktopOutlined />,undefined,'manange-task'),
   
   getItem(
     'Manage', 'manage',
@@ -144,7 +145,7 @@ const HomePage = () => {
     >
       <Sider width={250} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}  onClick={({ key }) => handleMenuClick(key)}/>
+        <Menu  theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}  onClick={({ key }) => handleMenuClick(key)}/>
       </Sider>
       <Layout>
         <Header
@@ -157,35 +158,27 @@ const HomePage = () => {
         >
           <div className='containerHeader' style={{right:'0'}}>
           {/* <NotificationBlock/> */}
-          {/* <AccountMenu/> */}
+          
           </div>
         </Header>
         <Content
           style={{
-            margin: '0 16px',
-            background: 'ffffff',
+
+            background: '#ffffff',
           }}
         >
-          <Breadcrumb
-            style={{
-              margin: '16px 0',
-              background: '#ffffff',
-            }}
-          >
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
           <div
             style={{
               padding: 24,
               height:'100%',
               minHeight: 360,
-              background: '#000000',
+              background: '#ffffff',
               borderRadius: borderRadiusLG,
             }}
           >
             {/* <ContentAdminHomePage/> */}
             <Outlet/>
+            <ControlledOpenSpeedDialCustom/>
           </div>
         </Content>
         <Footer
@@ -193,7 +186,7 @@ const HomePage = () => {
             textAlign: 'center',
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          KoiExpo {new Date().getFullYear()} 
         </Footer>
       </Layout>
     </Layout>

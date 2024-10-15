@@ -1,10 +1,12 @@
 import React from 'react';
-import styles from '../../../asset/scss/CustomizeButton.module.scss';
+import { Button } from 'antd';
 
-const CustomizeButton = () => (
-    <button className={styles.button}>
-        Submit
-    </button>
-);
+const CustomizeButton = ({ onClick }) => {
+  return (
+    <Button type="primary" onClick={onClick}>
+      Login
+    </Button>
+  );
+};
 
-export default CustomizeButton; 
+export default CustomizeButton;

@@ -1,32 +1,21 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const createContest = (contest) => {
-    return axios({
-        url: 'http://',
-        method: 'POST',
-        data: contest,
-    });
-}
+export const createContest = (contestDetails) => {
+    return axios.post('/api/contests', contestDetails);
+};
 
-export const updateContest = (contest) => {
-    return axios({
-        url: 'http://',
-        method: 'PUT',
-        data: contest,
-    });
-}
+export const updateContest = (contestId, contestDetails) => {
+    return axios.put(`/api/contests/${contestId}`, contestDetails);
+};
+
+export const removeContest = (contestId) => {
+    return axios.delete(`/api/contests/${contestId}`);
+};
 
 export const getContest = (contestId) => {
-    return axios({
-        url: 'http://',
-        method: 'GET',
-        data: contestId,
-    });
-}
+    return axios.get(`/api/contests/${contestId}`);
+};
 
 export const getAllContest = () => {
-    return axios({
-        url: 'http://',
-        method: 'GET',
-    });
-}
+    return axios.get('/api/contests');
+};

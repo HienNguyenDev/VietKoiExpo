@@ -6,7 +6,7 @@ const PlaceHolder = (props) => {
     <div className={styles.containerPH}>
       <main className={styles.wrapper}>
         <label htmlFor={props.id}>{props.label}</label>
-        <input onChange={props.onChange} id={props.id} type={props.type || 'text'} placeholder={props.placeholder} />
+        <input   onChange={props.onChange} id={props.id} type={props.type || 'text'} placeholder={props.placeholder} />
       </main>
     </div>
   );

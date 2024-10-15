@@ -1,0 +1,93 @@
+.manageNewsUpdatesPage {
+  .containerNews {
+    padding: 20px;
+    background-color: #f0f2f5;
+
+    .viewComponent {
+      .viewAllCard {
+        .viewAllContentItem {
+          margin-bottom: 20px;
+          padding: 10px;
+          background-color: #fff;
+          border-radius: 4px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          position: relative;
+
+          .newsHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .newsActions {
+              display: flex;
+              gap: 10px;
+
+              .updateButton {
+                background-color: #52c41a;
+                border-color: #52c41a;
+                color: #fff;
+              }
+
+              .deleteButton {
+                background-color: #ff4d4f;
+                border-color: #ff4d4f;
+                color: #fff;
+              }
+            }
+          }
+
+          .newsTitle {
+            margin-bottom: 10px;
+          }
+
+          .newsContent {
+            margin-bottom: 10px;
+          }
+
+          .viewButton {
+            display: block;
+            width: 100%;
+          }
+        }
+
+        .pagination {
+          margin-top: 20px;
+          text-align: center;
+        }
+      }
+    }
+
+    .containerFunction {
+      .functionCard {
+        text-align: center;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        .createNewsButton,
+        .updateNewsButton,
+        .deleteNewsButton {
+          width: 100%;
+        }
+      }
+    }
+
+    .templateComponent {
+      text-align: center;
+      margin-top: 20px;
+
+      .box1, .box2, .box3 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-size: 24px;
+      }
+    }
+
+    .carousel {
+      margin-top: 20px;
+    }
+  }
+}

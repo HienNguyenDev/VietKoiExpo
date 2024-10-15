@@ -1,0 +1,100 @@
+.container {
+    padding: 40px;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  
+  .formContainer {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .updateContestForm {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 30px;
+  
+    h1 {
+      font-size: 28px;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+  
+  .formItem {
+    margin-bottom: 25px;
+  
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #333;
+    }
+  
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.3s;
+  
+      &:focus {
+        border-color: #40a9ff;
+        outline: none;
+      }
+    }
+  
+    .ant-upload-list-picture {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  
+  .competitionsContainer {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    flex: 1;
+  }
+  
+  .competitionsContainer h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .ant-list-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s;
+  
+    &:hover {
+      background-color: #fafafa;
+    }
+  }
+  
+  .ant-list-item-meta-title {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .ant-list-item-meta-description {
+    color: #888;
+  }
