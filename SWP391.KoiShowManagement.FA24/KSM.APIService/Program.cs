@@ -1,5 +1,6 @@
 using KSM.Repository;
 using KSM.Repository.Models;
+using KSM.Repository.Repositories.KoifishRepository;
 using KSM.Repository.Repositories.ScoreRepository;
 using KSM.Repository.Repositories.UserRepository;
 using KSM.Repository.Repositories.VarietyRepository;
@@ -55,7 +56,10 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<VietKoiExpoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddAutoMapper(typeof(ApplicationMapper));
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IKoifishRepository, KoifishRepository>();
 builder.Services.AddScoped<IVarietyRepository, VarietyRepository>();
 
 
