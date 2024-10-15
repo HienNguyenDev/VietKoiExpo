@@ -101,7 +101,7 @@ const ManageUsersPage = () => {
                       <List.Item.Meta
                         avatar={<Avatar src="https://via.placeholder.com/40" />}
                         title={<a href="https://ant.design/index-cn">{item.name}</a>}
-                        description={item.email}
+                        description={`${item.email} - ${item.role}`}
                       />
                     </List.Item>
                   )}

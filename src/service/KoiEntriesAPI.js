@@ -1,33 +1,35 @@
-import axios from "axios";
+import axios from 'axios';
+
+const BASE_URL = 'http://103.90.227.68:8080/api'; // Replace with your actual base URL
 
 export const approveKoiEntries = (koiEntry) => {
     return axios({
-        url: 'http://',
+        url: `${BASE_URL}/koiEntries/approve`,
         method: 'POST',
         data: koiEntry,
     });
-}
+};
 
-export const AssignKoiEntry = (koiEntry) => {
+export const assignKoiEntry = (entryId, koiData) => {
     return axios({
-        url: 'http://',
+        url: `${BASE_URL}/koiEntries/${entryId}/assign`,
         method: 'PUT',
-        data: koiEntry,
+        data: koiData,
     });
-}
+};
 
-export const AssignKoiCategorie = (koiEntry) => {
+export const assignKoiCategory = (entryId, categoryData) => {
     return axios({
-        url: 'http://',
+        url: `${BASE_URL}/koiEntries/${entryId}/category`,
         method: 'PUT',
-        data: koiEntry,
+        data: categoryData,
     });
-}
+};
 
-export const ReviewKoiEntry = (koiEntry) => {
+export const reviewKoiEntry = (entryId, reviewData) => {
     return axios({
-        url: 'http://',
+        url: `${BASE_URL}/koiEntries/${entryId}/review`,
         method: 'POST',
-        data: koiEntry,
+        data: reviewData,
     });
-}
+};

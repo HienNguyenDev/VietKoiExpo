@@ -11,3 +11,43 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+@keyframes fadeInScale {
+  0% {
+    opacity: 0.8;
+    
+  }
+  100% {
+    opacity: 1;
+
+  }
+}
+
+@keyframes fadeOutScale {
+  0% {
+    opacity: 1;
+  
+  }
+  100% {
+    opacity: 0.8;
+ 
+  }
+}
+
+
+.fade-enter {
+  opacity: 0.8;
+ 
+}
+.fade-enter-active {
+  opacity: 1;
+
+  animation: fadeInScale 700ms ease-in-out forwards;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: .8;
+  
+  animation: fadeOutScale 700ms ease-in-out forwards;
+}

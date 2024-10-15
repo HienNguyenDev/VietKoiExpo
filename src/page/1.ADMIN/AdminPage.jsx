@@ -33,32 +33,14 @@ const items = [
         getItem('Home', '1', <PieChartOutlined />,undefined,'/admin'),
         getItem('Task Management', '2', <DesktopOutlined />,undefined,'manange-task'),
   
-  getItem(
-    'Manage', 'manage',
-    <DesktopOutlined />,
-    [
-      getItem('Manage Contests', 'sub1', <DarumaIcon />, [
-        getItem('Create Contest', '31', undefined, undefined,'/admin/manage-contests/create-contest'),
-        getItem('Update Contest', '32', undefined, undefined, '/admin/manage-contests/update-contest'),
-        getItem('View Contests', '33', undefined, undefined, '/admin/manage-contests/view-contests'),
-        getItem('Delete Contest', '34', undefined, undefined, '/admin/manage-contests/delete-contest'),
-      ],'/manage-contests'),
+
+      getItem('Manage Contests', 'sub1', <DarumaIcon />, undefined,'manage-contests'),
       
       // Nhóm 2: Manage Users
-      getItem('Manage Users', 'sub2', <MountIcon />, [
-        getItem('Create User', '41', undefined, undefined, '/admin/manage-users/create-user'),
-        getItem('View Users', '42', undefined, undefined, '/admin/manage-users/view-users'),
-        getItem('Update User Details', '43', undefined, undefined, '/admin/manage-users/update-user'),
-        getItem('Manage User Roles and Permissions', '44', undefined, undefined, '/admin/manage-users/manage-user-roles'),
-      ],'/manage-users'),
+      getItem('Manage Users', 'sub2', <MountIcon />,undefined ,'manage-users'),
 
       // Nhóm 3: Manage Koi Entries
-      getItem('Manage Koi Entries', 'sub3', <KoiIcon />, [
-        getItem('Review Koi Entries', '51', undefined, undefined, '/review-koi-entries'),
-        getItem('Approve Koi Entries', '52', undefined, undefined, '/approve-koi-entries'),
-        getItem('Assign Koi to Category', '53', undefined, undefined, '/assign-koi-to-category'),
-        getItem('Manage Check-in Process', '54', undefined, undefined, '/manage-check-in-process'),
-      ]),
+      getItem('Manage Koi Entries', 'sub3', <KoiIcon />,undefined,'koiManage'),
 
       // Nhóm 4: Manage Judging Process
       getItem('Manage Judging Process', 'sub4', <TorriJapanIcon />, [
@@ -68,22 +50,12 @@ const items = [
       ]),
 
       // Nhóm 5: Manage Predictions
-      getItem('Manage Predictions', 'sub5', <GeishaIcon />, [
-        getItem('View All Predictions', '71', undefined, undefined, '/view-all-predictions'),
-        getItem('Manage Prediction Results', '72', undefined, undefined, '/manage-prediction-results'),
-      ]),
+      getItem('Manage Predictions', 'sub5', <GeishaIcon />, undefined,'manage-predict'),
 
       // Nhóm 6: Manage News and Updates
-      getItem('Manage News and Updates', 'sub6', <SensuFanIcon />, [
-        getItem('Create News/Update', '81', undefined, undefined, '/create-news-update'),
-        getItem('View All News/Updates', '82', undefined, undefined, '/view-all-news-updates'),
-        getItem('Update News/Update Details', '83', undefined, undefined, '/update-news-update'),
-        getItem('Delete News/Update', '84', undefined, undefined, '/delete-news-update'),
-      ]),
+      getItem('Manage News and Updates', 'sub6', <SensuFanIcon />,undefined,'manage-news'),
 
-      
-    ],'manage'
-  ),// Nhóm 7: Reports and Analytics
+    
     getItem('Reports and Analytics', 'sub7', <StonesSpaIcon />, [
       getItem('View Contest Reports', '91', undefined, undefined, '/view-contest-reports'),
       getItem('View User Reports', '92', undefined, undefined, '/view-user-reports'),

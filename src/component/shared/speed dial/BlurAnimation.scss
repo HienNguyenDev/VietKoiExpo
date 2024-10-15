@@ -1,0 +1,33 @@
+@keyframes blurIn {
+  0% {
+    filter: blur(0);
+  }
+  100% {
+    filter: blur(10px);
+  }
+}
+
+@keyframes blurOut {
+  0% {
+    filter: blur(10px);
+  }
+  100% {
+    filter: blur(0);
+  }
+}
+
+.blur-in {
+  animation: blurIn 1s forwards;
+}
+
+.blur-out {
+  animation: blurOut 1s forwards;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fff; // Adjust background color as needed
+}

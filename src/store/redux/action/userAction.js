@@ -16,8 +16,12 @@ export const loginActionApi=(userLogin,history)=>{
             // Check user role and navigate to the correct page
             if (res.data.content.role === 'admin') {
                 history.push('/admin');
-            } else if (res.data.content.role === 'user') {
+            } else if (res.data.content.role === 'member') {
                 history.push('/user');
+            } else if (res.data.content.role === 'staff') {
+                history.push('/staff');
+            } else if (res.data.content.role === 'referee') {
+                history.push('/referee');
             } else {
                 history.push('/');
             }

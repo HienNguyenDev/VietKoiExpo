@@ -1,0 +1,52 @@
+.management-task {
+  .headerManageTask {
+    background-color: #f0f2f5;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .calendar,
+  .urgentTask,
+  .projectDirectory,
+  .newComment,
+  .teamDirectory {
+    padding: 20px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .calendar {
+    height: 400px;
+  }
+
+  .urgentTask {
+    height: 400px;
+  }
+
+  .projectDirectory,
+  .newComment,
+  .teamDirectory {
+    height: 300px;
+  }
+
+  .create-task-card {
+    background-color: #fafafa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .create-task-form {
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
+
+    .ant-btn-primary {
+      width: 100%;
+    }
+  }
+}
