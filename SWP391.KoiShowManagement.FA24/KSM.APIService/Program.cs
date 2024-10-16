@@ -62,6 +62,7 @@ builder.Services.AddAutoMapper(typeof(ApplicationMapper));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IKoifishRepository, KoifishRepository>();
+builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
 builder.Services.AddScoped<IVarietyRepository, VarietyRepository>();
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
