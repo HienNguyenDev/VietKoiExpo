@@ -1,5 +1,7 @@
 using KSM.Repository;
+using KSM.Repository.Mapper;
 using KSM.Repository.Models;
+using KSM.Repository.Repositories.CategoryRepository;
 using KSM.Repository.Repositories.CompetitionRepository;
 using KSM.Repository.Repositories.KoifishRepository;
 using KSM.Repository.Repositories.NewsRepository;
@@ -63,6 +65,7 @@ builder.Services.AddAutoMapper(typeof(ApplicationMapper));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IKoifishRepository, KoifishRepository>();
 builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IVarietyRepository, VarietyRepository>();
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
