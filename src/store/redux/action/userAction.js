@@ -4,31 +4,33 @@ import { loginAction, registerAction, updateUserAction, removeUserAction, setUse
 import { loginUser, registerUser } from '../../../service/userAPI';
 
 //async actions
-export const loginActionApi=(userLogin,history)=>{
-    return async (dispatch) =>{
+export const loginActionApi = (userLogin) => {
+    return async (dispatch) => {
         try {
-           const res=await loginUser(userLogin);
-            const action=loginAction(res.data.content);
-            dispatch(action)
-            setStoreJson(USER_LOGIN,res.data.content);
-            setCookieJson(USER_LOGIN,res.data.content,30);
+            const res = await loginUser(userLogin);
+            console.log('API Response:', res);
+            console.log('res.data:', res.data);
+            console.log('API Response Content:', res.data.user);
 
-            // Check user role and navigate to the correct page
-            if (res.data.content.role === 'admin') {
-                history.push('/admin');
-            } else if (res.data.content.role === 'member') {
-                history.push('/user');
-            } else if (res.data.content.role === 'staff') {
-                history.push('/staff');
-            } else if (res.data.content.role === 'referee') {
-                history.push('/referee');
-            } else {
-                history.push('/');
-            }
+            if (res && res.data && res.data.user) {
+                const action = loginAction(res.data.user);
+                dispatch(action);
+                setStoreJson(USER_LOGIN, res.data.user);
+                setCookieJson(USER_LOGIN, res.data.user, 30);
+
+                // Ví dụ điều hướng dựa trên vai trò
+                 if (res.data.user.roleId === 'R001') {
+                     history.push('/admin');
+                 } else {
+                     history.push('/user');
+                }
+
+            } 
         } catch (error) {
-            console.error(error);   
+            console.error('Error in loginActionApi:', error);
+            // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
         }
-    }
+    };
 };
 export const registerActionApi = (userRegister, history) => {
     return async (dispatch) => {
@@ -44,9 +46,9 @@ export const registerActionApi = (userRegister, history) => {
             setCookieJson(USER_REGISTER, res.data.content, 30);
 
             // Điều hướng người dùng đến trang tương ứng sau khi đăng ký
-            if (res.data.content.role === 'admin') {
+            if (res.data.content.roleId === 'admin') {
                 history.push('/admin');
-            } else if (res.data.content.role === 'user') {
+            } else if (res.data.content.roleId === 'user') {
                 history.push('/user');
             } else {
                 history.push('/');

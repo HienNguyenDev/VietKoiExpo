@@ -24,16 +24,30 @@ export const DOMAIN = 'https://localhost:5001';
 
 const configClient = {
     setStoreJson: (name, data) => {
-        let sData = JSON.stringify(data);
-        localStorage.setItem(name, sData);
+        if (typeof data === 'undefined') {
+            console.error('Cannot store undefined data');
+            return;
+        }
+        try {
+            const sData = JSON.stringify(data);
+            localStorage.setItem(name, sData);
+            console.log('Stored Data:', data);
+        } catch (error) {
+            console.error('Error storing data:', error);
+        }
     },
     getStoreJson: (name) => {
-        if (localStorage.getItem(name)) {
-            let sData = localStorage.getItem(name);
-            let data = JSON.parse(sData);
-            return data;
+        try {
+            const sData = localStorage.getItem(name);
+            if (sData && sData !== "undefined") {
+                const data = JSON.parse(sData);
+                return data;
+            }
+            return ""; // Giá trị mặc định nếu không có dữ liệu
+        } catch (error) {
+            console.error('Error retrieving data:', error);
+            return undefined;
         }
-        return undefined;
     },
     setStore: (name, data) => {
         localStorage.setItem(name, data);
