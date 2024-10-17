@@ -25,7 +25,7 @@ namespace KSM.APIService.Controllers
             try
             {
                 var scores = await _scoreRepo.GetAllAsync();
-                return Ok(_mapper.Map<List<ScoreModel>>(scores));
+                return Ok(scores);
             }
             catch
             {
@@ -37,7 +37,7 @@ namespace KSM.APIService.Controllers
         public async Task<IActionResult> GetScoreById(string id)
         {
             var score = await _scoreRepo.GetByIDAsync(id);
-            return Ok(_mapper.Map<ScoreModel>(score));
+            return Ok(score);
 
         }
 
@@ -50,8 +50,7 @@ namespace KSM.APIService.Controllers
                 await _scoreRepo.CreateAsync(newScore);
                 string newScoreID = newScore.ScoreId;
                 var score = await _scoreRepo.GetByIDAsync(newScoreID);
-                var scoreModel = _mapper.Map<ScoreModel>(score);
-                return scoreModel == null ? NotFound() : Ok(scoreModel); // Return created fish on 
+                return score == null ? NotFound() : Ok(score); // Return created fish on 
 
 
             }

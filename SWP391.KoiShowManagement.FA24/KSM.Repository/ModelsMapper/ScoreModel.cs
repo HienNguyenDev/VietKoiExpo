@@ -22,6 +22,6 @@ namespace KSM.Repository.ModelsMapper
 
         public double? ScorePattern { get; set; }
 
-        public double? TotalScore { get; set; }
+       
     }
 }

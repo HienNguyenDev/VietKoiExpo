@@ -21,7 +21,13 @@ public partial class Tblscore
 
     public double? ScorePattern { get; set; }
 
-    public double? TotalScore { get; set; }
+    public double? TotalScore
+    {
+        get
+        {
+            return 0.5 * ScoreShape + 0.3 * ScoreColor + 0.2 * ScorePattern;
+        }
+    }
 
     public virtual Tblcompetition Comp { get; set; }
 
