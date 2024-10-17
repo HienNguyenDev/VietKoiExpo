@@ -59,6 +59,7 @@ const ManageContestsPage = () => {
     { title: 'Name', dataIndex: 'name', key: 'name' },
     { title: 'Date', dataIndex: 'date', key: 'date' },
     { title: 'Location', dataIndex: 'location', key: 'location' },
+    
     { title: 'Status', dataIndex: 'status', key: 'status' },
     {
       title: 'Actions',

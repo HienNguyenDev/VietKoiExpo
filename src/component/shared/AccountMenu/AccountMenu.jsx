@@ -1,127 +1,87 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Avatar, Badge, Dropdown, Menu, Button } from 'antd';
+import { UserOutlined, SettingOutlined, LogoutOutlined,ProfileOutlined,NotificationOutlined } from '@ant-design/icons';
+import { fetchUserByIdActionApi, logoutActionApi } from '../../../../src/store/redux/action/userAction'; // Import action
+import { useNavigate } from 'react-router-dom';
 
-//import for mail and home
-import Badge from '@mui/material/Badge';
-import MailIcon from '@mui/icons-material/Mail';
-import SvgIcon from '@mui/material/SvgIcon';
-import { IconHome } from '../../../asset/SVGMUI/IconSVGMUI';
+const MenuAccount = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-//scss
-import '../../../asset/scss/AccountMenu.module.scss';
+  // Lấy dữ liệu người dùng từ Redux store
+  const { userLogin, userProfile } = useSelector((state) => state.userReducer);
 
-export default function AccountMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  useEffect(() => {
+    if (userLogin) {
+      // Gọi API để lấy thông tin người dùng dựa trên userId
+      dispatch(fetchUserByIdActionApi(userLogin.id));
+    }
+  }, [dispatch, userLogin]);
+
+  const handleSignOut = () => {
+    // Gọi action logout và điều hướng tới trang đăng nhập
+    dispatch(logoutActionApi(navigate));
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  // Tạo hàm để hiển thị role bên cạnh tên người dùng
+  const renderRole = (role) => {
+    if (role === 'admin') return '(Admin)';
+    if (role === 'staff') return '(Staff)';
+    if (role === 'referee') return '(Referee)';
+    return '';
   };
-  return (
-      <React.Fragment >
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}>
-          <div className='home'>
-            <IconHome/>
-          </div>
-      </Typography>
-        <Typography sx={{ minWidth: 100 }}>
-          <div className='mail'>
-          <Badge badgeContent={4} color="primary">
-            <MailIcon color="action" />
-          </Badge>
+
+  const menu = (
+    <div style={{ width: 300, padding: '10px 15px', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
+        <Avatar size={64} src={userProfile.avatarUrl} icon={<UserOutlined />} />
+        <div style={{ marginLeft: 15 }}>
+          <h3 style={{ margin: 0 }}>
+            {userProfile.name} {renderRole(userProfile.roleId)}  {/* UserNam*/}
+          </h3>
+          <span style={{ color: '#888' }}>{userProfile.email}</span> {/* UserMail*/}
         </div>
-        </Typography>
-        <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            sx={{ ml: 2 }}
-            aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-          >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        slotProps={{
-          paper: {
-            elevation: 0,
-            sx: {
-              overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-              mt: 1.5,
-              '& .MuiAvatar-root': {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-              },
-              '&::before': {
-                content: '""',
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: 'background.paper',
-                transform: 'translateY(-50%) rotate(45deg)',
-                zIndex: 0,
-              },
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
-    </React.Fragment>
- 
+      </div>
+      <Menu>
+      <Menu.Item key="1" icon={<ProfileOutlined />}>
+        My Profile
+      </Menu.Item>
+      <Menu.Item key="2" icon={<NotificationOutlined />}>
+        Notifications
+      </Menu.Item>
+      <Menu.Item key="3" icon={<SettingOutlined />}>
+        Settings
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="4" icon={<LogoutOutlined />}  onClick={handleSignOut}>
+        Sign Out
+      </Menu.Item>
+    </Menu>
+    </div>
   );
-}
+
+  return (
+    <Dropdown
+      overlay={menu}
+      trigger={['click']}
+      placement="bottomRight"
+    >
+      <div style={{ display: 'inline-block', position: 'relative', cursor: 'pointer' }}>
+        <Badge count={userProfile.notifications || 0} offset={[-5, 5]}>
+        <Avatar
+            size="large"
+            src={userProfile.avatarUrl} //Chú ý avatarUrl
+            icon={<UserOutlined />}
+            style={{
+              borderRadius: '50%', 
+              background: 'gray' 
+            }}
+          /> 
+        </Badge>
+      </div>
+    </Dropdown>
+  );
+};
+
+export default MenuAccount;

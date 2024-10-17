@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { USER_LOGIN,USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson } from '../../../util/config';
+import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson,deleteCookieJson  } from '../../../util/config';
 import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction } from '../reducers/userReducer';
-import { loginUser, registerUser } from '../../../service/userAPI';
+import { getAllUser, getUserProfile, loginUser, registerUser } from '../../../service/userAPI';
 
-//async actions
-export const loginActionApi = (userLogin) => {
+// async actions
+export const loginActionApi = (userLogin, navigate) => {
     return async (dispatch) => {
         try {
             const res = await loginUser(userLogin);
@@ -18,56 +18,65 @@ export const loginActionApi = (userLogin) => {
                 setStoreJson(USER_LOGIN, res.data.user);
                 setCookieJson(USER_LOGIN, res.data.user, 30);
 
-                // Ví dụ điều hướng dựa trên vai trò
-                 if (res.data.user.roleId === 'R001') {
-                     history.push('/admin');
-                 } else {
-                     history.push('/user');
+                // Navigate based on role
+                if (res.data.user.roleId === 'R001') {
+                    navigate('/admin');
+                } else {
+                    navigate('/user');
                 }
-
-            } 
+            }
         } catch (error) {
             console.error('Error in loginActionApi:', error);
-            // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
         }
     };
 };
-export const registerActionApi = (userRegister, history) => {
+
+export const registerActionApi = (userRegister, navigate) => {
     return async (dispatch) => {
         try {
-           const res=await registerUser(userRegister);
+            const res = await registerUser(userRegister);
 
-            // Sau khi đăng ký thành công, dispatch action để cập nhật state
+            // After successful registration, dispatch action to update state
             const action = registerAction(res.data.content);
             dispatch(action);
 
-            // Lưu thông tin người dùng vào localStorage và cookie nếu cần
+            // Save user info to localStorage and cookie if needed
             setStoreJson(USER_REGISTER, res.data.content);
             setCookieJson(USER_REGISTER, res.data.content, 30);
 
-            // Điều hướng người dùng đến trang tương ứng sau khi đăng ký
+            // Navigate user to the appropriate page after registration
             if (res.data.content.roleId === 'admin') {
-                history.push('/admin');
+                navigate('/admin');
             } else if (res.data.content.roleId === 'user') {
-                history.push('/user');
+                navigate('/user');
             } else {
-                history.push('/');
+                navigate('/');
             }
-
         } catch (error) {
-            // Xử lý lỗi: hiển thị thông báo hoặc dispatch một action báo lỗi
-            console.error("Đăng ký thất bại:", error.response ? error.response.data : error.message);
+            // Handle error: show message or dispatch an error action
+            console.error("Registration failed:", error.response ? error.response.data : error.message);
             
-            // Dispatch action báo lỗi hoặc hiển thị thông báo cho người dùng
+            // Dispatch error action or show message to user
             dispatch({ type: 'USER_REGISTER_FAILURE', payload: error.response ? error.response.data : error.message });
         }
     };
 };
 
+// export const fetchUsersActionApi = () => {
+//     return async (dispatch) => {
+//         try {
+//             const res = await axios.get('/api/users'); 
+//             const action = setUserAction(res.data);
+//             dispatch(action);
+//         } catch (error) {
+//             console.error("Failed to fetch users:", error.response ? error.response.data : error.message);
+//         }
+//     };
+// };
 export const fetchUsersActionApi = () => {
     return async (dispatch) => {
         try {
-            const res = await axios.get('/api/users'); 
+            const res = await getAllUser();
             const action = setUserAction(res.data);
             dispatch(action);
         } catch (error) {
@@ -76,11 +85,36 @@ export const fetchUsersActionApi = () => {
     };
 };
 
-export const updateUserActionApi=(userDetails,history)=>{
+export const fetchUserByIdActionApi = (userId) => {
+    return async (dispatch) => {
+        try {
+            const res = await getUserProfile(userId);
+            const action = setUserAction(res.data);
+            dispatch(action);
+        } catch (error) {
+            console.error("Failed to fetch user by ID:", error.response ? error.response.data : error.message);
+        }
+    };
+};
+
+export const logoutActionApi = (navigate) => {
+    return (dispatch) => {
+        // Xóa dữ liệu người dùng khỏi localStorage và cookie
+        deleteCookieJson(USER_LOGIN);
+        localStorage.removeItem(USER_LOGIN);
+        
+        // Dispatch hành động để xóa thông tin người dùng khỏi Redux store
+        dispatch(loginAction(null));
+
+        // Điều hướng tới trang đăng nhập
+        navigate('/login');
+    };
+};
+
+export const updateUserActionApi = (userDetails, navigate) => {
     // existing update user code
 };
 
-export const removeUserActionApi=(history)=>{
+export const removeUserActionApi = (navigate) => {
     // existing remove user code
 };
-
