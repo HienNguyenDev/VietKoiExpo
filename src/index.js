@@ -62,7 +62,7 @@ const App = () => {
           <Route path='home' element={<MemberPage />} />
           {/* Main Route for Managing */}
           <Route path="admin" element={<AdminPage />}>
-            <Route path='manange-task' element={<ManagementTask />} />
+            <Route path='manage-task' element={<ManagementTask />} />
             {/* Manage Contests Group */}
             <Route path="manage-contests" element={<ManageContestsPage />} />
             {/* Manage Users Group */}
