@@ -2,17 +2,18 @@ import React from 'react';
 import { Button, Checkbox, Col, Row } from 'antd';
 import styles from '../../asset/scss/LoginForm.module.scss';
 import PlaceHolder from '../../component/shared/placeholder/PlaceHolder';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import CustomizeButton from '../../component/shared/button/CustomizeButton';
 import logoGoogle from '../../asset/logo/Google_Icons-09-512.webp';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { loginActionApi } from '../../store/redux/action/userAction';
-import { useState } from 'react';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const frm = useFormik({
     initialValues: {
       username: '',
@@ -20,43 +21,14 @@ const LoginForm = () => {
     },
     onSubmit: (values) => {
       console.log('value', values);
-      const actionAsync = loginActionApi(values);
+      const actionAsync = loginActionApi(values, navigate);
       dispatch(actionAsync);
     },
     validationSchema: yup.object().shape({
       username: yup.string().required('Username is required'),
-      password: yup.string().required('Username is required'),
+      password: yup.string().required('Password is required'),
     })
   });
-
-  const [formState, setFormState] = useState({
-    email: '',
-    password: '',
-  });
-
-  const [status, setStatus] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setStatus('Submitting...');
-    try {
-      // Replace this with your actual form submission logic
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setStatus('Submitted successfully!');
-      setErrorMessage('');
-    } catch (error) {
-      setStatus('Submission failed');
-      setErrorMessage('An error occurred. Please try again.');
-    }
-  };
-
-  const handleChange = (event) => {
-    setFormState({
-      ...formState,
-      [event.target.name]: event.target.value
-    });
-  };
 
   return (
     <div style={{ zIndex: '99' }} className={`${styles.container}`}>
@@ -100,7 +72,7 @@ const LoginForm = () => {
               <p>Login With Google</p>
               <img src={logoGoogle} style={{ width: '20px', height: '20px' }} alt="Google Logo" />
             </div>
-          </Button>
+</Button>
         </div>
       </form>
     </div>
@@ -108,4 +80,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-

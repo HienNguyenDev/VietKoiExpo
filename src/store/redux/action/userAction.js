@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson,deleteCookieJson  } from '../../../util/config';
-import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction } from '../reducers/userReducer';
-import { getAllUser, getUserProfile, loginUser, registerUser } from '../../../service/userAPI';
+import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction } from '../../redux/reducers/userReducer';
+import { getAllUser, getUserProfile, loginUser, registerUser, updateDetailUser } from '../../../service/userAPI';
+
+
 
 // async actions
 export const loginActionApi = (userLogin, navigate) => {
@@ -62,17 +64,6 @@ export const registerActionApi = (userRegister, navigate) => {
     };
 };
 
-// export const fetchUsersActionApi = () => {
-//     return async (dispatch) => {
-//         try {
-//             const res = await axios.get('/api/users'); 
-//             const action = setUserAction(res.data);
-//             dispatch(action);
-//         } catch (error) {
-//             console.error("Failed to fetch users:", error.response ? error.response.data : error.message);
-//         }
-//     };
-// };
 export const fetchUsersActionApi = () => {
     return async (dispatch) => {
         try {
@@ -84,7 +75,6 @@ export const fetchUsersActionApi = () => {
         }
     };
 };
-
 export const fetchUserByIdActionApi = (userId) => {
     return async (dispatch) => {
         try {
@@ -93,6 +83,32 @@ export const fetchUserByIdActionApi = (userId) => {
             dispatch(action);
         } catch (error) {
             console.error("Failed to fetch user by ID:", error.response ? error.response.data : error.message);
+        }
+    };
+};
+
+export const updateUserActionApi = (userDetails, navigate) => {
+    return async (dispatch) => {
+        try {
+            const res = await updateDetailUser(userDetails);
+            const action = updateUserAction(res.data);
+            dispatch(action);
+            navigate('/users'); // Navigate to users page after updating
+        } catch (error) {
+            console.error("Failed to update user:", error.response ? error.response.data : error.message);
+        }
+    };
+};
+
+export const removeUserActionApi = (userId, navigate) => {
+    return async (dispatch) => {
+        try {
+            await axios.delete(`/api/users/${userId}`);
+            const action = removeUserAction(userId);
+            dispatch(action);
+            navigate('/users'); // Navigate to users page after removing
+        } catch (error) {
+            console.error("Failed to remove user:", error.response ? error.response.data : error.message);
         }
     };
 };
@@ -109,12 +125,4 @@ export const logoutActionApi = (navigate) => {
         // Điều hướng tới trang đăng nhập
         navigate('/login');
     };
-};
-
-export const updateUserActionApi = (userDetails, navigate) => {
-    // existing update user code
-};
-
-export const removeUserActionApi = (navigate) => {
-    // existing remove user code
 };
