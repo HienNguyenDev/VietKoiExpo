@@ -31,32 +31,25 @@ const LoginForm = () => {
   });
 
   return (
-    <div style={{ zIndex: '99' }} className={`${styles.container}`}>
-      <form
-        style={{
-          maxWidth: 450,
-        }}
-        onSubmit={frm.handleSubmit}
-        autoComplete="off"
-        className={`${styles.loginForm}`}
-      >
-        <div className={`${styles.tittleLogin}`}>
+    <div className={styles.container}>
+      <form onSubmit={frm.handleSubmit} autoComplete="off" className={styles.loginForm}>
+        <div className={styles.tittleLogin}>
           <h1>Login</h1>
         </div>
         {frm.errors.username && frm.touched.username && <div style={{ color: 'red' }}>{frm.errors.username}</div>}
-        <div className={`${styles.usernameItem}`}>
+        <div className={styles.usernameItem}>
           <PlaceHolder onChange={frm.handleChange} id='username' label='Username' placeholder='Enter your username' type='text' />
         </div>
         {frm.errors.password && frm.touched.password && <div style={{ color: 'red' }}>{frm.errors.password}</div>}
-        <div className={`${styles.passwordItem}`}>
+        <div className={styles.passwordItem}>
           <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
         </div>
-        <div className={`${styles.rememberItem}`}>
+        <div className={styles.rememberItem}>
           <Checkbox style={{ fontFamily: 'futura,helvetica,sans-serif', color: 'rgb(202, 140, 140)' }}>Remember me</Checkbox>
         </div>
         <Row>
           <Col span={14}>
-            <div className={`${styles.registerItem}`}>
+            <div className={styles.registerItem}>
               <Link to='/register' style={{ color: 'rgb(202, 140, 140)' }}>Chưa có tài khoản?</Link>
             </div>
           </Col>
@@ -67,12 +60,12 @@ const LoginForm = () => {
           </Col>
         </Row>
         <div className={styles.loginWithGoogleItem}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="button">
             <div className={styles.loginWithGoogle}>
               <p>Login With Google</p>
-              <img src={logoGoogle} style={{ width: '20px', height: '20px' }} alt="Google Logo" />
+              <img src={logoGoogle} alt="Google Logo" />
             </div>
-</Button>
+          </Button>
         </div>
       </form>
     </div>

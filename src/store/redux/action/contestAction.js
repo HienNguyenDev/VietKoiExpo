@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { CONTEST_CREATE, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson } from '../../../util/config';
+import { CONTEST_CREATE, setCookieJson, setStoreJson } from '../../../util/config';
 import {
     createContestAction,
     updateContestAction,
     removeContestAction,
-    setContestDetailsAction,
     fetchContestDetailsSuccess,
     fetchContestDetailsFailure,
     setContestListAction
@@ -12,7 +11,7 @@ import {
 import { createContest, updateContest, getContest, getAllContest, removeContest } from '../../../service/ContestAPI'; // replace with your actual API methods
 
 // async actions
-export const createContestActionApi = (contestDetails, history) => {
+export const createContestActionApi = (contestDetails) => {
     return async (dispatch) => {
         try {
             const res = await createContest(contestDetails);
@@ -20,7 +19,7 @@ export const createContestActionApi = (contestDetails, history) => {
             dispatch(action);
             setStoreJson(CONTEST_CREATE, res.data.content);
             setCookieJson(CONTEST_CREATE, res.data.content, 30);
-            history.push('/contests'); // navigate to contests page after creating
+            dispatch(fetchAllContests()); // Refetch contests after creating
         } catch (error) {
             console.error("Contest creation failed:", error.response ? error.response.data : error.message);
             dispatch({ type: 'CONTEST_CREATE_FAILURE', payload: error.response ? error.response.data : error.message });
@@ -28,27 +27,29 @@ export const createContestActionApi = (contestDetails, history) => {
     };
 };
 
-export const updateContestActionApi = (contestId, contestDetails, history) => {
+export const updateContestActionApi = (contestId, contestDetails, navigate) => {
     return async (dispatch) => {
-        try {
-            const res = await updateContest(contestId, contestDetails);
-            const action = updateContestAction(res.data.content);
-            dispatch(action);
-            history.push('/contests'); // navigate to contests page after updating
-        } catch (error) {
-            console.error("Contest update failed:", error.response ? error.response.data : error.message);
-            dispatch({ type: 'CONTEST_UPDATE_FAILURE', payload: error.response ? error.response.data : error.message });
-        }
+      try {
+        const res = await updateContest(contestId, contestDetails);
+        console.log('API Response:', res.data); // Debugging log
+        const action = updateContestAction(res.data.content);
+        dispatch(action);
+        dispatch(fetchAllContests()); // Refetch contests after updating
+        navigate('/admin/manage-contests'); // Navigate to the desired URL
+      } catch (error) {
+        console.error("Contest update failed:", error.response ? error.response.data : error.message);
+        dispatch({ type: 'CONTEST_UPDATE_FAILURE', payload: error.response ? error.response.data : error.message });
+      }
     };
-};
-
-export const removeContestActionApi = (contestId, history) => {
+  };
+  
+export const removeContestActionApi = (contestId) => {
     return async (dispatch) => {
         try {
             await removeContest(contestId);
             const action = removeContestAction(contestId);
             dispatch(action);
-            history.push('/contests'); // navigate to contests page after removing
+            dispatch(fetchAllContests()); 
         } catch (error) {
             console.error("Contest removal failed:", error.response ? error.response.data : error.message);
             dispatch({ type: 'CONTEST_REMOVE_FAILURE', payload: error.response ? error.response.data : error.message });
@@ -72,9 +73,9 @@ export const fetchAllContests = () => {
     return async (dispatch) => {
         try {
             const res = await getAllContest();
-            dispatch(setContestListAction(res.data.content));
+            dispatch(setContestListAction(res.data)); // Assuming res.data is the array of contests
         } catch (error) {
-            console.error("Fetching all contests failed:", error.response ? error.response.data : error.message);
+            console.error("Failed to fetch contests:", error.response ? error.response.data : error.message);
         }
     };
 };

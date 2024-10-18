@@ -58,7 +58,7 @@ const App = () => {
     <TransitionGroup>
       <CSSTransition key={location.key} classNames="fade" timeout={700}>
         <Routes location={location}>
-          <Route path="/" />
+          <Route path="/"  element={<LoginPage/>}/>
           <Route path='home' element={<MemberPage />} />
           {/* Main Route for Managing */}
           <Route path="admin" element={<AdminPage />}>

@@ -16,9 +16,12 @@
   height: 100vh;
   background-color: #f0f2f5;
   padding: 20px;
+  box-sizing: border-box;
+  width: 100vw;
+  background:url('../photo/1046552_OL0CSR0.jpg');
 }
 
-.loginForm {
+.registerForm {
   padding: 20px;
   border: 1px solid rgba(255, 255, 255, 0.103);
   border-radius: 30px;
@@ -28,56 +31,42 @@
   max-width: 450px;
   width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 
-  .tittleLogin {
+  .tittleRegister {
     text-align: center;
 
     h1 {
       color: rgb(202, 140, 140);
-      font-size: 2.5rem;
+      font-size: 2rem; /* Reduced font size */
       font-family: 'AutumnFlowerFont';
     }
   }
 
-  .usernameItem,
-  .passwordItem {
-    margin-bottom: 16px;
+  .formItem {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px; /* Reduced margin */
 
     .usernameLabel,
     .passwordLabel {
       color: rgb(146, 52, 52);
-      font-size: 1rem;
+      font-size: 0.875rem; /* Reduced font size */
     }
   }
 
-  .rememberItem {
-    width: 100%;
-    margin-bottom: 16px;
+  .actionItems {
+    margin-top: 12px; /* Reduced margin */
   }
 
-  .registerItem {
-    text-align: start;
-    color: red;
-    margin-bottom: 16px;
-  }
+  .haveAccountItem {
+    text-align: right; /* Align text to the right */
+    a {
+      color: rgb(202, 140, 140);
+      text-decoration: none;
 
-  .loginWithGoogleItem {
-    margin-top: 16px;
-
-    .loginWithGoogle {
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      p {
-        margin: 0;
-        margin-right: 8px;
-      }
-
-      img {
-        width: 20px;
-        height: 20px;
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
@@ -88,12 +77,12 @@
     padding: 10px;
   }
 
-  .loginForm {
+  .registerForm {
     padding: 15px;
     border-radius: 20px;
 
-    .tittleLogin h1 {
-      font-size: 2rem;
+    .tittleRegister h1 {
+      font-size: 1.5rem; /* Further reduced font size for smaller screens */
     }
   }
 }

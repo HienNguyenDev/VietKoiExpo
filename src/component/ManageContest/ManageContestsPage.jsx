@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import { Table, Button, Drawer, Form, Input, Modal, Row, Col } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Table, Button, Drawer, Form, Input, Modal, DatePicker, Switch } from 'antd';
 import { PlusOutlined, EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import styles from '../../asset/scss/ManageContestsPage.module.scss';
+import { fetchAllContests, createContestActionApi, updateContestActionApi, removeContestActionApi, fetchContestDetails } from '../../store/redux/action/contestAction';
+import moment from 'moment';
 
 const { confirm } = Modal;
 
@@ -10,18 +14,25 @@ const ManageContestsPage = () => {
   const [drawerTitle, setDrawerTitle] = useState('');
   const [selectedContest, setSelectedContest] = useState(null);
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
-  const contestsData = [
-    { id: 1, name: 'Contest 1', date: '2023-10-01', location: 'Location 1', status: 'Upcoming' },
-    { id: 2, name: 'Contest 2', date: '2023-11-15', location: 'Location 2', status: 'Completed' },
-    // Add more entries as needed
-  ];
+  const dispatch = useDispatch();
+  const contestsData = useSelector(state => state.contestReducer.contestList);
 
-  const showDrawer = (title, contest = null) => {
+  useEffect(() => {
+    dispatch(fetchAllContests());
+  }, [dispatch]);
+
+  const showDrawer = async (title, contest = null) => {
     setDrawerTitle(title);
     setSelectedContest(contest);
     if (contest) {
-      form.setFieldsValue(contest);
+      await dispatch(fetchContestDetails(contest.compId));
+      form.setFieldsValue({
+        ...contest,
+        startDate: moment(contest.startDate),
+        endDate: moment(contest.endDate),
+      });
     } else {
       form.resetFields();
     }
@@ -31,6 +42,7 @@ const ManageContestsPage = () => {
   const closeDrawer = () => {
     setDrawerVisible(false);
     setSelectedContest(null);
+    form.resetFields();
   };
 
   const handleCreate = () => {
@@ -38,37 +50,62 @@ const ManageContestsPage = () => {
   };
 
   const handleUpdate = (id) => {
-    showDrawer('Update Contest', contestsData.find(contest => contest.id === id));
+    const contest = contestsData.find(contest => contest.compId === id);
+    if (contest) {
+      showDrawer('Update Contest', contest);
+    }
   };
 
   const handleView = (id) => {
-    showDrawer('View Contest', contestsData.find(contest => contest.id === id));
+    const contest = contestsData.find(contest => contest.compId === id);
+    if (contest) {
+      showDrawer('View Contest', contest);
+    }
   };
 
   const handleDelete = (id) => {
     confirm({
       title: 'Are you sure you want to delete this contest?',
       onOk() {
-        console.log('Deleted contest with id:', id);
-        // Add your delete logic here
+        dispatch(removeContestActionApi(id));
       },
     });
   };
 
+  const handleSubmit = () => {
+    form.validateFields().then(values => {
+      const formattedValues = {
+        ...values,
+        startDate: values.startDate.format('YYYY-MM-DD'),
+        endDate: values.endDate.format('YYYY-MM-DD'),
+      };
+      console.log('Submitting values:', formattedValues); // Debugging log
+      if (drawerTitle === 'Create Contest') {
+        dispatch(createContestActionApi(formattedValues));
+      } else if (drawerTitle === 'Update Contest' && selectedContest) {
+        dispatch(updateContestActionApi(selectedContest.compId, formattedValues, navigate));
+      }
+      closeDrawer();
+      navigate('/admin/manage-contests');
+    }).catch(errorInfo => {
+      console.error('Validation Failed:', errorInfo);
+    });
+  };
+
   const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Date', dataIndex: 'date', key: 'date' },
+    { title: 'Name', dataIndex: 'compName', key: 'compName' },
+    { title: 'Start Date', dataIndex: 'startDate', key: 'startDate' },
+    { title: 'End Date', dataIndex: 'endDate', key: 'endDate' },
     { title: 'Location', dataIndex: 'location', key: 'location' },
-    
-    { title: 'Status', dataIndex: 'status', key: 'status' },
+    { title: 'Status', dataIndex: 'status', key: 'status', render: status => (status ? 'Active' : 'Inactive') },
     {
       title: 'Actions',
       key: 'actions',
       render: (text, record) => (
         <span>
-          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.id)}>View</Button>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.id)}>Update</Button>
-          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>Delete</Button>
+          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.compId)}>View</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.compId)}>Update</Button>
+          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.compId)}>Delete</Button>
         </span>
       ),
     },
@@ -79,7 +116,7 @@ const ManageContestsPage = () => {
       <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginBottom: 16 }}>
         Create Contest
       </Button>
-      <Table dataSource={contestsData} columns={columns} rowKey="id" />
+      <Table dataSource={contestsData} columns={columns} rowKey="compId" />
       <Drawer
         title={drawerTitle}
         width={640}
@@ -87,21 +124,33 @@ const ManageContestsPage = () => {
         visible={drawerVisible}
       >
         <Form layout="vertical" form={form}>
-          <Form.Item name="name" label="Name" rules={[{ required: true, message: 'Please enter the name' }]}>
+          <Form.Item name="compId" label="Contest ID" rules={[{ required: true, message: 'Please enter the contest ID' }]}>
+            <Input placeholder="Please enter the contest ID" disabled={drawerTitle === 'View Contest'} />
+          </Form.Item>
+          <Form.Item name="categoryId" label="Category ID" rules={[{ required: true, message: 'Please enter the category ID' }]}>
+            <Input placeholder="Please enter the category ID" disabled={drawerTitle === 'View Contest'} />
+          </Form.Item>
+          <Form.Item name="compName" label="Name" rules={[{ required: true, message: 'Please enter the name' }]}>
             <Input placeholder="Please enter the name" disabled={drawerTitle === 'View Contest'} />
           </Form.Item>
-          <Form.Item name="date" label="Date" rules={[{ required: true, message: 'Please enter the date' }]}>
-            <Input placeholder="Please enter the date" disabled={drawerTitle === 'View Contest'} />
+          <Form.Item name="compDescription" label="Description" rules={[{ required: true, message: 'Please enter the description' }]}>
+            <Input placeholder="Please enter the description" disabled={drawerTitle === 'View Contest'} />
           </Form.Item>
           <Form.Item name="location" label="Location" rules={[{ required: true, message: 'Please enter the location' }]}>
             <Input placeholder="Please enter the location" disabled={drawerTitle === 'View Contest'} />
           </Form.Item>
-          <Form.Item name="status" label="Status" rules={[{ required: true, message: 'Please enter the status' }]}>
-            <Input placeholder="Please enter the status" disabled={drawerTitle === 'View Contest'} />
+          <Form.Item name="startDate" label="Start Date" rules={[{ required: true, message: 'Please enter the start date' }]}>
+            <DatePicker style={{ width: '100%' }} disabled={drawerTitle === 'View Contest'} />
+          </Form.Item>
+          <Form.Item name="endDate" label="End Date" rules={[{ required: true, message: 'Please enter the end date' }]}>
+            <DatePicker style={{ width: '100%' }} disabled={drawerTitle === 'View Contest'} />
+          </Form.Item>
+          <Form.Item name="status" label="Status" valuePropName="checked">
+            <Switch disabled={drawerTitle === 'View Contest'} />
           </Form.Item>
           {drawerTitle !== 'View Contest' && (
             <Form.Item>
-              <Button type="primary" onClick={closeDrawer}>
+              <Button type="primary" onClick={handleSubmit}>
                 Submit
               </Button>
             </Form.Item>

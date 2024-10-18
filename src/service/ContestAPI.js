@@ -1,21 +1,40 @@
 import axios from 'axios';
 
+const BASE_URL = 'https://localhost:7246/api/Competition';
+
 export const createContest = (contestDetails) => {
-    return axios.post('/api/contests', contestDetails);
+    return axios({
+        url: `${BASE_URL}`,
+        method: 'POST',
+        data: contestDetails,
+    });
 };
 
 export const updateContest = (contestId, contestDetails) => {
-    return axios.put(`/api/contests/${contestId}`, contestDetails);
+    return axios({
+        url: `${BASE_URL}/${contestId}`,
+        method: 'PUT',
+        data: contestDetails,
+    });
 };
 
 export const removeContest = (contestId) => {
-    return axios.delete(`/api/contests/${contestId}`);
+    return axios({
+        url: `${BASE_URL}/${contestId}`,
+        method: 'DELETE',
+    });
 };
 
 export const getContest = (contestId) => {
-    return axios.get(`/api/contests/${contestId}`);
+    return axios({
+        url: `${BASE_URL}/${contestId}`,
+        method: 'GET',
+    });
 };
 
 export const getAllContest = () => {
-    return axios.get('/api/contests');
+    return axios({
+        url: `${BASE_URL}`,
+        method: 'GET',
+    });
 };

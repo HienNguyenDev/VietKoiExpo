@@ -79,6 +79,7 @@ export const fetchUserByIdActionApi = (userId) => {
     return async (dispatch) => {
         try {
             const res = await getUserProfile(userId);
+            console.log('Fetched user profile:', res.data); 
             const action = setUserAction(res.data);
             dispatch(action);
         } catch (error) {
@@ -86,6 +87,7 @@ export const fetchUserByIdActionApi = (userId) => {
         }
     };
 };
+
 
 export const updateUserActionApi = (userDetails, navigate) => {
     return async (dispatch) => {

@@ -23,19 +23,21 @@ export const updateDetailUser = (userUpdate) => {
         data: userUpdate,
     })
 }
-export const getUserProfile = (userId) => {
-    return axios({
-        url: 'http://',
-        method: 'GET',
-        data: userId,
-    })
-}
+export const getUserProfile = async (userId) => {
+    const baseUrl = 'https://localhost:7246/api/User/';
+    const url = `${baseUrl}${userId}`;
+    console.log('Fetching URL:', url); 
+
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+};
 
 export const getAllUser = () => {
     return axios({
-        url: 'http://',
+        url: 'https://localhost:7246/api/User',
         method: 'GET',
     })
 }
-
-/* get referee */

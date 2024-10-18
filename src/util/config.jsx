@@ -43,7 +43,7 @@ const configClient = {
                 const data = JSON.parse(sData);
                 return data;
             }
-            return ""; // Giá trị mặc định nếu không có dữ liệu
+            return ""; // Default value if no data
         } catch (error) {
             console.error('Error retrieving data:', error);
             return undefined;
@@ -59,6 +59,10 @@ const configClient = {
         return undefined;
     },
     setCookieJson: (name, value, days) => {
+        if (typeof value === 'undefined') {
+            console.error('Cannot store undefined data');
+            return;
+        }
         value = JSON.stringify(value);
         var expires = "";
         if (days) {

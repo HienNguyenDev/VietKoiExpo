@@ -4,7 +4,9 @@ import { CONTEST_CREATE, getStoreJson } from '../../../util/config';
 const initialState = {
     contestCreate: getStoreJson(CONTEST_CREATE),
     contestDetails: {},
-    contestList: []
+    contestList: [],
+    loading: false,
+    error: null,
 };
 
 const contestReducer = createSlice({
@@ -21,15 +23,22 @@ const contestReducer = createSlice({
             state.contestList = action.payload;
         },
         updateContestAction: (state, action) => {
-            // Update the contest in the list
-            const index = state.contestList.findIndex(contest => contest.id === action.payload.id);
+            const { compId } = action.payload;
+            if (!compId) {
+                console.error('Error: compId is missing in the action payload:', action.payload);
+                return;
+            }
+            
+            const index = state.contestList.findIndex(contest => contest.compId === compId);
             if (index !== -1) {
                 state.contestList[index] = action.payload;
+            } else {
+                console.error(`Error: No contest found with compId: ${compId}`);
             }
         },
         removeContestAction: (state, action) => {
             // Remove the contest from the list
-            state.contestList = state.contestList.filter(contest => contest.id !== action.payload);
+            state.contestList = state.contestList.filter(contest => contest.compId !== action.payload);
         },
         fetchContestDetailsSuccess: (state, action) => {
             state.contestDetails = action.payload;
