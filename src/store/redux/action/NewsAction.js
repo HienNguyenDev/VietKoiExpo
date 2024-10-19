@@ -1,5 +1,5 @@
 import { NEWS_CREATE, NEWS_UPDATE, NEWS_REMOVE, NEWS_LIST } from '../../../util/config';
-import { createNews, updateNews, getNews, deleteNews } from '../../../service/NewsAPI';
+import { createNews, updateNews, getNews, deleteNews, getAllNews } from '../../../service/NewsAPI';
 
 
 // Create News
@@ -37,6 +37,20 @@ export const getNewsAction = (newsId) => {
     return async (dispatch) => {
         try {
             const response = await getNews(newsId);
+            dispatch({
+                type: NEWS_LIST,
+                payload: response.data
+            });
+        } catch (error) {
+            console.error('Error fetching news:', error);
+        }
+    };
+};
+
+export const getAllNewsAction = () => {
+    return async (dispatch) => {
+        try {
+            const response = await getAllNews();
             dispatch({
                 type: NEWS_LIST,
                 payload: response.data

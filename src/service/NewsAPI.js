@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://103.90.227.68:8080/api'; // Replace with your actual base URL
+const BASE_URL = 'https://localhost:7246/api'; // Replace with your actual base URL
 
 export const createNews = (newsData) => {
     return axios({
-        url: `${BASE_URL}/news`,
+        url: `${BASE_URL}/News`,
         method: 'POST',
         data: newsData,
     });
@@ -24,6 +24,15 @@ export const getNews = (newsId) => {
         method: 'GET',
     });
 };
+
+export const getAllNews = () => {
+    return axios({
+        url: `${BASE_URL}/news/`,
+        method: 'GET',
+    });
+};
+
+
 
 export const deleteNews = (newsId) => {
     return axios({

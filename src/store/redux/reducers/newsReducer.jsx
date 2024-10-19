@@ -1,39 +1,35 @@
-// reducers/newsReducer.js
-
+import { createSlice } from '@reduxjs/toolkit';
 import { NEWS_CREATE, NEWS_UPDATE, NEWS_REMOVE, NEWS_LIST } from '../../../util/config';
 
 const initialState = {
     news: {}
 };
 
-const newsReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case NEWS_CREATE:
-        case NEWS_UPDATE:
-            return {
-                ...state,
-                news: {
-                    ...state.news,
-                    [action.payload.id]: action.payload
-                }
-            };
-        case NEWS_REMOVE:
+const newsReducer = createSlice({
+    name: 'newsReducer',
+    initialState,
+    reducers: {
+        createNewsAction: (state, action) => {
+            state.news[action.payload.id] = action.payload;
+        },
+        updateNewsAction: (state, action) => {
+            state.news[action.payload.id] = action.payload;
+        },
+        removeNewsAction: (state, action) => {
             const { [action.payload]: removed, ...rest } = state.news;
-            return {
-                ...state,
-                news: rest
-            };
-        case NEWS_LIST:
-            return {
-                ...state,
-                news: {
-                    ...state.news,
-                    [action.payload.id]: action.payload
-                }
-            };
-        default:
-            return state;
+            state.news = rest;
+        },
+        listNewsAction: (state, action) => {
+            state.news[action.payload.id] = action.payload;
+        }
     }
-};
+});
 
-export default newsReducer;
+export const {
+    createNewsAction,
+    updateNewsAction,
+    removeNewsAction,
+    listNewsAction
+} = newsReducer.actions;
+
+export default newsReducer.reducer;
