@@ -54,7 +54,20 @@ namespace KSM.APIService.Controllers
                 await _registRepo.CreateAsync(newRegistration);
                 string newRegistratioID = newRegistration.RegistrationId;
                 var regist = await _registRepo.GetByIDAsync(newRegistratioID);
-                
+                if (newRegistration != null)
+                {
+                    var predict = new Tblprediction();
+                    predict.CompId = newRegistration.CompId;
+                    predict.KoiId = newRegistration.KoiId;
+                    predict.PredictedScore = new Random().Next(1, 101);
+                    predict.PredictionId = Guid.NewGuid().ToString();
+
+                    await _predictRepo.CreateAsync(predict);
+
+
+
+
+                }
                 return regist == null ? NotFound() : Ok(regist);
 
 

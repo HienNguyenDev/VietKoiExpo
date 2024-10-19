@@ -5,6 +5,7 @@ using KSM.Repository.Repositories.CategoryRepository;
 using KSM.Repository.Repositories.CompetitionRepository;
 using KSM.Repository.Repositories.KoifishRepository;
 using KSM.Repository.Repositories.NewsRepository;
+using KSM.Repository.Repositories.PredictRepository;
 using KSM.Repository.Repositories.RegistrationRepository;
 using KSM.Repository.Repositories.ScoreRepository;
 using KSM.Repository.Repositories.UserRepository;
@@ -71,6 +72,7 @@ builder.Services.AddScoped<IVarietyRepository, VarietyRepository>();
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddScoped<IPredictRepository, PredictRepository>();
 
 
 
