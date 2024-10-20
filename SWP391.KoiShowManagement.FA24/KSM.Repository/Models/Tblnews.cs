@@ -7,15 +7,19 @@ namespace KSM.Repository.Models;
 
 public partial class Tblnews
 {
-    public string NewsId { get; set; }
+    public Guid NewsId { get; set; }
 
-    public string NewsTypeId { get; set; }
+    public Guid? NewsTypeId { get; set; }
 
-    public string UserId { get; set; }
+    public Guid? UserId { get; set; }
 
-    public DateOnly? Date { get; set; }
+    public DateOnly? NewsDate { get; set; }
 
-    public string Description { get; set; }
+    public bool? Status { get; set; }
+
+    public string NewsDescription { get; set; }
+
+    public string ImageUrl { get; set; }
 
     public virtual TblnewsType NewsType { get; set; }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.ScoreRepository
 {
-    public class ScoreRepository : GenericDbContextRepository<VietKoiExpoContext, Tblscore, string>, IScoreRepository
+    public class ScoreRepository : GenericDbContextRepository<VietKoiExpoContext, Tblscore, Guid>, IScoreRepository
     {
         public ScoreRepository(VietKoiExpoContext context) : base(context)
         {

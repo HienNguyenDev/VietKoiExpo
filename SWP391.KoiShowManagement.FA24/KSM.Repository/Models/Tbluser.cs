@@ -7,9 +7,9 @@ namespace KSM.Repository.Models;
 
 public partial class Tbluser
 {
-    public string UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public string RoleId { get; set; }
+    public Guid? RoleId { get; set; }
 
     public string Password { get; set; }
 
@@ -19,16 +19,23 @@ public partial class Tbluser
 
     public string Phone { get; set; }
 
+    public string Address { get; set; }
+
+    public string ImageUrl { get; set; }
+
+    public int? Experience { get; set; }
+
+    public bool? Status { get; set; }
+
     public virtual Tblrole Role { get; set; }
 
     public virtual ICollection<TblkoiFish> TblkoiFishes { get; set; } = new List<TblkoiFish>();
 
     public virtual ICollection<Tblnews> Tblnews { get; set; } = new List<Tblnews>();
 
+    public virtual ICollection<Tblrank> Tblranks { get; set; } = new List<Tblrank>();
+
     public virtual ICollection<Tblscore> Tblscores { get; set; } = new List<Tblscore>();
 
-    public static implicit operator Task<object>(Tbluser v)
-    {
-        throw new NotImplementedException();
-    }
+    public virtual ICollection<Tbltask> Tbltasks { get; set; } = new List<Tbltask>();
 }

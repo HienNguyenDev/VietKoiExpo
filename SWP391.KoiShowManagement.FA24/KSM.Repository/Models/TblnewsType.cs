@@ -7,9 +7,9 @@ namespace KSM.Repository.Models;
 
 public partial class TblnewsType
 {
-    public string NewsTypeId { get; set; }
+    public Guid NewsTypeId { get; set; }
 
-    public DateOnly? Date { get; set; }
+    public string NewsTypeName { get; set; }
 
     public virtual ICollection<Tblnews> Tblnews { get; set; } = new List<Tblnews>();
 }

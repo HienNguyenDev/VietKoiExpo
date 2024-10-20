@@ -1,6 +1,9 @@
-﻿using KSM.Repository.Models;
+﻿using AutoMapper;
+using KSM.APIService.Helper;
+using KSM.Repository.Models;
 using KSM.Repository.ModelsMapper;
 using KSM.Repository.Repositories.KoifishRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +36,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFishById(string id)
+        public async Task<IActionResult> GetFishById(Guid id)
         {
             var koiFish = await _koiFishRepo.GetByIDAsync(id);
             return Ok(_mapper.Map<KoifishModel>(koiFish));
@@ -47,7 +50,7 @@ namespace KSM.APIService.Controllers
             {
                 var newFish = _mapper.Map<TblkoiFish>(model);
                 await _koiFishRepo.CreateAsync(newFish);
-                string newFishID = newFish.KoiId;
+                Guid newFishID = new Guid();
                 var koiFish = await _koiFishRepo.GetByIDAsync(newFishID);
                 var koiFishModel = _mapper.Map<KoifishModel>(koiFish);
                 return koiFishModel == null ? NotFound() : Ok(koiFishModel);
@@ -71,7 +74,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFish([FromRoute] string id)
+        public async Task<IActionResult> DeleteFish([FromRoute] Guid id)
         {
             var deleteFish = await _koiFishRepo.GetByIDAsync(id);
             if (deleteFish == null)

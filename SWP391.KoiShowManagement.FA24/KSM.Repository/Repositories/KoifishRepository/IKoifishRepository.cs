@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.KoifishRepository
 {
-    public interface IKoifishRepository : IGenericRepository<TblkoiFish, string>
+    public interface IKoifishRepository : IGenericRepository<TblkoiFish, Guid>
     {
     }
 }

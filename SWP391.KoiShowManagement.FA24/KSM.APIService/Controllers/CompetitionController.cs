@@ -37,7 +37,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCompetitionById(string id)
+        public async Task<IActionResult> GetCompetitionById(Guid id)
         {
             var competition = await _competitionRepo.GetByIDAsync(id);
             return Ok(_mapper.Map<CompetitionModel>(competition));
@@ -94,8 +94,8 @@ namespace KSM.APIService.Controllers
 
             var createdCompetition = new Tblcompetition()
             {
-                CompId = competition.CompId,
-                CategoryId = competition.CategoryId,
+                CompId = new Guid(),
+                CategoryId = new Guid(),
                 CompName = competition.CompName,
                 CompDescription = competition.CompDescription,
                 Location = competition.Location,
@@ -116,9 +116,9 @@ namespace KSM.APIService.Controllers
         }
         ////////////////////////////////////////////////////////////////////////////////////////
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCompetition(string id, [FromBody] CompetitionModelCreate competition)
+        public async Task<IActionResult> UpdateCompetition(Guid id, [FromBody] CompetitionModelCreate competition)
         {
-            if (id != competition.CompId)
+            if (!id.Equals(competition.CompId))
             {
                 return BadRequest("The news ID in the URL does not match the news ID in the body.");
             }
@@ -151,8 +151,8 @@ namespace KSM.APIService.Controllers
                 }
 
                 // Update the existing news with new values
-                existingCompetition.CompId = competition.CompId;
-                existingCompetition.CategoryId = competition.CategoryId;
+                existingCompetition.CompId = new Guid();
+                existingCompetition.CategoryId = new Guid();
                 existingCompetition.CompName = competition.CompName;
                 existingCompetition.CompDescription = competition.CompDescription;
                 existingCompetition.Location = competition.Location;
@@ -174,7 +174,7 @@ namespace KSM.APIService.Controllers
         ////////////////////////////////////////////////////////////////////////////////////////
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCompetition([FromRoute] string id)
+        public async Task<IActionResult> DeleteCompetition([FromRoute] Guid id)
         {
             var deleteCompetition = await _competitionRepo.GetByIDAsync(id);
             if (deleteCompetition == null)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.CompetitionRepository
 {
-    public interface ICompetitionRepository : IGenericRepository<Tblcompetition, string>
+    public interface ICompetitionRepository : IGenericRepository<Tblcompetition, Guid>
     {
     }
 }

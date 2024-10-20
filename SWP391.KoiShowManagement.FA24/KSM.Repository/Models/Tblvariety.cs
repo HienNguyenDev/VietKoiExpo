@@ -7,13 +7,13 @@ namespace KSM.Repository.Models;
 
 public partial class Tblvariety
 {
-    public string VarietyId { get; set; }
+    public Guid VarietyId { get; set; }
 
     public string VarietyName { get; set; }
 
-    public string Origin { get; set; }
-
     public string VarietyDescription { get; set; }
+
+    public virtual ICollection<Tblcategory> Tblcategories { get; set; } = new List<Tblcategory>();
 
     public virtual ICollection<TblkoiFish> TblkoiFishes { get; set; } = new List<TblkoiFish>();
 }

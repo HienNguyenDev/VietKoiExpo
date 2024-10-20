@@ -36,7 +36,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetNewsById(string id)
+        public async Task<IActionResult> GetNewsById(Guid id)
         {
             var news = await _newsRepo.GetByIDAsync(id);
             return Ok(_mapper.Map<NewsModel>(news));
@@ -99,14 +99,14 @@ namespace KSM.APIService.Controllers
 
             var createdNews = new Tblnews()
             {
-                NewsId = news.NewsId,
-                NewsTypeId = news.NewsTypeId,
-                UserId = news.UserId,
+                NewsId = new Guid(),
+                NewsTypeId = new Guid(),
+                UserId = new Guid(),
 
                 //Date = DateOnly.Parse(news.Date),
-                Date = string.IsNullOrEmpty(news.Date) ? (DateOnly?)null : DateOnly.Parse(news.Date),
+                NewsDate = string.IsNullOrEmpty(news.Date) ? (DateOnly?)null : DateOnly.Parse(news.Date),
 
-                Description = news.Description
+                NewsDescription = news.Description
             };
             try
             {
@@ -133,10 +133,10 @@ namespace KSM.APIService.Controllers
         //}
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNews(string id, [FromBody] NewsModelCreate news)
+        public async Task<IActionResult> UpdateNews(Guid id, [FromBody] NewsModelCreate news)
         {
             // Ensure the ID in the URL matches the news ID from the request body
-            if (id != news.NewsId)
+            if (!id.Equals(news.NewsId))
             {
                 return BadRequest("The news ID in the URL does not match the news ID in the body.");
             }
@@ -164,11 +164,11 @@ namespace KSM.APIService.Controllers
                 }
 
                 // Update the existing news with new values
-                existingNews.NewsId = news.NewsId;
-                existingNews.NewsTypeId = news.NewsTypeId;
-                existingNews.UserId = news.UserId;
-                existingNews.Date = string.IsNullOrEmpty(news.Date) ? (DateOnly?)null : DateOnly.Parse(news.Date);
-                existingNews.Description = news.Description;
+                existingNews.NewsId = new Guid();
+                existingNews.NewsTypeId = new Guid();
+                existingNews.UserId = new Guid();
+                existingNews.NewsDate = string.IsNullOrEmpty(news.Date) ? (DateOnly?)null : DateOnly.Parse(news.Date);
+                existingNews.NewsDescription = news.Description;
 
                 // Save the updated news
                 await _newsRepo.UpdateAsync(existingNews);
@@ -182,7 +182,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteNews([FromRoute] string id)
+        public async Task<IActionResult> DeleteNews([FromRoute] Guid id)
         {
             var deleteNews = await _newsRepo.GetByIDAsync(id);
             if (deleteNews == null)

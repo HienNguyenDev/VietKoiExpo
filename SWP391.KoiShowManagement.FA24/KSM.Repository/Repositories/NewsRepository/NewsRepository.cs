@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.NewsRepository
 {
-    public class NewsRepository : GenericDbContextRepository<VietKoiExpoContext, Tblnews, string>, INewsRepository
+    public class NewsRepository : GenericDbContextRepository<VietKoiExpoContext, Tblnews, Guid>, INewsRepository
     {
         public NewsRepository(VietKoiExpoContext context) : base(context) { }
 
@@ -21,7 +21,7 @@ namespace KSM.Repository.Repositories.NewsRepository
                 throw new ArgumentException("KoiFish name cannot be null or empty", nameof(newsName));
             }
 
-            return await DbSet.FirstOrDefaultAsync(e => e.NewsId == newsName);
+            return await DbSet.FirstOrDefaultAsync(e => e.NewsId.Equals(newsName));
         }
     }
 }

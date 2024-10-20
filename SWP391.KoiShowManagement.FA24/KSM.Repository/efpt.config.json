@@ -23,6 +23,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[TBLCompetitionCategory]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[TBLKoiFish]",
          "ObjectType": 0
       },
@@ -39,6 +43,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[TBLRank]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[TBLRegistration]",
          "ObjectType": 0
       },
@@ -52,6 +60,10 @@
       },
       {
          "Name": "[dbo].[TBLScore]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TBLTask]",
          "ObjectType": 0
       },
       {

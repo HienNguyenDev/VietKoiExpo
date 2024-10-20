@@ -5,19 +5,17 @@ using System.Collections.Generic;
 
 namespace KSM.Repository.Models;
 
-public partial class Tblprediction
+public partial class TblcompetitionCategory
 {
-    public Guid PredictionId { get; set; }
-
-    public Guid? KoiId { get; set; }
+    public Guid CompetitionCategoryId { get; set; }
 
     public Guid? CompId { get; set; }
 
-    public int? PredictedScore { get; set; }
+    public Guid? CategoryId { get; set; }
 
     public bool? Status { get; set; }
 
-    public virtual Tblcompetition Comp { get; set; }
+    public virtual Tblcategory Category { get; set; }
 
-    public virtual TblkoiFish Koi { get; set; }
+    public virtual Tblcompetition Comp { get; set; }
 }

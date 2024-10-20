@@ -7,13 +7,11 @@ namespace KSM.Repository.Models;
 
 public partial class Tblrole
 {
-    public string RoleId { get; set; }
+    public Guid RoleId { get; set; }
 
     public string RoleName { get; set; }
 
     public string RoleDescription { get; set; }
-
-    public int? Experience { get; set; }
 
     public virtual ICollection<Tbluser> Tblusers { get; set; } = new List<Tbluser>();
 }

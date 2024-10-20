@@ -7,13 +7,13 @@ namespace KSM.Repository.Models;
 
 public partial class Tblscore
 {
-    public string ScoreId { get; set; }
+    public Guid ScoreId { get; set; }
 
-    public string KoiId { get; set; }
+    public Guid? KoiId { get; set; }
 
-    public string CompId { get; set; }
+    public Guid? CompId { get; set; }
 
-    public string UserId { get; set; }
+    public Guid? UserId { get; set; }
 
     public double? ScoreShape { get; set; }
 
@@ -21,17 +21,15 @@ public partial class Tblscore
 
     public double? ScorePattern { get; set; }
 
-    public double? TotalScore
-    {
-        get
-        {
-            return 0.5 * ScoreShape + 0.3 * ScoreColor + 0.2 * ScorePattern;
-        }
-    }
+    public double? TotalScore { get; set; }
+
+    public bool? Status { get; set; }
 
     public virtual Tblcompetition Comp { get; set; }
 
     public virtual TblkoiFish Koi { get; set; }
+
+    public virtual ICollection<Tblresult> Tblresults { get; set; } = new List<Tblresult>();
 
     public virtual Tbluser User { get; set; }
 }

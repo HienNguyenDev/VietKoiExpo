@@ -29,7 +29,7 @@ namespace KSM.APIService.Controllers
 
         // GET: api/Users/5
         [HttpGet("{code}")]
-        public async Task<Tbluser> GetUser(string code)
+        public async Task<Tbluser> GetUser(Guid code)
         {
             var user = await _userRepository.GetByIDAsync(code);
 
@@ -56,7 +56,7 @@ namespace KSM.APIService.Controllers
         {
             var user1 = new Tbluser()
             {
-                UserId = user.UserID,
+                UserId = new Guid(),
                 FullName = user.Fullname,
                 Password = user.Password
             };
@@ -75,7 +75,7 @@ namespace KSM.APIService.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{code}")]
-        public async Task<IActionResult> PutUser(string code, Tbluser user)
+        public async Task<IActionResult> PutUser(Guid code, Tbluser user)
         {
             if (!code.Equals(user.UserId))
             {
@@ -103,7 +103,7 @@ namespace KSM.APIService.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{code}")]
-        public async Task<IActionResult> DeleteProduct(string code)
+        public async Task<IActionResult> DeleteProduct(Guid code)
         {
             var user = await _userRepository.GetByIDAsync(code);
             if (user == null)
@@ -116,7 +116,7 @@ namespace KSM.APIService.Controllers
             return NoContent();
         }
 
-        private bool UserExists(string code)
+        private bool UserExists(Guid code)
         {
             return _userRepository.GetByIDAsync(code) != null;
         }

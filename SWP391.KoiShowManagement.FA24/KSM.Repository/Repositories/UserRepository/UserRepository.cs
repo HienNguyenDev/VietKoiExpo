@@ -9,20 +9,10 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.UserRepository
 {
-    public class UserRepository : GenericDbContextRepository<VietKoiExpoContext, Tbluser, string>, IUserRepository
+    public class UserRepository : GenericDbContextRepository<VietKoiExpoContext, Tbluser, Guid>, IUserRepository
     {
         public UserRepository(VietKoiExpoContext context) : base(context) 
         {
-        }
-
-        public async Task<Tbluser> GetUserByUsernameAsync(string username)
-        {
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                throw new ArgumentException("Username cannot be null or empty", nameof(username));
-            }
-
-            return await DbSet.FirstOrDefaultAsync(e => e.UserId == username);
         }
 
         public async Task<Tbluser> GetByEmail(string email)

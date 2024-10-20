@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.KoifishRepository
 {
-    public class KoifishRepository : GenericDbContextRepository<VietKoiExpoContext, TblkoiFish, string>, IKoifishRepository
+    public class KoifishRepository : GenericDbContextRepository<VietKoiExpoContext, TblkoiFish, Guid>, IKoifishRepository
     {
         public KoifishRepository(VietKoiExpoContext context) : base(context)
         {

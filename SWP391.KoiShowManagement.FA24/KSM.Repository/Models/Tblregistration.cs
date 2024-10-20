@@ -7,11 +7,11 @@ namespace KSM.Repository.Models;
 
 public partial class Tblregistration
 {
-    public string RegistrationId { get; set; }
+    public Guid RegistrationId { get; set; }
 
-    public string KoiId { get; set; }
+    public Guid? KoiId { get; set; }
 
-    public string CompId { get; set; }
+    public Guid? CompId { get; set; }
 
     public int? Status { get; set; }
 

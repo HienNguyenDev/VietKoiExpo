@@ -7,15 +7,19 @@ namespace KSM.Repository.Models;
 
 public partial class Tblresult
 {
-    public string ResultId { get; set; }
+    public Guid ResultId { get; set; }
 
-    public string KoiId { get; set; }
+    public Guid? KoiId { get; set; }
 
     public double? ResultScore { get; set; }
 
     public string Prize { get; set; }
 
+    public Guid? ScoreId { get; set; }
+
+    public bool? Status { get; set; }
+
     public virtual TblkoiFish Koi { get; set; }
 
-    public virtual ICollection<TblkoiFish> TblkoiFishes { get; set; } = new List<TblkoiFish>();
+    public virtual Tblscore Score { get; set; }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.NewsRepository
 {
-    public interface INewsRepository : IGenericRepository<Tblnews, string>
+    public interface INewsRepository : IGenericRepository<Tblnews, Guid>
     {
         Task<Tblnews> GetNewsByNameAsync(string newsName);
     }

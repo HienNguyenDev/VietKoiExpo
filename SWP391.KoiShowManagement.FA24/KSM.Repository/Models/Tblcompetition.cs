@@ -7,9 +7,9 @@ namespace KSM.Repository.Models;
 
 public partial class Tblcompetition
 {
-    public string CompId { get; set; }
+    public Guid CompId { get; set; }
 
-    public string CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
 
     public string CompName { get; set; }
 
@@ -17,17 +17,21 @@ public partial class Tblcompetition
 
     public string Location { get; set; }
 
+    public string ImageUrl { get; set; }
+
     public DateOnly? StartDate { get; set; }
 
     public DateOnly? EndDate { get; set; }
 
     public bool? Status { get; set; }
 
-    public virtual Tblcategory Category { get; set; }
+    public virtual ICollection<TblcompetitionCategory> TblcompetitionCategories { get; set; } = new List<TblcompetitionCategory>();
 
     public virtual ICollection<Tblprediction> Tblpredictions { get; set; } = new List<Tblprediction>();
 
     public virtual ICollection<Tblregistration> Tblregistrations { get; set; } = new List<Tblregistration>();
 
     public virtual ICollection<Tblscore> Tblscores { get; set; } = new List<Tblscore>();
+
+    public virtual ICollection<Tbltask> Tbltasks { get; set; } = new List<Tbltask>();
 }

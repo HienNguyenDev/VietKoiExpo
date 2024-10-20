@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.CompetitionRepository
 {
-    public class CompetitionRepository : GenericDbContextRepository<VietKoiExpoContext, Tblcompetition, string>, ICompetitionRepository
+    public class CompetitionRepository : GenericDbContextRepository<VietKoiExpoContext, Tblcompetition, Guid>, ICompetitionRepository
     {
         public CompetitionRepository(VietKoiExpoContext context) : base(context)
         {

@@ -35,7 +35,6 @@ namespace KSM.APIService.Controllers
             var loginResponse = new LoginResponse { };
             Repository.ViewModels.LoginRequest loginrequest = new()
             {
-                UserName = login.UserName.ToLower(),
                 Email = login.Email,
                 Password = login.Password
             };
@@ -44,7 +43,7 @@ namespace KSM.APIService.Controllers
             {
                 return BadRequest("No User!");
             }
-                Tbluser user = await _userRepository.GetUserByUsernameAsync(login.UserName);
+                Tbluser user = await _userRepository.GetByEmail(login.Email);
                 if (user == null)
                 {
                     return BadRequest("Username or Password Invalid!");
@@ -60,16 +59,16 @@ namespace KSM.APIService.Controllers
                 {
                     StatusCode = HttpStatusCode.OK
                 };
-
+                
                 //return the token
-                return Ok(new { loginResponse });
+                return Ok(new { loginResponse, user});
         }
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register(Register registerUser)
         {
             // Check if username or email already exists
-            var existingUserByUsername = await _userRepository.GetUserByUsernameAsync(registerUser.Username);
+            var existingUserByUsername = await _userRepository.GetByEmail(registerUser.Email);
 
             if (existingUserByUsername != null)
             {
@@ -82,10 +81,10 @@ namespace KSM.APIService.Controllers
             {
                 var newUser = new Tbluser
                 {
-                    UserId = registerUser.Username,
+                    UserId = new Guid(),
                     Email = registerUser.Email,
                     Password = registerUser.Password,
-                    RoleId = registerUser.Role
+                    RoleId = new Guid(),
                 };
             
             // Add user to the database

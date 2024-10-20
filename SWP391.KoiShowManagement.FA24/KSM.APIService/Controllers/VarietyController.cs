@@ -35,7 +35,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetVarietyById(string id)
+        public async Task<IActionResult> GetVarietyById(Guid id)
         {
             var varieties = await _varietyRepo.GetByIDAsync(id);
             return Ok(_mapper.Map<VarietyModel>(varieties));
@@ -48,7 +48,7 @@ namespace KSM.APIService.Controllers
             {
                 var newVariety = _mapper.Map<Tblvariety>(model);
                 await _varietyRepo.CreateAsync(newVariety);
-                string newVarietyID = newVariety.VarietyId;
+                Guid newVarietyID = new Guid();
                 var variety = await _varietyRepo.GetByIDAsync(newVarietyID);
                 var varietyhModel = _mapper.Map<VarietyModel>(variety);
                 return varietyhModel == null ? NotFound() : Ok(varietyhModel);
@@ -73,7 +73,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVariety([FromRoute] string id)
+        public async Task<IActionResult> DeleteVariety([FromRoute] Guid id)
         {
             var deleteVariety = await _varietyRepo.GetByIDAsync(id);
             if (deleteVariety == null)

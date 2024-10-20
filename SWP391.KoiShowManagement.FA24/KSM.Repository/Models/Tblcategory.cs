@@ -7,11 +7,11 @@ namespace KSM.Repository.Models;
 
 public partial class Tblcategory
 {
-    public string CategoryId { get; set; }
+    public Guid CategoryId { get; set; }
 
     public string CategoryName { get; set; }
 
-    public string Species { get; set; }
+    public Guid? VarietyId { get; set; }
 
     public int? Size { get; set; }
 
@@ -19,5 +19,7 @@ public partial class Tblcategory
 
     public string CategoryDescription { get; set; }
 
-    public virtual ICollection<Tblcompetition> Tblcompetitions { get; set; } = new List<Tblcompetition>();
+    public virtual ICollection<TblcompetitionCategory> TblcompetitionCategories { get; set; } = new List<TblcompetitionCategory>();
+
+    public virtual Tblvariety Variety { get; set; }
 }

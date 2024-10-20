@@ -11,8 +11,8 @@ public partial class VietKoiExpoContext : DbContext
 {
     public VietKoiExpoContext()
     {
-    }
 
+    }
     public VietKoiExpoContext(DbContextOptions<VietKoiExpoContext> options)
         : base(options)
     {
@@ -22,6 +22,8 @@ public partial class VietKoiExpoContext : DbContext
 
     public virtual DbSet<Tblcompetition> Tblcompetitions { get; set; }
 
+    public virtual DbSet<TblcompetitionCategory> TblcompetitionCategories { get; set; }
+
     public virtual DbSet<TblkoiFish> TblkoiFishes { get; set; }
 
     public virtual DbSet<Tblnews> Tblnews { get; set; }
@@ -30,6 +32,8 @@ public partial class VietKoiExpoContext : DbContext
 
     public virtual DbSet<Tblprediction> Tblpredictions { get; set; }
 
+    public virtual DbSet<Tblrank> Tblranks { get; set; }
+
     public virtual DbSet<Tblregistration> Tblregistrations { get; set; }
 
     public virtual DbSet<Tblresult> Tblresults { get; set; }
@@ -37,6 +41,8 @@ public partial class VietKoiExpoContext : DbContext
     public virtual DbSet<Tblrole> Tblroles { get; set; }
 
     public virtual DbSet<Tblscore> Tblscores { get; set; }
+
+    public virtual DbSet<Tbltask> Tbltasks { get; set; }
 
     public virtual DbSet<Tbluser> Tblusers { get; set; }
 
@@ -52,6 +58,7 @@ public partial class VietKoiExpoContext : DbContext
         string connectionString = config.GetConnectionString(connectionStringName);
         return connectionString;
     }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
 
@@ -59,84 +66,72 @@ public partial class VietKoiExpoContext : DbContext
     {
         modelBuilder.Entity<Tblcategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__TBLCateg__19093A2B52086AFD");
+            entity.HasKey(e => e.CategoryId).HasName("PK__TBLCateg__19093A2B107D0CD1");
 
             entity.ToTable("TBLCategory");
 
             entity.Property(e => e.CategoryId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("CategoryID");
-            entity.Property(e => e.CategoryDescription)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("Category_Description");
-            entity.Property(e => e.CategoryName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Species)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.CategoryDescription).HasMaxLength(100);
+            entity.Property(e => e.CategoryName).HasMaxLength(20);
+            entity.Property(e => e.VarietyId).HasColumnName("VarietyID");
+
+            entity.HasOne(d => d.Variety).WithMany(p => p.Tblcategories)
+                .HasForeignKey(d => d.VarietyId)
+                .HasConstraintName("FK__TBLCatego__Varie__48CFD27E");
         });
 
         modelBuilder.Entity<Tblcompetition>(entity =>
         {
-            entity.HasKey(e => e.CompId).HasName("PK__TBLCompe__AD362A76440479AC");
+            entity.HasKey(e => e.CompId).HasName("PK__TBLCompe__AD362A764ADBD02C");
 
             entity.ToTable("TBLCompetition");
 
             entity.Property(e => e.CompId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("CompID");
-            entity.Property(e => e.CategoryId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("CategoryID");
-            entity.Property(e => e.CompDescription)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.CompName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Location)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CompDescription).HasMaxLength(100);
+            entity.Property(e => e.CompName).HasMaxLength(50);
+            entity.Property(e => e.ImageUrl).HasMaxLength(255);
+            entity.Property(e => e.Location).HasMaxLength(50);
+        });
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Tblcompetitions)
+        modelBuilder.Entity<TblcompetitionCategory>(entity =>
+        {
+            entity.HasKey(e => e.CompetitionCategoryId).HasName("PK__TBLCompe__007C976BDDF066A3");
+
+            entity.ToTable("TBLCompetitionCategory");
+
+            entity.Property(e => e.CompetitionCategoryId)
+                .ValueGeneratedNever()
+                .HasColumnName("CompetitionCategoryID");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CompId).HasColumnName("CompID");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.TblcompetitionCategories)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK_TBLCompetition_CategoryID");
+                .HasConstraintName("FK__TBLCompet__Categ__4CA06362");
+
+            entity.HasOne(d => d.Comp).WithMany(p => p.TblcompetitionCategories)
+                .HasForeignKey(d => d.CompId)
+                .HasConstraintName("FK__TBLCompet__CompI__4BAC3F29");
         });
 
         modelBuilder.Entity<TblkoiFish>(entity =>
         {
-            entity.HasKey(e => e.KoiId).HasName("PK__TBLKoiFi__E03435B8EB5349B8");
+            entity.HasKey(e => e.KoiId).HasName("PK__TBLKoiFi__E03435B88618DD9C");
 
             entity.ToTable("TBLKoiFish");
 
             entity.Property(e => e.KoiId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("KoiID");
-            entity.Property(e => e.KoiName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.ResultId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("ResultID");
-            entity.Property(e => e.UserId)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("UserID");
-            entity.Property(e => e.VarietyId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("VarietyID");
-
-            entity.HasOne(d => d.Result).WithMany(p => p.TblkoiFishes)
-                .HasForeignKey(d => d.ResultId)
-                .HasConstraintName("FK_TBLKoiFish_ResultID");
+            entity.Property(e => e.ImageUrl).HasMaxLength(255);
+            entity.Property(e => e.KoiName).HasMaxLength(50);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.VarietyId).HasColumnName("VarietyID");
 
             entity.HasOne(d => d.User).WithMany(p => p.TblkoiFishes)
                 .HasForeignKey(d => d.UserId)
@@ -149,23 +144,17 @@ public partial class VietKoiExpoContext : DbContext
 
         modelBuilder.Entity<Tblnews>(entity =>
         {
-            entity.HasKey(e => e.NewsId).HasName("PK__TBLNews__954EBDD37CF78BE2");
+            entity.HasKey(e => e.NewsId).HasName("PK__TBLNews__954EBDD34B18C4D4");
 
             entity.ToTable("TBLNews");
 
             entity.Property(e => e.NewsId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("NewsID");
-            entity.Property(e => e.Description).HasMaxLength(255);
-            entity.Property(e => e.NewsTypeId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("NewsTypeID");
-            entity.Property(e => e.UserId)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("UserID");
+            entity.Property(e => e.ImageUrl).HasMaxLength(255);
+            entity.Property(e => e.NewsDescription).HasMaxLength(255);
+            entity.Property(e => e.NewsTypeId).HasColumnName("NewsTypeID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.NewsType).WithMany(p => p.Tblnews)
                 .HasForeignKey(d => d.NewsTypeId)
@@ -178,136 +167,126 @@ public partial class VietKoiExpoContext : DbContext
 
         modelBuilder.Entity<TblnewsType>(entity =>
         {
-            entity.HasKey(e => e.NewsTypeId).HasName("PK__TBLNewsT__9013FE2ACA21C9D8");
+            entity.HasKey(e => e.NewsTypeId).HasName("PK__TBLNewsT__9013FE2A5E2BD1F5");
 
             entity.ToTable("TBLNewsType");
 
             entity.Property(e => e.NewsTypeId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("NewsTypeID");
+            entity.Property(e => e.NewsTypeName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Tblprediction>(entity =>
         {
-            entity.HasKey(e => e.PredictionId).HasName("PK__TBLPredi__BAE4C140F22BFFF1");
+            entity.HasKey(e => e.PredictionId).HasName("PK__TBLPredi__BAE4C140F69868F0");
 
             entity.ToTable("TBLPrediction");
 
             entity.Property(e => e.PredictionId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("PredictionID");
-            entity.Property(e => e.CompId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("CompID");
-            entity.Property(e => e.KoiId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("KoiID");
+            entity.Property(e => e.CompId).HasColumnName("CompID");
+            entity.Property(e => e.KoiId).HasColumnName("KoiID");
 
             entity.HasOne(d => d.Comp).WithMany(p => p.Tblpredictions)
                 .HasForeignKey(d => d.CompId)
-                .HasConstraintName("FK__TBLPredic__CompI__5441852A");
+                .HasConstraintName("FK__TBLPredic__CompI__5070F446");
 
             entity.HasOne(d => d.Koi).WithMany(p => p.Tblpredictions)
                 .HasForeignKey(d => d.KoiId)
-                .HasConstraintName("FK__TBLPredic__KoiID__534D60F1");
+                .HasConstraintName("FK__TBLPredic__KoiID__4F7CD00D");
+        });
+
+        modelBuilder.Entity<Tblrank>(entity =>
+        {
+            entity.HasKey(e => e.RankId).HasName("PK__TBLRank__B37AFB9616D2B706");
+
+            entity.ToTable("TBLRank");
+
+            entity.Property(e => e.RankId)
+                .ValueGeneratedNever()
+                .HasColumnName("RankID");
+            entity.Property(e => e.KoiId).HasColumnName("KoiID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Koi).WithMany(p => p.Tblranks)
+                .HasForeignKey(d => d.KoiId)
+                .HasConstraintName("FK__TBLRank__KoiID__5BE2A6F2");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Tblranks)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__TBLRank__UserID__5CD6CB2B");
         });
 
         modelBuilder.Entity<Tblregistration>(entity =>
         {
-            entity.HasKey(e => e.RegistrationId).HasName("PK__TBLRegis__6EF588307C33BC25");
+            entity.HasKey(e => e.RegistrationId).HasName("PK__TBLRegis__6EF588305B0A05E3");
 
             entity.ToTable("TBLRegistration");
 
             entity.Property(e => e.RegistrationId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("RegistrationID");
-            entity.Property(e => e.CompId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("CompID");
-            entity.Property(e => e.KoiId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("KoiID");
+            entity.Property(e => e.CompId).HasColumnName("CompID");
+            entity.Property(e => e.KoiId).HasColumnName("KoiID");
 
             entity.HasOne(d => d.Comp).WithMany(p => p.Tblregistrations)
                 .HasForeignKey(d => d.CompId)
-                .HasConstraintName("FK__TBLRegist__CompI__4D94879B");
+                .HasConstraintName("FK__TBLRegist__CompI__5441852A");
 
             entity.HasOne(d => d.Koi).WithMany(p => p.Tblregistrations)
                 .HasForeignKey(d => d.KoiId)
-                .HasConstraintName("FK__TBLRegist__KoiID__4CA06362");
+                .HasConstraintName("FK__TBLRegist__KoiID__534D60F1");
         });
 
         modelBuilder.Entity<Tblresult>(entity =>
         {
-            entity.HasKey(e => e.ResultId).HasName("PK__TBLResul__976902288558C5CB");
+            entity.HasKey(e => e.ResultId).HasName("PK__TBLResul__976902283BA27B0A");
 
             entity.ToTable("TBLResult");
 
             entity.Property(e => e.ResultId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("ResultID");
-            entity.Property(e => e.KoiId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("KoiID");
-            entity.Property(e => e.Prize)
-                .HasMaxLength(255)
-                .IsUnicode(false);
+            entity.Property(e => e.KoiId).HasColumnName("KoiID");
+            entity.Property(e => e.Prize).HasMaxLength(255);
+            entity.Property(e => e.ScoreId).HasColumnName("ScoreID");
 
             entity.HasOne(d => d.Koi).WithMany(p => p.Tblresults)
                 .HasForeignKey(d => d.KoiId)
-                .HasConstraintName("FK__TBLResult__KoiID__46E78A0C");
+                .HasConstraintName("FK__TBLResult__KoiID__5FB337D6");
+
+            entity.HasOne(d => d.Score).WithMany(p => p.Tblresults)
+                .HasForeignKey(d => d.ScoreId)
+                .HasConstraintName("FK__TBLResult__Score__60A75C0F");
         });
 
         modelBuilder.Entity<Tblrole>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__TBLRole__8AFACE3AC354D568");
+            entity.HasKey(e => e.RoleId).HasName("PK__TBLRole__8AFACE3A88A4D1EB");
 
             entity.ToTable("TBLRole");
 
             entity.Property(e => e.RoleId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("RoleID");
-            entity.Property(e => e.RoleDescription)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("Role_Description");
-            entity.Property(e => e.RoleName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.RoleDescription).HasMaxLength(255);
+            entity.Property(e => e.RoleName).HasMaxLength(10);
         });
 
         modelBuilder.Entity<Tblscore>(entity =>
         {
-            entity.HasKey(e => e.ScoreId).HasName("PK__TBLScore__7DD229F17EB024A8");
+            entity.HasKey(e => e.ScoreId).HasName("PK__TBLScore__7DD229F1B7212923");
 
             entity.ToTable("TBLScore");
 
             entity.Property(e => e.ScoreId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("ScoreID");
-            entity.Property(e => e.CompId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("CompID");
-            entity.Property(e => e.KoiId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("KoiID");
-            entity.Property(e => e.UserId)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("UserID");
+            entity.Property(e => e.CompId).HasColumnName("CompID");
+            entity.Property(e => e.KoiId).HasColumnName("KoiID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.Comp).WithMany(p => p.Tblscores)
                 .HasForeignKey(d => d.CompId)
@@ -322,32 +301,45 @@ public partial class VietKoiExpoContext : DbContext
                 .HasConstraintName("FK__TBLScore__UserID__59063A47");
         });
 
+        modelBuilder.Entity<Tbltask>(entity =>
+        {
+            entity.HasKey(e => e.TaskId).HasName("PK__TBLTask__7C6949D1F11C4696");
+
+            entity.ToTable("TBLTask");
+
+            entity.Property(e => e.TaskId)
+                .ValueGeneratedNever()
+                .HasColumnName("TaskID");
+            entity.Property(e => e.CompId).HasColumnName("CompID");
+            entity.Property(e => e.TaskDescription).HasMaxLength(100);
+            entity.Property(e => e.TaskName).HasMaxLength(50);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Comp).WithMany(p => p.Tbltasks)
+                .HasForeignKey(d => d.CompId)
+                .HasConstraintName("FK__TBLTask__CompID__6477ECF3");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Tbltasks)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__TBLTask__UserID__6383C8BA");
+        });
+
         modelBuilder.Entity<Tbluser>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__TBLUser__1788CCAC74CB75EC");
+            entity.HasKey(e => e.UserId).HasName("PK__TBLUser__1788CCAC83D19EE5");
 
             entity.ToTable("TBLUser");
 
             entity.Property(e => e.UserId)
-                .HasMaxLength(10)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("UserID");
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.FullName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Password)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.Phone)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-            entity.Property(e => e.RoleId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("RoleID");
+            entity.Property(e => e.Address).HasMaxLength(100);
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.FullName).HasMaxLength(50);
+            entity.Property(e => e.ImageUrl).HasMaxLength(255);
+            entity.Property(e => e.Password).HasMaxLength(100);
+            entity.Property(e => e.Phone).HasMaxLength(20);
+            entity.Property(e => e.RoleId).HasColumnName("RoleID");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Tblusers)
                 .HasForeignKey(d => d.RoleId)
@@ -356,24 +348,15 @@ public partial class VietKoiExpoContext : DbContext
 
         modelBuilder.Entity<Tblvariety>(entity =>
         {
-            entity.HasKey(e => e.VarietyId).HasName("PK__TBLVarie__08E3A0485F80A988");
+            entity.HasKey(e => e.VarietyId).HasName("PK__TBLVarie__08E3A048D728D235");
 
             entity.ToTable("TBLVariety");
 
             entity.Property(e => e.VarietyId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .ValueGeneratedNever()
                 .HasColumnName("VarietyID");
-            entity.Property(e => e.Origin)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.VarietyDescription)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("Variety_Description");
-            entity.Property(e => e.VarietyName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.VarietyDescription).HasMaxLength(100);
+            entity.Property(e => e.VarietyName).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

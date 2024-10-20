@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.ScoreRepository
 {
-    public interface IScoreRepository : IGenericRepository<Tblscore, string>
+    public interface IScoreRepository : IGenericRepository<Tblscore, Guid>
     {
     }
 }

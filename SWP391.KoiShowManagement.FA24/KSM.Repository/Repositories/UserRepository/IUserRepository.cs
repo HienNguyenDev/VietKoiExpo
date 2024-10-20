@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.UserRepository
 {
-    public interface IUserRepository : IGenericRepository<Tbluser, string>
+    public interface IUserRepository : IGenericRepository<Tbluser, Guid>
     {
-        Task<Tbluser> GetUserByUsernameAsync(string username);
         Task<Tbluser> GetByEmail(string email);
     }
 }

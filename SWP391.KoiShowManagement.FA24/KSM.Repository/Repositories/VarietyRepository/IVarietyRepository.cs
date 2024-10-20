@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.VarietyRepository
 {
-    public interface IVarietyRepository : IGenericRepository<Tblvariety, string>
+    public interface IVarietyRepository : IGenericRepository<Tblvariety, Guid>
     {
 
     }
