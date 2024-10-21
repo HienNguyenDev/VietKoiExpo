@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.VarietyRepository
 {
-    public class VarietyRepository : GenericDbContextRepository<VietKoiExpoContext, Tblvariety, Guid>, IVarietyRepository
+    public class VarietyRepository : GenericDbContextRepository<VietKoiExpoContext, Tblvariety, string>, IVarietyRepository
     {
         public VarietyRepository(VietKoiExpoContext context) : base(context)
         {

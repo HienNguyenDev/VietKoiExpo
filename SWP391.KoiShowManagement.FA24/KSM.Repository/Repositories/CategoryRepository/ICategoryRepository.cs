@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.CategoryRepository
 {
-    public interface ICategoryRepository : IGenericRepository<Tblcategory, Guid>
+    public interface ICategoryRepository : IGenericRepository<Tblcategory, string>
     {
     }
 }

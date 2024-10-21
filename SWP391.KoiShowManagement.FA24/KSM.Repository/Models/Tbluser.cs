@@ -9,7 +9,7 @@ public partial class Tbluser
 {
     public Guid UserId { get; set; }
 
-    public Guid? RoleId { get; set; }
+    public string RoleId { get; set; }
 
     public string Password { get; set; }
 

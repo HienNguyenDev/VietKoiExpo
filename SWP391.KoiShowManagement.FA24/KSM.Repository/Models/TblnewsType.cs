@@ -7,7 +7,7 @@ namespace KSM.Repository.Models;
 
 public partial class TblnewsType
 {
-    public Guid NewsTypeId { get; set; }
+    public string NewsTypeId { get; set; }
 
     public string NewsTypeName { get; set; }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.CategoryRepository
 {
-    public class CategoryRepository : GenericDbContextRepository<VietKoiExpoContext, Tblcategory, Guid>, ICategoryRepository
+    public class CategoryRepository : GenericDbContextRepository<VietKoiExpoContext, Tblcategory, string>, ICategoryRepository
     {
         public CategoryRepository(VietKoiExpoContext context) : base(context)
         {

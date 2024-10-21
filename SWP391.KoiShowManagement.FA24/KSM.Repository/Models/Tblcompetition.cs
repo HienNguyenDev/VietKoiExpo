@@ -9,8 +9,6 @@ public partial class Tblcompetition
 {
     public Guid CompId { get; set; }
 
-    public Guid? CategoryId { get; set; }
-
     public string CompName { get; set; }
 
     public string CompDescription { get; set; }

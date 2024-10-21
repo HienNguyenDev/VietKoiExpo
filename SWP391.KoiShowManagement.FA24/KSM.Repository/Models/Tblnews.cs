@@ -9,7 +9,7 @@ public partial class Tblnews
 {
     public Guid NewsId { get; set; }
 
-    public Guid? NewsTypeId { get; set; }
+    public string NewsTypeId { get; set; }
 
     public Guid? UserId { get; set; }
 

@@ -35,7 +35,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryById(Guid id)
+        public async Task<IActionResult> GetCategoryById(string id)
         {
             var category = await _categoryRepo.GetByIDAsync(id);
             return Ok(_mapper.Map<CategoryModel>(category));
@@ -49,7 +49,7 @@ namespace KSM.APIService.Controllers
             {
                 var newCategory = _mapper.Map<Tblcategory>(model);
                 await _categoryRepo.CreateAsync(newCategory);
-                Guid newCategoryID = new Guid();
+                string newCategoryID = newCategory.CategoryId;
                 var category = await _categoryRepo.GetByIDAsync(newCategoryID);
                 var categoryModel = _mapper.Map<CategoryModel>(category);
                 return categoryModel == null ? NotFound() : Ok(categoryModel); // Return created fish on 
@@ -75,7 +75,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteCategory([FromRoute] string id)
         {
             var deleteCategory = await _categoryRepo.GetByIDAsync(id);
             if (deleteCategory == null)
