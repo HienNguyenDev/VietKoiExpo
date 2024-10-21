@@ -18,7 +18,7 @@ namespace KSM.Repository.Repositories.NewsRepository
         {
             if (string.IsNullOrWhiteSpace(newsName))
             {
-                throw new ArgumentException("KoiFish name cannot be null or empty", nameof(newsName));
+                throw new ArgumentException("News name cannot be null or empty", nameof(newsName));
             }
 
             return await DbSet.FirstOrDefaultAsync(e => e.NewsId.Equals(newsName));

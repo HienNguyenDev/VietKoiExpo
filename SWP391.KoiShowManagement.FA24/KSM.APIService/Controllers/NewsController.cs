@@ -42,37 +42,19 @@ namespace KSM.APIService.Controllers
             return Ok(_mapper.Map<NewsModel>(news));
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreateNews(NewsModel model)
-        //{
-        //    try
-        //    {
-        //        var newNews = _mapper.Map<Tblnews>(model);
-
-        //        await _newsRepo.CreateAsync(newNews);
-        //        string newNewsID = newNews.NewsId;
-        //        var news = await _newsRepo.GetByIDAsync(newNewsID);
-        //        var newsModel = _mapper.Map<NewsModel>(news);
-        //        return newsModel == null ? NotFound() : Ok(newsModel);
-        //        //return CreatedAtAction(nameof(GetNewsById), new { id = newNews.NewsId }, _mapper.Map<Tblnews>(newNews));
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(); 
-        //    }
-        //}
         public class NewsModelCreate
         {
-            public string NewsId { get; set; }
+            public Guid NewsId { get; set; }
 
             public string NewsTypeId { get; set; }
 
-            public string UserId { get; set; }
+            public Guid? UserId { get; set; }
 
-            public string? Date { get; set; }
+            public string? NewsDate { get; set; }
 
-            public string Description { get; set; }
+            public bool? Status { get; set; }
+
+            public string NewsDescription { get; set; }
 
             public string ImageUrl { get; set; }
         }
@@ -88,27 +70,30 @@ namespace KSM.APIService.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNews(NewsModelCreate news)
         {
-            if (!IsValidDateFormat(news.Date, "yyyy-mm-dd"))
+            if (!IsValidDateFormat(news.NewsDate, "yyyy-mm-dd"))
             {
-                ModelState.AddModelError("Date", "Date must be in the format yyyy-mm-dd.");
+                ModelState.AddModelError("NewsDate", "Date must be in the format yyyy-mm-dd.");
                 return BadRequest(ModelState);
             }
 
-            if (string.IsNullOrEmpty(news.NewsId) || string.IsNullOrEmpty(news.NewsTypeId) || string.IsNullOrEmpty(news.UserId))
+            if (news.NewsId == Guid.Empty || string.IsNullOrEmpty(news.NewsTypeId) || news.UserId == Guid.Empty)
             {
                 return BadRequest("NewsId, NewsTypeId, and UserId are required.");
             }
 
+
             var createdNews = new Tblnews()
             {
-                NewsId = new Guid(),
+                NewsId = news.NewsId,
                 NewsTypeId = news.NewsTypeId,
-                UserId = new Guid(),
+                UserId = news.UserId,
 
                 //Date = DateOnly.Parse(news.Date),
-                NewsDate = string.IsNullOrEmpty(news.Date) ? (DateOnly?)null : DateOnly.Parse(news.Date),
+                NewsDate = string.IsNullOrEmpty(news.NewsDate) ? (DateOnly?)null : DateOnly.Parse(news.NewsDate),
 
-                NewsDescription = news.Description,
+                Status = news.Status,
+
+                NewsDescription = news.NewsDescription,
 
                 ImageUrl = news.ImageUrl
             };
@@ -146,15 +131,15 @@ namespace KSM.APIService.Controllers
             }
 
             // Validate required fields (NewsId, NewsTypeId, UserId, etc.)
-            if (string.IsNullOrEmpty(news.NewsId) || string.IsNullOrEmpty(news.NewsTypeId) || string.IsNullOrEmpty(news.UserId))
+            if (news.NewsId == Guid.Empty || string.IsNullOrEmpty(news.NewsTypeId) || news.UserId == Guid.Empty)
             {
                 return BadRequest("NewsId, NewsTypeId, and UserId are required.");
             }
 
             // Validate the date format
-            if (!IsValidDateFormat(news.Date, "yyyy-MM-dd"))
+            if (!IsValidDateFormat(news.NewsDate, "yyyy-MM-dd"))
             {
-                ModelState.AddModelError("Date", "Date must be in the format yyyy-MM-dd.");
+                ModelState.AddModelError("NewsDate", "Date must be in the format yyyy-MM-dd.");
                 return BadRequest(ModelState);
             }
 
@@ -171,8 +156,9 @@ namespace KSM.APIService.Controllers
                 existingNews.NewsId = new Guid();
                 existingNews.NewsTypeId = news.NewsTypeId;
                 existingNews.UserId = new Guid();
-                existingNews.NewsDate = string.IsNullOrEmpty(news.Date) ? (DateOnly?)null : DateOnly.Parse(news.Date);
-                existingNews.NewsDescription = news.Description;
+                existingNews.NewsDate = string.IsNullOrEmpty(news.NewsDate) ? (DateOnly?)null : DateOnly.Parse(news.NewsDate);
+                existingNews.Status = news.Status;
+                existingNews.NewsDescription = news.NewsDescription;
                 existingNews.ImageUrl = news.ImageUrl;
 
                 // Save the updated news
