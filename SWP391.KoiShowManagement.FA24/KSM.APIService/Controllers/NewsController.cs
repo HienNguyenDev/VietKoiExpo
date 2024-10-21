@@ -73,6 +73,8 @@ namespace KSM.APIService.Controllers
             public string? Date { get; set; }
 
             public string Description { get; set; }
+
+            public string ImageUrl { get; set; }
         }
         ////////////////////////////////
         private bool IsValidDateFormat(string date, string format)
@@ -106,7 +108,9 @@ namespace KSM.APIService.Controllers
                 //Date = DateOnly.Parse(news.Date),
                 NewsDate = string.IsNullOrEmpty(news.Date) ? (DateOnly?)null : DateOnly.Parse(news.Date),
 
-                NewsDescription = news.Description
+                NewsDescription = news.Description,
+
+                ImageUrl = news.ImageUrl
             };
             try
             {
@@ -169,6 +173,7 @@ namespace KSM.APIService.Controllers
                 existingNews.UserId = new Guid();
                 existingNews.NewsDate = string.IsNullOrEmpty(news.Date) ? (DateOnly?)null : DateOnly.Parse(news.Date);
                 existingNews.NewsDescription = news.Description;
+                existingNews.ImageUrl = news.ImageUrl;
 
                 // Save the updated news
                 await _newsRepo.UpdateAsync(existingNews);
