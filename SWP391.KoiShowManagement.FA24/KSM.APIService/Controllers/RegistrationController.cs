@@ -52,7 +52,7 @@ namespace KSM.APIService.Controllers
             {
                 var newRegistration = _mapper.Map<Tblregistration>(model);
                 await _registRepo.CreateAsync(newRegistration);
-                string newRegistratioID = newRegistration.RegistrationId;
+                string newRegistratioID = newRegistration.RegistrationId.ToString();
                 var regist = await _registRepo.GetByIDAsync(newRegistratioID);
                 if (newRegistration != null)
                 {
@@ -60,7 +60,7 @@ namespace KSM.APIService.Controllers
                     predict.CompId = newRegistration.CompId;
                     predict.KoiId = newRegistration.KoiId;
                     predict.PredictedScore = new Random().Next(1, 101);
-                    predict.PredictionId = Guid.NewGuid().ToString();
+                    predict.PredictionId = Guid.NewGuid();
 
                     await _predictRepo.CreateAsync(predict);
 

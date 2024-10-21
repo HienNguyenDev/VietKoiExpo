@@ -15,6 +15,7 @@ namespace KSM.Repository.Mapper
             CreateMap<Tblcategory, CategoryModel>().ReverseMap();
             CreateMap<Tblnews, NewsModel>().ReverseMap();
             CreateMap<Tblcompetition, CompetitionModel>().ReverseMap();
+            CreateMap<Tblregistration, RegistrationModel>().ReverseMap();
         }
     }
 }
