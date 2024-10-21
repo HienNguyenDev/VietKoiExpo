@@ -84,7 +84,7 @@ namespace KSM.APIService.Controllers
                     UserId = new Guid(),
                     Email = registerUser.Email,
                     Password = registerUser.Password,
-                    RoleId = new Guid(),
+                    RoleId = "member",
                 };
             
             // Add user to the database

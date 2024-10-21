@@ -95,7 +95,6 @@ namespace KSM.APIService.Controllers
             var createdCompetition = new Tblcompetition()
             {
                 CompId = new Guid(),
-                CategoryId = new Guid(),
                 CompName = competition.CompName,
                 CompDescription = competition.CompDescription,
                 Location = competition.Location,
@@ -152,7 +151,6 @@ namespace KSM.APIService.Controllers
 
                 // Update the existing news with new values
                 existingCompetition.CompId = new Guid();
-                existingCompetition.CategoryId = new Guid();
                 existingCompetition.CompName = competition.CompName;
                 existingCompetition.CompDescription = competition.CompDescription;
                 existingCompetition.Location = competition.Location;

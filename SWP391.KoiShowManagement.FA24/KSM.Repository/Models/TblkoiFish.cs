@@ -9,7 +9,7 @@ public partial class TblkoiFish
 {
     public Guid KoiId { get; set; }
 
-    public Guid? VarietyId { get; set; }
+    public string VarietyId { get; set; }
 
     public Guid? UserId { get; set; }
 

@@ -11,9 +11,7 @@ public partial class TblcompetitionCategory
 
     public Guid? CompId { get; set; }
 
-    public Guid? CategoryId { get; set; }
-
-    public bool? Status { get; set; }
+    public string CategoryId { get; set; }
 
     public virtual Tblcategory Category { get; set; }
 
