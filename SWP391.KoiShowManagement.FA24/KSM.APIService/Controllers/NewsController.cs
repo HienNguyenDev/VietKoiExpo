@@ -44,7 +44,7 @@ namespace KSM.APIService.Controllers
 
         public class NewsModelCreate
         {
-            public Guid NewsId { get; set; }
+            //public Guid NewsId { get; set; }
 
             public string NewsTypeId { get; set; }
 
@@ -76,7 +76,7 @@ namespace KSM.APIService.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (news.NewsId == Guid.Empty || string.IsNullOrEmpty(news.NewsTypeId) || news.UserId == Guid.Empty)
+            if (string.IsNullOrEmpty(news.NewsTypeId) || news.UserId == Guid.Empty)
             {
                 return BadRequest("NewsId, NewsTypeId, and UserId are required.");
             }
@@ -84,7 +84,7 @@ namespace KSM.APIService.Controllers
 
             var createdNews = new Tblnews()
             {
-                NewsId = new Guid(),
+                NewsId = Guid.NewGuid(),
                 NewsTypeId = news.NewsTypeId,
                 UserId = news.UserId,
 
@@ -124,14 +124,9 @@ namespace KSM.APIService.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateNews(Guid id, [FromBody] NewsModelCreate news)
         {
-            // Ensure the ID in the URL matches the news ID from the request body
-            if (!id.Equals(news.NewsId))
-            {
-                return BadRequest("The news ID in the URL does not match the news ID in the body.");
-            }
 
             // Validate required fields (NewsId, NewsTypeId, UserId, etc.)
-            if (news.NewsId == Guid.Empty || string.IsNullOrEmpty(news.NewsTypeId) || news.UserId == Guid.Empty)
+            if (string.IsNullOrEmpty(news.NewsTypeId) || news.UserId == Guid.Empty)
             {
                 return BadRequest("NewsId, NewsTypeId, and UserId are required.");
             }
