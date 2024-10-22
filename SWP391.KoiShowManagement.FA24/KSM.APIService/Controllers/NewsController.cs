@@ -84,7 +84,7 @@ namespace KSM.APIService.Controllers
 
             var createdNews = new Tblnews()
             {
-                NewsId = news.NewsId,
+                NewsId = new Guid(),
                 NewsTypeId = news.NewsTypeId,
                 UserId = news.UserId,
 
@@ -153,7 +153,7 @@ namespace KSM.APIService.Controllers
                 }
 
                 // Update the existing news with new values
-                existingNews.NewsId = new Guid();
+                //existingNews.NewsId = new Guid();
                 existingNews.NewsTypeId = news.NewsTypeId;
                 existingNews.UserId = new Guid();
                 existingNews.NewsDate = string.IsNullOrEmpty(news.NewsDate) ? (DateOnly?)null : DateOnly.Parse(news.NewsDate);
