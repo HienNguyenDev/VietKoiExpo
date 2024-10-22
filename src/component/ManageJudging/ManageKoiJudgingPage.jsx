@@ -1,105 +1,112 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material';
-import ManageScoringProcess from './ManageScoringProcess';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Table, Button, Spin, Tabs } from 'antd';
+import { fetchContestDetails } from '../../store/redux/action/contestAction'; // Assuming your action fetches a specific contest
 
-// Dữ liệu giả lập danh sách cá Koi cho mỗi cuộc thi (không có điểm cứng)
-const koiDataByCompetition = {
-  '1': [
-    { KoiID: 'K1', KoiName: 'Koi A', Size: 20, Age: 2, TotalScore: null, Scores: { shape: 0, color: 0, pattern: 0 }},
-    { KoiID: 'K2', KoiName: 'Koi B', Size: 25, Age: 3, TotalScore: null, Scores: { shape: 0, color: 0, pattern: 0 }},
+const { TabPane } = Tabs;
+
+// Mock data for testing
+const mockKoiEntries = {
+  1: [
+    { id: 1, koiID: 'K001', name: 'Koi Fish 1', score: null },
+    { id: 2, koiID: 'K002', name: 'Koi Fish 2', score: null },
   ],
-  '2': [
-    { KoiID: 'K3', KoiName: 'Koi C', Size: 22, Age: 1,  TotalScore: 8.5, Scores: { shape: 9, color: 8, pattern: 8 }}, 
-    { KoiID: 'K4', KoiName: 'Koi D', Size: 30, Age: 4, TotalScore: 7.9, Scores: { shape: 7, color: 8, pattern: 8 }},
+  2: [
+    { id: 3, koiID: 'K003', name: 'Koi Fish 3', score: null },
+    { id: 4, koiID: 'K004', name: 'Koi Fish 4', score: null },
   ],
-  '3': [
-    { KoiID: 'K5', KoiName: 'Koi E', Size: 28, Age: 2, TotalScore: null, Scores: { shape: 0, color: 0, pattern: 0 }},
-    { KoiID: 'K6', KoiName: 'Koi F', Size: 26, Age: 3, TotalScore: null, Scores: { shape: 0, color: 0, pattern: 0 }},
+  3: [
+    { id: 5, koiID: 'K005', name: 'Koi Fish 5', score: 8.5 },
+    { id: 6, koiID: 'K006', name: 'Koi Fish 6', score: 9.0 },
   ],
 };
 
-const ManageKoiJudgingPage = ({ competition, handleBack }) => {
-  const [selectedKoi, setSelectedKoi] = useState(null);
-  const [koiList, setKoiList] = useState(koiDataByCompetition[competition.CompID] || []);
+const ManageKoiJudgingPage = () => {
+  const { id, status } = useParams(); // Status is passed in the URL
+  const [loading, setLoading] = useState(true);
+  const [koiEntries, setKoiEntries] = useState([]);
+  const [filteredKoi, setFilteredKoi] = useState([]);
+  const [activeTab, setActiveTab] = useState('all');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Sort by score if the competition is completed
-    if (!competition.Status && new Date(competition.EndDate) < new Date()) {
-      const sortedKoiList = [...koiList].sort((a, b) => (b.TotalScore || 0) - (a.TotalScore || 0));
-      setKoiList(sortedKoiList);
+    const fetchKoiEntries = async () => {
+      try {
+        const response = await fetchContestDetails(id); // Try fetching actual data
+        const entries = response.data?.koiEntries || mockKoiEntries[id]; // Fallback to mock if no data
+        setKoiEntries(entries);
+        setFilteredKoi(entries); // Initially show all koi entries
+      } catch (error) {
+        console.error('Failed to fetch koi entries, using mock data:', error);
+        setKoiEntries(mockKoiEntries[id]); // Use mock data on error
+        setFilteredKoi(mockKoiEntries[id]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchKoiEntries();
+  }, [id]);
+
+  
+
+  const handleJudgeClick = (koi) => {
+    if (status === '2') {
+      navigate(`/referee/manage-judging/scoring/${koi.id}`);
     }
-  }, [competition, koiList]);
-
-  const handleSelectKoi = (koi) => {
-    setSelectedKoi(koi);
   };
 
-  // Handles score submission from ManageScoringProcess
-  const handleScoreSubmit = (koiID, scores) => {
-    const totalScore = (scores.shape * 0.5 + scores.color * 0.3 + scores.pattern * 0.2).toFixed(2);
-
-    // Update the koi's score in the koiList
-    const updatedKoiList = koiList.map(koi =>
-      koi.KoiID === koiID ? { ...koi, TotalScore: totalScore, Scores: scores } : koi
-    );
-    setKoiList(updatedKoiList);
-    setSelectedKoi(null); // Go back to Koi list
-  };
-
-  const isUpcoming = new Date(competition.StartDate) > new Date();
-  const isCompleted = new Date(competition.EndDate) < new Date();
+  const columns = [
+    {
+      title: 'Koi ID',
+      dataIndex: 'koiID',
+      key: 'koiID',
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Score',
+      dataIndex: 'score',
+      key: 'score',
+      render: (score, koi) => {
+        if (status === '3') return score; // Completed: Show scores
+        if (status === '1') return 'N/A'; // Upcoming: Not available for judging
+        return score || 'Pending'; // Ongoing: Show pending if no score
+      },
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (koi) => (
+        <Button
+          type="primary"
+          onClick={() => handleJudgeClick(koi)}
+          disabled={status !== '2'} // Only enable judging for ongoing contests
+        >
+          {status === '2' ? 'Judge' : 'View'}
+        </Button>
+      ),
+    },
+  ];
 
   return (
-    <Box sx={{ p: 3 }}>
-      {!selectedKoi ? (
-        <>
-          <Typography variant="h4" sx={{ mb: 3 }}>
-            {isUpcoming ? "Danh sách cá Koi (Sắp diễn ra)" : isCompleted ? "Danh sách cá Koi (Đã kết thúc)" : `Danh sách cá Koi cho cuộc thi ${competition.CompName}`}
-          </Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Tên cá Koi</TableCell>
-                <TableCell>Kích thước</TableCell>
-                <TableCell>Tuổi</TableCell>
-                <TableCell>Điểm</TableCell>
-                <TableCell>Hành động</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {koiList.map((koi) => (
-                <TableRow key={koi.KoiID}>
-                  <TableCell>{koi.KoiName}</TableCell>
-                  <TableCell>{koi.Size} cm</TableCell>
-                  <TableCell>{koi.Age}</TableCell>
-                  <TableCell>{koi.TotalScore !== null ? koi.TotalScore : isUpcoming ? "Sắp diễn ra" : "Chưa chấm"}</TableCell>
-                  <TableCell>
-                    {competition.Status && !isCompleted ? (
-                      <Button variant="contained" onClick={() => handleSelectKoi(koi)}>
-                        Chấm điểm
-                      </Button>
-                    ) : (
-                      <Button variant="outlined" disabled>
-                        {isCompleted ? "Xem điểm" : "Chờ"}
-                      </Button>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <Button variant="outlined" onClick={handleBack} sx={{ mt: 3 }}>
-            Quay lại
-          </Button>
-        </>
+    <div>
+      <h2>Manage Koi Judging</h2>
+     
+
+      {loading ? (
+        <Spin size="large" />
       ) : (
-        <ManageScoringProcess
-          koi={selectedKoi}
-          handleBack={() => setSelectedKoi(null)}
-          handleSubmitScore={handleScoreSubmit}
-        />
+        <Table dataSource={filteredKoi} columns={columns} rowKey="id" />
       )}
-    </Box>
+
+      <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
+        Quay lại
+      </Button>
+    </div>
   );
 };
 

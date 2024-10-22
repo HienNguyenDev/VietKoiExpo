@@ -1,158 +1,92 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { createTheme } from '@mui/material/styles';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import { AppProvider } from '@toolpad/core/AppProvider';
-import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-import { Account, AuthenticationContext, SessionContext } from '@toolpad/core';
-import CustomMenu from '../../component/shared/AccountMenu/CustomMenu2';
-import { Outlet, useNavigate } from 'react-router-dom'; // Import useNavigate
+import React, { useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
+import { ReactComponent as RefereeIcon } from '../../asset/icon/geisha-svgrepo-com.svg';
+import { ReactComponent as JudgeIcon } from '../../asset/icon/sensu-fan-svgrepo-com.svg';
+import AccountMenu from '../../component/shared/AccountMenu/AccountMenu'; 
+import { dark } from '@mui/material/styles/createPalette';
 
-const NAVIGATION = [
-  {
-    kind: 'header',
-    title: 'Main items',
-  },
-  {
-    title: 'Dashboard',
-    icon: <DashboardIcon />,
-    segment: 'referee',
-  },
-  {
-    kind: 'divider',
-  },
-  {
-    kind: 'header',
-    title: 'Manage Judging',
-  },
-  {
-    title: 'Manage Judging',
-    icon: <AssignmentIcon />,
-    segment: 'referee/manage-judging',
-    children: [
-      {
-        title: 'Đang diễn ra',
-        segment: 'ongoing',
-      },
-      {
-        title: 'Sắp diễn ra',
-        segment: 'upcoming',
-      },
-      {
-        title: 'Đã kết thúc',
-        segment: 'completed',
-      },
-      {
-        title: 'All',
-        segment: '',
-      },
-    ],
-  },
-];
+const { Header, Content, Footer, Sider } = Layout;
 
-const Theme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: 'data-toolpad-color-scheme',
-  },
-  colorSchemes: { light: true, dark: true },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 600,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
-
-function PageContent() {
-  return (
-    <Box
-      sx={{
-        py: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
-    >
-      <Outlet />
-    </Box>
-  );
+function getItem(label, key, icon, children, navigator) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    navigator,
+  };
 }
 
-const demoSession = {
-  user: {
-    name: 'Bharat Kashyap',
-    email: 'bharatkashyap@outlook.com',
-    image: 'https://avatars.githubusercontent.com/u/19550456',
-    role: 'Referee',
-  },
-};
+const items = [
+  getItem('Judging Task', '1', <JudgeIcon />, undefined, 'manage-judging'),
+  getItem('Judging Reports', '2', <RefereeIcon />, undefined, 'manage-reports'),
+];
 
-demoSession.user.name = demoSession.user.role === 'Referee'
-  ? `${demoSession.user.name} (Referee)`
-  : demoSession.user.name;
+const RefereePage = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
 
-function RefereePage({ children }) {
-  const [session, setSession] = React.useState(demoSession);
-  const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
-
-  const authentication = React.useMemo(() => ({
-    signIn: () => {
-      setSession(demoSession);
-    },
-    signOut: () => {
-      setSession(null);
-    },
-  }), []);
-
-  const AccountComponent = React.useCallback(() => (
-    <AuthenticationContext.Provider value={authentication}>
-      <SessionContext.Provider value={session}>
-        <Account
-          slots={{
-            menuItems: CustomMenu,
-          }}
-        />
-      </SessionContext.Provider>
-    </AuthenticationContext.Provider>
-  ), [authentication, session]);
-
-  // Hàm điều hướng bằng cách sử dụng navigate
-  const handleNavigationClick = (segment) => {
-    navigate(`/${segment}`); // Điều hướng đến URL tương ứng mà không reload trang
+  const handleMenuClick = (key) => {
+    const item = items.find((item) => item.key === key);
+    if (item && item.navigator) {
+      navigate(item.navigator);
+    } else {
+      console.error(`No item found with key: ${key}`);
+    }
   };
 
   return (
-    <AppProvider
-      session={session}
-      navigation={NAVIGATION.map((item) => ({
-        ...item,
-        onClick: () => handleNavigationClick(item.segment), // Điều hướng mỗi khi nhấn vào item
-      }))}
-      branding={{
-        logo: <img src="https://imgur.com/V1zXtZN.jpg" alt="VietKoiExpo Logo" />,
-        title: 'VietKoiExpo',
-      }}
-      theme={Theme}
-    >
-      <DashboardLayout
-        slots={{ toolbarActions: AccountComponent }}
+    <Layout style={{ minHeight: '100vh', width: '100vw' }}>
+      <Header
+        style={{
+          padding: '0 20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: dark,
+          position: 'fixed',
+          width: '100%',
+          zIndex: 1000,
+        }}
       >
-        <PageContent />
-      </DashboardLayout>
-      {children}
-    </AppProvider>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src="https://imgur.com/V1zXtZN.jpg"
+            alt="VietKoiExpo Logo"
+            style={{ height: '40px', marginRight: '12px' }}
+          />
+          <h2 style={{ margin: 0, color: 'cyan' }}>VietKoiExpo Referee</h2>
+        </div>
+        <div>
+          <AccountMenu />
+        </div>
+      </Header>
+      <Layout>
+        <Sider
+          width={250}
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+          style={{ marginTop: '64px' }}
+        >
+          <Menu
+            theme="dark"
+            defaultSelectedKeys={['1']}
+            mode="inline"
+            items={items}
+            onClick={({ key }) => handleMenuClick(key)}
+          />
+        </Sider>
+        <Layout style={{ marginTop: '64px' }}>
+          <Content style={{ padding: 24, height: '100%', minHeight: 360 }}>
+            <Outlet />
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>KoiExpo {new Date().getFullYear()}</Footer>
+        </Layout>
+      </Layout>
+    </Layout>
   );
-}
-
-RefereePage.propTypes = {
-  children: PropTypes.node,
 };
 
 export default RefereePage;

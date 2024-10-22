@@ -31,7 +31,7 @@ import TaskAllocationProcess from './component/ManageTaskAllocation/TaskAllocati
 //ManageContest
 import ManageContestsPage from './component/ManageContest/ManageContestsPage';
 
-import ManagementTask from './page/1.ADMIN/ManagementTask';
+import ManagementTask from './component/ManageTaskAllocation/ManagementTask';
 //ManageJudging
 import ManageShowJudgingPage from './component/ManageJudging/ManageShowJudgingPage';
 import ManageScoringProcess from './component/ManageJudging/ManageScoringProcess';
@@ -99,10 +99,14 @@ const App = () => {
 
           
           <Route path="referee" element={<RefereePage />}>
-            <Route path='manage-judging' element={<ManageShowJudgingPage />} >
-              {/* Route base on status of  Manage Judging */}
-              <Route path=":status" element={<ManageShowJudgingPage />} />
-            </Route>
+            {/* Step 1: Show all contests */}
+            <Route path="manage-judging" element={<ManageShowJudgingPage />} />
+            
+            {/* Step 2: View Koi entries for selected show */}
+            <Route path="manage-judging/:status/:id" element={<ManageKoiJudgingPage />} />
+            
+            {/* Step 3: Score a Koi entry */}
+            <Route path="manage-judging/scoring/:koiId" element={<ManageScoringProcess />} />
           </Route>
           <Route path='login' element={<LoginPage />} />
           <Route path='register' element={<RegisterPage />} />

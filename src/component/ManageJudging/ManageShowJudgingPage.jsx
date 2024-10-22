@@ -1,91 +1,111 @@
-import React, { useState } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material';
-import ManageKoiJudgingPage from './ManageKoiJudgingPage'; // Thành phần hiển thị danh sách cá Koi
-import { useParams } from 'react-router-dom'; // Sử dụng useParams để lấy trạng thái từ URL
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Table, Button, Tabs, Spin } from 'antd';
+import { fetchAllContests } from '../../store/redux/action/contestAction'; // Assuming your action fetches contests
 
-// Dữ liệu giả lập cho danh sách cuộc thi (1: ongoing, 2: upcoming, 0: completed)
-const competitions = [
-  { CompID: '1', CompName: 'Cuộc thi Koi 2024', Location: 'Hà Nội', StartDate: '2024-11-01', EndDate: '2024-11-03', Status: 1 },
-  { CompID: '2', CompName: 'Cuộc thi Koi Quốc tế', Location: 'TP. HCM', StartDate: '2024-12-01', EndDate: '2024-12-05', Status: 0 },
-  { CompID: '3', CompName: 'Cuộc thi Koi Nhật Bản', Location: 'Tokyo', StartDate: '2025-01-10', EndDate: '2025-01-12', Status: 2 },
+const { TabPane } = Tabs;
+
+// Mock data for testing
+const mockContests = [
+  { id: 1, name: 'Spring Koi Show', status: 1 }, // 1 = upcoming
+  { id: 2, name: 'Summer Koi Championship', status: 2 }, // 2 = ongoing
+  { id: 3, name: 'Autumn Koi Classic', status: 3 }, // 3 = completed
 ];
-  /* const [competitions, setcompetitions] = useState({
-    CompName: '',
-    CompDescription: '',
-    Location: '',
-    StartDate: '',
-    EndDate: '',
-    Status: '',
-  });
-  const [open, setOpen] = useState(false); */
 
-const ManageShowJudgingPage = () => { 
-  const [selectedCompetition, setSelectedCompetition] = useState(null);
-  const { status } = useParams(); // Lấy trạng thái từ URL (nếu có)
+const ManageShowJudgingPage = () => {
+  const [loading, setLoading] = useState(true);
+  const [contests, setContests] = useState([]);
+  const [filteredContests, setFilteredContests] = useState([]);
+  const [activeTab, setActiveTab] = useState('all');
+  const navigate = useNavigate();
 
-  // Lọc cuộc thi dựa trên trạng thái nếu có status
-  const filteredCompetitions = status
-    ? competitions.filter((comp) => {
-        if (status === 'completed') return comp.Status === 0; // Đã kết thúc
-        if (status === 'ongoing') return comp.Status === 1; // Đang diễn ra
-        if (status === 'upcoming') return comp.Status === 2; // Sắp diễn ra
-        return false;
-      })
-    : competitions; // Nếu không có status, hiển thị tất cả cuộc thi
+  useEffect(() => {
+    // Try to fetch data from the API
+    const fetchData = async () => {
+      try {
+        const response = await fetchAllContests(); // Actual data fetch
+        setContests(response.data || mockContests); // If API fetch fails, fallback to mock data
+        setFilteredContests(response.data || mockContests); // Initially show all
+      } catch (error) {
+        console.error('Failed to fetch contests, using mock data:', error);
+        setContests(mockContests); // Fallback to mock data on error
+        setFilteredContests(mockContests);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleSelectCompetition = (competition) => {
-    setSelectedCompetition(competition); // Chọn cuộc thi
+    fetchData();
+  }, []);
+
+  const handleShowClick = (show) => {
+    navigate(`/referee/manage-judging/${show.status}/${show.id}`);
   };
 
+  // Function to filter contests based on status
+  const handleTabChange = (key) => {
+    setActiveTab(key);
+    if (key === 'all') {
+      setFilteredContests(contests); // Show all contests
+    } else if (key === '1') {
+      setFilteredContests(contests.filter((contest) => contest.status === 1)); // Upcoming
+    } else if (key === '2') {
+      setFilteredContests(contests.filter((contest) => contest.status === 2)); // Ongoing
+    } else if (key === '3') {
+      setFilteredContests(contests.filter((contest) => contest.status === 3)); // Completed
+    }
+  };
+
+  const columns = [
+    {
+      title: 'Show Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => {
+        if (status === 1) return 'Upcoming';
+        if (status === 2) return 'Ongoing';
+        return 'Completed';
+      },
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (show) => (
+        <Button
+          type="primary"
+          onClick={() => handleShowClick(show)}
+          disabled={show.status !== 2} // Only enable judging for ongoing shows
+        >
+          {show.status === 2 ? 'Judge' : 'View'}
+        </Button>
+      ),
+    },
+  ];
+
   return (
-    <Box sx={{ p: 3 }}>
-      {!selectedCompetition ? (
-        <>
-          <Typography variant="h4" sx={{ mb: 3 }}>
-            {status === 'completed' && 'Danh sách cuộc thi đã kết thúc'}
-            {status === 'ongoing' && 'Danh sách cuộc thi đang diễn ra'}
-            {status === 'upcoming' && 'Danh sách cuộc thi sắp diễn ra'}
-            {!status && 'Danh sách tất cả các cuộc thi'}
-          </Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Tên cuộc thi</TableCell>
-                <TableCell>Địa điểm</TableCell>
-                <TableCell>Ngày bắt đầu</TableCell>
-                <TableCell>Ngày kết thúc</TableCell>
-                <TableCell>Trạng thái</TableCell>
-                <TableCell>Hành động</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredCompetitions.map((comp) => (
-                <TableRow key={comp.CompID}>
-                  <TableCell>{comp.CompName}</TableCell>
-                  <TableCell>{comp.Location}</TableCell>
-                  <TableCell>{comp.StartDate}</TableCell>
-                  <TableCell>{comp.EndDate}</TableCell>
-                  <TableCell>
-                    {comp.Status === 1
-                      ? 'Đang diễn ra'
-                      : comp.Status === 2
-                      ? 'Sắp diễn ra'
-                      : 'Đã kết thúc'}
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="contained" onClick={() => handleSelectCompetition(comp)}>
-                      Xem cá Koi
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </>
+    <div>
+      <h2>Judging Shows</h2>
+      <Tabs activeKey={activeTab} onChange={handleTabChange}>
+        <TabPane tab="All" key="all" />
+        <TabPane tab="Upcoming" key="1" />
+        <TabPane tab="Ongoing" key="2" />
+        <TabPane tab="Completed" key="3" />
+      </Tabs>
+      {loading ? (
+        <Spin size="large" />
       ) : (
-        <ManageKoiJudgingPage competition={selectedCompetition} handleBack={() => setSelectedCompetition(null)} />
+        <Table dataSource={filteredContests} columns={columns} rowKey="id" />
       )}
-    </Box>
+
+      <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
+        Quay lại
+      </Button>
+    </div>
   );
 };
 
