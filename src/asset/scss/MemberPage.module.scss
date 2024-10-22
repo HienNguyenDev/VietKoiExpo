@@ -1,0 +1,29 @@
+$primary-color: #1890ff; // Define your primary color here
+
+.page-content {
+  padding: 20px;
+  margin-top: 64px;
+}
+
+.card-animated {
+  animation: fadeInUp 1s;
+}
+
+.sponsors-card {
+  margin-bottom: 20px;
+}
+
+.carousel-content {
+  color: $primary-color;
+  font-size: 24px;
+  text-align: center;
+  line-height: 5rem;
+}
+
+.introduction-card,
+.miscellaneous-card,
+.koi-competition-card,
+.ranking-card,
+.news-card {
+  margin-bottom: 20px;
+}

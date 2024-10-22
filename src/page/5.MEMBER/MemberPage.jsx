@@ -3,6 +3,7 @@ import { Layout, Row, Col, Carousel, Card, List, Switch } from 'antd';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, Typography } from '@mui/material';
 import AccountMenu from '../../component/shared/AccountMenu/AccountMenu';
+import styles from '../../asset/scss/MemberPage.module.scss';
 const { Header, Footer, Content } = Layout;
 
 const MemberPage = () => {

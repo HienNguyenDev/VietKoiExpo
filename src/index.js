@@ -31,7 +31,7 @@ import TaskAllocationProcess from './component/ManageTaskAllocation/TaskAllocati
 //ManageContest
 import ManageContestsPage from './component/ManageContest/ManageContestsPage';
 
-import ManagementTask from './component/ManageTaskAllocation/ManagementTask';
+// import ManagementTask from './component/ManageTaskAllocation/ManagementTask';
 //ManageJudging
 import ManageShowJudgingPage from './component/ManageJudging/ManageShowJudgingPage';
 import ManageScoringProcess from './component/ManageJudging/ManageScoringProcess';
@@ -62,7 +62,7 @@ const App = () => {
           <Route path='home' element={<MemberPage />} />
           {/* Main Route for Managing */}
           <Route path="admin" element={<AdminPage />}>
-            <Route path='manage-task' element={<ManagementTask />} />
+            {/* <Route path='manage-task' element={<ManagementTask />} /> */}
             {/* Manage Contests Group */}
             <Route path="manage-contests" element={<ManageContestsPage />} />
             {/* Manage Users Group */}
@@ -75,7 +75,7 @@ const App = () => {
             <Route path="finalize-contest-results" element={<FinalizeContestResults />} />
 
 
-            {/* Manage new */}
+            {/* Manage new */} 
             <Route path='manage-news' element={<ManageNewsUpdatesPage />} />
             
 
