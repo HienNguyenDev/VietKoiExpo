@@ -2,6 +2,7 @@ using KSM.Repository;
 using KSM.Repository.Mapper;
 using KSM.Repository.Models;
 using KSM.Repository.Repositories.CategoryRepository;
+using KSM.Repository.Repositories.CompCateRepository;
 using KSM.Repository.Repositories.CompetitionRepository;
 using KSM.Repository.Repositories.KoifishRepository;
 using KSM.Repository.Repositories.NewsRepository;
@@ -75,7 +76,7 @@ builder.Services.AddScoped<ICompetitionRepository, CompetitionRepository>();
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 builder.Services.AddScoped<IPredictRepository, PredictRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-
+builder.Services.AddScoped<ICompCateRepository, CompCateRepository>();
 
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

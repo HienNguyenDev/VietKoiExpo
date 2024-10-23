@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using KSM.Repository.Models;
 using KSM.Repository.ModelsMapper;
+using KSM.Repository.Repositories.CompCateRepository;
 using KSM.Repository.Repositories.CompetitionRepository;
 using KSM.Repository.Repositories.VarietyRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static KSM.APIService.Controllers.CompetitionController;
 using static KSM.APIService.Controllers.NewsController;
 
 namespace KSM.APIService.Controllers
@@ -16,10 +18,12 @@ namespace KSM.APIService.Controllers
     {
         private readonly ICompetitionRepository _competitionRepo;
         private readonly IMapper _mapper;
-        public CompetitionController(ICompetitionRepository repo, IMapper mapper)
+        private readonly ICompCateRepository _compCateRepository;
+        public CompetitionController(ICompetitionRepository repo, IMapper mapper, ICompCateRepository coRepo)
         {
             _competitionRepo = repo;
             _mapper = mapper;
+            _compCateRepository = coRepo;
         }
 
         [HttpGet]
@@ -49,7 +53,7 @@ namespace KSM.APIService.Controllers
         {
             //public Guid CompId { get; set; }
 
-            //public string CategoryId { get; set; }
+            public List<string>? CategoryId { get; set; }
 
             public string CompName { get; set; }
 
@@ -105,6 +109,20 @@ namespace KSM.APIService.Controllers
             {
 
                 await _competitionRepo.CreateAsync(createdCompetition);
+
+                if (competition.CategoryId != null)
+                {
+                    foreach (var category in competition.CategoryId)
+                    {
+                        var createdCompetitionCatergory = new TblcompetitionCategory()
+                        {
+                            CompetitionCategoryId = Guid.NewGuid(),
+                            CompId = createdCompetition.CompId,
+                            CategoryId = category
+                        };
+                        await _compCateRepository.CreateAsync(createdCompetitionCatergory);
+                    }
+                }
             }
             catch (DbUpdateConcurrencyException ex)
             {
