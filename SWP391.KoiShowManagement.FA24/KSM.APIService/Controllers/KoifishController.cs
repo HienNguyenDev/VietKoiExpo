@@ -53,8 +53,8 @@ namespace KSM.APIService.Controllers
                 await _koiFishRepo.CreateAsync(newFish);
                 Guid newFishID = newFish.KoiId;
                 var koiFish = await _koiFishRepo.GetByIDAsync(newFishID);
-                var koiFishModel = _mapper.Map<KoifishModel>(koiFish);
-                return koiFishModel == null ? NotFound() : Ok(koiFishModel);
+                //var koiFishModel = _mapper.Map<KoifishModel>(koiFish);
+                return koiFish == null ? NotFound() : Ok(koiFish);
             }
             catch (Exception ex)
             {

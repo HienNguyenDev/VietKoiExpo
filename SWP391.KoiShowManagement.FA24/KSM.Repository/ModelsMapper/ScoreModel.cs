@@ -8,13 +8,11 @@ namespace KSM.Repository.ModelsMapper
 {
     public class ScoreModel
     {
-        public string ScoreId { get; set; }
+        public Guid? KoiId { get; set; }
 
-        public string KoiId { get; set; }
+        public Guid? CompId { get; set; }
 
-        public string CompId { get; set; }
-
-        public string UserId { get; set; }
+        public Guid? UserId { get; set; }
 
         public double? ScoreShape { get; set; }
 
@@ -22,6 +20,8 @@ namespace KSM.Repository.ModelsMapper
 
         public double? ScorePattern { get; set; }
 
-        public double? TotalScore { get; set; }
+       
+
+        public bool? Status { get; set; }
     }
 }
