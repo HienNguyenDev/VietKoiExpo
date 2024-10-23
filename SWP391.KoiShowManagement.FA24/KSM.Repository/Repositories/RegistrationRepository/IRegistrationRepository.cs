@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.RegistrationRepository
 {
-    public interface IRegistrationRepository : IGenericRepository<Tblregistration, string>
+    public interface IRegistrationRepository : IGenericRepository<Tblregistration, Guid>
     {
     }
 }

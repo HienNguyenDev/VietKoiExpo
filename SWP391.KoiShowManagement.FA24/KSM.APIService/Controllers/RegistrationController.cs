@@ -38,10 +38,10 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRegistrationById(string id)
+        public async Task<IActionResult> GetRegistrationById(Guid id)
         {
-            var score = await _registRepo.GetByIDAsync(id);
-            return Ok(score);
+            var registration = await _registRepo.GetByIDAsync(id);
+            return Ok(registration);
 
         }
 
@@ -51,9 +51,13 @@ namespace KSM.APIService.Controllers
             try
             {
                 var newRegistration = _mapper.Map<Tblregistration>(model);
+                newRegistration.RegistrationId = Guid.NewGuid();
                 await _registRepo.CreateAsync(newRegistration);
-                string newRegistratioID = newRegistration.RegistrationId.ToString();
+                Guid newRegistratioID = newRegistration.RegistrationId;
+
                 var regist = await _registRepo.GetByIDAsync(newRegistratioID);
+
+
                 if (newRegistration != null)
                 {
                     var predict = new Tblprediction();
@@ -79,19 +83,36 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRegist(string id, [FromBody] RegistrationModel model)
+        public async Task<IActionResult> UpdateRegist(Guid id, [FromBody] RegistrationModel model)
         {
-            if (id != model.RegistrationId)
+            var registration = await _registRepo.GetByIDAsync(id);
+            if (registration == null)
             {
                 return NotFound();
             }
-            var updateRegistration = _mapper.Map<Tblregistration>(model);
-            await _registRepo.UpdateAsync(updateRegistration);
+
+            // Update the koiFish fields from the model
+            _mapper.Map(model, registration);
+
+            // Set the KoiId explicitly from the route id
+            registration.RegistrationId = id;
+
+            await _registRepo.UpdateAsync(registration);
             return Ok();
+
+
+
+            //if (id != model.RegistrationId)
+            //{
+            //    return NotFound();
+            //}
+            //var updateRegistration = _mapper.Map<Tblregistration>(model);
+            //await _registRepo.UpdateAsync(updateRegistration);
+            //return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRegist([FromRoute] string id)
+        public async Task<IActionResult> DeleteRegist([FromRoute] Guid id)
         {
             var deleteRegistration = await _registRepo.GetByIDAsync(id);
             if (deleteRegistration == null)

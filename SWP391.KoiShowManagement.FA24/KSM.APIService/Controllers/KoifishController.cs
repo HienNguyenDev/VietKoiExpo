@@ -27,7 +27,7 @@ namespace KSM.APIService.Controllers
             try
             {
                 var koiFishes = await _koiFishRepo.GetAllAsync();
-                return Ok(_mapper.Map<List<KoifishModel>>(koiFishes));
+                return Ok(koiFishes);
             }
             catch
             {
@@ -39,7 +39,7 @@ namespace KSM.APIService.Controllers
         public async Task<IActionResult> GetFishById(Guid id)
         {
             var koiFish = await _koiFishRepo.GetByIDAsync(id);
-            return Ok(_mapper.Map<KoifishModel>(koiFish));
+            return Ok(koiFish);
 
         }
 

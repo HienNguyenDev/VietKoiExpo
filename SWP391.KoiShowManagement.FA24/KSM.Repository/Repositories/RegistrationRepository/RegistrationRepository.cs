@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KSM.Repository.Repositories.RegistrationRepository
 {
-    public class RegistrationRepository : GenericDbContextRepository<VietKoiExpoContext, Tblregistration, string>, IRegistrationRepository
+    public class RegistrationRepository : GenericDbContextRepository<VietKoiExpoContext, Tblregistration, Guid>, IRegistrationRepository
     {
         public RegistrationRepository(VietKoiExpoContext context) : base(context)
         {
