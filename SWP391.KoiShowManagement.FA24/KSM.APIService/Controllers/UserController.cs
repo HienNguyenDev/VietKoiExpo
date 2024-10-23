@@ -46,7 +46,6 @@ namespace KSM.APIService.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754    
 
         public class User {
-            public string UserID { get; set; }
             public string Fullname { get; set; }
             public string Password { get; set; }
         }
@@ -56,7 +55,7 @@ namespace KSM.APIService.Controllers
         {
             var user1 = new Tbluser()
             {
-                UserId = new Guid(),
+                UserId = Guid.NewGuid(),
                 FullName = user.Fullname,
                 Password = user.Password
             };
