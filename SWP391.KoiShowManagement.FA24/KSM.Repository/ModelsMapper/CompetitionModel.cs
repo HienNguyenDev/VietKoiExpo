@@ -8,15 +8,17 @@ namespace KSM.Repository.ModelsMapper
 {
     public class CompetitionModel
     {
-        public string CompId { get; set; }
+        //public string CompId { get; set; }
 
-        public string CategoryId { get; set; }
+        //public string CategoryId { get; set; }
 
         public string CompName { get; set; }
 
         public string CompDescription { get; set; }
 
         public string Location { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public DateOnly? StartDate { get; set; }
 

@@ -47,15 +47,17 @@ namespace KSM.APIService.Controllers
         /// ////////////////////////////////////////////////////////////////////////////////////
         public class CompetitionModelCreate
         {
-            public string CompId { get; set; }
+            //public Guid CompId { get; set; }
 
-            public string CategoryId { get; set; }
+            //public string CategoryId { get; set; }
 
             public string CompName { get; set; }
 
             public string CompDescription { get; set; }
 
             public string Location { get; set; }
+
+            public string ImageUrl { get; set; }
 
             public string? StartDate { get; set; }
 
@@ -87,17 +89,14 @@ namespace KSM.APIService.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (string.IsNullOrEmpty(competition.CompId) || string.IsNullOrEmpty(competition.CategoryId))
-            {
-                return BadRequest("CompId and CategoryId are required.");
-            }
 
             var createdCompetition = new Tblcompetition()
             {
-                CompId = new Guid(),
+                CompId = Guid.NewGuid(),
                 CompName = competition.CompName,
                 CompDescription = competition.CompDescription,
                 Location = competition.Location,
+                ImageUrl = competition.ImageUrl,
                 StartDate = string.IsNullOrEmpty(competition.StartDate) ? (DateOnly?)null : DateOnly.Parse(competition.StartDate),
                 EndDate = string.IsNullOrEmpty(competition.EndDate) ? (DateOnly?)null : DateOnly.Parse(competition.EndDate),
                 Status = competition.Status
@@ -117,15 +116,6 @@ namespace KSM.APIService.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCompetition(Guid id, [FromBody] CompetitionModelCreate competition)
         {
-            if (!id.Equals(competition.CompId))
-            {
-                return BadRequest("The news ID in the URL does not match the news ID in the body.");
-            }
-
-            if (string.IsNullOrEmpty(competition.CompId) || string.IsNullOrEmpty(competition.CategoryId))
-            {
-                return BadRequest("CompId and CategoryId are required.");
-            }
 
             // Validate the date format
             if (!IsValidDateFormat(competition.StartDate, "yyyy-mm-dd"))
@@ -150,10 +140,11 @@ namespace KSM.APIService.Controllers
                 }
 
                 // Update the existing news with new values
-                existingCompetition.CompId = new Guid();
+                existingCompetition.CompId = id;
                 existingCompetition.CompName = competition.CompName;
                 existingCompetition.CompDescription = competition.CompDescription;
                 existingCompetition.Location = competition.Location;
+                existingCompetition.ImageUrl = competition.ImageUrl;
                 existingCompetition.StartDate = string.IsNullOrEmpty(competition.StartDate) ? (DateOnly?)null : DateOnly.Parse(competition.StartDate);
                 existingCompetition.EndDate = string.IsNullOrEmpty(competition.EndDate) ? (DateOnly?)null : DateOnly.Parse(competition.EndDate);
                 existingCompetition.Status = competition.Status;
