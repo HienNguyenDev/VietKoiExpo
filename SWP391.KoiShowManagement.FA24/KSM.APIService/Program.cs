@@ -10,6 +10,7 @@ using KSM.Repository.Repositories.PredictRepository;
 using KSM.Repository.Repositories.RegistrationRepository;
 using KSM.Repository.Repositories.RoleRepository;
 using KSM.Repository.Repositories.ScoreRepository;
+using KSM.Repository.Repositories.TaskRepository;
 using KSM.Repository.Repositories.UserRepository;
 using KSM.Repository.Repositories.VarietyRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -77,6 +78,8 @@ builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 builder.Services.AddScoped<IPredictRepository, PredictRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ICompCateRepository, CompCateRepository>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+
 
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
