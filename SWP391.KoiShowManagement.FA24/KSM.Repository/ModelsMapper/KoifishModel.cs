@@ -8,18 +8,18 @@ namespace KSM.Repository.ModelsMapper
 {
     public class KoifishModel
     {
-        public string KoiId { get; set; } = null!;
-
         public string VarietyId { get; set; }
 
-        public string UserId { get; set; }
-
-        public string ResultId { get; set; }
+        public Guid? UserId { get; set; }
 
         public string KoiName { get; set; }
 
         public int? Size { get; set; }
 
         public int? Age { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public bool? Status { get; set; }
     }
 }

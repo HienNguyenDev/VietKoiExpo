@@ -40,7 +40,7 @@ namespace KSM.APIService.Controllers
         {
             var koiFish = await _koiFishRepo.GetByIDAsync(id);
             return Ok(_mapper.Map<KoifishModel>(koiFish));
-            
+
         }
 
         [HttpPost]
@@ -49,27 +49,35 @@ namespace KSM.APIService.Controllers
             try
             {
                 var newFish = _mapper.Map<TblkoiFish>(model);
+                newFish.KoiId = Guid.NewGuid();
                 await _koiFishRepo.CreateAsync(newFish);
-                Guid newFishID = new Guid();
+                Guid newFishID = newFish.KoiId;
                 var koiFish = await _koiFishRepo.GetByIDAsync(newFishID);
                 var koiFishModel = _mapper.Map<KoifishModel>(koiFish);
                 return koiFishModel == null ? NotFound() : Ok(koiFishModel);
             }
             catch (Exception ex)
             {
-                return BadRequest(); 
+                return BadRequest();
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFish(string id, [FromBody] KoifishModel model)
+        public async Task<IActionResult> UpdateFish(Guid id, [FromBody] KoifishModel model)
         {
-            if (id != model.KoiId)
+            var koiFish = await _koiFishRepo.GetByIDAsync(id);
+            if (koiFish == null)
             {
                 return NotFound();
             }
-            var updateFish = _mapper.Map<TblkoiFish>(model);
-            await _koiFishRepo.UpdateAsync(updateFish);
+
+            // Update the koiFish fields from the model
+            _mapper.Map(model, koiFish);
+
+            // Set the KoiId explicitly from the route id
+            koiFish.KoiId = id;
+
+            await _koiFishRepo.UpdateAsync(koiFish);
             return Ok();
         }
 
