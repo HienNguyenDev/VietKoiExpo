@@ -1,299 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 @keyframes rainbowBackground {
-    0% { background-color: #ff0000; }
-    14% { background-color: #ff7f00; }
-    28% { background-color: #ffff00; }
-    42% { background-color: #00ff00; }
-    57% { background-color: #0000ff; }
-    71% { background-color: #4b0082; }
-    85% { background-color: #8b00ff; }
-    100% { background-color: #ff0000; }
-}
-
-.container {
-    font-family: 'Roboto', Arial, sans-serif;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-image: url('../photo/koi/nenmaume.jpg');
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-    .event-header,
-    .event-info,
-    .predict-fish,
-    .vote-section,
-    .similar-events,
-    .footer {
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
-        background-color: #fff;
-        animation: rainbowBackground 10s infinite;
-        background-size: cover;
-        background-position: center;
-    }
-
-    .event-header {
-        text-align: center;
-        background-image: url('');
-
-        h1 {
-            font-size: 2.5rem;
-            color: #333;
-        }
-
-        p {
-            font-size: 1.2rem;
-            color: #666;
-        }
-
-        .event-stats {
-            margin-top: 10px;
-
-            button {
-                margin: 0 5px;
-                padding: 10px 20px;
-                font-size: 1rem;
-                color: #fff;
-                background-color: #007bff;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: #0056b3;
-                }
-            }
-        }
-    }
-
-    .event-info {
-        display: flex;
-        justify-content: space-between;
-        background: rgb(63,94,251);
-        // background: -moz-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(206,65,94,0.4850533963585434) 0%);
-        // background: -webkit-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(206,65,94,0.4850533963585434) 0%);
-        // background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(206,65,94,0.4850533963585434) 0%);
-        // filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#ce415e",GradientType=1);
-
-        .date-location {
-            display: flex;
-            flex-direction: column;
-
-            div {
-                margin-bottom: 10px;
-
-                h4 {
-                    font-size: 1.5rem;
-                    color: #333;
-                }
-
-                p {
-                    font-size: 1.2rem;
-                    color: #666;
-                }
-            }
-        }
-
-        .vote-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            h4 {
-                font-size: 1.5rem;
-                color: #333;
-                margin-bottom: 10px;
-            }
-
-            .vote-button {
-                padding: 10px 20px;
-                font-size: 1rem;
-                color: #fff;
-                background-color: #28a745;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: #218838;
-                }
-            }
-        }
-    }
-
-    .predict-fish {
-        background:ffffff;
-
-        h2 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 1.2rem;
-            color: #666;
-        }
-
-        .read-more {
-            padding: 10px 20px;
-            font-size: 1rem;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-
-            &:hover {
-                background-color: #0056b3;
-            }
-        }
-    }
-
-    .vote-section {
-        background-image: url('../photo/koi/nenmua.jpg');
-
-        h2 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .vote-options {
-            display: flex;
-            justify-content: space-between;
-
-            .vote-option {
-                flex: 1;
-                margin: 0 10px;
-                padding: 20px;
-                text-align: center;
-                font-size: 1.2rem;
-                color: #fff;
-                background-color: #464f5958;
-                border-radius: 5px;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: #9953b0b9;
-                }
-            }
-        }
-    }
-
-    .similar-events {
-        background-image: url('../photo//1046552_OL0CSR0.jpg');
-
-        h2 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .event-cards {
-            display: flex;
-            justify-content: space-between;
-
-            .event-card {
-                flex: 1;
-                margin: 0 10px;
-                padding: 20px;
-                background-color: #fff;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                text-align: center;
-
-                h4 {
-                    font-size: 1.5rem;
-                    color: #333;
-                    margin-bottom: 10px;
-                }
-
-                p {
-                    font-size: 1.2rem;
-                    color: #666;
-                    margin-bottom: 10px;
-                }
-
-                button {
-                    padding: 10px 20px;
-                    font-size: 1rem;
-                    color: #fff;
-                    background-color: #28a745;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: #218838;
-                    }
-                }
-            }
-        }
-    }
-
-    .footer {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px;
-        background-color: #333;
-        color: #fff;
-        border-radius: 10px;
-        background-image: url('../photo//1046552_OL0CSR0.jpg');
-
-        .footer-info,
-        .newsletter {
-            flex: 1;
-            margin: 0 10px;
-
-            h4 {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
-
-            p,
-            input {
-                font-size: 1.2rem;
-            }
-
-            input {
-                padding: 10px;
-                width: calc(100% - 20px);
-                border: none;
-                border-radius: 5px;
-                margin-bottom: 10px;
-            }
-
-            button {
-                padding: 10px 20px;
-                font-size: 1rem;
-                color: #fff;
-                background-color: #007bff;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: #0056b3;
-                }
-            }
-        }
-    }
-}
-
-:root{
-    color:#ffffff;
-}
-@keyframes rainbowBackground {
   0% { background-position: 0% 50%; }
-
-  50%{background-position: 100% 50%}
-
+  50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
@@ -313,11 +22,271 @@
 
 .container {
   position: relative;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
   background-color: #f9f9f9;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .event-header,
+  .event-info,
+  .predict-fish,
+  .vote-section,
+  .similar-events,
+  .footer {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    animation: rainbowBackground 10s infinite;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .event-header {
+    text-align: center;
+
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .event-stats {
+      margin-top: 10px;
+
+      button {
+        margin: 0 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+
+  .event-info {
+    display: flex;
+    justify-content: space-between;
+    background: rgb(63,94,251);
+
+    .date-location {
+      display: flex;
+      flex-direction: column;
+
+      div {
+        margin-bottom: 10px;
+
+        h4 {
+          font-size: 1.5rem;
+          color: #333;
+        }
+
+        p {
+          font-size: 1.2rem;
+          color: #666;
+        }
+      }
+    }
+
+    .vote-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      h4 {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .vote-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #28a745;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #218838;
+        }
+      }
+    }
+  }
+
+  .predict-fish {
+    background: #ffffff;
+
+    h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .read-more {
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .vote-section {
+    background-image: url('../photo/koi/nenmua.jpg');
+
+    h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .vote-options {
+      display: flex;
+      justify-content: space-between;
+
+      .vote-option {
+        flex: 1;
+        margin: 0 10px;
+        padding: 20px;
+        text-align: center;
+        font-size: 1.2rem;
+        color: #fff;
+        background-color: #464f5958;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #9953b0b9;
+        }
+      }
+    }
+  }
+
+  .similar-events {
+    background-image: url('../photo/1046552_OL0CSR0.jpg');
+
+    h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .event-cards {
+      display: flex;
+      justify-content: space-between;
+
+      .event-card {
+        flex: 1;
+        margin: 0 10px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+
+        h4 {
+          font-size: 1.5rem;
+          color: #333;
+          margin-bottom: 10px;
+        }
+
+        p {
+          font-size: 1.2rem;
+          color: #666;
+          margin-bottom: 10px;
+        }
+
+        button {
+          padding: 10px 20px;
+          font-size: 1rem;
+          color: #fff;
+          background-color: #28a745;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #218838;
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 10px;
+    background-image: url('../photo/1046552_OL0CSR0.jpg');
+
+    .footer-info,
+    .newsletter {
+      flex: 1;
+      margin: 0 10px;
+
+      h4 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      p,
+      input {
+        font-size: 1.2rem;
+      }
+
+      input {
+        padding: 10px;
+        width: calc(100% - 20px);
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
 }

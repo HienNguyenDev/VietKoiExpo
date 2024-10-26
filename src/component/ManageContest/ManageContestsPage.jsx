@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Table, Button, Drawer, Form, Input, Modal, DatePicker, Switch } from 'antd';
+import { Table, Button, Drawer, Form, Input, Modal, DatePicker, Switch, Checkbox, Row, Col } from 'antd';
 import { PlusOutlined, EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import styles from '../../asset/scss/ManageContestsPage.module.scss';
 import { fetchAllContests, createContestActionApi, updateContestActionApi, removeContestActionApi, fetchContestDetails } from '../../store/redux/action/contestAction';
@@ -124,11 +124,25 @@ const ManageContestsPage = () => {
         visible={drawerVisible}
       >
         <Form layout="vertical" form={form}>
-          <Form.Item name="compId" label="Contest ID" rules={[{ required: true, message: 'Please enter the contest ID' }]}>
+          {/* <Form.Item name="compId" label="Contest ID" rules={[{ required: true, message: 'Please enter the contest ID' }]}>
             <Input placeholder="Please enter the contest ID" disabled={drawerTitle === 'View Contest'} />
-          </Form.Item>
-          <Form.Item name="categoryId" label="Category ID" rules={[{ required: true, message: 'Please enter the category ID' }]}>
-            <Input placeholder="Please enter the category ID" disabled={drawerTitle === 'View Contest'} />
+          </Form.Item> */}
+          <Form.Item name="categoryId" label="Select category" rules={[{ required: true, message: 'Choose at least two!' }]}>
+          
+            <Checkbox.Group>
+              <Row>
+                <Col span={24}>
+                <Checkbox value="1">1</Checkbox>
+              <Checkbox value="2">2</Checkbox>
+              <Checkbox value="3">3</Checkbox>
+                </Col>
+                <Col span={24}>
+                <Checkbox value="4">4</Checkbox>
+              <Checkbox value="5">5</Checkbox>
+              <Checkbox value="6">6</Checkbox>
+                </Col>
+              </Row>
+            </Checkbox.Group>
           </Form.Item>
           <Form.Item name="compName" label="Name" rules={[{ required: true, message: 'Please enter the name' }]}>
             <Input placeholder="Please enter the name" disabled={drawerTitle === 'View Contest'} />

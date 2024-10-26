@@ -1,6 +1,71 @@
-$primary-color: #1890ff; // Define your primary color here
+@keyframes neon {
+  0%, 100% {
+    text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 40px #00ffcc, 0 0 80px #00ffcc, 0 0 90px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc;
+  }
+  50% {
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc, 0 0 50px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc, 0 0 200px #00ffcc, 0 0 250px #00ffcc;
+  }
+}
 
-.page-content {
+.neonTitle {
+  animation: neon 1.5s infinite alternate;
+}// MemberPage.module.scss
+
+// Define theme variables
+$primary-color: #1890ff;
+$primary-color-hover: #40a9ff;
+$text-color: #555;
+$background-color: #f9f9f9;
+$card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+$card-border-radius: 8px;
+$card-padding: 20px;
+$font-size: 16px;
+$line-height: 1.5;
+$font-size-title: 24px;
+$font-weight-title: bold;
+$text-color-title: #333;
+
+.introductionCard {
+  background-color: $background-color;
+  border-radius: $card-border-radius;
+  padding: $card-padding;
+  box-shadow: $card-shadow;
+  margin-bottom: 20px;
+
+  .ant-card-head-title {
+    font-size: $font-size-title;
+    font-weight: $font-weight-title;
+    color: $text-color-title;
+  }
+
+  p {
+    font-size: $font-size;
+    line-height: $line-height;
+    color: $text-color;
+    margin-bottom: 10px;
+  }
+
+  ul {
+    margin-left: 20px;
+    list-style-type: disc;
+
+    li {
+      font-size: $font-size;
+      line-height: $line-height;
+      color: $text-color;
+      margin-bottom: 5px;
+    }
+  }
+
+  .readMore {
+    margin-top: 10px;
+    font-size: 14px;
+    color: $primary-color;
+    &:hover {
+      color: $primary-color-hover;
+    }
+  }
+}.page-content {
   padding: 20px;
   margin-top: 64px;
 }
@@ -26,4 +91,52 @@ $primary-color: #1890ff; // Define your primary color here
 .ranking-card,
 .news-card {
   margin-bottom: 20px;
+}
+
+
+.carousel {
+  width: 100%;
+  height: auto;
+}
+
+.bannerImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+@keyframes neonGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 40px #00ffcc, 0 0 80px #00ffcc, 0 0 90px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc;
+  }
+  50% {
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc, 0 0 50px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc, 0 0 200px #00ffcc, 0 0 250px #00ffcc;
+  }
+}
+
+
+@keyframes neonGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 40px #00ffcc, 0 0 80px #00ffcc, 0 0 90px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc;
+  }
+  50% {
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc, 0 0 50px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc, 0 0 200px #00ffcc, 0 0 250px #00ffcc;
+  }
+}
+
+.discount_button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #00ffcc;
+  background-color: transparent;
+  border: 2px solid #00ffcc;
+  border-radius: 5px;
+  cursor: pointer;
+  animation: neonGlow 1.5s infinite alternate;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: #00ffcc;
+    color: #141414;
+  }
 }

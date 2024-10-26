@@ -39,7 +39,7 @@ const items = [
   getItem('Manage Contests', 'sub1', <DarumaIcon />, undefined, 'manage-contests'),
   // Nhóm 2: Manage Users
   getItem('Manage Users', 'sub2', <MountIcon />, undefined, 'manage-users'),
-  // getItem('Manage Koi Entries', 'sub3', <KoiIcon />, undefined, 'koiManage'),
+  getItem('Manage Koi Entries', 'sub3', <KoiIcon />, undefined, 'koiManage'),
   // //// Nhóm 3: Manage Judging Process
   // getItem('Manage Judging Process', 'sub4', <TorriJapanIcon />, [
   //   getItem('Assign Judges to Contests', '61', undefined, undefined, 'assign-judges-to-contest'),
@@ -51,12 +51,11 @@ const items = [
   // // Nhóm 5: Manage News and Updates
   getItem('Manage News and Updates', 'sub6', <SensuFanIcon />, undefined, 'manage-news'),
   // Nhóm 6: Reports and Analytics
-  // getItem('Reports and Analytics', 'sub7', <StonesSpaIcon />, [
-  //   getItem('View Contest Reports', '91', undefined, undefined, '/view-contest-reports'),
-  //   getItem('View User Reports', '92', undefined, undefined, '/view-user-reports'),
-  //   getItem('View Prediction Reports', '93', undefined, undefined, '/view-prediction-reports'),
-  //   getItem('View Koi Entry Reports', '94', undefined, undefined, '/view-koi-entry-reports'),
-  // ]),
+  getItem('Reports and Analytics', 'sub7', <StonesSpaIcon />, [
+    getItem('View Contest Reports', '91', undefined, undefined, 'view-contest-reports'),
+    getItem('View User Reports', '92', undefined, undefined, '/view-user-reports'),
+    getItem('View Prediction Reports', '93', undefined, undefined, '/view-prediction-reports'),
+  ]),
   // Nhóm 7: System Settings
   getItem('System Settings', 'sub8', <PaperLanternIcon />, [
     getItem('Manage Contest Categories', '101', undefined, undefined, '/manage-contest-categories'),

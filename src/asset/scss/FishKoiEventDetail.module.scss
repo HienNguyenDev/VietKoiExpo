@@ -1,0 +1,112 @@
+$primary-color: #ff6f61; // Pastel Coral for light theme
+$text-primary-color: #333333; // Dark gray text
+$text-secondary-color: #555555;
+
+$dark-primary-color: #00ffcc; // Neon cyan for dark theme
+$dark-text-primary-color: #ffffff;
+$dark-text-secondary-color: #ff00ff;
+
+.introductionCard {
+  background-color: $primary-color; // Replace with a color variable if needed
+  border-radius: 10px;
+  box-shadow: 0 0 10px $primary-color;
+  padding: 20px;
+  color: $text-primary-color;
+}
+
+.eventStats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .likeButton,
+  .dislikeButton {
+    background-color: transparent;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    box-shadow: 0 0 8px $primary-color;
+
+    &:hover {
+      background-color: $primary-color;
+      color: white;
+      box-shadow: 0 0 12px $primary-color;
+    }
+  }
+}
+
+.readMore {
+  background-color: transparent;
+  color: $primary-color;
+  border: 1px solid $primary-color;
+  box-shadow: 0 0 8px $primary-color;
+
+  &:hover {
+    background-color: $primary-color;
+    color: white;
+    box-shadow: 0 0 12px $primary-color;
+  }
+}
+
+.voteOptions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  .voteOption {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px $primary-color;
+
+    &:hover {
+      box-shadow: 0 0 12px $primary-color;
+    }
+
+    img {
+      border-radius: 10px;
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+.eventCards {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  .eventCard {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px $primary-color;
+    text-align: center;
+
+    &:hover {
+      box-shadow: 0 0 12px $primary-color;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .voteOptions {
+    flex-direction: column;
+
+    .voteOption {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.discountButton {
+  border: 1px solid var(--primary-main);
+  color: var(--primary-main);
+  box-shadow: 0 0 8px var(--primary-main);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: var(--primary-main);
+    color: #713232;
+    box-shadow: 0 0 12px var(--primary-main);
+  }
+}

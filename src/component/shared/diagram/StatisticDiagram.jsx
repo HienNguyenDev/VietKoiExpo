@@ -11,7 +11,7 @@ const StatisticDiagram = () => {
         labels: ['January', 'February', 'March', 'April', 'May', 'June','July','August'], // replace with your data
         datasets: [
           {
-            label: 'Luợng người truy cập tính theo từng tháng',
+            label: 'Số lượng người tham gia cuộc thi theo từng tháng',
             data: [30, 120, 110, 140, 150, 151,173,165], // replace with your data
             fill: false,
             backgroundColor: 'rgb(75, 192, 192)',

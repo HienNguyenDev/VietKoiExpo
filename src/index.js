@@ -50,6 +50,7 @@ import ManageNewsUpdatesPage from './component/ManageNewsnUpdates/ManageNewsUpda
 import { ThemeProvider } from './template/theme/ThemeContext';
 import NewsComp from './component/shared/news/NewsComp';
 import './index.css';
+import StatisticDiagram from './component/shared/diagram/StatisticDiagram';
 
 const App = () => {
   const location = useLocation();
@@ -69,7 +70,7 @@ const App = () => {
             <Route path="manage-users" element={<ManageUsersPage />} />
             {/*Manage Predict */}
             <Route path='manage-predict' />
-
+            <Route path='view-contest-reports' element={<StatisticDiagram/>} />
             {/*Manage Judging Process */}
             <Route path="assign-judges-to-contest" element={<AsssignJugingProcess />} />
             <Route path="finalize-contest-results" element={<FinalizeContestResults />} />
