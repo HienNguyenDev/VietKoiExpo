@@ -20,6 +20,9 @@ import ContentAdminHomePage from './content/ContentAdminHomePage';
 import ControlledOpenSpeedDialCustom from '../../component/shared/speed dial/SpeedDial';
 import AccountMenu from '../../component/shared/AccountMenu/AccountMenu'; // Your existing AccountMenu component
 import { dark, light } from '@mui/material/styles/createPalette';
+
+import NotificationPage from '../../component/shared/notification/NotificationPage';
+
 const { Header, Content, Footer, Sider } = Layout;
 
 function getItem(label, key, icon, children, navigator) {
@@ -59,7 +62,7 @@ const items = [
   // Nhóm 7: System Settings
   getItem('System Settings', 'sub8', <PaperLanternIcon />, [
     getItem('Manage Contest Categories', '101', undefined, undefined, '/manage-contest-categories'),
-    getItem('Manage Judging Criteria', '102', undefined, undefined, '/manage-judging-criteria'),
+    getItem('Manage Judging Criteria', '102', undefined, undefined, 'manage-judging-criteria'),
   ]),
    // Nhóm 8: Task allocation
   getItem('Task allocation', 'sub9', <PaperLanternIcon />, [
@@ -90,6 +93,8 @@ const breadcrumbItems = flattenedItems.map((item) => (
 
 const AdminPage = () => {
   const [collapsed, setCollapsed] = useState(false);
+  // State để quản lý hiển thị thông báo
+  const [showNotifications, setShowNotifications] = useState(false); 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -103,6 +108,12 @@ const AdminPage = () => {
       console.error(`No item found with key: ${key} or navigator property is not set`);
     }
   };
+
+  // Hàm xử lý khi người dùng nhấp vào mục Notifications trong AccountMenu
+  const handleShowNotifications = () => {
+    setShowNotifications(true); // Hiển thị thông báo khi người dùng chọn Notifications
+  };
+
 
   return (
     <Layout style={{ minHeight: '100vh', width: '100vw' }}>
@@ -127,7 +138,7 @@ const AdminPage = () => {
           <h2 style={{ margin: 0, color: 'cyan' }}>VietKoiExpo</h2>
         </div>
         <div>
-          <AccountMenu /> {/* Custom AccountMenu component */}
+        <AccountMenu onShowNotifications={handleShowNotifications} /> {/* Truyền hàm vào AccountMenu */}
         </div>
       </Header>
       <Layout>
@@ -149,6 +160,8 @@ const AdminPage = () => {
         <Layout style={{ marginTop: '64px' }}>
           <Content style={{ padding: 24, height: '100%', minHeight: 360, background: colorBgContainer }}>
             <Outlet />
+            {showNotifications && <NotificationPage />} {/* Hiển thị NotificationPage nếu người dùng chọn Notifications */}
+            <ControlledOpenSpeedDialCustom />
             <ControlledOpenSpeedDialCustom />
           </Content>
           <Footer style={{ textAlign: 'center' }}>KoiExpo {new Date().getFullYear()}</Footer>
