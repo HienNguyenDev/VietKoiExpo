@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using KSM.Repository.Models;
 using KSM.Repository.ModelsMapper;
-using KSM.Repository.Repositories.KoifishRepository;
 using KSM.Repository.Repositories.TaskRepository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,23 +39,56 @@ namespace KSM.APIService.Controllers
             return Ok(_mapper.Map<KoifishModel>(koiFish));
 
         }
+        public class TasksModelCreate
+        {
+            public string TaskName { get; set; }
+            public Guid UserId { get; set; }
+            public Guid CompId { get; set; }
+            public string? TaskDescription { get; set; }
+            public string? Date { get; set; }
+            public bool? Status { get; set; }
+        }
+        private bool IsValidDateFormat(string date, string format)
+        {
+            return DateTime.TryParseExact(date, format,
+                                          System.Globalization.CultureInfo.InvariantCulture,
+                                          System.Globalization.DateTimeStyles.None,
+                                          out _);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTask(TaskModel model)
+        public async Task<IActionResult> CreateTask(TasksModelCreate task)
         {
+            if (!IsValidDateFormat(task.Date, "yyyy-mm-dd"))
+            {
+                ModelState.AddModelError("NewsDate", "Date must be in the format yyyy-mm-dd.");
+                return BadRequest(ModelState);
+            }
+
+            if (task.CompId == Guid.Empty || task.UserId == Guid.Empty || string.IsNullOrEmpty(task.TaskName))
+            {
+                return BadRequest("UserID and CompID are required.");
+            }
+
+            var createdTask = new Tbltask()
+            {
+                TaskId = Guid.NewGuid(),
+                TaskName = task.TaskName,
+                UserId = task.UserId,
+                CompId = task.CompId,
+                TaskDescription = task.TaskDescription,
+                Date = string.IsNullOrEmpty(task.Date) ? (DateOnly?)null : DateOnly.Parse(task.Date),
+                Status = task.Status
+            };
             try
             {
-                var newTask = _mapper.Map<Tbltask>(model);
-                await _taskRepo.CreateAsync(newTask);
-                Guid newTaskID = new Guid();
-                var task = await _taskRepo.GetByIDAsync(newTaskID);
-                var taskModel = _mapper.Map<TaskModel>(task);
-                return taskModel == null ? NotFound() : Ok(taskModel);
+                await _taskRepo.CreateAsync(createdTask);
             }
             catch (Exception ex)
             {
                 return BadRequest();
             }
+            return Ok(createdTask);
         }
 
         [HttpPut("{id}")]
