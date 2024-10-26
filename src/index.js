@@ -32,6 +32,9 @@ import TaskAllocationProcess from './component/ManageTaskAllocation/TaskAllocati
 import ManageContestsPage from './component/ManageContest/ManageContestsPage';
 
 // import ManagementTask from './component/ManageTaskAllocation/ManagementTask';
+
+//ManageSystemRport
+import ManageJudgingCriteria from './component/ManageSystemSetting/ManageJudgingCriteria';
 //ManageJudging
 import ManageShowJudgingPage from './component/ManageJudging/ManageShowJudgingPage';
 import ManageScoringProcess from './component/ManageJudging/ManageScoringProcess';
@@ -45,6 +48,7 @@ import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
 
 
 
+import NotificationPage from './component/shared/notification/NotificationPage';
 import NotificationBlock from './component/shared/notification/NotificationBlock';
 import ManageNewsUpdatesPage from './component/ManageNewsnUpdates/ManageNewsUpdatesPage';
 import { ThemeProvider } from './template/theme/ThemeContext';
@@ -64,6 +68,8 @@ const App = () => {
           <Route path="admin" element={<AdminPage />}>
             {/* <Route path='manage-task' element={<ManagementTask />} /> */}
             {/* Manage Contests Group */}
+            <Route path='notifications' element={<NotificationPage />} />
+            
             <Route path="manage-contests" element={<ManageContestsPage />} />
             {/* Manage Users Group */}
             <Route path="manage-users" element={<ManageUsersPage />} />
@@ -77,8 +83,8 @@ const App = () => {
 
             {/* Manage new */} 
             <Route path='manage-news' element={<ManageNewsUpdatesPage />} />
-            
-
+            {/* Manage system report */} 
+            <Route path='manage-judging-criteria' element={<ManageJudgingCriteria />} />
              {/* Manage Task allocation  */}
             
               <Route path="manage-task-allocation" element={<AssignTaskPage />} />
@@ -110,8 +116,9 @@ const App = () => {
           </Route>
           <Route path='login' element={<LoginPage />} />
           <Route path='register' element={<RegisterPage />} />
-          <Route path='notif' element={<NotificationBlock />} />
+          <Route path='notif' element={<NotificationPage />} />
           <Route path='fishkoi' element={<FishKoiEventDetail />} />
+          
         </Routes>
       </CSSTransition>
     </TransitionGroup>
