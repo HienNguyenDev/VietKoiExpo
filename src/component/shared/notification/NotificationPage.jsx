@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { List, Button, Typography, Badge, Card } from 'antd';
 import { fetchUserByIdActionApi } from '../../../../src/store/redux/action/userAction'; // Import action
@@ -19,18 +19,23 @@ const NotificationPage = () => {
   }, [dispatch, userLogin, userProfile]);
 
   // Sử dụng mock notifications nếu không có dữ liệu thực tế
-  const notifications = userProfile?.notifications || [
+  const initialNotifications = userProfile?.notifications || [
     { id: 1, message: "Bạn có tin nhắn mới", isRead: true, date: "2024-10-25 08:00" },
     { id: 2, message: "Cập nhật quan trọng từ hệ thống", isRead: false, date: "2024-10-24 10:30" },
     { id: 3, message: "Sự kiện sắp tới vào tuần tới", isRead: false, date: "2024-10-23 12:45" },
     { id: 4, message: "Đăng ký thành công sự kiện", isRead: true, date: "2024-10-22 14:00" },
     { id: 5, message: "Bình luận mới về bài viết của bạn", isRead: false, date: "2024-10-21 16:15" }
   ];
-
+  // State lưu trữ danh sách thông báo
+  const [notifications, setNotifications] = useState(initialNotifications);
   // Hàm đánh dấu thông báo đã đọc
   const markAsRead = (notificationId) => {
     console.log(`Notification ${notificationId} marked as read`);
-    // Ở đây bạn có thể dispatch một action để cập nhật trạng thái thông báo đã đọc.
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notif) =>
+        notif.id === notificationId ? { ...notif, isRead: true } : notif
+      )
+    );
   };
 
   return (

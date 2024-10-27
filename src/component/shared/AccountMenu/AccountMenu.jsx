@@ -6,7 +6,7 @@ import { fetchUserByIdActionApi, logoutActionApi } from '../../../../src/store/r
 import { useNavigate, Link } from 'react-router-dom';
 
 
-const MenuAccount = ({ onShowNotifications }) => {
+const MenuAccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
@@ -51,6 +51,10 @@ const MenuAccount = ({ onShowNotifications }) => {
     // Gọi action logout và điều hướng tới trang đăng nhập
     dispatch(logoutActionApi(navigate));
   };
+  const handleNotificationClick = () => {
+    const role = userProfile?.roleId || 'admin'; // Lấy role của user,test thử với 'admin'
+    navigate(`/${role}/notifications`); // Điều hướng đến trang thông báo với đường dẫn tùy thuộc vào role
+  };
 
   // Tạo hàm để hiển thị role bên cạnh tên người dùng
   const renderRole = (role) => {
@@ -75,7 +79,7 @@ const MenuAccount = ({ onShowNotifications }) => {
       <Menu.Item key="1" icon={<ProfileOutlined />}>
         My Profile 
       </Menu.Item>
-      <Menu.Item key="2" icon={<NotificationOutlined />} onClick={onShowNotifications} > 
+      <Menu.Item key="2" icon={<NotificationOutlined />} onClick={handleNotificationClick} > 
       Notifications{/* <Link to="/notifications">Notifications</Link> */}
       </Menu.Item>
       <Menu.Item key="3" icon={<SettingOutlined />}>

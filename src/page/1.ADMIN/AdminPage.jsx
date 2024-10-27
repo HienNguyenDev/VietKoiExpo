@@ -138,7 +138,7 @@ const AdminPage = () => {
           <h2 style={{ margin: 0, color: 'cyan' }}>VietKoiExpo</h2>
         </div>
         <div>
-        <AccountMenu onShowNotifications={handleShowNotifications} /> {/* Truyền hàm vào AccountMenu */}
+        <AccountMenu  /> {/* Truyền hàm vào AccountMenu */}
         </div>
       </Header>
       <Layout>
@@ -160,7 +160,6 @@ const AdminPage = () => {
         <Layout style={{ marginTop: '64px' }}>
           <Content style={{ padding: 24, height: '100%', minHeight: 360, background: colorBgContainer }}>
             <Outlet />
-            {showNotifications && <NotificationPage />} {/* Hiển thị NotificationPage nếu người dùng chọn Notifications */}
             <ControlledOpenSpeedDialCustom />
             <ControlledOpenSpeedDialCustom />
           </Content>

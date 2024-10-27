@@ -106,6 +106,7 @@ const App = () => {
 
           
           <Route path="referee" element={<RefereePage />}>
+            <Route path='notifications' element={<NotificationPage />} />
             {/* Step 1: Show all contests */}
             <Route path="manage-judging" element={<ManageShowJudgingPage />} />
             
