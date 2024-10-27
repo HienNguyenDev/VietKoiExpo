@@ -17,5 +17,7 @@ public partial class Tblcategory
 
     public string CategoryDescription { get; set; }
 
+    public virtual ICollection<TblcategoryKoiFish> TblcategoryKoiFishes { get; set; } = new List<TblcategoryKoiFish>();
+
     public virtual ICollection<TblcompetitionCategory> TblcompetitionCategories { get; set; } = new List<TblcompetitionCategory>();
 }
