@@ -1,3 +1,4 @@
+using KSM.APIService.Helper;
 using KSM.Repository;
 using KSM.Repository.Mapper;
 using KSM.Repository.Models;
@@ -79,8 +80,7 @@ builder.Services.AddScoped<IPredictRepository, PredictRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ICompCateRepository, CompCateRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
-
-
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 

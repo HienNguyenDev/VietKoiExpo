@@ -32,6 +32,7 @@ namespace KSM.APIService.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(Repository.ViewModels.LoginRequest login)
         {
+            //Tạo LoginRequest
             var loginResponse = new LoginResponse { };
             Repository.ViewModels.LoginRequest loginrequest = new()
             {
@@ -39,6 +40,7 @@ namespace KSM.APIService.Controllers
                 Password = login.Password
             };
 
+            //Kiểm tra User có tồn tại không
             if (login == null)
             {
                 return BadRequest("No User!");
@@ -52,7 +54,7 @@ namespace KSM.APIService.Controllers
                 {
                     return BadRequest("Username or Password Invalid!");
                 }
-            // if credentials are valid
+            //User hợp lệ thì sinh ra token
                 string token = JwtHelper.CreateToken(user, _configuration);
                 loginResponse.Token = token;
                 loginResponse.responseMsg = new HttpResponseMessage()
@@ -60,7 +62,7 @@ namespace KSM.APIService.Controllers
                     StatusCode = HttpStatusCode.OK
                 };
                 
-                //return the token
+                //Trả về token và dữ liệu user
                 return Ok(new { loginResponse, user});
         }
 
@@ -81,7 +83,7 @@ namespace KSM.APIService.Controllers
             {
                 var newUser = new Tbluser
                 {
-                    UserId = new Guid(),
+                    UserId = Guid.NewGuid(),
                     Email = registerUser.Email,
                     Password = registerUser.Password,
                     RoleId = "member",
