@@ -20,12 +20,11 @@ namespace KSM.APIService.Helper
 
         public static string CreateToken(Tbluser user, IConfiguration _configuration)
         {
-
             List<Claim> claims = new()
             {
                 //list of Claims 
-                new Claim(ClaimTypes.Upn, Convert.ToString(user.UserId)),
-                new Claim(ClaimTypes.Role, Convert.ToString(user.RoleId))
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.RoleId)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));

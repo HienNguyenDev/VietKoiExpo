@@ -29,14 +29,14 @@ namespace KSM.APIService.Controllers
 
         // GET: api/Users/5
         [HttpGet("{code}")]
-        public async Task<Tbluser> GetUser(Guid code)
+        public async Task<ActionResult<Tbluser>> GetUser(Guid code)
         {
             var user = await _userRepository.GetByIDAsync(code);
 
-            //if (user == null)
-            //{
-            //    return BadRequest(;
-            //}
+            if (user == null)
+            {
+                return BadRequest();
+            }
 
             return user;
         }
@@ -102,7 +102,7 @@ namespace KSM.APIService.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{code}")]
-        public async Task<IActionResult> DeleteProduct(Guid code)
+        public async Task<IActionResult> DeleteUser(Guid code)
         {
             var user = await _userRepository.GetByIDAsync(code);
             if (user == null)

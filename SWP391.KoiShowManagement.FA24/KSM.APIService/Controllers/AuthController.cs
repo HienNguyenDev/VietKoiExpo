@@ -58,7 +58,7 @@ namespace KSM.APIService.Controllers
                 string token = JwtHelper.CreateToken(user, _configuration);
                 loginResponse.Token = token;
                 loginResponse.responseMsg = new HttpResponseMessage()
-                {
+                {                                                           
                     StatusCode = HttpStatusCode.OK
                 };
                 
