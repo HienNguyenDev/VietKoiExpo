@@ -9,7 +9,9 @@ import { getAllUser, getUserProfile, loginUser, registerUser, updateDetailUser }
 export const loginActionApi = (userLogin, navigate) => {
     return async (dispatch) => {
         try {
+            
             const res = await loginUser(userLogin);
+           
             console.log('API Response:', res);
             console.log('res.data:', res.data);
             console.log('API Response Content:', res.data.user);
@@ -21,7 +23,7 @@ export const loginActionApi = (userLogin, navigate) => {
                 setCookieJson(USER_LOGIN, res.data.user, 30);
 
                 // Navigate based on role
-                if (res.data.user.roleId === 'R001') {
+                if (res.data.user.roleId === 'manager') {
                     navigate('/admin');
                 } else {
                     navigate('/user');

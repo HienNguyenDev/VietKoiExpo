@@ -2,9 +2,9 @@ import axios from 'axios';
 
 export const loginUser = (userLogin) => {
     return axios({
-        url:'http://103.90.227.68:8080/api/login',
+        url:'https://localhost:7246/api/Auth/login',
         method:'POST',
-        data:userLogin
+        data: userLogin
     });
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Layout, Row, Col, Carousel, Card, List, Switch, Button as AntButton } from 'antd';
+import { Layout, Row, Col, Carousel, Card, List, Switch, Button as AntButton , Menu } from 'antd';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link, useNavigate   } from 'react-router-dom';
 import { CssBaseline, Typography, Button as MuiButton } from '@mui/material';
 import AccountMenu from '../../component/shared/AccountMenu/AccountMenu';
 import styles from '../../asset/scss/MemberPage.module.scss';
@@ -17,7 +18,12 @@ const { Header, Footer, Content } = Layout;
 
 const MemberPage = () => {
   const [themeMode, setThemeMode] = useState('light'); // State to store theme mode
+  const navigate = useNavigate();
 
+  // Hàm điều hướng tới các trang
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
   const lightTheme = createTheme({
     palette: {
       mode: 'light',
@@ -232,7 +238,32 @@ const MemberPage = () => {
               VietKoiExpo
             </Typography>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+
+          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          {/* Nút truy cập Competition */}
+          <MuiButton
+            variant="outlined"
+            style={{
+              borderColor: currentTheme.palette.primary.main,
+              color: currentTheme.palette.primary.main,
+            }}
+            onClick={() => handleNavigation('manage-contests')} /* thêm navigation */
+          >
+            Competition
+          </MuiButton>
+
+          {/* Nút truy cập MyKoi */}
+          <MuiButton
+            variant="outlined"
+            style={{
+              borderColor: currentTheme.palette.primary.main,
+              color: currentTheme.palette.primary.main,
+            }}
+            onClick={() => handleNavigation('manage-contests')}   /* thêm navigation */
+          >
+            MyKoi
+          </MuiButton>
+
             {/* Switch to toggle theme */}
             <Switch
               checked={themeMode === 'dark'}

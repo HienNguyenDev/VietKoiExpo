@@ -24,7 +24,7 @@ const fetchUsers = async () => {
     { userID: '5', role: 'Referee', FullName: 'User 5', Email: 'user5@example.com', Phone: '123123123', Experience: 4 },
     { userID: '6', role: 'Staff', FullName: 'User 6', Email: 'user6@example.com', Phone: '321321321', Experience: 3 },
     { userID: '7', role: 'Referee', FullName: 'User 7', Email: 'user7@example.com', Phone: '567676766', Experience: 3 },
-    { userID: '7', role: 'Staff', FullName: 'User 8', Email: 'user8@example.com', Phone: '5645645687', Experience: 3 },
+    { userID: '8', role: 'Staff', FullName: 'User 8', Email: 'user8@example.com', Phone: '112184546497', Experience: 3 },
   ];
   return users;
 };

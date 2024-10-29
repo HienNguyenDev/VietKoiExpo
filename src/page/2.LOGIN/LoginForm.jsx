@@ -16,7 +16,7 @@ const LoginForm = () => {
 
   const frm = useFormik({
     initialValues: {
-      username: '',
+      email: '',
       password: ''
     },
     onSubmit: (values) => {
@@ -25,7 +25,7 @@ const LoginForm = () => {
       dispatch(actionAsync);
     },
     validationSchema: yup.object().shape({
-      username: yup.string().required('Username is required'),
+      email: yup.string().required('Email is required'),
       password: yup.string().required('Password is required'),
     })
   });
@@ -36,9 +36,9 @@ const LoginForm = () => {
         <div className={styles.tittleLogin}>
           <h1>Login</h1>
         </div>
-        {frm.errors.username && frm.touched.username && <div style={{ color: 'red' }}>{frm.errors.username}</div>}
-        <div className={styles.usernameItem}>
-          <PlaceHolder onChange={frm.handleChange} id='username' label='Username' placeholder='Enter your username' type='text' />
+        {frm.errors.email && frm.touched.email && <div style={{ color: 'red' }}>{frm.errors.email}</div>}
+        <div className={styles.userItem}>
+          <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Enter your email' type='text' />
         </div>
         {frm.errors.password && frm.touched.password && <div style={{ color: 'red' }}>{frm.errors.password}</div>}
         <div className={styles.passwordItem}>

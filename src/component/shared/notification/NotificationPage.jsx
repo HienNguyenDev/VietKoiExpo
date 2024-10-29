@@ -7,7 +7,7 @@ const { Title } = Typography;
 
 const NotificationPage = () => {
   const dispatch = useDispatch();
-
+  
   // Lấy dữ liệu từ Redux store
   const { userLogin, userProfile } = useSelector((state) => state.userReducer);
 

@@ -64,7 +64,10 @@ const App = () => {
       <CSSTransition key={location.key} classNames="fade" timeout={700}>
         <Routes location={location}>
           <Route path="/"  element={<LoginPage/>}/>
-          <Route path='home' element={<MemberPage />} />
+          <Route path='home' element={<MemberPage />} >
+            <Route path='view-contest' element={< ManageKoiEntriesPage/>} />
+            <Route path="manage-contests" element={<ManageContestsPage />} />
+          </Route>
           {/* Main Route for Managing */}
           <Route path="admin" element={<AdminPage />}>
             {/* <Route path='manage-task' element={<ManagementTask />} /> */}
@@ -116,6 +119,8 @@ const App = () => {
             {/* Step 3: Score a Koi entry */}
             <Route path="manage-judging/scoring/:koiId" element={<ManageScoringProcess />} />
           </Route>
+
+
           <Route path='login' element={<LoginPage />} />
           <Route path='register' element={<RegisterPage />} />
           <Route path='notif' element={<NotificationPage />} />
