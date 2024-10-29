@@ -22,7 +22,7 @@ namespace KSM.APIService.Helper
             var smtpPass = smtpConfig["Password"];
 
             using (var client = new SmtpClient(smtpHost, smtpPort))
-            {
+            {   
                 client.EnableSsl = enableSsl;
                 client.Credentials = new NetworkCredential(smtpUser, smtpPass);
 

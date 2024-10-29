@@ -23,6 +23,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Net.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -117,6 +118,21 @@ app.UseCors(policy =>
             .AllowAnyHeader()
             .AllowAnyMethod()
             );
+
+app.UseWebSockets();
+
+app.Map("/ws", async context =>
+{
+    if (context.WebSockets.IsWebSocketRequest)
+    {
+        var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+        await WebSocketHandler.Handle(context, webSocket);
+    }
+    else
+    {
+        context.Response.StatusCode = 400;
+    }
+});
 
 app.UseHttpsRedirection();
 
