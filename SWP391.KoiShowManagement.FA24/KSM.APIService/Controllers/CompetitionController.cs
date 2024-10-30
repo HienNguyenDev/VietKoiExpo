@@ -32,7 +32,7 @@ namespace KSM.APIService.Controllers
             try
             {
                 var competition = await _competitionRepo.GetAllAsync();
-                return Ok(_mapper.Map<List<CompetitionModel>>(competition));
+                return Ok(competition);
             }
             catch
             {
@@ -44,7 +44,7 @@ namespace KSM.APIService.Controllers
         public async Task<IActionResult> GetCompetitionById(Guid id)
         {
             var competition = await _competitionRepo.GetByIDAsync(id);
-            return Ok(_mapper.Map<CompetitionModel>(competition));
+            return Ok(competition);
         }
 
 
