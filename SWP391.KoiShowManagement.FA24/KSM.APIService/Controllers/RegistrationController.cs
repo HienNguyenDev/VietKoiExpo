@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using KSM.Repository.Models;
 using KSM.Repository.ModelsMapper;
+using KSM.Repository.Repositories.CompCateRepository;
+using KSM.Repository.Repositories.KoifishRepository;
 using KSM.Repository.Repositories.PredictRepository;
 using KSM.Repository.Repositories.RegistrationRepository;
 using KSM.Repository.Repositories.ScoreRepository;
@@ -16,11 +18,29 @@ namespace KSM.APIService.Controllers
         private readonly IRegistrationRepository _registRepo;
         private readonly IPredictRepository _predictRepo;
         private readonly IMapper _mapper;
-        public RegistrationController(IRegistrationRepository repo, IMapper mapper, IPredictRepository predictRepo)
+        private readonly IKoifishRepository _koiFishRepo;
+        private readonly ICompCateRepository _compCateRepo;
+        public RegistrationController(IRegistrationRepository repo, IMapper mapper, IPredictRepository predictRepo, IKoifishRepository koiFishrepo, ICompCateRepository compCateRepo)
         {
             _registRepo = repo;
             _mapper = mapper;
             _predictRepo = predictRepo;
+            _koiFishRepo = koiFishrepo;
+            _compCateRepo = compCateRepo;
+        }
+
+        [HttpGet("Predict")]
+        public async Task<IActionResult> GetAllPredict()
+        {
+            try
+            {
+                var predict = await _predictRepo.GetAllAsync();
+                return Ok(predict);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]
