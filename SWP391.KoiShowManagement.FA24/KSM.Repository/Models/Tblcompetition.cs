@@ -29,6 +29,8 @@ public partial class Tblcompetition
 
     public virtual ICollection<Tblregistration> Tblregistrations { get; set; } = new List<Tblregistration>();
 
+    public virtual ICollection<Tblresult> Tblresults { get; set; } = new List<Tblresult>();
+
     public virtual ICollection<Tblscore> Tblscores { get; set; } = new List<Tblscore>();
 
     public virtual ICollection<Tbltask> Tbltasks { get; set; } = new List<Tbltask>();

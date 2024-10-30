@@ -15,11 +15,11 @@ public partial class Tblresult
 
     public string Prize { get; set; }
 
-    public Guid? ScoreId { get; set; }
+    public Guid? CompId { get; set; }
 
     public bool? Status { get; set; }
 
-    public virtual TblkoiFish Koi { get; set; }
+    public virtual Tblcompetition Comp { get; set; }
 
-    public virtual Tblscore Score { get; set; }
+    public virtual TblkoiFish Koi { get; set; }
 }

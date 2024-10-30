@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using KSM.Repository.Models;
 using KSM.Repository.ModelsMapper;
+using KSM.Repository.Repositories.CompCateRepository;
+using KSM.Repository.Repositories.ResultRepository;
 using KSM.Repository.Repositories.ScoreRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KSM.APIService.Controllers
 {
@@ -13,10 +16,16 @@ namespace KSM.APIService.Controllers
     {
         private readonly IScoreRepository _scoreRepo;
         private readonly IMapper _mapper;
-        public ScoreController(IScoreRepository repo, IMapper mapper)
+
+        private readonly IResultRepository _resultRepo;
+        private readonly ICompCateRepository _compCateRepository;
+
+        public ScoreController(IScoreRepository repo, IMapper mapper, IResultRepository resultRepo, ICompCateRepository coRepo)
         {
             _scoreRepo = repo;
             _mapper = mapper;
+            _resultRepo = resultRepo;
+            _compCateRepository = coRepo;
         }
 
         [HttpGet]
@@ -52,7 +61,35 @@ namespace KSM.APIService.Controllers
                 await _scoreRepo.CreateAsync(newScore);
                 Guid newScoreID = newScore.ScoreId;
                 var score = await _scoreRepo.GetByIDAsync(newScoreID);
-                //var scoreModel = _mapper.Map<ScoreModel>(score);
+                ///////////////////////////////////////////////////////////////
+                // Kiểm tra xem đã có 3 điểm cho Koi này trong cuộc thi này chưa
+                var scoresForKoi = await _scoreRepo.GetAllAsync();
+                var relatedScores = scoresForKoi
+                    .Where(s => s.KoiId == model.KoiId && s.CompId == model.CompId)
+                    .ToList();
+
+                // Check if there are 3 scores, including the newly added score
+                if (relatedScores.Count == 3)
+                {
+                    // Tính điểm trung bình
+                    double averageScore = relatedScores.Average(s => s.TotalScore ?? 0);
+
+                    // Tạo hàng mới trong bảng result
+                    var result = new Tblresult
+                    {
+                        ResultId = Guid.NewGuid(),
+                        KoiId = newScore.KoiId,
+                        ResultScore = averageScore,
+                        Prize = null, // Hàm tùy chọn để xác định giải thưởng
+                        //ScoreId = null,
+                        Status = true,
+                        CompId = model.CompId
+                    };
+
+                    await _resultRepo.CreateAsync(result);
+
+                }
+                /////////////////////////////////////////////////
                 return score == null ? NotFound() : Ok(score); // Return created fish on 
 
 
@@ -62,6 +99,50 @@ namespace KSM.APIService.Controllers
                 return BadRequest(); // Return specific error message on exception
             }
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        [HttpPut("assignTopPrizes/{compId}")]
+        public async Task<IActionResult> AssignTopPrizes(Guid compId)
+        {
+            // Retrieve and group Tblresult records by CompId and CategoryId
+            var results = await _resultRepo.GetAllAsync();
+            var competitionCategorys = await _compCateRepository.GetAllAsync();
+            var topResults = results
+                .Join(competitionCategorys,
+                      result => new { result.CompId, result.KoiId },
+                      category => new { category.CompId, category.KoiId },
+                      (result, category) => new { Result = result, CategoryId = category.CategoryId })
+                .Where(r => r.Result.CompId == compId)
+                .GroupBy(r => r.CategoryId) // Group by CategoryId within the specified CompId
+                .Select(g => g
+                    .OrderByDescending(r => r.Result.ResultScore)
+                    .FirstOrDefault())
+                .ToList();
+
+            if (topResults == null || !topResults.Any())
+            {
+                return NotFound("No results found to update.");
+            }
+
+            // Update the Prize field for each top-scoring Koi fish
+            foreach (var topResult in topResults)
+            {
+                if (topResult != null)
+                {
+                    topResult.Result.Prize = $"giải nhất của {topResult.CategoryId}";
+                    _resultRepo.Update(topResult.Result);
+                }
+            }
+
+            // Save the changes to the database
+            //await _context.SaveChangesAsync();
+
+            return Ok("Top prizes assigned successfully.");
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateScore(Guid id, [FromBody] ScoreModel model)

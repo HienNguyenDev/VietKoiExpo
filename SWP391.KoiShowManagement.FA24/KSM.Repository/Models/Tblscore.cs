@@ -29,7 +29,5 @@ public partial class Tblscore
 
     public virtual TblkoiFish Koi { get; set; }
 
-    public virtual ICollection<Tblresult> Tblresults { get; set; } = new List<Tblresult>();
-
     public virtual Tbluser User { get; set; }
 }
