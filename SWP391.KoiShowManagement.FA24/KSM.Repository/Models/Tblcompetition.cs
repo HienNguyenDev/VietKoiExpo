@@ -21,7 +21,7 @@ public partial class Tblcompetition
 
     public DateOnly? EndDate { get; set; }
 
-    public bool? Status { get; set; }
+    public int? Status { get; set; }
 
     public virtual ICollection<TblcompetitionCategory> TblcompetitionCategories { get; set; } = new List<TblcompetitionCategory>();
 

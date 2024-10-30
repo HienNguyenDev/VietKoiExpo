@@ -17,8 +17,6 @@ public partial class Tblrank
 
     public Guid? UserId { get; set; }
 
-    public bool? Status { get; set; }
-
     public virtual TblkoiFish Koi { get; set; }
 
     public virtual Tbluser User { get; set; }
