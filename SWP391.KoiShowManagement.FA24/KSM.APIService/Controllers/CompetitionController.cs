@@ -26,6 +26,8 @@ namespace KSM.APIService.Controllers
             _compCateRepository = coRepo;
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////////
+
         [HttpGet]
         public async Task<IActionResult> GetAllCompetition()
         {
@@ -38,6 +40,27 @@ namespace KSM.APIService.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        /// ////////////////////////////////////////////////////////////////////////////////////
+
+        [HttpGet("CompetitonCategories/{competitionID}")]
+        public async Task<IActionResult> GetCategoriesByCompId(Guid competitionID)
+        {
+            var categories = await _compCateRepository.GetAllCategoriesByCompetitionID(competitionID);
+
+
+            return Ok(categories);
+        }
+        /// ////////////////////////////////////////////////////////////////////////////////////
+
+        [HttpGet("CompetitonCategories/{competitionID}/{comID}")]
+        public async Task<IActionResult> GetFishByCategoryAndCompId(Guid competitionID, string comID)
+        {
+            var fishes = await _compCateRepository.GetAllFishByCategoryAndCompId(competitionID, comID);
+            var filteredFishes = fishes.Where(fish => fish != null);
+
+            return Ok(filteredFishes);
         }
 
         [HttpGet("{id}")]
@@ -67,7 +90,7 @@ namespace KSM.APIService.Controllers
 
             public string? EndDate { get; set; }
 
-            public bool? Status { get; set; }
+            public int? Status { get; set; }
         }
 
         private bool IsValidDateFormat(string date, string format)
