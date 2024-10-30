@@ -10,5 +10,7 @@ namespace KSM.Repository.Repositories.RegistrationRepository
 {
     public interface IRegistrationRepository : IGenericRepository<Tblregistration, Guid>
     {
+        Task<Guid> GetKoiFishIDByRegistIdAsync(Guid registId);
+        Task<Guid> GetCompIDByRegistIdAsync(Guid registId);
     }
 }

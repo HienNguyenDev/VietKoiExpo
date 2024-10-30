@@ -57,6 +57,63 @@ namespace KSM.APIService.Controllers
             }
         }
 
+
+        [HttpPost("Classificate/{registrationID}")]
+        public async Task<IActionResult> ClassificateFishCategory(Guid registrationID)
+        {
+            var registration = await _registRepo.GetByIDAsync(registrationID);
+            int? regisStatus = registration.Status;
+            if (regisStatus == 1)
+            {
+
+                var koiFishID = await _registRepo.GetKoiFishIDByRegistIdAsync(registrationID);
+                if (koiFishID == null)
+                {
+                    return NotFound();
+                }
+                var koiFish = await _koiFishRepo.GetByIDAsync(koiFishID); //Con ca de so sanh size va age de bo vao category
+                var koiFishCategory = new TblcompetitionCategory();
+                koiFishCategory.KoiId = koiFishID;
+                koiFishCategory.CompId = await _registRepo.GetCompIDByRegistIdAsync(registrationID);
+                koiFishCategory.CompetitionCategoryId = Guid.NewGuid();
+                if (koiFish.Size >= 40 && koiFish.Size <= 55 && koiFish.Age >= 2 && koiFish.Age <= 3)
+                {
+                    koiFishCategory.CategoryId = "young";
+                }
+                else if (koiFish.Size >= 50 && koiFish.Age >= 3 && (koiFish.VarietyId == "kohaku" || koiFish.VarietyId == "sanke" || koiFish.VarietyId == "showa"))
+                {
+                    koiFishCategory.CategoryId = "sakura";
+                }
+                else if (koiFish.Size >= 55 && koiFish.Size <= 70 && koiFish.Age >= 3 && koiFish.Age <= 7)
+                {
+                    koiFishCategory.CategoryId = "adult";
+                }
+                else if (koiFish.Size >= 70 && koiFish.Size <= 80 && koiFish.Age >= 4)
+                {
+                    koiFishCategory.CategoryId = "mature";
+                }
+                else if (koiFish.Size < 40 && koiFish.Age == 2)
+                {
+                    koiFishCategory.CategoryId = "baby";
+                }
+                else if (koiFish.Size >= 80 && koiFish.Age >= 4)
+                {
+                    koiFishCategory.CategoryId = "grand";
+                }
+
+
+
+
+                await _compCateRepo.CreateAsync(koiFishCategory);
+
+
+            }
+
+            return Ok();
+        }
+
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRegistrationById(Guid id)
         {
@@ -120,16 +177,24 @@ namespace KSM.APIService.Controllers
             await _registRepo.UpdateAsync(registration);
             return Ok();
 
-
-
-            //if (id != model.RegistrationId)
-            //{
-            //    return NotFound();
-            //}
-            //var updateRegistration = _mapper.Map<Tblregistration>(model);
-            //await _registRepo.UpdateAsync(updateRegistration);
-            //return Ok();
         }
+
+
+        [HttpPut("UpdateStatusAccept/{id}")]
+        public async Task<IActionResult> UpdateStatusAccept(Guid id)
+        {
+            var registration = await _registRepo.GetByIDAsync(id);
+            if (registration == null)
+            {
+                return NotFound();
+            }
+
+            registration.Status = 1; // Set status to 1
+
+            await _registRepo.UpdateAsync(registration);
+            return Ok();
+        }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRegist([FromRoute] Guid id)
