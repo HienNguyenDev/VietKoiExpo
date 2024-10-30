@@ -23,7 +23,7 @@ public partial class TblkoiFish
 
     public bool? Status { get; set; }
 
-    public virtual ICollection<TblcategoryKoiFish> TblcategoryKoiFishes { get; set; } = new List<TblcategoryKoiFish>();
+    public virtual ICollection<TblcompetitionCategory> TblcompetitionCategories { get; set; } = new List<TblcompetitionCategory>();
 
     public virtual ICollection<Tblprediction> Tblpredictions { get; set; } = new List<Tblprediction>();
 

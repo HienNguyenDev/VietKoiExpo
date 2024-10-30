@@ -19,10 +19,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[TBLCategoryKoiFish]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[TBLCompetition]",
          "ObjectType": 0
       },

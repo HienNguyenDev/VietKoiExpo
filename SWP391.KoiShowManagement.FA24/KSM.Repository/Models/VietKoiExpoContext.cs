@@ -20,8 +20,6 @@ public partial class VietKoiExpoContext : DbContext
 
     public virtual DbSet<Tblcategory> Tblcategories { get; set; }
 
-    public virtual DbSet<TblcategoryKoiFish> TblcategoryKoiFishes { get; set; }
-
     public virtual DbSet<Tblcompetition> Tblcompetitions { get; set; }
 
     public virtual DbSet<TblcompetitionCategory> TblcompetitionCategories { get; set; }
@@ -67,7 +65,7 @@ public partial class VietKoiExpoContext : DbContext
     {
         modelBuilder.Entity<Tblcategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__TBLCateg__19093A2B3B2AF6EB");
+            entity.HasKey(e => e.CategoryId).HasName("PK__TBLCateg__19093A2BB6E4908D");
 
             entity.ToTable("TBLCategory");
 
@@ -79,36 +77,9 @@ public partial class VietKoiExpoContext : DbContext
             entity.Property(e => e.CategoryName).HasMaxLength(20);
         });
 
-        modelBuilder.Entity<TblcategoryKoiFish>(entity =>
-        {
-            entity.HasKey(e => e.CategoryKoiFishId).HasName("PK__TBLCateg__3C381E94D7AFD26A");
-
-            entity.ToTable("TBLCategoryKoiFish");
-
-            entity.Property(e => e.CategoryKoiFishId)
-                .ValueGeneratedNever()
-                .HasColumnName("CategoryKoiFishID");
-            entity.Property(e => e.CategoryId)
-                .IsRequired()
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("CategoryID");
-            entity.Property(e => e.KoiId).HasColumnName("KoiID");
-
-            entity.HasOne(d => d.Category).WithMany(p => p.TblcategoryKoiFishes)
-                .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__TBLCatego__Categ__4AB81AF0");
-
-            entity.HasOne(d => d.Koi).WithMany(p => p.TblcategoryKoiFishes)
-                .HasForeignKey(d => d.KoiId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__TBLCatego__KoiID__4BAC3F29");
-        });
-
         modelBuilder.Entity<Tblcompetition>(entity =>
         {
-            entity.HasKey(e => e.CompId).HasName("PK__TBLCompe__AD362A7666AD9B24");
+            entity.HasKey(e => e.CompId).HasName("PK__TBLCompe__AD362A769655FFA5");
 
             entity.ToTable("TBLCompetition");
 
@@ -123,7 +94,7 @@ public partial class VietKoiExpoContext : DbContext
 
         modelBuilder.Entity<TblcompetitionCategory>(entity =>
         {
-            entity.HasKey(e => e.CompetitionCategoryId).HasName("PK__TBLCompe__007C976BD1889CA3");
+            entity.HasKey(e => e.CompetitionCategoryId).HasName("PK__TBLCompe__007C976B2D44CC5F");
 
             entity.ToTable("TBLCompetitionCategory");
 
@@ -135,19 +106,24 @@ public partial class VietKoiExpoContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("CategoryID");
             entity.Property(e => e.CompId).HasColumnName("CompID");
+            entity.Property(e => e.KoiId).HasColumnName("KoiID");
 
             entity.HasOne(d => d.Category).WithMany(p => p.TblcompetitionCategories)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK__TBLCompet__Categ__4F7CD00D");
+                .HasConstraintName("FK__TBLCompet__Categ__4CA06362");
 
             entity.HasOne(d => d.Comp).WithMany(p => p.TblcompetitionCategories)
                 .HasForeignKey(d => d.CompId)
-                .HasConstraintName("FK__TBLCompet__CompI__4E88ABD4");
+                .HasConstraintName("FK__TBLCompet__CompI__4BAC3F29");
+
+            entity.HasOne(d => d.Koi).WithMany(p => p.TblcompetitionCategories)
+                .HasForeignKey(d => d.KoiId)
+                .HasConstraintName("FK__TBLCompet__KoiID__4D94879B");
         });
 
         modelBuilder.Entity<TblkoiFish>(entity =>
         {
-            entity.HasKey(e => e.KoiId).HasName("PK__TBLKoiFi__E03435B8650B2963");
+            entity.HasKey(e => e.KoiId).HasName("PK__TBLKoiFi__E03435B893EB5B97");
 
             entity.ToTable("TBLKoiFish");
 
@@ -164,16 +140,16 @@ public partial class VietKoiExpoContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.TblkoiFishes)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__TBLKoiFis__UserI__440B1D61");
+                .HasConstraintName("FK__TBLKoiFis__UserI__44FF419A");
 
             entity.HasOne(d => d.Variety).WithMany(p => p.TblkoiFishes)
                 .HasForeignKey(d => d.VarietyId)
-                .HasConstraintName("FK__TBLKoiFis__Varie__4316F928");
+                .HasConstraintName("FK__TBLKoiFis__Varie__440B1D61");
         });
 
         modelBuilder.Entity<Tblnews>(entity =>
         {
-            entity.HasKey(e => e.NewsId).HasName("PK__TBLNews__954EBDD3FA917FB8");
+            entity.HasKey(e => e.NewsId).HasName("PK__TBLNews__954EBDD323D0C7DC");
 
             entity.ToTable("TBLNews");
 
@@ -190,16 +166,16 @@ public partial class VietKoiExpoContext : DbContext
 
             entity.HasOne(d => d.NewsType).WithMany(p => p.Tblnews)
                 .HasForeignKey(d => d.NewsTypeId)
-                .HasConstraintName("FK__TBLNews__NewsTyp__3D5E1FD2");
+                .HasConstraintName("FK__TBLNews__NewsTyp__3E52440B");
 
             entity.HasOne(d => d.User).WithMany(p => p.Tblnews)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__TBLNews__UserID__3E52440B");
+                .HasConstraintName("FK__TBLNews__UserID__3F466844");
         });
 
         modelBuilder.Entity<TblnewsType>(entity =>
         {
-            entity.HasKey(e => e.NewsTypeId).HasName("PK__TBLNewsT__9013FE2AAB1CB9AD");
+            entity.HasKey(e => e.NewsTypeId).HasName("PK__TBLNewsT__9013FE2A7DE4F076");
 
             entity.ToTable("TBLNewsType");
 
@@ -212,7 +188,7 @@ public partial class VietKoiExpoContext : DbContext
 
         modelBuilder.Entity<Tblprediction>(entity =>
         {
-            entity.HasKey(e => e.PredictionId).HasName("PK__TBLPredi__BAE4C140657E1901");
+            entity.HasKey(e => e.PredictionId).HasName("PK__TBLPredi__BAE4C140314BF44D");
 
             entity.ToTable("TBLPrediction");
 
@@ -224,16 +200,16 @@ public partial class VietKoiExpoContext : DbContext
 
             entity.HasOne(d => d.Comp).WithMany(p => p.Tblpredictions)
                 .HasForeignKey(d => d.CompId)
-                .HasConstraintName("FK__TBLPredic__CompI__534D60F1");
+                .HasConstraintName("FK__TBLPredic__CompI__5165187F");
 
             entity.HasOne(d => d.Koi).WithMany(p => p.Tblpredictions)
                 .HasForeignKey(d => d.KoiId)
-                .HasConstraintName("FK__TBLPredic__KoiID__52593CB8");
+                .HasConstraintName("FK__TBLPredic__KoiID__5070F446");
         });
 
         modelBuilder.Entity<Tblrank>(entity =>
         {
-            entity.HasKey(e => e.RankId).HasName("PK__TBLRank__B37AFB963D5BB08E");
+            entity.HasKey(e => e.RankId).HasName("PK__TBLRank__B37AFB96965515FC");
 
             entity.ToTable("TBLRank");
 
@@ -245,16 +221,16 @@ public partial class VietKoiExpoContext : DbContext
 
             entity.HasOne(d => d.Koi).WithMany(p => p.Tblranks)
                 .HasForeignKey(d => d.KoiId)
-                .HasConstraintName("FK__TBLRank__KoiID__5EBF139D");
+                .HasConstraintName("FK__TBLRank__KoiID__5CD6CB2B");
 
             entity.HasOne(d => d.User).WithMany(p => p.Tblranks)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__TBLRank__UserID__5FB337D6");
+                .HasConstraintName("FK__TBLRank__UserID__5DCAEF64");
         });
 
         modelBuilder.Entity<Tblregistration>(entity =>
         {
-            entity.HasKey(e => e.RegistrationId).HasName("PK__TBLRegis__6EF5883082378C15");
+            entity.HasKey(e => e.RegistrationId).HasName("PK__TBLRegis__6EF588307CC5C91F");
 
             entity.ToTable("TBLRegistration");
 
@@ -266,16 +242,16 @@ public partial class VietKoiExpoContext : DbContext
 
             entity.HasOne(d => d.Comp).WithMany(p => p.Tblregistrations)
                 .HasForeignKey(d => d.CompId)
-                .HasConstraintName("FK__TBLRegist__CompI__571DF1D5");
+                .HasConstraintName("FK__TBLRegist__CompI__5535A963");
 
             entity.HasOne(d => d.Koi).WithMany(p => p.Tblregistrations)
                 .HasForeignKey(d => d.KoiId)
-                .HasConstraintName("FK__TBLRegist__KoiID__5629CD9C");
+                .HasConstraintName("FK__TBLRegist__KoiID__5441852A");
         });
 
         modelBuilder.Entity<Tblresult>(entity =>
         {
-            entity.HasKey(e => e.ResultId).HasName("PK__TBLResul__976902284C83010B");
+            entity.HasKey(e => e.ResultId).HasName("PK__TBLResul__97690228B5FB4EE4");
 
             entity.ToTable("TBLResult");
 
@@ -288,16 +264,16 @@ public partial class VietKoiExpoContext : DbContext
 
             entity.HasOne(d => d.Koi).WithMany(p => p.Tblresults)
                 .HasForeignKey(d => d.KoiId)
-                .HasConstraintName("FK__TBLResult__KoiID__628FA481");
+                .HasConstraintName("FK__TBLResult__KoiID__60A75C0F");
 
             entity.HasOne(d => d.Score).WithMany(p => p.Tblresults)
                 .HasForeignKey(d => d.ScoreId)
-                .HasConstraintName("FK__TBLResult__Score__6383C8BA");
+                .HasConstraintName("FK__TBLResult__Score__619B8048");
         });
 
         modelBuilder.Entity<Tblrole>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__TBLRole__8AFACE3A9B5F5314");
+            entity.HasKey(e => e.RoleId).HasName("PK__TBLRole__8AFACE3AACC44BE7");
 
             entity.ToTable("TBLRole");
 
@@ -311,7 +287,7 @@ public partial class VietKoiExpoContext : DbContext
 
         modelBuilder.Entity<Tblscore>(entity =>
         {
-            entity.HasKey(e => e.ScoreId).HasName("PK__TBLScore__7DD229F16CDFE96C");
+            entity.HasKey(e => e.ScoreId).HasName("PK__TBLScore__7DD229F1A97FC43F");
 
             entity.ToTable("TBLScore");
 
@@ -324,20 +300,20 @@ public partial class VietKoiExpoContext : DbContext
 
             entity.HasOne(d => d.Comp).WithMany(p => p.Tblscores)
                 .HasForeignKey(d => d.CompId)
-                .HasConstraintName("FK__TBLScore__CompID__5AEE82B9");
+                .HasConstraintName("FK__TBLScore__CompID__59063A47");
 
             entity.HasOne(d => d.Koi).WithMany(p => p.Tblscores)
                 .HasForeignKey(d => d.KoiId)
-                .HasConstraintName("FK__TBLScore__KoiID__59FA5E80");
+                .HasConstraintName("FK__TBLScore__KoiID__5812160E");
 
             entity.HasOne(d => d.User).WithMany(p => p.Tblscores)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__TBLScore__UserID__5BE2A6F2");
+                .HasConstraintName("FK__TBLScore__UserID__59FA5E80");
         });
 
         modelBuilder.Entity<Tbltask>(entity =>
         {
-            entity.HasKey(e => e.TaskId).HasName("PK__TBLTask__7C6949D12962CAD1");
+            entity.HasKey(e => e.TaskId).HasName("PK__TBLTask__7C6949D10E373E7D");
 
             entity.ToTable("TBLTask");
 
@@ -351,16 +327,16 @@ public partial class VietKoiExpoContext : DbContext
 
             entity.HasOne(d => d.Comp).WithMany(p => p.Tbltasks)
                 .HasForeignKey(d => d.CompId)
-                .HasConstraintName("FK__TBLTask__CompID__6754599E");
+                .HasConstraintName("FK__TBLTask__CompID__656C112C");
 
             entity.HasOne(d => d.User).WithMany(p => p.Tbltasks)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__TBLTask__UserID__66603565");
+                .HasConstraintName("FK__TBLTask__UserID__6477ECF3");
         });
 
         modelBuilder.Entity<Tbluser>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__TBLUser__1788CCAC69C513F1");
+            entity.HasKey(e => e.UserId).HasName("PK__TBLUser__1788CCACF8BED3F4");
 
             entity.ToTable("TBLUser");
 
@@ -380,12 +356,12 @@ public partial class VietKoiExpoContext : DbContext
 
             entity.HasOne(d => d.Role).WithMany(p => p.Tblusers)
                 .HasForeignKey(d => d.RoleId)
-                .HasConstraintName("FK__TBLUser__RoleID__3A81B327");
+                .HasConstraintName("FK__TBLUser__RoleID__3B75D760");
         });
 
         modelBuilder.Entity<Tblvariety>(entity =>
         {
-            entity.HasKey(e => e.VarietyId).HasName("PK__TBLVarie__08E3A048D24744D5");
+            entity.HasKey(e => e.VarietyId).HasName("PK__TBLVarie__08E3A0488048B695");
 
             entity.ToTable("TBLVariety");
 
