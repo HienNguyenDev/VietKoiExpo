@@ -8,6 +8,7 @@ namespace KSM.Repository.ModelsMapper
 {
     public class TaskModel
     {
+        public Guid TaskId { get; set; }
         public string TaskName { get; set; }
 
         public Guid? UserId { get; set; }

@@ -35,8 +35,8 @@ namespace KSM.APIService.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTaskById(Guid id)
         {
-            var koiFish = await _taskRepo.GetByIDAsync(id);
-            return Ok(_mapper.Map<KoifishModel>(koiFish));
+            var task = await _taskRepo.GetByIDAsync(id);
+            return Ok(_mapper.Map<TaskModel>(task));
 
         }
         public class TasksModelCreate
@@ -104,7 +104,7 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFish([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteTask([FromRoute] Guid id)
         {
             var deleteTask = await _taskRepo.GetByIDAsync(id);
             if (deleteTask == null)
