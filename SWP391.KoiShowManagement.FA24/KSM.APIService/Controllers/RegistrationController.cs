@@ -116,9 +116,6 @@ namespace KSM.APIService.Controllers
 
 
 
-                await _compCateRepo.CreateAsync(koiFishCategory);
-
-
             }
 
             return Ok();
