@@ -38,6 +38,7 @@ export const loginActionApi = (userLogin, navigate) => {
 export const registerActionApi = (userRegister, navigate) => {
     return async (dispatch) => {
         try {
+
             const res = await registerUser(userRegister);
 
             // After successful registration, dispatch action to update state
@@ -78,11 +79,12 @@ export const fetchUsersActionApi = () => {
     };
 };
 export const fetchUserByIdActionApi = (userId) => {
+    
     return async (dispatch) => {
         try {
             const res = await getUserProfile(userId);
-            console.log('Fetched user profile:', res.data); 
-            const action = setUserAction(res.data);
+            console.log('Fetched user profile:', res); 
+            const action = setUserAction(res);
             dispatch(action);
         } catch (error) {
             console.error("Failed to fetch user by ID:", error.response ? error.response.data : error.message);

@@ -14,7 +14,7 @@ const NotificationPage = () => {
   useEffect(() => {
     // Nếu chưa có userProfile, gọi API lấy thông tin người dùng
     if (userLogin && !userProfile) {
-      dispatch(fetchUserByIdActionApi(userLogin.id));
+      dispatch(fetchUserByIdActionApi(userLogin.userId));
     }
   }, [dispatch, userLogin, userProfile]);
 

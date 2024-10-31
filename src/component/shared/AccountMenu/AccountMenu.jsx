@@ -18,7 +18,7 @@ const MenuAccount = () => {
   useEffect(() => {
     if (userLogin) {
       // Gọi API để lấy thông tin người dùng dựa trên userId
-      dispatch(fetchUserByIdActionApi(userLogin.id));
+      dispatch(fetchUserByIdActionApi(userLogin.userId));
     }
   }, [dispatch, userLogin]);
 
@@ -63,7 +63,33 @@ const MenuAccount = () => {
     if (role === 'referee') return '(Referee)';
     return '';
   };
-
+  const menuItems = [
+    {
+      key: '1',
+      icon: <ProfileOutlined />,
+      label: 'My Profile',
+    },
+    {
+      key: '2',
+      icon: <NotificationOutlined />,
+      label: 'Notifications',
+      onClick: handleNotificationClick, // Handles notification clicks
+    },
+    {
+      key: '3',
+      icon: <SettingOutlined />,
+      label: 'Settings',
+    },
+    {
+      type: 'divider', // This will act as the `Menu.Divider`
+    },
+    {
+      key: '4',
+      icon: <LogoutOutlined />,
+      label: 'Sign Out',
+      onClick: handleSignOut, // Handles sign out action
+    },
+  ];
   const menu = (
     <div style={{ width: 300, padding: '10px 15px', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
@@ -75,27 +101,13 @@ const MenuAccount = () => {
           <span style={{ color: '#888' }}>{userProfile.email}</span> {/* UserMail*/}
         </div>
       </div>
-      <Menu>
-      <Menu.Item key="1" icon={<ProfileOutlined />}>
-        My Profile 
-      </Menu.Item>
-      <Menu.Item key="2" icon={<NotificationOutlined />} onClick={handleNotificationClick} > 
-      Notifications{/* <Link to="/notifications">Notifications</Link> */}
-      </Menu.Item>
-      <Menu.Item key="3" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="4" icon={<LogoutOutlined />}  onClick={handleSignOut}>
-        Sign Out
-      </Menu.Item>
-    </Menu>
+      
     </div>
   );
 
   return (
     <Dropdown
-      overlay={menu}
+      menu={{ items: menuItems }} // new syntax with antd menu items
       trigger={['click']}
       placement="bottomRight"
     >

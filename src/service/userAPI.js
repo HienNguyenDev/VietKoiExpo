@@ -24,6 +24,7 @@ export const updateDetailUser = (userUpdate) => {
     })
 }
 export const getUserProfile = async (userId) => {
+    
     const baseUrl = 'https://localhost:7246/api/User/';
     const url = `${baseUrl}${userId}`;
     console.log('Fetching URL:', url); 

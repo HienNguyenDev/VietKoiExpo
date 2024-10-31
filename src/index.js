@@ -1,4 +1,4 @@
-import React from 'react';
+import  {React, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
@@ -30,7 +30,7 @@ import AssignTaskPage from './component/ManageTaskAllocation/AssignTaskPage';
 import TaskAllocationProcess from './component/ManageTaskAllocation/TaskAllocationProcess';
 //ManageContest
 import ManageContestsPage from './component/ManageContest/ManageContestsPage';
-
+import ViewContests from './component/ManageContest/ViewContests';
 // import ManagementTask from './component/ManageTaskAllocation/ManagementTask';
 
 //ManageSystemRport
@@ -44,6 +44,7 @@ import AsssignJugingProcess from './component/ManageJudging/AssignJudgingProcess
 //ManageKoiEntries
 import ManageKoiEntriesPage from './component/ManageKoiEntries/ManageKoiEntries';
 import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
+import ReviewKoiEntries from './component/ManageKoiEntries/ReviewKoiEntries';
 
 
 
@@ -58,16 +59,17 @@ import StatisticDiagram from './component/shared/diagram/StatisticDiagram';
 
 const App = () => {
   const location = useLocation();
-
+  const nodeRef = useRef(null); 
   return (
     <TransitionGroup>
-      <CSSTransition key={location.key} classNames="fade" timeout={700}>
+      <CSSTransition key={location.key} nodeRef={nodeRef} classNames="fade" timeout={700}>
+        <div ref={nodeRef}>
         <Routes location={location}>
           <Route path="/"  element={<LoginPage/>}/>
-          <Route path='home' element={<MemberPage />} >
+          <Route path='home' element={<MemberPage />} />
             <Route path='view-contest' element={< ManageKoiEntriesPage/>} />
-            <Route path="manage-contests" element={<ManageContestsPage />} />
-          </Route>
+            <Route path="view-koi" element={<ReviewKoiEntries />} />
+          
           {/* Main Route for Managing */}
           <Route path="admin" element={<AdminPage />}>
             {/* <Route path='manage-task' element={<ManagementTask />} /> */}
@@ -127,6 +129,7 @@ const App = () => {
           <Route path='fishkoi' element={<FishKoiEventDetail />} />
           
         </Routes>
+        </div>
       </CSSTransition>
     </TransitionGroup>
   );
@@ -134,7 +137,7 @@ const App = () => {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  
     <Provider store={store}>
       <ThemeProvider>
         <BrowserRouter>
@@ -142,7 +145,7 @@ root.render(
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
-  </React.StrictMode>
+ 
 );
 
 reportWebVitals();
