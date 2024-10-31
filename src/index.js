@@ -51,9 +51,8 @@ const App = () => {
     <TransitionGroup>
       <CSSTransition key={location.key} classNames="fade" timeout={700}>
         <Routes location={location}>
-          <Route path="/" element={<LoginPage />} />
-          <Route path='/wire' element={<WireframeCompetitionBracket/>}></Route>
-          <Route path="home" element={<MemberPage />} />
+          <Route path="/"  element={<LoginPage/>}/>
+          <Route path='home' element={<MemberPage />} />
           {/* Main Route for Managing */}
           <Route path="admin" element={<AdminPage />}>
             <Route path="notifications" element={<NotificationPage />} />
@@ -73,24 +72,16 @@ const App = () => {
           </Route>
           <Route path="assignKoi" element={<ApproveKoiEntries />} />
           <Route path="referee" element={<RefereePage />}>
+            {/* Step 1: Show all contests */}
             <Route path="manage-judging" element={<ManageShowJudgingPage />} />
             <Route path="manage-judging/:status/:id" element={<ManageKoiJudgingPage />} />
             <Route path="manage-judging/scoring/:koiId" element={<ManageScoringProcess />} />
           </Route>
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
-          <Route path='forget' element={<ForgetPass/>}></Route>
-          <Route path="notif" element={<NotificationPage />} />
-          <Route path="fishkoi" element={<FishKoiEventDetail />} />
-          <Route path="competition" element={<CompetitionPage />}>
-            <Route path="landing" element={<LandingPage />} />
-            <Route path="competition" element={<CompetitionBracket />} />
-            <Route path="advancement" element={<AdvancementView />} />
-            <Route path="leaderboard" element={<Leaderboard />} />
-            <Route path="announcement" element={<Announcement />} />
-            <Route path="admin" element={<AdminPanel />} />
-            
-          </Route>
+          <Route path='login' element={<LoginPage />} />
+          <Route path='register' element={<RegisterPage />} />
+          <Route path='notif' element={<NotificationPage />} />
+          <Route path='fishkoi' element={<FishKoiEventDetail />} />
+          
         </Routes>
       </CSSTransition>
     </TransitionGroup>
