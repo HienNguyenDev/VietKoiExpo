@@ -1,0 +1,27 @@
+.leaderboard {
+  text-align: center;
+  padding: 20px;
+
+  .searchBar {
+    margin-bottom: 20px;
+  }
+
+  .viewToggle {
+    margin-bottom: 20px;
+  }
+
+  .table {
+    .ant-table-thead > tr > th {
+      background: #001529;
+      color: #fff;
+    }
+
+    .ant-table-tbody > tr > td {
+      background: #f0f2f5;
+    }
+
+    .ant-table-tbody > tr:hover > td {
+      background: #e6f7ff;
+    }
+  }
+}

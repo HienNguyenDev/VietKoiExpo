@@ -33,24 +33,24 @@ const LoginForm = () => {
   return (
     <div className={styles.container}>
       <form onSubmit={frm.handleSubmit} autoComplete="off" className={styles.loginForm}>
-        <div className={styles.tittleLogin}>
+        <div className={styles.titleLogin}>
           <h1>Login</h1>
         </div>
-        {frm.errors.username && frm.touched.username && <div style={{ color: 'red' }}>{frm.errors.username}</div>}
+        {frm.errors.username && frm.touched.username && <div className={styles.error}>{frm.errors.username}</div>}
         <div className={styles.usernameItem}>
           <PlaceHolder onChange={frm.handleChange} id='username' label='Username' placeholder='Enter your username' type='text' />
         </div>
-        {frm.errors.password && frm.touched.password && <div style={{ color: 'red' }}>{frm.errors.password}</div>}
+        {frm.errors.password && frm.touched.password && <div className={styles.error}>{frm.errors.password}</div>}
         <div className={styles.passwordItem}>
           <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
         </div>
         <div className={styles.rememberItem}>
-          <Checkbox style={{ fontFamily: 'futura,helvetica,sans-serif', color: 'rgb(202, 140, 140)' }}>Remember me</Checkbox>
+          <Checkbox className={styles.checkbox}>Remember me</Checkbox>
         </div>
         <Row>
           <Col span={14}>
             <div className={styles.registerItem}>
-              <Link to='/register' style={{ color: 'rgb(202, 140, 140)' }}>Chưa có tài khoản?</Link>
+              <Link to='/register' className={styles.link}>Chưa có tài khoản?</Link>
             </div>
           </Col>
           <Col span={10}>
@@ -60,7 +60,7 @@ const LoginForm = () => {
           </Col>
         </Row>
         <div className={styles.loginWithGoogleItem}>
-          <Button type="primary" htmlType="button">
+          <Button type="primary" htmlType="button" className={styles.googleButton}>
             <div className={styles.loginWithGoogle}>
               <p>Login With Google</p>
               <img src={logoGoogle} alt="Google Logo" />

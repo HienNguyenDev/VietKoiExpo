@@ -1,0 +1,32 @@
+// CompetitionPage.module.scss
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #001529;
+}
+
+.logo {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.content {
+  background: #f0f2f5;
+  min-height: calc(100vh - 128px); // Adjust height to account for header and footer
+}
+
+.siteLayoutContent {
+  background: #fff;
+  min-height: 280px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.footer {
+  text-align: center;
+  background: #001529;
+  color: #fff;
+}

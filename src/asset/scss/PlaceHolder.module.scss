@@ -1,8 +1,10 @@
 :root {
     --bg: rgb(41, 39, 43);
-    --white: rgb(151, 141, 141);
+    --white: rgb(211, 146, 243);
+    --text-tittle:  #FFEF06;
     --primary: rgb(50, 206, 154);
-    --placeholder: rgb(106, 102, 108);
+    --placeholder: rgb(211, 146, 243);
+    --neon-yl:  #FFEF06;
   }
   
   * {
@@ -33,7 +35,7 @@
         grid-column: 1;
         grid-row: 1;
         font: 1.1rem futura,helvetica,sans-serif;
-        color: var(--white);
+      
       }
     
       & input {
@@ -44,18 +46,26 @@
         border-radius: 0.25rem;
         outline: none;
         background-color: transparent;
-        color: var(--white);
+        color: var(--neon-yl);
+        text-shadow: 0 0 8px var(--neon-yl); 
+        
         padding: 1rem;
         z-index: 0;
         transition: border-color 0.5s;
-    
+        
+        &::placeholder {
+          color: var(--placeholder);
+          text-shadow: 0 0 8px var(--placeholder);
+          opacity: 1; // Ensure the placeholder is fully opaque
+        }
+
         &:focus { border-color: var(--primary); }
-    
+        
         &:focus ~ span, 
         &:not(:placeholder-shown) ~ span {
           transform: translateY(-1.8rem) scale(0.75);
           padding: 0 0.25rem;
-          color: var(--white);
+          color: var(--text-tittle);
         }
       }
     
@@ -71,12 +81,14 @@
     label { 
       z-index: 1;
       position: absolute; // BEGIN: Added position absolute
-      top: -10px; // BEGIN: Added top
+      top: -18px; // BEGIN: Added top
       left: 10px; // BEGIN: Added left
       padding: 0 0px; // BEGIN: Added padding
-      background: #ffffff;
       border-radius: 7px;
       width: max-content;
+      color: var(--neon-yl); // Neon cyan color
+      text-shadow: 0 0 8px var(--neon-yl); 
+      font-weight: 700;
       // &::after {
       //   z-index: 1;
       //   content: "";
@@ -89,3 +101,4 @@
       // }
     }
   }
+  

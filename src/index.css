@@ -33,7 +33,7 @@ code {
   }
 }
 
-
+/* 
 .fade-enter {
   opacity: 0.8;
  
@@ -50,4 +50,4 @@ code {
   opacity: .8;
   
   animation: fadeOutScale 700ms ease-in-out forwards;
-}
+} */
