@@ -15,7 +15,7 @@ const DescriptionItem = ({ title, content }) => (
   </div>
 );
 
-const ManageUsersPage = () => {
+const   ManageUsersPage = () => {
   const [open, setOpen] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('User Profile');
   const [selectedUser, setSelectedUser] = useState(null);
@@ -23,7 +23,11 @@ const ManageUsersPage = () => {
   const [isViewMode, setIsViewMode] = useState(false);
 
   const dispatch = useDispatch();
-  const usersData = useSelector(state => state.userReducer.listUser);
+  const rawUsersData = useSelector(state => {
+    console.log("listUser:", state.userReducer.listUser); /*-------------- xóa sau */
+    return state.userReducer.listUser;
+  });
+  const usersData = Array.isArray(rawUsersData) ? rawUsersData : [];
 
   useEffect(() => {
     dispatch(fetchUsersActionApi());
@@ -33,7 +37,7 @@ const ManageUsersPage = () => {
     setDrawerTitle(title);
     setIsViewMode(viewMode);
     if (user) {
-      await dispatch(fetchUserByIdActionApi(user.id));
+      await dispatch(fetchUserByIdActionApi(user.userId));
       setSelectedUser(user);
       form.setFieldsValue(user);
     } else {
@@ -61,7 +65,6 @@ const ManageUsersPage = () => {
       },
     });
   };
-
   return (
     <div className={styles.manageUsersPage}>
       <div className={styles.containerUsers}>

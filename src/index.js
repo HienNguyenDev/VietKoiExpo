@@ -43,7 +43,8 @@ import ManageKoiEntriesPage from './component/ManageKoiEntries/ManageKoiEntries'
 import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
 import ForgetPass from './page/2.LOGIN/ForgetPass';
 import WireframeCompetitionBracket from './page/5.MEMBER/WireFrame';
-
+import ReviewKoiEntries from './component/ManageKoiEntries/ReviewKoiEntries';
+import ViewContests from './component/ManageContest/ViewContests';
 const App = () => {
   const location = useLocation();
   const nodeRef = useRef(null); 
@@ -54,8 +55,7 @@ const App = () => {
         <Routes location={location}>
           <Route path="/"  element={<LoginPage/>}/>
           <Route path='home' element={<MemberPage />} />
-          <Route path='home' element={<MemberPage />} />
-            <Route path='view-contest' element={< ManageKoiEntriesPage/>} />
+            <Route path='view-contest' element={< ViewContests/>} />
             <Route path="view-koi" element={<ReviewKoiEntries />} />
           
           {/* Main Route for Managing */}

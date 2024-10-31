@@ -17,8 +17,11 @@ const ManageContestsPage = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const contestsData = useSelector(state => state.contestReducer.contestList);
-
+  const contestsData = useSelector(state => { 
+    console.log("contestList:", state.contestReducer.contestList);/*-------------- xóa sau */
+    return state.contestReducer.contestList
+  });
+  
   useEffect(() => {
     dispatch(fetchAllContests());
   }, [dispatch]);

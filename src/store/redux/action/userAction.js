@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson,deleteCookieJson  } from '../../../util/config';
-import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction } from '../../redux/reducers/userReducer';
+import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setProfileAction } from '../../redux/reducers/userReducer';
 import { getAllUser, getUserProfile, loginUser, registerUser, updateDetailUser } from '../../../service/userAPI';
 
 
@@ -25,8 +25,12 @@ export const loginActionApi = (userLogin, navigate) => {
                 // Navigate based on role
                 if (res.data.user.roleId === 'manager') {
                     navigate('/admin');
-                } else {
-                    navigate('/user');
+                } else if (res.data.user.roleId === 'staff') {
+                    navigate('/admin');
+                } else if (res.data.user.roleId === 'judge') {
+                    navigate('/referee');
+                } else if (res.data.user.roleId === 'member') {
+                    navigate('/home');
                 }
             }
         } catch (error) {
@@ -50,7 +54,7 @@ export const registerActionApi = (userRegister, navigate) => {
             setCookieJson(USER_REGISTER, res.data.content, 30);
 
             // Navigate user to the appropriate page after registration
-            if (res.data.content.roleId === 'admin') {
+            if (res.data.content.roleId === 'manager') {
                 navigate('/admin');
             } else if (res.data.content.roleId === 'user') {
                 navigate('/user');
@@ -84,7 +88,7 @@ export const fetchUserByIdActionApi = (userId) => {
         try {
             const res = await getUserProfile(userId);
             console.log('Fetched user profile:', res); 
-            const action = setUserAction(res);
+            const action = setProfileAction(res);
             dispatch(action);
         } catch (error) {
             console.error("Failed to fetch user by ID:", error.response ? error.response.data : error.message);

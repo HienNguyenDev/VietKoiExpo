@@ -38,7 +38,7 @@ function getItem(label, key, icon, children, navigator) {
 const items = [
   // Gộp tất cả các mục con vào một getItem chính
   // getItem('Home', '1', <PieChartOutlined />, undefined, '/admin'),
-  getItem('Task Management', '2', <DesktopOutlined />, undefined, 'manage-task'),
+ // getItem('Task Management', '2', <DesktopOutlined />, undefined, 'manage-task'),
   getItem('Manage Contests', 'sub1', <DarumaIcon />, undefined, 'manage-contests'),
   // Nhóm 2: Manage Users
   getItem('Manage Users', 'sub2', <MountIcon />, undefined, 'manage-users'),
