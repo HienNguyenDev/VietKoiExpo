@@ -251,7 +251,7 @@ namespace KSM.APIService.Controllers
             // Save the changes to the database
             //await _context.SaveChangesAsync();
 
-            return Ok("Top prizes assigned successfully.");
+            return Ok(topResults);
         }
 
 
