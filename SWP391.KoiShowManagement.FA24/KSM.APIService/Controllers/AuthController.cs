@@ -14,6 +14,7 @@ using KSM.Repository.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using static KSM.APIService.Controllers.UserController;
 using Microsoft.AspNetCore.Authentication.Google;
+using Google.Apis.Auth;
 namespace KSM.APIService.Controllers
 {
     [Route("api/[controller]")]
@@ -22,11 +23,13 @@ namespace KSM.APIService.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
+        private readonly GoogleTokenValidator _googleTokenValidator;
 
-        public AuthController(IConfiguration configuration, IUserRepository userRepository)
+        public AuthController(IConfiguration configuration, IUserRepository userRepository, GoogleTokenValidator googleTokenValidator)
         {
             _configuration = configuration;
             _userRepository = userRepository;
+            _googleTokenValidator = googleTokenValidator;
         }
 
         [HttpPost("login")]
@@ -104,42 +107,43 @@ namespace KSM.APIService.Controllers
             }
         }
 
-        [HttpGet("google-login")]
-        public IActionResult GoogleLogin()
-        {
-            var properties = new AuthenticationProperties
+        [HttpPost("Google-Validation")]
+        public async Task<IActionResult> GoogleValidation([FromBody] string token)
+        {       
+            try
             {
-                RedirectUri = Url.Action("GoogleResponse")
-            };
-            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        }
+                // Xác thực token của Google
+                var payload = await _googleTokenValidator.ValidateAsync(token);
 
-        [HttpGet("google-response")]
-        public async Task<IActionResult> GoogleResponse()
-        {
-            var result = await HttpContext.AuthenticateAsync("External");
+                // Tại đây, bạn có thể lấy thông tin từ payload để tạo tài khoản mới hoặc đăng nhập người dùng
+                var userEmail = payload.Email;
+                var userName = payload.Name;
 
-            if (result?.Principal == null)
-                return Unauthorized();
-
-            var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
-            var email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-
-            if (email == null)
-            return Unauthorized();
-
-            Tbluser user = await _userRepository.GetByEmail(email);
-            if (user == null)
-            {
-                user = new Tbluser { Email = email };
-                await _userRepository.CreateAsync(user);
+                // Kiểm tra xem người dùng đã tồn tại trong database chưa
+                var existingUser = await _userRepository.GetByEmail(userEmail);
+                if (existingUser != null)
+                {
+                    string JwtToken = JwtHelper.CreateToken(existingUser, _configuration);
+                    return Ok(new { JwtToken });
+                }
+                else
+                {
+                    var newUser = new Tbluser
+                    {
+                        UserId = Guid.NewGuid(),
+                        Email = userEmail,
+                        FullName = userName,
+                        RoleId = "member"
+                    };
+                    await _userRepository.CreateAsync(newUser);
+                    var JwtToken = JwtHelper.CreateToken(newUser, _configuration);
+                    return Ok(new { JwtToken });
+                }
             }
-            // Check if the user exists in the database         
-
-            // Generate a JWT token
-            var token = Helper.JwtHelper.CreateToken(user, _configuration);
-
-            return Ok(new { token });
+            catch (InvalidJwtException)
+            {
+                return Unauthorized("Invalid Google token.");
+            }
         }
     }
 }
