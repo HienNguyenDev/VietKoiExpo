@@ -1,0 +1,24 @@
+.landingPage {
+  text-align: center;
+  padding: 20px;
+
+  .heroSection {
+    background: #0f0c29; /* Neon-themed background */
+    color: #fff;
+    padding: 50px 20px;
+    margin-bottom: 20px;
+  }
+
+  .aboutSection {
+    margin-bottom: 20px;
+  }
+
+  .countdownSection {
+    margin-top: 20px;
+  }
+
+  .countdown {
+    font-size: 24px;
+    color: #ff6f61;
+  }
+}

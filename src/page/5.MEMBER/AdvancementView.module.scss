@@ -1,0 +1,20 @@
+.advancementView {
+  text-align: center;
+  padding: 20px;
+
+  .roundSelect {
+    margin-bottom: 20px;
+  }
+
+  .fishCards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .fishCard {
+    margin: 10px;
+    border: 2px solid #ff6f61;
+    box-shadow: 0 0 10px #ff6f61;
+  }
+}

@@ -8,6 +8,8 @@ import styles from '../../asset/scss/MemberPage.module.scss';
 import banner1 from '../../asset/banner/banner1.webp';
 import banner2 from '../../asset/banner/banner2.webp';
 import banner3 from '../../asset/banner/banner3.webp';
+import bgthemelight from '../../asset/photo/bgthemelight.jpg';
+import bgthemedark from '../../asset/photo/bgthemedark.jpg';
 import listfish from '../../asset/photo/listfish.jpg';
 import bgred from '../../asset/photo/bgred.png';
 import qc from '../../asset/photo/qc.jpg';
@@ -33,6 +35,7 @@ const MemberPage = () => {
       background: {
         default: '#f7f9fc', // Light pastel blue background
         paper: '#ffffff', // White card background
+        image: `url(${bgthemelight})`, // Background image
       },
       text: {
         primary: '#333333', // Dark gray text for better readability
@@ -56,7 +59,7 @@ const MemberPage = () => {
       MuiTypography: {
         styleOverrides: {
           root: {
-            textShadow: '0 0 8px #ff6f61', // Pastel Coral glow for text
+            textShadow: '0 0 8px #ff6af61', // Pastel Coral glow for text
           },
         },
       },
@@ -105,6 +108,7 @@ const MemberPage = () => {
       background: {
         default: '#141414', // Darker background for neon contrast
         paper: '#1c1c1c', // Dark card background
+        image: `url(${bgthemedark})`, // Background image
       },
       text: {
         primary: '#ffffff', // White text
@@ -213,7 +217,7 @@ const MemberPage = () => {
   return (
     <ThemeProvider theme={currentTheme}>
       <CssBaseline /> {/* Apply default theme properties */}
-      <Layout style={{ width: '100vw', backgroundColor: currentTheme.palette.background.default }}>
+      <Layout style={{ width: '100vw',    backgroundImage: `url(${currentTheme.palette.background.image})`, }}>
         {/* Fixed Header */}
         <Header
           style={{
@@ -320,31 +324,32 @@ const MemberPage = () => {
                 <p style={{ color: currentTheme.palette.text.primary }}>
                   VietKoiExpo là nền tảng trực tuyến hàng đầu tại Việt Nam dành riêng cho thế giới cá Koi rực rỡ và xinh đẹp. Trang web của chúng tôi là nơi hội tụ của những người đam mê cá Koi, những nhà lai tạo và người chơi cá từ khắp mọi miền đất nước để giới thiệu các chú cá đẹp nhất, tham gia các cuộc thi, và kết nối với cộng đồng yêu cá Koi.
                 </p>
-                {/* Read More/Collapse Section */}
-                {isExpanded ? (
-                  <div>
-                    <p style={{ color: currentTheme.palette.text.primary }}>
-                      Mục tiêu chính của chúng tôi là tạo ra một không gian sôi động, nơi cộng đồng cá Koi có thể cùng nhau chia sẻ niềm đam mê và nghệ thuật trong việc nuôi dưỡng loài cá tuyệt đẹp này. Dù bạn là nhà lai tạo cá Koi chuyên nghiệp hay người mới bắt đầu, VietKoiExpo luôn chào đón và cung cấp nền tảng cho tất cả mọi người.
-                    </p>
-                    <p style={{ color: currentTheme.palette.text.primary }}>Những gì chúng tôi cung cấp:</p>
-                    <ul style={{ color: currentTheme.palette.text.primary }}>
-                      <li style={{ color: currentTheme.palette.text.primary }}>Cuộc thi cá Koi toàn quốc: Các cuộc thi thường niên với giải thưởng hấp dẫn, được đánh giá bởi những chuyên gia hàng đầu về cá Koi.</li>
-                      <li style={{ color: currentTheme.palette.text.primary }}>Triển lãm cá Koi: Phòng trưng bày trực tuyến với những chú cá Koi đẹp nhất Việt Nam.</li>
-                      <li style={{ color: currentTheme.palette.text.primary }}>Bí quyết từ chuyên gia: Các bài viết, mẹo và hướng dẫn từ những nhà lai tạo và chuyên gia hàng đầu trong cộng đồng.</li>
-                      <li style={{ color: currentTheme.palette.text.primary }}>Cộng đồng & Chợ cá Koi: Tham gia cùng những thành viên khác, chia sẻ kiến thức và tham gia vào các cuộc đấu giá, mua bán cá Koi.</li>
-                    </ul>
-                    <p style={{ color: currentTheme.palette.text.primary }}>
-                      Tại VietKoiExpo, chúng tôi cam kết mang đến cho bạn trải nghiệm tuyệt vời với cá Koi, trong một môi trường giàu tính học hỏi, cạnh tranh và sự tôn vinh nghệ thuật nuôi cá.
-                    </p>
-                    <MuiButton variant="text" onClick={handleReadMore} className={styles.readMore}>
-                      Read Less
-                    </MuiButton>
-                  </div>
-                ) : (
-                  <MuiButton variant="text" onClick={handleReadMore} className={styles.readMore}>
-                    Read More
-                  </MuiButton>
-                )}
+{/* Read More/Collapse Section */}
+{isExpanded ? (
+  <div>
+    <p style={{ color: currentTheme.palette.text.primary }}>
+      Mục tiêu chính của chúng tôi là tạo ra một không gian sôi động, nơi cộng đồng cá Koi có thể cùng nhau chia sẻ niềm đam mê và nghệ thuật trong việc nuôi dưỡng loài cá tuyệt đẹp này. Dù bạn là nhà lai tạo cá Koi chuyên nghiệp hay người mới bắt đầu, VietKoiExpo luôn chào đón và cung cấp nền tảng cho tất cả mọi người.
+    </p>
+    <p style={{ color: currentTheme.palette.text.primary }}>Những gì chúng tôi cung cấp:</p>
+    <ul style={{ color: currentTheme.palette.text.primary }}>
+      <li style={{ color: currentTheme.palette.text.primary }}>Cuộc thi cá Koi toàn quốc: Các cuộc thi thường niên với giải thưởng hấp dẫn, được đánh giá bởi những chuyên gia hàng đầu về cá Koi.</li>
+      <li style={{ color: currentTheme.palette.text.primary }}>Triển lãm cá Koi: Phòng trưng bày trực tuyến với những chú cá Koi đẹp nhất Việt Nam.</li>
+      <li style={{ color: currentTheme.palette.text.primary }}>Bí quyết từ chuyên gia: Các bài viết, mẹo và hướng dẫn từ những nhà lai tạo và chuyên gia hàng đầu trong cộng đồng.</li>
+      <li style={{ color: currentTheme.palette.text.primary }}>Cộng đồng & Chợ cá Koi: Tham gia cùng những thành viên khác, chia sẻ kiến thức và tham gia vào các cuộc đấu giá, mua bán cá Koi.</li>
+    </ul>
+    <p style={{ color: currentTheme.palette.text.primary }}>
+      Tại VietKoiExpo, chúng tôi cam kết mang đến cho bạn trải nghiệm tuyệt vời với cá Koi, trong một môi trường giàu tính học hỏi, cạnh tranh và sự tôn vinh nghệ thuật nuôi cá.
+    </p>
+    <Typography variant="body2" style={{ cursor: 'pointer', color: currentTheme.palette.primary.main }} onClick={handleReadMore}>
+      Read Less
+    </Typography>
+  </div>
+) : (
+  <Typography variant="body2" style={{ cursor: 'pointer', color: currentTheme.palette.primary.main }} onClick={handleReadMore}>
+    Read More
+  </Typography>
+)}
+
               </Card>
             </Col>
           </Row>
@@ -379,15 +384,9 @@ const MemberPage = () => {
                     Join the most exciting Koi contest of the year! Showcase your beautiful Koi fish and compete for the top prize.
                   </p>
                 </div>
-                <MuiButton
-                  variant="contained"
-                  style={{
-                    backgroundColor: currentTheme.palette.primary.main,
-                    color: currentTheme.palette.background.default,
-                  }}
-                >
-                  Join Now
-                </MuiButton>
+                <MuiButton variant="text" className={styles.readMore}>
+                    Join Now
+                  </MuiButton>
               </Card>
             </Col>
             <Col span={12}>
@@ -417,15 +416,9 @@ const MemberPage = () => {
                 <p style={{ color: currentTheme.palette.text.primary }}>
                   Cast your vote for the most beautiful Koi fish in the contest. Your vote can help decide the winner!
                 </p>
-                <MuiButton
-                  variant="contained"
-                  style={{
-                    backgroundColor: currentTheme.palette.primary.main,
-                    color: currentTheme.palette.background.default,
-                  }}
-                >
-                  Vote Now
-                </MuiButton>
+                <MuiButton variant="text" className={styles.readMore}>
+                    Vote Now?
+                  </MuiButton>
               </Card>
             </Col>
           </Row>
