@@ -101,6 +101,18 @@ namespace KSM.APIService.Controllers
                     koiFishCategory.CategoryId = "grand";
                 }
 
+                var categories = await _compCateRepo.GetAllCategoryIdsByCompetitionId((Guid)koiFishCategory.CompId);
+
+                // Check if the category exists in the competition categories
+                if (!categories.Any(c => c == koiFishCategory.CategoryId))
+                {
+                    await _registRepo.DeleteAsync(registration);
+                    return BadRequest("Your Fish specified category does not exist for this competition.");
+
+                }
+
+                await _compCateRepo.CreateAsync(koiFishCategory);
+
 
 
 

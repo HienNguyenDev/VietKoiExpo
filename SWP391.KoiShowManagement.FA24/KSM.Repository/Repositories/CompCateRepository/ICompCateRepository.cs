@@ -13,5 +13,7 @@ namespace KSM.Repository.Repositories.CompCateRepository
         Task<IEnumerable<TblcompetitionCategory>> GetAllCategoriesByCompetitionID_1(Guid compId);
         Task<IEnumerable<Tblcategory>> GetAllCategoriesByCompetitionID(Guid compId);
         Task<IEnumerable<TblkoiFish>> GetAllFishByCategoryAndCompId(Guid competitionID, string categoryID);
+
+        Task<IEnumerable<string>> GetAllCategoryIdsByCompetitionId(Guid compId);
     }
 }

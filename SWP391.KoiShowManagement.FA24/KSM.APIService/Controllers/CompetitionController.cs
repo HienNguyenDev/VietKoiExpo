@@ -54,7 +54,7 @@ namespace KSM.APIService.Controllers
         }
         /// ////////////////////////////////////////////////////////////////////////////////////
 
-        [HttpGet("CompetitonCategories/{competitionID}/{comID}")]
+        [HttpGet("CompetitonCategories/{competitionID}/{categoryID}")]
         public async Task<IActionResult> GetFishByCategoryAndCompId(Guid competitionID, string comID)
         {
             var fishes = await _compCateRepository.GetAllFishByCategoryAndCompId(competitionID, comID);

@@ -41,5 +41,12 @@ namespace KSM.Repository.Repositories.CompCateRepository
                 .Select(cc => cc.Koi).Distinct() // Directly select Koi entities
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<string>> GetAllCategoryIdsByCompetitionId(Guid compId)
+        {
+            return await DbSet.Where(f => f.CompId == compId)
+                .Select(f => f.Category.CategoryId)
+                .ToListAsync();
+        }
     }
 }
