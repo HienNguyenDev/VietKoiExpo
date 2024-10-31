@@ -172,46 +172,57 @@ namespace KSM.APIService.Controllers
                 newScore.ScoreId = Guid.NewGuid();
                 newScore.TotalScore = newScore.ScoreColor * 0.3 + newScore.ScoreShape * 0.5 + newScore.ScorePattern * 0.2;
                 await _scoreRepo.CreateAsync(newScore);
+
                 Guid newScoreID = newScore.ScoreId;
                 var score = await _scoreRepo.GetByIDAsync(newScoreID);
-                ///////////////////////////////////////////////////////////////
-                // Kiểm tra xem đã có 3 điểm cho Koi này trong cuộc thi này chưa
+
+                // Check scores for the specific Koi in the competition
                 var scoresForKoi = await _scoreRepo.GetAllAsync();
                 var relatedScores = scoresForKoi
                     .Where(s => s.KoiId == model.KoiId && s.CompId == model.CompId)
                     .ToList();
 
-                // Check if there are 3 scores, including the newly added score
-                if (relatedScores.Count == 3)
+                // Ensure there are between 1 and 3 scores (including the newly added score)
+                if (relatedScores.Count >= 1 && relatedScores.Count <= 3)
                 {
-                    // Tính điểm trung bình
+                    // Calculate the average score if there are scores present
                     double averageScore = relatedScores.Average(s => s.TotalScore ?? 0);
 
-                    // Tạo hàng mới trong bảng result
-                    var result = new Tblresult
+                    var existingResult = await _resultRepo.GetAllAsync(); // Retrieve all results
+                    var koiResult = existingResult.FirstOrDefault(r => r.KoiId == newScore.KoiId && r.CompId == model.CompId);
+
+                    if (koiResult != null)
                     {
-                        ResultId = Guid.NewGuid(),
-                        KoiId = newScore.KoiId,
-                        ResultScore = averageScore,
-                        Prize = null, // Hàm tùy chọn để xác định giải thưởng
-                        //ScoreId = null,
-                        Status = true,
-                        CompId = model.CompId
-                    };
+                        // Update the existing result with the new average score
+                        koiResult.ResultScore = averageScore;
+                        await _resultRepo.UpdateAsync(koiResult);
+                    }
+                    else
+                    {
+                        // Create a new result if none exists
+                        var result = new Tblresult
+                        {
+                            ResultId = Guid.NewGuid(),
+                            KoiId = newScore.KoiId,
+                            ResultScore = averageScore,
+                            Prize = null, // Function to determine the prize can be implemented here
+                            Status = true,
+                            CompId = model.CompId
+                        };
 
-                    await _resultRepo.CreateAsync(result);
-
+                        await _resultRepo.CreateAsync(result);
+                    }
                 }
-                /////////////////////////////////////////////////
-                return score == null ? NotFound() : Ok(score); // Return created fish on 
 
-
+                // Return the list of related scores
+                return score == null ? NotFound() : Ok(new { score, relatedScores });
             }
             catch (Exception ex)
             {
                 return BadRequest(); // Return specific error message on exception
             }
         }
+
 
         //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -243,13 +254,11 @@ namespace KSM.APIService.Controllers
             {
                 if (topResult != null)
                 {
-                    topResult.Result.Prize = $"giải nhất của {topResult.CategoryId}";
+                    topResult.Result.Prize = $"{topResult.CategoryId} first prize";
                     _resultRepo.Update(topResult.Result);
                 }
             }
 
-            // Save the changes to the database
-            //await _context.SaveChangesAsync();
 
             return Ok(topResults);
         }
