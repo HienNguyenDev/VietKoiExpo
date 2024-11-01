@@ -10,8 +10,8 @@ const { confirm } = Modal;
 const ViewContest = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const contests = useSelector(state => state.contest.contestList);
-  const user = useSelector(state => state.auth.user);
+  const contests = useSelector(state =>state.contestReducer.contestList);
+  const user = useSelector(state => state.userReducer.user);
   const [permissionCode, setPermissionCode] = useState('');
 
   useEffect(() => {
@@ -19,7 +19,8 @@ const ViewContest = () => {
   }, [dispatch]);
 
   const handleUpdateClick = (contestId) => {
-    if (user.role === 'admin') {
+    
+    if (user.roleId === 'manager') {
       navigate(`/update-contest/${contestId}`);
     } else {
       confirm({
@@ -43,13 +44,16 @@ const ViewContest = () => {
       });
     }
   };
-
+  console.log('aaaaaaaaaaaaaaa',contests)
   return (
+    
     <div>
+      
       <Title level={2}>Contests</Title>
       <List
         bordered
         dataSource={contests}
+        
         renderItem={contest => (
           <List.Item key={contest.id}>
             <Typography.Text>{contest.name}</Typography.Text>

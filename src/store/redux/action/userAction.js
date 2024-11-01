@@ -4,7 +4,7 @@ import { loginAction, registerAction, updateUserAction, removeUserAction, setUse
 import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser } from '../../../service/userAPI';
 
 // async actions
-
+z
 export const loginActionApi = (userLogin, navigate) => {
     return async (dispatch) => {
         try {
@@ -28,19 +28,14 @@ export const loginActionApi = (userLogin, navigate) => {
                 setCookieJson(USER_LOGIN, res.data.user, 30);
 
                 // Navigate based on role
-                switch (res.data.user.roleId) {
-                    case 'admin':
-                        navigate('/admin');
-                        break;
-                    case 'member':
-                        navigate('/member');
-                        break;
-                    case 'guest':
-                        navigate('/guest');
-                        break;
-                    default:
-                        navigate('/');
-                        break;
+                if (res.data.user.roleId === 'manager') {
+                    navigate('/admin');
+                } else if (res.data.user.roleId === 'staff') {
+                    navigate('/admin');
+                } else if (res.data.user.roleId === 'judge') {
+                    navigate('/referee');
+                } else if (res.data.user.roleId === 'member') {
+                    navigate('/home');
                 }
             }
         } catch (error) {
@@ -52,6 +47,7 @@ export const loginActionApi = (userLogin, navigate) => {
 export const registerActionApi = (userRegister, navigate) => {
     return async (dispatch) => {
         try {
+
             const res = await registerUser(userRegister);
 
             // After successful registration, dispatch action to update state
@@ -63,7 +59,7 @@ export const registerActionApi = (userRegister, navigate) => {
             setCookieJson(USER_REGISTER, res.data.content, 30);
 
             // Navigate user to the appropriate page after registration
-            if (res.data.content.roleId === 'admin') {
+            if (res.data.content.roleId === 'manager') {
                 navigate('/admin');
             } else if (res.data.content.roleId === 'user') {
                 navigate('/user');
@@ -93,6 +89,7 @@ export const fetchUsersActionApi = () => {
 };
 
 export const fetchUserByIdActionApi = (userId) => {
+    console.log('Fetching userId:', userId);
     return async (dispatch) => {
         try {
             const res = await getUserProfile(userId);

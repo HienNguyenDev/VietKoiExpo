@@ -251,7 +251,7 @@ const MemberPage = () => {
               borderColor: currentTheme.palette.primary.main,
               color: currentTheme.palette.primary.main,
             }}
-            onClick={() => handleNavigation('manage-contests')} /* thêm navigation */
+            onClick={() => handleNavigation('view-contests')} /* thêm navigation */
           >
             Competition
           </MuiButton>
@@ -263,7 +263,7 @@ const MemberPage = () => {
               borderColor: currentTheme.palette.primary.main,
               color: currentTheme.palette.primary.main,
             }}
-            onClick={() => handleNavigation('manage-contests')}   /* thêm navigation */
+            onClick={() => handleNavigation('view-koi')}   /* thêm navigation */
           >
             MyKoi
           </MuiButton>

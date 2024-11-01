@@ -1,66 +1,86 @@
 // actions/koiEntriesActions.js
 
 import { KOI_ASSIGN, KOI_APPROVE, KOI_CHECKIN, KOI_REVIEW, KOI_CATEGORY } from '../../../util/config';
-import { approveKoiEntries, assignKoiEntry, assignKoiCategory, reviewKoiEntry } from '../../../service/KoiEntriesAPI';
-
+import {getAllKoiEntriesBycompId, approveKoiEntry, rejectKoiEntry, createKoiRegistration, classifyKoiEntry, reviewKoiEntry } from '../../../service/KoiEntriesAPI';
+import {
+    createKoiEntryAction,
+    approveKoiEntryAction,
+    rejectKoiEntryAction,
+    classifyKoiEntryAction,
+    setKoiEntryDetailsAction,
+    setListKoiEntriesAction
+} from '../reducers/koiEntriesReducer';
 // Action Creators
-
+export const createKoiRegistrationApi = (registrationDetails) => {
+    return async (dispatch) => {
+        try {
+            const res = await createKoiRegistration(registrationDetails);
+            const action = createKoiEntryAction(res.data);
+            dispatch(action);
+        } catch (error) {
+            console.error("Failed to create Koi registration:", error.response ? error.response.data : error.message);
+        }
+    };
+};
 // Approve Koi Entries
-export const approveKoiEntriesAction = (koiEntry) => {
+export const approveKoiEntryApi = (entryId) => {
     return async (dispatch) => {
         try {
-            const response = await approveKoiEntries(koiEntry);
-            dispatch({
-                type: KOI_APPROVE,
-                payload: response.data
-            });
+            await approveKoiEntry(entryId);
+            const action = approveKoiEntryAction(entryId);
+            dispatch(action);
         } catch (error) {
-            console.error('Error approving Koi entries:', error);
+            console.error("Failed to approve Koi entry:", error.response ? error.response.data : error.message);
+        }
+    };
+};
+export const rejectKoiEntryApi = (entryId) => {
+    return async (dispatch) => {
+        try {
+            await rejectKoiEntry(entryId);
+            const action = rejectKoiEntryAction(entryId);
+            dispatch(action);
+        } catch (error) {
+            console.error("Failed to reject Koi entry:", error.response ? error.response.data : error.message);
         }
     };
 };
 
-// Assign Koi Entry
-export const assignKoiEntryAction = (entryId, koiData) => {
+// Action để phân loại tự động đơn đăng ký cá Koi
+export const classifyKoiEntryApi = (registrationID) => {
     return async (dispatch) => {
         try {
-            const response = await assignKoiEntry(entryId, koiData);
-            dispatch({
-                type: KOI_ASSIGN,
-                payload: response.data
-            });
+            const res = await classifyKoiEntry(registrationID);
+            dispatch(classifyKoiEntryAction({ registrationID, data: res.data }));
+            console.log("Classification successful:", res.data);
         } catch (error) {
-            console.error('Error assigning Koi entry:', error);
+            console.error("Failed to classify Koi entry:", error.response ? error.response.data : error.message);
         }
     };
 };
 
-// Assign Koi Category
-export const assignKoiCategoryAction = (entryId, categoryData) => {
-    return async (dispatch) => {
-        try {
-            const response = await assignKoiCategory(entryId, categoryData);
-            dispatch({
-                type: KOI_CATEGORY,
-                payload: response.data
-            });
-        } catch (error) {
-            console.error('Error assigning Koi category:', error);
-        }
-    };
-};
 
 // Review Koi Entry
-export const reviewKoiEntryAction = (entryId, reviewData) => {
+export const reviewKoiEntryAction = (entryId) => {
     return async (dispatch) => {
         try {
-            const response = await reviewKoiEntry(entryId, reviewData);
-            dispatch({
-                type: KOI_REVIEW,
-                payload: response.data
-            });
+            const res = await reviewKoiEntry(entryId);
+            return res.data; // Trả về dữ liệu chi tiết
         } catch (error) {
             console.error('Error reviewing Koi entry:', error);
+        }
+    };
+};
+
+
+export const fetchAllKoiEntriesApi = (compId) => {
+    return async (dispatch) => {
+        try {
+            const res = await getAllKoiEntriesBycompId(compId);
+            const action = setListKoiEntriesAction(res.data);
+            dispatch(action);
+        } catch (error) {
+            console.error("Failed to fetch list Koi entries:", error.response ? error.response.data : error.message);
         }
     };
 };

@@ -38,11 +38,11 @@ function getItem(label, key, icon, children, navigator) {
 const items = [
   // Gộp tất cả các mục con vào một getItem chính
   // getItem('Home', '1', <PieChartOutlined />, undefined, '/admin'),
-  getItem('Task Management', '2', <DesktopOutlined />, undefined, 'manage-task'),
+ // getItem('Task Management', '2', <DesktopOutlined />, undefined, 'manage-task'),
   getItem('Manage Contests', 'sub1', <DarumaIcon />, undefined, 'manage-contests'),
   // Nhóm 2: Manage Users
   getItem('Manage Users', 'sub2', <MountIcon />, undefined, 'manage-users'),
-  getItem('Manage Koi Entries', 'sub3', <KoiIcon />, undefined, 'koiManage'),
+  getItem('Manage Koi Entries', 'sub3', <KoiIcon />, undefined, 'manage-koi-entries'),
   // //// Nhóm 3: Manage Judging Process
   // getItem('Manage Judging Process', 'sub4', <TorriJapanIcon />, [
   //   getItem('Assign Judges to Contests', '61', undefined, undefined, 'assign-judges-to-contest'),

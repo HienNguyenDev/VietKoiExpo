@@ -1,4 +1,4 @@
-import React from 'react';
+import  {React, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
@@ -39,19 +39,25 @@ import ManageScoringProcess from './component/ManageJudging/ManageScoringProcess
 import ManageKoiJudgingPage from './component/ManageJudging/ManageKoiJudgingPage';
 import FinalizeContestResults from './component/ManageJudging/FinalizeContestResults';
 import AsssignJugingProcess from './component/ManageJudging/AssignJudgingProcess';
-import ManageKoiEntriesPage from './component/ManageKoiEntries/ManageKoiEntries';
+import ManageKoiEntriesPage from './component/ManageKoiEntries/ManageKoiEntries1';
+import ReviewKoiEntries from './component/ManageKoiEntries/ReviewKoiEntries';
 import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
 import ForgetPass from './page/2.LOGIN/ForgetPass';
 import WireframeCompetitionBracket from './page/5.MEMBER/WireFrame';
-
+import ViewContests from './component/ManageContest/ViewContests';
 const App = () => {
   const location = useLocation();
-
+  const nodeRef = useRef(null); 
   return (
-
+    <TransitionGroup>
+      <CSSTransition key={location.key} nodeRef={nodeRef} classNames="fade" timeout={700}>
+        <div ref={nodeRef}>
         <Routes location={location}>
           <Route path="/"  element={<LoginPage/>}/>
           <Route path='home' element={<MemberPage />} />
+            <Route path='view-contest' element={< ViewContests/>} />
+            <Route path="view-koi" element={<ReviewKoiEntries />} />
+          
           {/* Main Route for Managing */}
           <Route path="admin" element={<AdminPage />}>
             <Route path="notifications" element={<NotificationPage />} />
@@ -64,11 +70,13 @@ const App = () => {
             <Route path="manage-judging-criteria" element={<ManageJudgingCriteria />} />
             <Route path="manage-task-allocation" element={<AssignTaskPage />} />
             <Route path="manage-task-allocation/:compID" element={<TaskAllocationProcess />} />
-            <Route path="koiManage" element={<ManageKoiEntriesPage />} />
-          </Route>
-          <Route path="koiManage" element={<ManageKoiEntriesPage />}>
+          <Route path="admin" element={<AdminPage />}></Route>
+            <Route path="manage-koi-entries" element={<ManageKoiEntriesPage />} />
+            <Route path="manage-koi-entries/review-koi-entries/:compName" element={<ReviewKoiEntries />} />
             
           </Route>
+          
+          
           <Route path="assignKoi" element={<ApproveKoiEntries />} />
           <Route path="referee" element={<RefereePage />}>
             {/* Step 1: Show all contests */}
@@ -90,12 +98,15 @@ const App = () => {
         </Route>
           
         </Routes>
+        </div>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  
     <Provider store={store}>
       <ThemeProvider>
         <BrowserRouter>
@@ -103,7 +114,7 @@ root.render(
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
-  </React.StrictMode>
+ 
 );
 
 reportWebVitals();

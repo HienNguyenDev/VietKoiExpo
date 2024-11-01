@@ -1,35 +1,45 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://103.90.227.68:8080/api'; // Replace with your actual base URL
+const BASE_URL = 'https://localhost:7246/api'; // Replace with your actual base URL
 
-export const approveKoiEntries = (koiEntry) => {
+export const approveKoiEntry = (entryId) => {
     return axios({
-        url: `${BASE_URL}/koiEntries/approve`,
-        method: 'POST',
-        data: koiEntry,
-    });
-};
-
-export const assignKoiEntry = (entryId, koiData) => {
-    return axios({
-        url: `${BASE_URL}/koiEntries/${entryId}/assign`,
+        url: `${BASE_URL}/Registration/AcceptRegistration/${entryId}`,
         method: 'PUT',
-        data: koiData,
     });
 };
-
-export const assignKoiCategory = (entryId, categoryData) => {
+export const rejectKoiEntry = (entryId) => {    
     return axios({
-        url: `${BASE_URL}/koiEntries/${entryId}/category`,
+        url: `${BASE_URL}/Registration/RejectRegistration/${entryId}`,
         method: 'PUT',
-        data: categoryData,
     });
 };
 
-export const reviewKoiEntry = (entryId, reviewData) => {
+
+export const createKoiRegistration = (entryDetails) => {
     return axios({
-        url: `${BASE_URL}/koiEntries/${entryId}/review`,
+        url: `${BASE_URL}/Registration`,
         method: 'POST',
-        data: reviewData,
+        data: entryDetails,
+    });
+};
+// Phân loại tự động đơn đăng ký cá Koi
+export const classifyKoiEntry = (registrationID) => {
+    return axios({
+        url: `${BASE_URL}/Registration/Classificate/${registrationID}`,
+        method: 'POST',
+    });
+};
+
+export const reviewKoiEntry = (koiId) => {
+    return axios({
+        url: `${BASE_URL}/Koifish/${koiId}`,
+        method: 'GET',
+    });
+};
+export const getAllKoiEntriesBycompId = (compId) => {
+    return axios({
+        url: `${BASE_URL}/Registration/GetAllRegistByCompId/${compId}`,
+        method: 'GET',
     });
 };
