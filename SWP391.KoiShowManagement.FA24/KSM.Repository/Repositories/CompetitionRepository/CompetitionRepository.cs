@@ -1,6 +1,7 @@
 ﻿using KSM.Repository.Models;
 using KSM.Repository.Repositories.Generic;
 using KSM.Repository.Repositories.VarietyRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,12 @@ namespace KSM.Repository.Repositories.CompetitionRepository
     {
         public CompetitionRepository(VietKoiExpoContext context) : base(context)
         {
+        }
+        public async Task<IEnumerable<Tblcompetition>> GetAllWithCategoriesAsync()
+        {
+            return await DbSet
+                .Include(c => c.TblcompetitionCategories)
+                .ToListAsync();
         }
     }
 }

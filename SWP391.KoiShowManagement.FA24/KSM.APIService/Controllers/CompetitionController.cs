@@ -33,7 +33,8 @@ namespace KSM.APIService.Controllers
         {
             try
             {
-                var competition = await _competitionRepo.GetAllAsync();
+                //var competition = await _competitionRepo.GetAllAsync();
+                var competition = await _competitionRepo.GetAllWithCategoriesAsync();
                 return Ok(competition);
             }
             catch

@@ -10,5 +10,6 @@ namespace KSM.Repository.Repositories.CompetitionRepository
 {
     public interface ICompetitionRepository : IGenericRepository<Tblcompetition, Guid>
     {
+        Task<IEnumerable<Tblcompetition>> GetAllWithCategoriesAsync();
     }
 }
