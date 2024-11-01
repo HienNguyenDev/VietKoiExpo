@@ -202,7 +202,7 @@ namespace KSM.APIService.Controllers
         }
 
 
-        [HttpPut("UpdateStatusAccept/{id}")]
+        [HttpPut("AcceptRegistration/{id}")]
         public async Task<IActionResult> UpdateStatusAccept(Guid id)
         {
             var registration = await _registRepo.GetByIDAsync(id);
@@ -211,7 +211,22 @@ namespace KSM.APIService.Controllers
                 return NotFound();
             }
 
-            registration.Status = 1; // Set status to 1
+            registration.Status = 1;
+
+            await _registRepo.UpdateAsync(registration);
+            return Ok();
+        }
+
+        [HttpPut("RejectRegistration/{id}")]
+        public async Task<IActionResult> UpdateStatusReject(Guid id)
+        {
+            var registration = await _registRepo.GetByIDAsync(id);
+            if (registration == null)
+            {
+                return NotFound();
+            }
+
+            registration.Status = 2;
 
             await _registRepo.UpdateAsync(registration);
             return Ok();
