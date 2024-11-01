@@ -21,5 +21,12 @@ namespace KSM.Repository.Repositories.CompetitionRepository
                 .Include(c => c.TblcompetitionCategories)
                 .ToListAsync();
         }
+
+        public async Task<Tblcompetition> GetByIDWithCategoriesAsync(Guid id)
+        {
+            return await DbSet
+                .Include(c => c.TblcompetitionCategories)
+                .FirstOrDefaultAsync(c => c.CompId == id);
+        }
     }
 }

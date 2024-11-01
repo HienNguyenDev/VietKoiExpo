@@ -67,7 +67,15 @@ namespace KSM.APIService.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompetitionById(Guid id)
         {
-            var competition = await _competitionRepo.GetByIDAsync(id);
+            //var competition = await _competitionRepo.GetByIDAsync(id);
+            //return Ok(_mapper.Map<CompetitionModel>(competition));
+
+            var competition = await _competitionRepo.GetByIDWithCategoriesAsync(id);
+            if (competition == null)
+            {
+                return NotFound();
+            }
+
             return Ok(competition);
         }
 
