@@ -107,7 +107,7 @@ const ManageKoiEntriesPage = () => {
       <Table
         columns={columns}
         dataSource={filteredCompetitions}
-        rowKey="id"
+        rowKey="compId"
         pagination={{ pageSize: 5 }}
         loading={loading} // Hiển thị trạng thái loading nếu cần
       />
