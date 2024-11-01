@@ -6,6 +6,7 @@ const initialState = {
     koiEntryCreate: getStoreJson(KOI_ASSIGN), // Lấy dữ liệu từ localStorage
     koiEntryDetails: {}, // Chi tiết một đơn đăng ký cá Koi cụ thể
     koiEntries: [], // Danh sách các đơn đăng ký cá Koi
+    KoiList: [],
     loading: false, // Trạng thái tải
     error: null, // Lỗi nếu có
 };
@@ -57,6 +58,9 @@ const koiEntriesReducer = createSlice({
         setListKoiEntriesAction: (state, action) => {
             state.koiEntries = action.payload;
         },
+        setListKoiByCategoryAndCompIdAction: (state, action) => {
+            state.KoiList = action.payload;
+        },
         // Xử lý khi có lỗi
         setError: (state, action) => {
             state.error = action.payload;
@@ -74,6 +78,7 @@ export const {
     classifyKoiEntryAction,
     setKoiEntryDetailsAction,
     setListKoiEntriesAction,
+    setListKoiByCategoryAndCompIdAction,
     setError,
     setLoading
 } = koiEntriesReducer.actions;

@@ -1,13 +1,14 @@
 // actions/koiEntriesActions.js
 
 import { KOI_ASSIGN, KOI_APPROVE, KOI_CHECKIN, KOI_REVIEW, KOI_CATEGORY } from '../../../util/config';
-import {getAllKoiEntriesBycompId, approveKoiEntry, rejectKoiEntry, createKoiRegistration, classifyKoiEntry, reviewKoiEntry } from '../../../service/KoiEntriesAPI';
+import {getAllKoiEntriesBycompId, getAllKoiEntriesByCategoryAndCompId, approveKoiEntry, rejectKoiEntry, createKoiRegistration, classifyKoiEntry, reviewKoiEntry } from '../../../service/KoiEntriesAPI';
 import {
     createKoiEntryAction,
     approveKoiEntryAction,
     rejectKoiEntryAction,
     classifyKoiEntryAction,
     setKoiEntryDetailsAction,
+    setListKoiByCategoryAndCompIdAction,
     setListKoiEntriesAction
 } from '../reducers/koiEntriesReducer';
 // Action Creators
@@ -78,6 +79,18 @@ export const fetchAllKoiEntriesApi = (compId) => {
         try {
             const res = await getAllKoiEntriesBycompId(compId);
             const action = setListKoiEntriesAction(res.data);
+            dispatch(action);
+        } catch (error) {
+            console.error("Failed to fetch list Koi entries:", error.response ? error.response.data : error.message);
+        }
+    };
+};
+
+export const fetchKoiEntriesByCategoryAndCompId = (compId,categoryId) => {
+    return async (dispatch) => {
+        try {
+            const res = await getAllKoiEntriesByCategoryAndCompId(compId,categoryId);
+            const action = setListKoiByCategoryAndCompIdAction(res.data);
             dispatch(action);
         } catch (error) {
             console.error("Failed to fetch list Koi entries:", error.response ? error.response.data : error.message);

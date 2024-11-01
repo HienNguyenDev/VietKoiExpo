@@ -32,9 +32,17 @@ export const getContest = (contestId) => {
     });
 };
 
+export const getCategoriesbyCompId = (contestId) => {
+    return axios({
+        url: `${BASE_URL}/CompetitonCategories/${contestId}`,
+        method: 'GET',
+    });
+};
+
 export const getAllContest = () => {
     return axios({
         url: `${BASE_URL}`,
         method: 'GET',
     });
 };
+

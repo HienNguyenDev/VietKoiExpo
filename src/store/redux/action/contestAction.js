@@ -6,9 +6,10 @@ import {
     removeContestAction,
     fetchContestDetailsSuccess,
     fetchContestDetailsFailure,
-    setContestListAction
+    setContestListAction,
+    setCategoriesListByContestAction
 } from '../reducers/contestReducer';
-import { createContest, updateContest, getContest, getAllContest, removeContest } from '../../../service/ContestAPI'; // replace with your actual API methods
+import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
 
 // async actions
 export const createContestActionApi = (contestDetails) => {
@@ -79,3 +80,20 @@ export const fetchAllContests = () => {
         }
     };
 };
+
+export const fetchCategoriesByCompId = (contestId) => {
+    return async (dispatch) => {
+      try {
+        const res = await getCategoriesbyCompId(contestId);
+        if (res && res.data) {
+          dispatch(setCategoriesListByContestAction(res.data));
+          return res; // Return the response for use in your component
+        } else {
+          throw new Error('No data returned from API');
+        }
+      } catch (error) {
+        console.error("Failed to fetch Categories:", error.message);
+        return null; // Return null to indicate failure
+      }
+    };
+  };
