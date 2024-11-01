@@ -83,7 +83,7 @@ export const fetchUsersActionApi = () => {
     };
 };
 export const fetchUserByIdActionApi = (userId) => {
-    
+    console.log('Fetching userId:', userId);
     return async (dispatch) => {
         try {
             const res = await getUserProfile(userId);
