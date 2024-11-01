@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from '../../asset/scss/IntroComponent.scss';
 import LoginPage from '../2.LOGIN/LoginForm';
+import LandingPage from '../5.MEMBER/LandingPage';
 
 const IntroComponent = () => {
     useEffect(() => {
@@ -47,6 +48,7 @@ const IntroComponent = () => {
                     <div className="g4"></div>
                     <div className="g5"></div>
                     <div className="interactive"></div>
+                    <LandingPage/>
                 </div>
             </div>
         </>

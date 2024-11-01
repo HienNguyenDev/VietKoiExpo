@@ -42,19 +42,19 @@ const RegisterForm = () => {
         <div className={styles.tittleRegister}>
           <h1>Register</h1>
         </div>
-        {frm.errors.username && frm.touched.username && <div style={{ color: 'red' }}>{frm.errors.username}</div>}
+        {frm.errors.username && frm.touched.username && <div className={styles.error}>{frm.errors.username}</div>}
         <div className={styles.formItem}>
           <PlaceHolder onChange={frm.handleChange} id='username' label='Username' placeholder='Enter your username' type='text' />
         </div>
-        {frm.errors.password && frm.touched.password && <div style={{ color: 'red' }}>{frm.errors.password}</div>}
+        {frm.errors.password && frm.touched.password && <div className={styles.error}>{frm.errors.password}</div>}
         <div className={styles.formItem}>
           <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
         </div>
-        {frm.errors.confirmPassword && frm.touched.confirmPassword && <div style={{ color: 'red' }}>{frm.errors.confirmPassword}</div>}
+        {frm.errors.confirmPassword && frm.touched.confirmPassword && <div className={styles.error}>{frm.errors.confirmPassword}</div>}
         <div className={styles.formItem}>
           <PlaceHolder onChange={frm.handleChange} id='confirmPassword' label='Confirm Password' placeholder='Confirm your password' type='password' />
         </div>
-        {frm.errors.email && frm.touched.email && <div style={{ color: 'red' }}>{frm.errors.email}</div>}
+        {frm.errors.email && frm.touched.email && <div className={styles.error}>{frm.errors.email}</div>}
         <div className={styles.formItem}>
           <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Enter your email' type='email' />
         </div>
@@ -63,7 +63,7 @@ const RegisterForm = () => {
             <CustomizeButton onClick={frm.handleSubmit} />
           </Col>
           <Col offset={1} span={12} className={styles.haveAccountItem}>
-            <Link to='/login'>Have an account? Login here</Link>
+            <Link to='/login' className={styles.link}>Have an account? Login here</Link>
           </Col>
         </Row>
       </form>

@@ -38,7 +38,7 @@ const CompetitionPage = () => {
   return (
     <ThemeProvider theme={neonDarkTheme}>
       <CssBaseline />
-      <Layout style={{padding:'10px', backgroundColor: neonDarkTheme.palette.background.default }}>
+      <Layout style={{padding:'10px',width:'100vw', backgroundColor: neonDarkTheme.palette.background.default }}>
         <Header className={styles.header} style={{ backgroundColor: neonDarkTheme.palette.background.paper }}>
           <div className={styles.logo} style={{ color: neonDarkTheme.palette.primary.main, textShadow: '0 0 8px #00ffcc' }}>
             Koi Fish Competition

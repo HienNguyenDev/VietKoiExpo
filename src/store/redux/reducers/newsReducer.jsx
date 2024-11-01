@@ -18,10 +18,16 @@ const newsReducer = createSlice({
         removeNewsAction: (state, action) => {
             const { [action.payload]: removed, ...rest } = state.news;
             state.news = rest;
+        },fetchNewsDetailsSuccess: (state, action) => {
+            state.news = action.payload;
         },
-        listNewsAction: (state, action) => {
-            state.news[action.payload.id] = action.payload;
-        }
+        fetchNewsDetailsFailure: (state, action) => {
+            state.error = action.payload;
+        },
+        setNewsListAction: (state, action) => {
+            state.newsList = action.payload;
+        },
+
     }
 });
 
@@ -29,7 +35,9 @@ export const {
     createNewsAction,
     updateNewsAction,
     removeNewsAction,
-    listNewsAction
+    fetchNewsDetailsSuccess,
+    fetchNewsDetailsFailure,
+    setNewsListAction
 } = newsReducer.actions;
 
 export default newsReducer.reducer;

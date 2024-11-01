@@ -1,24 +1,48 @@
 .landingPage {
-  text-align: center;
   padding: 20px;
+}
 
-  .heroSection {
-    background: #0f0c29; /* Neon-themed background */
-    color: #fff;
-    padding: 50px 20px;
-    margin-bottom: 20px;
-  }
+.heroSection {
+  text-align: center;
+  margin-bottom: 40px;
+}
 
-  .aboutSection {
-    margin-bottom: 20px;
-  }
+.competitionsSection {
+  margin-top: 40px;
+}
 
-  .countdownSection {
-    margin-top: 20px;
-  }
+.competitionCard {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-  .countdown {
-    font-size: 24px;
-    color: #ff6f61;
-  }
+.competitionImage {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 150px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: #999;
+}
+
+.countdown {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.keyDatesList {
+  list-style: none;
+  padding: 0;
+}
+
+.keyDatesList li {
+  margin-bottom: 5px;
 }

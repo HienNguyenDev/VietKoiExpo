@@ -26,17 +26,20 @@ const ManageContestsPage = () => {
   const showDrawer = async (title, contest = null) => {
     setDrawerTitle(title);
     setSelectedContest(contest);
+    setDrawerVisible(true); // Show the drawer first
+  
     if (contest) {
-      await dispatch(fetchContestDetails(contest.compId));
+      // Wait until fetchContestDetails completes
+      dispatch(fetchContestDetails(contest.compId));
       form.setFieldsValue({
         ...contest,
         startDate: moment(contest.startDate),
         endDate: moment(contest.endDate),
+        categoryId: contest.tblcompetitionCategories.map(category => category.categoryId),
       });
     } else {
       form.resetFields();
     }
-    setDrawerVisible(true);
   };
 
   const closeDrawer = () => {
@@ -78,6 +81,8 @@ const ManageContestsPage = () => {
         ...values,
         startDate: values.startDate.format('YYYY-MM-DD'),
         endDate: values.endDate.format('YYYY-MM-DD'),
+        status: values.status ? 1 : 0, // Convert boolean to integer
+        tblcompetitionCategories: values.categoryId.map(categoryId => ({ categoryId })),
       };
       console.log('Submitting values:', formattedValues); // Debugging log
       if (drawerTitle === 'Create Contest') {
@@ -124,22 +129,18 @@ const ManageContestsPage = () => {
         visible={drawerVisible}
       >
         <Form layout="vertical" form={form}>
-          {/* <Form.Item name="compId" label="Contest ID" rules={[{ required: true, message: 'Please enter the contest ID' }]}>
-            <Input placeholder="Please enter the contest ID" disabled={drawerTitle === 'View Contest'} />
-          </Form.Item> */}
-          <Form.Item name="categoryId" label="Select category" rules={[{ required: true, message: 'Choose at least two!' }]}>
-          
+          <Form.Item name="categoryId" label="Select category" rules={[{ required: true, message: 'Choose at least one!' }]}>
             <Checkbox.Group>
               <Row>
                 <Col span={24}>
-                <Checkbox value="1">1</Checkbox>
-              <Checkbox value="2">2</Checkbox>
-              <Checkbox value="3">3</Checkbox>
+                  <Checkbox value="adult">Adult Champion</Checkbox>
+                  <Checkbox value="baby">Baby Champion</Checkbox>
+                  <Checkbox value="grand">Grand Champion</Checkbox>
                 </Col>
                 <Col span={24}>
-                <Checkbox value="4">4</Checkbox>
-              <Checkbox value="5">5</Checkbox>
-              <Checkbox value="6">6</Checkbox>
+                  <Checkbox value="mature">Mature Champion</Checkbox>
+                  <Checkbox value="sakura">Sakura Champion</Checkbox>
+                  <Checkbox value="young">Young Champion</Checkbox>
                 </Col>
               </Row>
             </Checkbox.Group>
@@ -152,6 +153,9 @@ const ManageContestsPage = () => {
           </Form.Item>
           <Form.Item name="location" label="Location" rules={[{ required: true, message: 'Please enter the location' }]}>
             <Input placeholder="Please enter the location" disabled={drawerTitle === 'View Contest'} />
+          </Form.Item>
+          <Form.Item name="imageUrl" label="Image URL" rules={[{ required: true, message: 'Please enter the image URL' }]}>
+            <Input placeholder="Please enter the image URL" disabled={drawerTitle === 'View Contest'} />
           </Form.Item>
           <Form.Item name="startDate" label="Start Date" rules={[{ required: true, message: 'Please enter the start date' }]}>
             <DatePicker style={{ width: '100%' }} disabled={drawerTitle === 'View Contest'} />

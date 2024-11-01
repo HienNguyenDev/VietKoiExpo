@@ -1,17 +1,22 @@
 import axios from 'axios';
-import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson,deleteCookieJson  } from '../../../util/config';
-import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction } from '../../redux/reducers/userReducer';
-import { getAllUser, getUserProfile, loginUser, registerUser, updateDetailUser } from '../../../service/userAPI';
-
-
+import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson, deleteCookieJson } from '../../../util/config';
+import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction } from '../../redux/reducers/userReducer';
+import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser } from '../../../service/userAPI';
 
 // async actions
+
 export const loginActionApi = (userLogin, navigate) => {
     return async (dispatch) => {
         try {
-            
-            const res = await loginUser(userLogin);
-           
+            let res;
+            if (userLogin.tokenId) {
+                // Handle Google login
+                res = await loginWithGoogle(userLogin.tokenId);
+            } else {
+                // Handle normal login
+                res = await loginUser(userLogin);
+            }
+
             console.log('API Response:', res);
             console.log('res.data:', res.data);
             console.log('API Response Content:', res.data.user);
@@ -23,10 +28,19 @@ export const loginActionApi = (userLogin, navigate) => {
                 setCookieJson(USER_LOGIN, res.data.user, 30);
 
                 // Navigate based on role
-                if (res.data.user.roleId === 'manager') {
-                    navigate('/admin');
-                } else {
-                    navigate('/user');
+                switch (res.data.user.roleId) {
+                    case 'admin':
+                        navigate('/admin');
+                        break;
+                    case 'member':
+                        navigate('/member');
+                        break;
+                    case 'guest':
+                        navigate('/guest');
+                        break;
+                    default:
+                        navigate('/');
+                        break;
                 }
             }
         } catch (error) {
@@ -77,12 +91,13 @@ export const fetchUsersActionApi = () => {
         }
     };
 };
+
 export const fetchUserByIdActionApi = (userId) => {
     return async (dispatch) => {
         try {
             const res = await getUserProfile(userId);
-            console.log('Fetched user profile:', res.data); 
-            const action = setUserAction(res.data);
+            console.log('Fetched user profile:', res); 
+            const action = setUserDetailAction(res.data);
             dispatch(action);
         } catch (error) {
             console.error("Failed to fetch user by ID:", error.response ? error.response.data : error.message);
@@ -90,14 +105,13 @@ export const fetchUserByIdActionApi = (userId) => {
     };
 };
 
-
-export const updateUserActionApi = (userDetails, navigate) => {
+export const updateUserActionApi = (userId, userDetails, navigate) => {
     return async (dispatch) => {
         try {
-            const res = await updateDetailUser(userDetails);
+            const res = await updateDetailUser(userId, userDetails);
             const action = updateUserAction(res.data);
             dispatch(action);
-            navigate('/users'); // Navigate to users page after updating
+            navigate('/admin/manage-users'); // Navigate to users page after updating
         } catch (error) {
             console.error("Failed to update user:", error.response ? error.response.data : error.message);
         }

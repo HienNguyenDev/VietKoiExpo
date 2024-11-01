@@ -12,12 +12,12 @@ const CreateContest = () => {
   const dispatch = useDispatch();
   const frm = useFormik({
     initialValues: {
-      competitionName: '', 
-      description: '',
+      compName: '', 
+      compDescription: '',
       location: '', 
       startDate: '',
       endDate: '', 
-      status: '' 
+      status: 1 
     },
     onSubmit: (values) => {
       console.log('value', values);
@@ -55,12 +55,12 @@ const CreateContest = () => {
                 <h1>Create Contest</h1>
               </div>
               <div className={styles.formItem}>
-                <PlaceHolder onChange={frm.handleChange} id='competitionName' label='Competition Name' placeholder='Enter competition name' type='text' /> 
+                <PlaceHolder onChange={frm.handleChange} id='compName' label='Competition Name' placeholder='Enter competition name' type='text' /> 
               </div>
               <div className={styles.formItem}>
                 <PlaceHolder
                   onChange={frm.handleChange}
-                  id='description'
+                  id='compDescription'
                   height="300px"
                   label='Description'
                   placeholder='Enter description'

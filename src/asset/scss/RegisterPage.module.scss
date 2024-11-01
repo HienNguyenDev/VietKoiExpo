@@ -14,11 +14,12 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f0f2f5;
   padding: 20px;
-  box-sizing: border-box;
-  width: 100vw;
-  background:url('../photo/1046552_OL0CSR0.jpg');
+  background:url('../photo/koibanner.png');
+    background-position: center;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
 }
 
 .registerForm {
@@ -27,48 +28,38 @@
   border-radius: 30px;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
   max-width: 450px;
   width: 100%;
+  height: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
 
   .tittleRegister {
     text-align: center;
 
     h1 {
-      color: rgb(202, 140, 140);
-      font-size: 2rem; /* Reduced font size */
+      font-size: 2.5rem;
       font-family: 'AutumnFlowerFont';
     }
   }
 
   .formItem {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 12px; /* Reduced margin */
+    margin-bottom: 16px;
 
-    .usernameLabel,
-    .passwordLabel {
+    .formLabel {
       color: rgb(146, 52, 52);
-      font-size: 0.875rem; /* Reduced font size */
+      font-size: 1rem;
     }
   }
 
   .actionItems {
-    margin-top: 12px; /* Reduced margin */
+    width: 100%;
+    margin-bottom: 16px;
   }
 
   .haveAccountItem {
-    text-align: right; /* Align text to the right */
-    a {
-      color: rgb(202, 140, 140);
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
+    text-align: start;
+    color: red;
+    margin-bottom: 16px;
   }
 }
 
@@ -82,7 +73,7 @@
     border-radius: 20px;
 
     .tittleRegister h1 {
-      font-size: 1.5rem; /* Further reduced font size for smaller screens */
+      font-size: 2rem;
     }
   }
 }
@@ -103,4 +94,54 @@
   100% {
     background-position: 0% 50%;
   }
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; // Dark background for neon contrast
+}
+
+.registerForm {
+  // Dark card background
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffcc; // Neon cyan glow effect
+  width: 100%;
+  max-width: 400px;
+  background: rgb(63,94,251);
+  background: -moz-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
+  background: -webkit-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
+  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fd9ceb",GradientType=1);
+}
+
+.tittleRegister h1 {
+  color: #00ffcc; // Neon cyan for title
+  text-align: center;
+  text-shadow: 0 0 8px #00ffcc; // Neon glow for text
+}
+
+.error {
+  color: #ff00ff; // Neon magenta for error text
+  text-shadow: 0 0 8px #ff00ff; // Neon glow for error text
+}
+
+.formItem {
+  margin-bottom: 20px;
+}
+
+.actionItems {
+  margin-bottom: 20px;
+}
+
+.checkbox {
+  font-family: 'futura, helvetica, sans-serif';
+  color: #00ffcc; // Neon cyan for checkbox text
+}
+
+.haveAccountItem .link {
+  color: #ff00ff; // Neon magenta for link text
+  text-shadow: 0 0 8px #ff00ff; // Neon glow for link text
 }

@@ -5,7 +5,8 @@ const initialState = {
     userLogin: getStoreJson(USER_LOGIN),
     userProfile: {},
     userRegister: {},
-    listUser: []
+    listUser: [],
+    userDetail: {}
 };
 
 const userReducer = createSlice({
@@ -22,16 +23,20 @@ const userReducer = createSlice({
             state.userRegister = action.payload;
         },
         setUserAction: (state, action) => {
-            state.listUser = action.payload;
+            state.listUser = Array.isArray(action.payload) ? action.payload : [action.payload];
         },
+        setUserDetailAction: (state, action) => {
+            state.userDetail = action.payload;
+        }
+        ,
         updateUserAction: (state, action) => {
-            const index = state.listUser.findIndex(user => user.id === action.payload.id);
+            const index = state.listUser.findIndex(user => user.userId === action.payload.userId);
             if (index !== -1) {
                 state.listUser[index] = action.payload;
             }
         },
         removeUserAction: (state, action) => {
-            state.listUser = state.listUser.filter(user => user.id !== action.payload);
+            state.listUser = state.listUser.filter(user => user.userId !== action.payload);
         },
         logoutAction: (state) => {
             state.userLogin = null;
@@ -49,6 +54,7 @@ export const {
     setUserAction,
     updateUserAction,
     removeUserAction,
+    setUserDetailAction,
     logoutAction
 } = userReducer.actions;
 

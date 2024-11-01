@@ -292,6 +292,7 @@ const MemberPage = () => {
             </div>
             <div>
               <img src={banner3} alt="Banner 3" className={styles.bannerImage} />
+              
             </div>
           </Carousel>
 
@@ -367,7 +368,7 @@ const MemberPage = () => {
                       fontWeight: 'bold',
                     }}
                   >
-                    <Typography variant="h6" style={{ fontWeight: 'bold', color: currentTheme.palette.primary.main }}>
+                    <Typography variant="h6"  style={{ fontWeight: 'bold', color: currentTheme.palette.primary.main }}>
                       Cuộc thi cá Koi Hấp Dẫn
                     </Typography>
                   </div>
@@ -384,7 +385,7 @@ const MemberPage = () => {
                     Join the most exciting Koi contest of the year! Showcase your beautiful Koi fish and compete for the top prize.
                   </p>
                 </div>
-                <MuiButton variant="text" className={styles.readMore}>
+                <MuiButton variant="text" className={styles.readMore} onClick={()=>handleNavigation('/competition')}>
                     Join Now
                   </MuiButton>
               </Card>

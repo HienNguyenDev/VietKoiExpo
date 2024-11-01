@@ -17,8 +17,6 @@ export const createContestActionApi = (contestDetails) => {
             const res = await createContest(contestDetails);
             const action = createContestAction(res.data.content);
             dispatch(action);
-            setStoreJson(CONTEST_CREATE, res.data.content);
-            setCookieJson(CONTEST_CREATE, res.data.content, 30);
             dispatch(fetchAllContests()); // Refetch contests after creating
         } catch (error) {
             console.error("Contest creation failed:", error.response ? error.response.data : error.message);
@@ -29,20 +27,22 @@ export const createContestActionApi = (contestDetails) => {
 
 export const updateContestActionApi = (contestId, contestDetails, navigate) => {
     return async (dispatch) => {
-      try {
-        const res = await updateContest(contestId, contestDetails);
-        console.log('API Response:', res.data); // Debugging log
-        const action = updateContestAction(res.data.content);
-        dispatch(action);
-        dispatch(fetchAllContests()); // Refetch contests after updating
-        navigate('/admin/manage-contests'); // Navigate to the desired URL
-      } catch (error) {
-        console.error("Contest update failed:", error.response ? error.response.data : error.message);
-        dispatch({ type: 'CONTEST_UPDATE_FAILURE', payload: error.response ? error.response.data : error.message });
-      }
+        try {
+            const res = await updateContest(contestId, contestDetails);
+            console.log('API Response:', res.data); // Debugging log
+            const action = updateContestAction(res.data.content);
+            console.log('Dispatching action:', action); // Debugging log
+            dispatch(action);
+            dispatch(fetchAllContests()).then(() => {
+                navigate('/admin/manage-contests'); // Navigate to the desired URL after state update
+            });
+        } catch (error) {
+            console.error("Contest update failed:", error.response ? error.response.data : error.message);
+            dispatch({ type: 'CONTEST_UPDATE_FAILURE', payload: error.response ? error.response.data : error.message });
+        }
     };
-  };
-  
+};
+
 export const removeContestActionApi = (contestId) => {
     return async (dispatch) => {
         try {

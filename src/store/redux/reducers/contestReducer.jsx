@@ -23,21 +23,20 @@ const contestReducer = createSlice({
             state.contestList = action.payload;
         },
         updateContestAction: (state, action) => {
-            const { compId } = action.payload;
-            if (!compId) {
-                console.error('Error: compId is missing in the action payload:', action.payload);
-                return;
+            console.log('updateContestAction payload:', action.payload); // Debugging log
+            if (!action.payload || !action.payload.compId) {
+                console.error('Error: Missing compId or payload:', action.payload);
+                return state;
             }
-            
-            const index = state.contestList.findIndex(contest => contest.compId === compId);
-            if (index !== -1) {
-                state.contestList[index] = action.payload;
-            } else {
-                console.error(`Error: No contest found with compId: ${compId}`);
+            const index = state.contestList.findIndex(contest => contest.compId === action.payload.compId);
+            if (index === -1) {
+                console.error(`No contest found with compId: ${action.payload.compId}`);
+                return state;
             }
+            state.contestList[index] = action.payload;
         },
         removeContestAction: (state, action) => {
-            // Remove the contest from the list
+            
             state.contestList = state.contestList.filter(contest => contest.compId !== action.payload);
         },
         fetchContestDetailsSuccess: (state, action) => {

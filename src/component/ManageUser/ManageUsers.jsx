@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Button, Col, Divider, Drawer, List, Row, Typography, Modal, Form, Input, Card } from 'antd';
-import { EditOutlined, DeleteOutlined, UserSwitchOutlined, PlusOutlined, ExclamationCircleOutlined, EyeOutlined } from '@ant-design/icons';
+import { Avatar, Button, Col, Divider, Drawer, List, Row, Typography, Modal, Form, Input, Card, Table } from 'antd';
+import { EditOutlined, DeleteOutlined, UserSwitchOutlined, ExclamationCircleOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from '../../asset/scss/ManageUsersPage.module.scss';
-import { fetchUserByIdActionApi, fetchUsersActionApi, removeUserActionApi } from '../../store/redux/action/userAction';
+import { fetchUserByIdActionApi, fetchUsersActionApi, removeUserActionApi, updateUserActionApi } from '../../store/redux/action/userAction';
 
 const { Title, Paragraph } = Typography;
 const { confirm } = Modal;
@@ -17,162 +17,149 @@ const DescriptionItem = ({ title, content }) => (
 
 const ManageUsersPage = () => {
   const [open, setOpen] = useState(false);
-  const [drawerTitle, setDrawerTitle] = useState('User Profile');
+  const [drawerTitle, setDrawerTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
   const [form] = Form.useForm();
-  const [isViewMode, setIsViewMode] = useState(false);
-
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.userReducer.listUser);
+  const userDetailData = useSelector(state => state.userReducer.userDetail);
 
   useEffect(() => {
     dispatch(fetchUsersActionApi());
   }, [dispatch]);
 
-  const showDrawer = async (title, user = null, viewMode = false) => {
+  // Ensure usersData is an array
+  useEffect(() => {
+    if (!Array.isArray(usersData)) {
+      console.error('usersData is not an array:', usersData);
+    }
+  }, [usersData]);
+
+  const showDrawer = (title, user = null) => {
     setDrawerTitle(title);
-    setIsViewMode(viewMode);
+    setSelectedUser(user);
+    setOpen(true); // Show the drawer first
+
     if (user) {
-      await dispatch(fetchUserByIdActionApi(user.id));
-      setSelectedUser(user);
-      form.setFieldsValue(user);
+      form.setFieldsValue({
+        fullName: userDetailData.fullName || '',
+        email: userDetailData.email || '',
+        role: userDetailData.role || '',
+        address: userDetailData.address || '',
+        phone: userDetailData.phone || '',
+      });
     } else {
-      setSelectedUser(null);
       form.resetFields();
     }
-    setOpen(true);
   };
 
-  const onClose = () => {
+  const closeDrawer = () => {
     setOpen(false);
     setSelectedUser(null);
+    form.resetFields();
   };
 
-  const showDeleteConfirm = (id) => {
+  const handleCreate = () => {
+    showDrawer('Create User');
+  };
+
+  const handleUpdate = (id) => {
+    const user = usersData.find(user => user.userId === id);
+    if (user) {
+      showDrawer('Update User', user);
+    }
+  };
+
+  const handleView = async (id) => {
+    try {
+      dispatch(fetchUserByIdActionApi(id));
+      showDrawer('View User', { userId: id });
+    } catch (error) {
+      console.error('Failed to fetch user details:', error);
+    }
+  };
+
+  const handleDelete = (id) => {
     confirm({
-      title: 'Are you sure delete this user?',
-      icon: <ExclamationCircleOutlined />,
-      content: 'This action cannot be undone',
+      title: 'Are you sure you want to delete this user?',
       onOk() {
         dispatch(removeUserActionApi(id));
-      },
-      onCancel() {
-        console.log('Cancel');
       },
     });
   };
 
+  const handleSubmit = () => {
+    form.validateFields().then(values => {
+      const formattedValues = {
+        ...values,
+        status: true, // Assuming status is always true for simplicity
+      };
+      console.log('Submitting values:', formattedValues); // Debugging log
+     if (drawerTitle === 'Update User' && selectedUser) {
+        dispatch(updateUserActionApi(selectedUser.userId, formattedValues));
+      }
+      closeDrawer();
+    }).catch(errorInfo => {
+      console.error('Validation Failed:', errorInfo);
+    });
+  };
+
+  const columns = [
+    { title: 'Name', dataIndex: 'fullName', key: 'fullName' },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Role', dataIndex: 'role', key: 'role' },
+    { title: 'Phone', dataIndex: 'phone', key: 'phone' },
+    { title: 'Address', dataIndex: 'address', key: 'address' },
+    { title: 'Status', dataIndex: 'status', key: 'status', render: status => (status ? 'Active' : 'Inactive') },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        <span>
+          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.userId)}>View</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.userId)}>Update</Button>
+          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.userId)}>Delete</Button>
+        </span>
+      ),
+    },
+  ];
+
   return (
     <div className={styles.manageUsersPage}>
-      <div className={styles.containerUsers}>
-        <Row gutter={16}>
-          <Col span={24}>
-            <div className={styles.viewComponent}>
-              <Card title="Manage Users" className={styles.viewAllCard}>
-                <Button type="link" className={styles.createUserButton} onClick={() => showDrawer('Create User')}>
-                  <PlusOutlined /> Create User
-                </Button>
-                <List
-                  itemLayout="horizontal"
-                  dataSource={usersData}
-                  renderItem={item => (
-                    <List.Item
-                      key={item.id}
-                      actions={[
-                        <Button type="link" icon={<EyeOutlined />} onClick={() => showDrawer('View User', item, true)}>View</Button>,
-                        <Button type="link" icon={<EditOutlined />} onClick={() => showDrawer('Update User', item)}>Update</Button>,
-                        <Button type="link" icon={<DeleteOutlined />} onClick={() => showDeleteConfirm(item.id)}>Delete</Button>,
-                        <Button type="link" icon={<UserSwitchOutlined />} onClick={() => console.log('Change role for user id:', item.id)}>Change Role</Button>,
-                      ]}
-                    >
-                      <List.Item.Meta
-                        avatar={<Avatar src="https://via.placeholder.com/40" />}
-                        title={<a href="https://ant.design/index-cn">{item.name}</a>}
-                        description={`${item.email} - ${item.role}`}
-                      />
-                    </List.Item>
-                  )}
-                />
-              </Card>
-            </div>
-          </Col>
-        </Row>
-      </div>
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginBottom: 16 }}>
+        Create User
+      </Button>
+      <Table dataSource={Array.isArray(usersData) ? usersData : []} columns={columns} rowKey="userId" />
       <Drawer
         title={drawerTitle}
         width={640}
-        placement="right"
-        closable={false}
-        onClose={onClose}
-        open={open}
+        onClose={closeDrawer}
+        visible={open}
       >
-        {isViewMode ? (
-          selectedUser && (
-            <div>
-              <p className="site-description-item-profile-p" style={{ marginBottom: 24 }}>User Profile</p>
-              <Row>
-                <Col span={12}>
-                  <DescriptionItem title="User ID" content={selectedUser.userId} />
-                </Col>
-                <Col span={12}>
-                  <DescriptionItem title="Role ID" content={selectedUser.roleId} />
-                </Col>
-              </Row>
-              <Row>
-                <Col span={12}>
-                  <DescriptionItem title="Full Name" content={selectedUser.fullName} />
-                </Col>
-                <Col span={12}>
-                  <DescriptionItem title="Email" content={selectedUser.email} />
-                </Col>
-              </Row>
-              <Row>
-                <Col span={12}>
-                  <DescriptionItem title="Phone" content={selectedUser.phone} />
-                </Col>
-                <Col span={12}>
-                  <DescriptionItem title="Role" content={selectedUser.role} />
-                </Col>
-              </Row>
-              <Row>
-                <Col span={12}>
-                  <DescriptionItem title="City" content={selectedUser.city} />
-                </Col>
-                <Col span={12}>
-                  <DescriptionItem title="Country" content={selectedUser.country} />
-                </Col>
-              </Row>
-              <Divider />
-              <Button type="primary" onClick={onClose}>Close</Button>
-            </div>
-          )
-        ) : (
-          <Form layout="vertical" form={form}>
-            <Form.Item name="fullName" label="Full Name" rules={[{ required: true, message: 'Please enter the full name' }]}>
-              <Input placeholder="Please enter the full name" />
-            </Form.Item>
-            <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Please enter the email' }]}>
-              <Input placeholder="Please enter the email" />
-            </Form.Item>
-            <Form.Item name="role" label="Role" rules={[{ required: true, message: 'Please enter the role' }]}>
-              <Input placeholder="Please enter the role" />
-            </Form.Item>
-            <Form.Item name="city" label="City" rules={[{ required: true, message: 'Please enter the city' }]}>
-              <Input placeholder="Please enter the city" />
-            </Form.Item>
-            <Form.Item name="country" label="Country" rules={[{ required: true, message: 'Please enter the country' }]}>
-              <Input placeholder="Please enter the country" />
-            </Form.Item>
-            <Form.Item name="phone" label="Phone" rules={[{ required: true, message: 'Please enter the phone number' }]}>
-              <Input placeholder="Please enter the phone number" />
-            </Form.Item>
+        <Form layout="vertical" form={form}>
+          <Form.Item name="fullName" label="Full Name" rules={[{ required: true, message: 'Please enter the full name' }]}>
+            <Input placeholder="Please enter the full name" disabled={drawerTitle === 'View User'} />
+          </Form.Item>
+          <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Please enter the email' }]}>
+            <Input placeholder="Please enter the email" disabled={drawerTitle === 'View User'} />
+          </Form.Item>
+          <Form.Item name="role" label="Role" rules={[{ required: true, message: 'Please enter the role' }]}>
+            <Input placeholder="Please enter the role" disabled={drawerTitle === 'View User'} />
+          </Form.Item>
+          <Form.Item name="address" label="Address" rules={[{ required: true, message: 'Please enter the address' }]}>
+            <Input placeholder="Please enter the address" disabled={drawerTitle === 'View User'} />
+          </Form.Item>
+          <Form.Item name="phone" label="Phone" rules={[{ required: true, message: 'Please enter the phone number' }]}>
+            <Input placeholder="Please enter the phone number" disabled={drawerTitle === 'View User'} />
+          </Form.Item>
+          {drawerTitle !== 'View User' && (
             <Form.Item>
-              <Button type="primary" onClick={onClose}>
+              <Button type="primary" onClick={handleSubmit}>
                 Submit
               </Button>
             </Form.Item>
-          </Form>
-        )}
+          )}
+        </Form>
       </Drawer>
     </div>
   );

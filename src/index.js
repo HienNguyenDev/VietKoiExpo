@@ -7,7 +7,7 @@ import { store } from './store/configStore';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import NotificationPage from './component/shared/notification/NotificationPage';
 import NotificationBlock from './component/shared/notification/NotificationBlock';
-import ManageNewsUpdatesPage from './component/ManageNewsnUpdates/ManageNewsUpdatesPage';
+import ManageNewsUpdatesPage from './component/ManageNewsAndUpdates/ManageNewsUpdatesPage';
 import { ThemeProvider } from './template/theme/ThemeContext';
 import NewsComp from './component/shared/news/NewsComp';
 import './index.css';
@@ -48,8 +48,7 @@ const App = () => {
   const location = useLocation();
 
   return (
-    <TransitionGroup>
-      <CSSTransition key={location.key} classNames="fade" timeout={700}>
+
         <Routes location={location}>
           <Route path="/"  element={<LoginPage/>}/>
           <Route path='home' element={<MemberPage />} />
@@ -81,10 +80,16 @@ const App = () => {
           <Route path='register' element={<RegisterPage />} />
           <Route path='notif' element={<NotificationPage />} />
           <Route path='fishkoi' element={<FishKoiEventDetail />} />
+          <Route path="/competition" element={<CompetitionPage />}>
+            <Route path="landing" element={<LandingPage />} />
+            <Route path="competition" element={<CompetitionBracket />} />
+            <Route path="advancement" element={<AdvancementView />} />
+            <Route path="leaderboard" element={<Leaderboard />} />
+            <Route path="announcement" element={<Announcement />} />
+            <Route path="admin" element={<AdminPanel />} />
+        </Route>
           
         </Routes>
-      </CSSTransition>
-    </TransitionGroup>
   );
 };
 
