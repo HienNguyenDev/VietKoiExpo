@@ -106,7 +106,12 @@ namespace KSM.APIService.Controllers
                 // Check if the category exists in the competition categories
                 if (!categories.Any(c => c == koiFishCategory.CategoryId))
                 {
-                    await _registRepo.DeleteAsync(registration);
+
+                    registration.Status = 2; // Set status to 1
+
+                    await _registRepo.UpdateAsync(registration);
+                    
+                    //await _registRepo.DeleteAsync(registration);
                     return BadRequest("Your Fish specified category does not exist for this competition.");
 
                 }
