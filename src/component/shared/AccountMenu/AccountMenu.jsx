@@ -14,7 +14,6 @@ const MenuAccount = () => {
   const { userLogin, userProfile } = useSelector((state) => state.userReducer);
    // State để quản lý số lượng thông báo chưa đọc
    const [unreadCount, setUnreadCount] = useState(0);
-  console.log("userLogin.userId :   ",userLogin.userId)
   useEffect(() => {
     if (userLogin) {
       // Gọi API để lấy thông tin người dùng dựa trên userId

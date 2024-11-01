@@ -98,13 +98,13 @@ const ReviewKoiEntriesPage = () => {
         <>
           {record.status === 0 ? (
             <>
-              <Button type="primary" onClick={() => handleApprove(record.koiId)}>Approve</Button>
-              <Button type="default" onClick={() => handleReject(record.koiId)}>Reject</Button>
+              <Button type="primary" onClick={() => handleApprove(record.registrationId)}>Approve</Button>
+              <Button type="default" onClick={() => handleReject(record.registrationId)}>Reject</Button>
             </>
           ) : record.status === 2 ? (
-            <Button type="primary" onClick={() => handleReApprove(record.koiId)}>ReApprove</Button>
+            <Button type="primary" onClick={() => handleReApprove(record.registrationId)}>ReApprove</Button>
           ) : (
-            <Button type="danger" onClick={() => handleRevertToPending(record.koiId)}>Revert to Pending</Button>
+            <Button type="danger" onClick={() => handleRevertToPending(record.registrationId)}>Revert to Pending</Button>
           )}
         </>
       ),
