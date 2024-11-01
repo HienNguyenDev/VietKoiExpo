@@ -3,6 +3,7 @@ using KSM.APIService.Helper;
 using KSM.Repository.Models;
 using KSM.Repository.ModelsMapper;
 using KSM.Repository.Repositories.KoifishRepository;
+using KSM.Repository.Repositories.UserRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,12 @@ namespace KSM.APIService.Controllers
     {
         private readonly IKoifishRepository _koiFishRepo;
         private readonly IMapper _mapper;
-        public KoifishController(IKoifishRepository repo, IMapper mapper)
+        private readonly IUserRepository _userRepository;
+        public KoifishController(IKoifishRepository repo, IMapper mapper, IUserRepository userRepo)
         {
             _koiFishRepo = repo;
             _mapper = mapper;
+            _userRepository = userRepo;
         }
 
         [HttpGet]
@@ -33,6 +36,28 @@ namespace KSM.APIService.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetFishesByUserId(Guid userId)
+        {
+            var fishes = await _koiFishRepo.GetAllByUserIdAsync(userId);
+            return Ok(fishes);
+        }
+
+
+        [HttpGet("{koiFishId}/user")]
+        public async Task<IActionResult> GetUserByKoiFishId(Guid koiFishId)
+        {
+            var userID = await _koiFishRepo.GetUserByKoiFishIdAsync(koiFishId);
+            if (userID == null)
+            {
+                return NotFound(); // Or handle the case where the user is not found
+            }
+
+            var user = await _userRepository.GetByIDAsync(userID);
+
+            return Ok(user);
         }
 
         [HttpGet("{id}")]

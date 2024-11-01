@@ -10,5 +10,9 @@ namespace KSM.Repository.Repositories.KoifishRepository
 {
     public interface IKoifishRepository : IGenericRepository<TblkoiFish, Guid>
     {
+
+        Task<IEnumerable<TblkoiFish>> GetAllByUserIdAsync(Guid userId);
+
+        Task<Guid> GetUserByKoiFishIdAsync(Guid koiFishId);
     }
 }
