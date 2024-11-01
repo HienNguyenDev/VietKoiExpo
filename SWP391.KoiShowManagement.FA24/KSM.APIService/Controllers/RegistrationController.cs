@@ -115,10 +115,11 @@ namespace KSM.APIService.Controllers
 
 
 
-
+                return Ok();
             }
+            else return BadRequest("Your koi is not approved");
 
-            return Ok();
+            
         }
 
 
@@ -129,6 +130,13 @@ namespace KSM.APIService.Controllers
             var registration = await _registRepo.GetByIDAsync(id);
             return Ok(registration);
 
+        }
+
+        [HttpGet("GetAllRegistByCompId/{compId}")]
+        public async Task<IActionResult> GetAllRegistByCompId(Guid compId)
+        {
+            var regist = await _registRepo.GetAllByCompIdAsync(compId);
+            return Ok(regist);
         }
 
         [HttpPost]

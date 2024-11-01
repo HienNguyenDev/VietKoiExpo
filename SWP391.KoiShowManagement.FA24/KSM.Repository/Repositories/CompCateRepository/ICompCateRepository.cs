@@ -10,7 +10,7 @@ namespace KSM.Repository.Repositories.CompCateRepository
 {
     public interface ICompCateRepository : IGenericRepository<TblcompetitionCategory, string>
     {
-        Task<IEnumerable<TblcompetitionCategory>> GetAllCategoriesByCompetitionID_1(Guid compId);
+        
         Task<IEnumerable<Tblcategory>> GetAllCategoriesByCompetitionID(Guid compId);
         Task<IEnumerable<TblkoiFish>> GetAllFishByCategoryAndCompId(Guid competitionID, string categoryID);
 

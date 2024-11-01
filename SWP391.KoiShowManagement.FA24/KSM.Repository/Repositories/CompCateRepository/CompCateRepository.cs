@@ -27,12 +27,7 @@ namespace KSM.Repository.Repositories.CompCateRepository
             return categories;
         }
 
-        public async Task<IEnumerable<TblcompetitionCategory>> GetAllCategoriesByCompetitionID_1(Guid compId)
-        {
-            return await DbSet.Where(f => f.CompId == compId).Include(c => c.Category)
-                //.ThenInclude(cc => cc.TblcompetitionCategories).ThenInclude(ccc => ccc.Koi)
-                .ToListAsync();
-        }
+        
 
         public async Task<IEnumerable<TblkoiFish>> GetAllFishByCategoryAndCompId(Guid competitionID, string categoryID)
         {

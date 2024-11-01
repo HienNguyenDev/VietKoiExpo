@@ -38,5 +38,10 @@ namespace KSM.Repository.Repositories.RegistrationRepository
             return (Guid)regist.CompId;
         }
 
+        public async Task<IEnumerable<Tblregistration>> GetAllByCompIdAsync(Guid compId)
+        {
+            return await DbSet.Where(f => f.CompId == compId).ToListAsync();
+        }
+
     }
 }
