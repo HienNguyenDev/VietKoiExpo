@@ -18,5 +18,6 @@ namespace KSM.Repository.ModelsMapper
         public string TaskDescription { get; set; }
 
         public DateOnly? Date { get; set; }
+        public bool? Status { get; set; }
     }
 }

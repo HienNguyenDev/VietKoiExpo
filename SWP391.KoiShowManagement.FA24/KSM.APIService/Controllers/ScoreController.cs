@@ -293,7 +293,8 @@ namespace KSM.APIService.Controllers
             {
                 return NotFound();
             }
-            await _scoreRepo.DeleteAsync(deleteScore);
+            deleteScore.Status = false;
+            await _scoreRepo.UpdateAsync(deleteScore);
             return NoContent();
 
         }

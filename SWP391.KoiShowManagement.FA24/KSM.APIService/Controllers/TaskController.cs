@@ -3,6 +3,7 @@ using KSM.Repository.Models;
 using KSM.Repository.ModelsMapper;
 using KSM.Repository.Repositories.TaskRepository;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace KSM.APIService.Controllers
 {
@@ -111,7 +112,8 @@ namespace KSM.APIService.Controllers
             {
                 return NotFound();
             }
-            await _taskRepo.DeleteAsync(deleteTask);
+            deleteTask.Status = false;
+            await _taskRepo.UpdateAsync(deleteTask);
             return NoContent();
 
         }

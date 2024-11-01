@@ -109,8 +109,8 @@ namespace KSM.APIService.Controllers
             {
                 return NotFound();
             }
-
-            await _userRepository.DeleteAsync(user);
+            user.Status = false;
+            await _userRepository.UpdateAsync(user);
 
             return NoContent();
         }

@@ -220,7 +220,8 @@ namespace KSM.APIService.Controllers
             {
                 return NotFound();
             }
-            await _competitionRepo.DeleteAsync(deleteCompetition);
+            deleteCompetition.Status = 3;
+            await _competitionRepo.UpdateAsync(deleteCompetition);
             return NoContent();
 
         }

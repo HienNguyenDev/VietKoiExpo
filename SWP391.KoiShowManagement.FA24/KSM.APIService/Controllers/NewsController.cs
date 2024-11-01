@@ -175,7 +175,8 @@ namespace KSM.APIService.Controllers
             {
                 return NotFound();
             }
-            await _newsRepo.DeleteAsync(deleteNews);
+            deleteNews.Status = false;
+            await _newsRepo.UpdateAsync(deleteNews);
             return NoContent();
 
         }

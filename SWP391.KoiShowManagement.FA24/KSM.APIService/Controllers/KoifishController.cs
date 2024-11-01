@@ -114,7 +114,8 @@ namespace KSM.APIService.Controllers
             {
                 return NotFound();
             }
-            await _koiFishRepo.DeleteAsync(deleteFish);
+            deleteFish.Status = false;
+            await _koiFishRepo.UpdateAsync(deleteFish);
             return NoContent();
 
         }
