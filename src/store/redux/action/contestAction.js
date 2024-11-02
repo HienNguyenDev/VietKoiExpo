@@ -6,7 +6,8 @@ import {
     removeContestAction,
     fetchContestDetailsSuccess,
     fetchContestDetailsFailure,
-    setContestListAction
+    setContestListAction,
+    setCategoriesListByContestAction
 } from '../reducers/contestReducer';
 import { createContest, updateContest, getContest, getAllContest, removeContest, assignKoiToContest } from '../../../service/ContestAPI'; // replace with your actual API methods
 
@@ -80,18 +81,19 @@ export const fetchAllContests = () => {
     };
 };
 
-export const assignKoiToContestActionApi = (contestId, koiId) => {
+export const fetchCategoriesByCompId = (contestId) => {
     return async (dispatch) => {
-        try {
-            const res = await assignKoiToContest(contestId, koiId);
-            console.log('Assigned koi to contest:', res.data);
-            // Dispatch success action or handle success state
-            dispatch({ type: 'ASSIGN_KOI_SUCCESS', payload: res.data });
-            return res.data;
-        } catch (error) {
-            // Dispatch failure action or handle error state
-            dispatch({ type: 'ASSIGN_KOI_FAILURE', payload: error });
-            throw error;
+      try {
+        const res = await getCategoriesbyCompId(contestId);
+        if (res && res.data) {
+          dispatch(setCategoriesListByContestAction(res.data));
+          return res; // Return the response for use in your component
+        } else {
+          throw new Error('No data returned from API');
         }
+      } catch (error) {
+        console.error("Failed to fetch Categories:", error.message);
+        return null; // Return null to indicate failure
+      }
     };
-}
+};

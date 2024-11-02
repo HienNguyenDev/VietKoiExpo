@@ -43,3 +43,10 @@ export const getAllKoiEntriesBycompId = (compId) => {
         method: 'GET',
     });
 };
+
+export const getAllKoiEntriesByCategoryAndCompId = (compId,categoryId) => {
+    return axios({
+        url: `${BASE_URL}/Competition/CompetitonCategoriesFish/${compId}?comID=${categoryId}`,
+        method: 'GET',
+    });
+};

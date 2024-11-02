@@ -25,7 +25,7 @@ const ReviewKoiEntriesPage = () => {
     // Lấy chi tiết từng cá Koi
     koiEntries.forEach(entry => {
       if (!koiDetails[entry.koiId]) {
-        console.log('koiId aaaaaaaa',entry.koiId);
+        
         dispatch(reviewKoiEntryAction(entry.koiId)).then(detail => {
           setKoiDetails(prevDetails => ({
             ...prevDetails,
