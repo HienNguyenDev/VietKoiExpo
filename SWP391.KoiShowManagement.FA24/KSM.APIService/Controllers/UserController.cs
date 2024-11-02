@@ -1,5 +1,7 @@
-﻿using KSM.Repository;
+﻿using AutoMapper;
+using KSM.Repository;
 using KSM.Repository.Models;
+using KSM.Repository.ModelsMapper;
 using KSM.Repository.Repositories.UserRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,39 +16,43 @@ namespace KSM.APIService.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
 
         // GET: api/Users
         [HttpGet]
-        public async Task<IEnumerable<Tbluser>> GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            return await _userRepository.GetAllAsync();
+            try 
+            {
+                var users = await _userRepository.GetAllAsync();
+                return Ok(_mapper.Map<List<UserModel>>(users));
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // GET: api/Users/5
         [HttpGet("{code}")]
-        public async Task<ActionResult<Tbluser>> GetUser(Guid code)
+        public async Task<IActionResult> GetUserByID(Guid code)
         {
             var user = await _userRepository.GetByIDAsync(code);
-
-            if (user == null)
-            {
-                return BadRequest();
-            }
-
-            return user;
+            return Ok(_mapper.Map<UserModel>(user));
         }
 
         // POST: api/Users
         //Register new User
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754    
-
-        public class User {
+        public class UserModelCreate
+        {
             public string RoleId { get; set; }
 
             public string Password { get; set; }
@@ -67,9 +73,9 @@ namespace KSM.APIService.Controllers
         }
 
         [HttpPost]
-        public async Task<Tbluser> PostUser(User user)
+        public async Task<IActionResult> PostUser(UserModelCreate user)
         {
-            var user1 = new Tbluser()
+            var createdUser = new Tbluser()
             {
                 UserId = Guid.NewGuid(),
                 Password = user.Password,
@@ -84,18 +90,18 @@ namespace KSM.APIService.Controllers
             };
             try
             {
-                await _userRepository.CreateAsync(user1);
+                await _userRepository.CreateAsync(createdUser);
             }
             catch (DbUpdateConcurrencyException)
             {
-
+                return BadRequest();
             }
-            return user1;
+            return Ok(createdUser);
             //return CreatedAtAction("GetUser", new { id = user1.UserId }, user);
         }
 
         [HttpPut("OnlyUpdateRole/{id}")]
-        public async Task<IActionResult> PutRoleUserOnly(Guid id,[FromBody] string role)
+        public async Task<IActionResult> UpdateRoleUserOnly(Guid id,[FromBody] string role)
         {
             var user = await _userRepository.GetByIDAsync(id);
             if (user == null)
@@ -123,30 +129,15 @@ namespace KSM.APIService.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{code}")]
-        public async Task<IActionResult> PutUser(Guid code, Tbluser user)
+        public async Task<IActionResult> UpdateUser(Guid code,[FromBody] UserModel model)
         {
-            if (!code.Equals(user.UserId))
+            if (code.Equals(model.UserId))
             {
-                return BadRequest();
+                return NotFound();
             }
-
-            try
-            {
-                await _userRepository.UpdateAsync(user);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(code))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            var updateUser = _mapper.Map<Tbluser>(model);
+            await _userRepository.UpdateAsync(updateUser);
+            return Ok();
         }
 
         // DELETE: api/Users/5

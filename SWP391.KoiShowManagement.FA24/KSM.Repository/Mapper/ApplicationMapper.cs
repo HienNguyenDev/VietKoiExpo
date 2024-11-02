@@ -17,6 +17,7 @@ namespace KSM.Repository.Mapper
             CreateMap<Tblcompetition, CompetitionModel>().ReverseMap();
             CreateMap<Tblregistration, RegistrationModel>().ReverseMap();
             CreateMap<Tbltask, TaskModel>().ReverseMap();
+            CreateMap<Tbluser, UserModel>().ReverseMap();
         }
     }
 }
