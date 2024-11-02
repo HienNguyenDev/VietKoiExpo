@@ -63,7 +63,7 @@ const App = () => {
           
           {/* Main Route for Managing */}
           <Route path="admin" element={<AdminPage />}>
-            <Route path="notifications" element={<NotificationPage />} />
+          
             <Route path="manage-contests" element={<ManageContestsPage />} />
             <Route path="manage-users" element={<ManageUsersPage />} />
             <Route path="view-contest-reports" element={<StatisticDiagram />} />
@@ -72,11 +72,11 @@ const App = () => {
             <Route path="manage-news" element={<ManageNewsUpdatesPage />} />
             <Route path="manage-judging-criteria" element={<ManageJudgingCriteria />} />
             <Route path="manage-task-allocation" element={<AssignTaskPage />} />
-            <Route path="manage-task-allocation/:compID" element={<TaskAllocationProcess />} />
+            <Route path="manage-task-allocation/process/:compID" element={<TaskAllocationProcess />} />
           <Route path="admin" element={<AdminPage />}></Route>
             <Route path="manage-koi-entries" element={<ManageKoiEntriesPage />} />
             <Route path="manage-koi-entries/review-koi-entries/:compName" element={<ReviewKoiEntries />} />
-            
+           
           </Route>
           
           
@@ -84,7 +84,7 @@ const App = () => {
           <Route path="referee" element={<RefereePage />}>
             {/* Step 1: Show all contests */}
             <Route path="manage-judging" element={<ManageShowJudgingPage />} />
-            <Route path="manage-judging/:status/:id" element={<ManageKoiJudgingPage />} />
+            <Route path="manage-judging/comp/:compName" element={<ManageKoiJudgingPage />} />
             <Route path="manage-judging/scoring/:koiId" element={<ManageScoringProcess />} />
           </Route>
           <Route path='login' element={<LoginPage />} />
@@ -101,6 +101,7 @@ const App = () => {
             
 
         </Route>
+        <Route path="notifications" element={<NotificationPage />} />
         home/view-koi
         <Route path='home/view-koi' element={<ViewKoiEntries/>}></Route>
         <Route path='home/view-contests' element={<ApproveKoiEntries/>}></Route>
