@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson, deleteCookieJson } from '../../../util/config';
 import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction } from '../../redux/reducers/userReducer';
-import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser } from '../../../service/userAPI';
+import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser, removeUser } from '../../../service/userAPI';
 
 // async actions
 export const loginActionApi = (userLogin, navigate) => {
@@ -117,10 +117,10 @@ export const updateUserActionApi = (userId, userDetails, navigate) => {
 export const removeUserActionApi = (userId, navigate) => {
     return async (dispatch) => {
         try {
-            await axios.delete(`/api/users/${userId}`);
+            await removeUser(userId, navigate);
             const action = removeUserAction(userId);
              dispatch(action);
-            navigate('/users'); // Navigate to users page after removing
+            
         } catch (error) {
             console.error("Failed to remove user:", error.response ? error.response.data : error.message);
         }

@@ -16,8 +16,7 @@ const newsReducer = createSlice({
             state.news[action.payload.id] = action.payload;
         },
         removeNewsAction: (state, action) => {
-            const { [action.payload]: removed, ...rest } = state.news;
-            state.news = rest;
+            state.news = state.news.filter(news => news.newsId !== action.payload);
         },fetchNewsDetailsSuccess: (state, action) => {
             state.news = action.payload;
         },

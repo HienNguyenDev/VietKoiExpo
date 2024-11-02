@@ -9,7 +9,7 @@ import {
     setContestListAction,
     setCategoriesListByContestAction
 } from '../reducers/contestReducer';
-import { createContest, updateContest, getContest, getAllContest, removeContest, assignKoiToContest } from '../../../service/ContestAPI'; // replace with your actual API methods
+import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
 
 // async actions
 export const createContestActionApi = (contestDetails) => {
@@ -93,6 +93,16 @@ export const fetchCategoriesByCompId = (contestId) => {
         }
       } catch (error) {
         console.error("Failed to fetch Categories:", error.message);
+        return null; // Return null to indicate failure
+      }
+    };
+};
+export const assignKoiToContestActionApi = (contestId) => {
+    return async (dispatch) => {
+      try {
+        
+      } catch (error) {
+        
         return null; // Return null to indicate failure
       }
     };

@@ -52,7 +52,7 @@ const MenuAccount = () => {
   };
   const handleNotificationClick = () => {
     const role = userProfile?.roleId || 'admin'; // Lấy role của user,test thử với 'admin'
-    navigate(`/${role}/notifications`); // Điều hướng đến trang thông báo với đường dẫn tùy thuộc vào role
+    navigate(`/notifications`); // Điều hướng đến trang thông báo với đường dẫn tùy thuộc vào role
   };
 
   // Tạo hàm để hiển thị role bên cạnh tên người dùng
