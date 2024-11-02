@@ -225,5 +225,38 @@ namespace KSM.APIService.Controllers
             return NoContent();
 
         }
+
+        public class KoiFishDto
+        {
+            public string KoiName { get; set; }
+            public int? Age { get; set; }
+            public int? Size { get; set; }
+            public string Variety { get; set; }
+            public bool Status { get; set; } // True if there is a score, otherwise false
+        }
+
+        [HttpGet("KoiFish/{compId}")]
+        public async Task<IActionResult> GetKoiFishByCompetitionId(Guid compId)
+        {
+            try
+            {
+                var koiFishData = await _compCateRepository.GetAllFishByCompetitionId(compId);
+
+                var result = koiFishData.Select(koi => new KoiFishDto
+                {
+                    KoiName = koi.KoiName,
+                    Age = koi.Age,
+                    Size = koi.Size,
+                    Variety = koi.VarietyId, // Assuming you have a navigation property for Variety
+                    Status = koi.Tblscores.Any() // Check if there are any scores associated with the Koi
+                }).ToList();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
