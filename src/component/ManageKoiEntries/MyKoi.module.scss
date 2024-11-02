@@ -1,0 +1,21 @@
+/* ApproveKoiEntries.module.scss */
+
+.container {
+  padding: 20px;
+  background-color: var(--background-default);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.error {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: -12px;
+  margin-bottom: 8px;
+}
+
+/* Add more styles as needed */

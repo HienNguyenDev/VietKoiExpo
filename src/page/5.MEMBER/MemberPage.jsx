@@ -263,7 +263,7 @@ const MemberPage = () => {
               borderColor: currentTheme.palette.primary.main,
               color: currentTheme.palette.primary.main,
             }}
-            onClick={() => handleNavigation('view-koi')}   /* thêm navigation */
+            onClick={() => handleNavigation('/home/view-koi')}   /* thêm navigation */
           >
             MyKoi
           </MuiButton>

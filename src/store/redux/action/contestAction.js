@@ -8,7 +8,7 @@ import {
     fetchContestDetailsFailure,
     setContestListAction
 } from '../reducers/contestReducer';
-import { createContest, updateContest, getContest, getAllContest, removeContest } from '../../../service/ContestAPI'; // replace with your actual API methods
+import { createContest, updateContest, getContest, getAllContest, removeContest, assignKoiToContest } from '../../../service/ContestAPI'; // replace with your actual API methods
 
 // async actions
 export const createContestActionApi = (contestDetails) => {
@@ -79,3 +79,19 @@ export const fetchAllContests = () => {
         }
     };
 };
+
+export const assignKoiToContestActionApi = (contestId, koiId) => {
+    return async (dispatch) => {
+        try {
+            const res = await assignKoiToContest(contestId, koiId);
+            console.log('Assigned koi to contest:', res.data);
+            // Dispatch success action or handle success state
+            dispatch({ type: 'ASSIGN_KOI_SUCCESS', payload: res.data });
+            return res.data;
+        } catch (error) {
+            // Dispatch failure action or handle error state
+            dispatch({ type: 'ASSIGN_KOI_FAILURE', payload: error });
+            throw error;
+        }
+    };
+}

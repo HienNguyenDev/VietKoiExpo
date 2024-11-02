@@ -48,6 +48,7 @@
     "react-router-dom": "^6.26.2",
     "react-scripts": "^5.0.1",
     "react-transition-group": "^4.4.5",
+    "redux-thunk": "^3.1.0",
     "sass": "^1.79.1",
     "scss": "^0.2.4",
     "styled-components": "^6.1.13",

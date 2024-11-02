@@ -9,11 +9,11 @@ import styles from './LandingPage.module.scss';
 const { Option } = Select;
 
 const mockKoiList = [
-  { koiId: '1', koiName: 'Sunny' },
-  { koiId: '2', koiName: 'Shadow' },
-  { koiId: '3', koiName: 'Blaze' },
-  { koiId: '4', koiName: 'Sparkle' },
-  { koiId: '5', koiName: 'Wave' },
+  { koiId: '1', varietyId: 'kohaku', userId: '8f84e872-59bd-47d5-a503-146315bdf2ab', koiName: 'Chica', size: 0, age: 0, imageUrl: 'string', status: true, tblcompetitionCategories: [], tblpredictions: [], tblranks: [], tblregistrations: [], tblresults: [], tblscores: [], user: null, variety: null },
+  { koiId: '2', varietyId: 'kohaku', userId: '8f84e872-59bd-47d5-a503-146315bdf2ab', koiName: 'Nana', size: 0, age: 0, imageUrl: 'string', status: true, tblcompetitionCategories: [], tblpredictions: [], tblranks: [], tblregistrations: [], tblresults: [], tblscores: [], user: null, variety: null },
+  { koiId: '3', varietyId: 'kohaku', userId: '8f84e872-59bd-47d5-a503-146315bdf2ab', koiName: 'Blame', size: 0, age: 0, imageUrl: 'string', status: true, tblcompetitionCategories: [], tblpredictions: [], tblranks: [], tblregistrations: [], tblresults: [], tblscores: [], user: null, variety: null },
+  { koiId: '4', varietyId: 'kohaku', userId: '8f84e872-59bd-47d5-a503-146315bdf2ab', koiName: 'Sparkle', size: 0, age: 0, imageUrl: 'string', status: true, tblcompetitionCategories: [], tblpredictions: [], tblranks: [], tblregistrations: [], tblresults: [], tblscores: [], user: null, variety: null },
+  { koiId: '5', varietyId: 'kohaku', userId: '8f84e872-59bd-47d5-a503-146315bdf2ab', koiName: 'Wave', size: 0, age: 0, imageUrl: 'string', status: true, tblcompetitionCategories: [], tblpredictions: [], tblranks: [], tblregistrations: [], tblresults: [], tblscores: [], user: null, variety: null },
 ];
 
 const LandingPage = () => {
@@ -54,8 +54,25 @@ const LandingPage = () => {
 
   const handleFormSubmit = (values) => {
     console.log('Form values:', values);
-    // Store selected Koi fish in local storage
-    localStorage.setItem('selectedKoi', JSON.stringify(values.koiIds));
+    const selectedKoiIds = values.koiIds;
+
+    // Retrieve existing registrations from local storage
+    const existingRegistrations = JSON.parse(localStorage.getItem('koiRegistrations')) || {};
+
+    // Update registrations with the new competition
+    selectedKoiIds.forEach(koiId => {
+      const koi = mockKoiList.find(k => k.koiId === koiId);
+      if (koi) {
+        if (!existingRegistrations[koiId]) {
+          existingRegistrations[koiId] = { ...koi, competitions: [] };
+        }
+        existingRegistrations[koiId].competitions.push(selectedCompetition.compId);
+      }
+    });
+
+    // Store updated registrations in local storage
+    localStorage.setItem('koiRegistrations', JSON.stringify(existingRegistrations));
+
     message.success('Registration successful!');
     setIsModalVisible(false);
   };

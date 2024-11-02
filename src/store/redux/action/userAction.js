@@ -4,7 +4,6 @@ import { loginAction, registerAction, updateUserAction, removeUserAction, setUse
 import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser } from '../../../service/userAPI';
 
 // async actions
-z
 export const loginActionApi = (userLogin, navigate) => {
     return async (dispatch) => {
         try {
@@ -120,7 +119,7 @@ export const removeUserActionApi = (userId, navigate) => {
         try {
             await axios.delete(`/api/users/${userId}`);
             const action = removeUserAction(userId);
-            dispatch(action);
+             dispatch(action);
             navigate('/users'); // Navigate to users page after removing
         } catch (error) {
             console.error("Failed to remove user:", error.response ? error.response.data : error.message);

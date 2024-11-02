@@ -1,0 +1,121 @@
+/* ApproveKoiEntries.module.scss */
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9; // Light background for form container
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
+}
+
+h4 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333; // Dark text for heading
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .MuiFormControl-root {
+    width: 100%;
+  }
+
+  .MuiTextField-root {
+    width: 100%;
+  }
+
+  .MuiCheckbox-root {
+    margin-right: 8px;
+  }
+
+  .MuiButton-root {
+    align-self: flex-end;
+    padding: 8px 16px;
+    background-color: #1976d2; // Primary color
+    color: #fff;
+    &:hover {
+      background-color: #1565c0; // Darker shade on hover
+    }
+  }
+}
+
+.error {
+  color: #d32f2f; // Red color for error messages
+  font-size: 0.875rem;
+  margin-top: -12px;
+  margin-bottom: 8px;
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .MuiTypography-body1 {
+    margin-bottom: 4px;
+    color: #333; // Ensure text within dialog is readable
+  }
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  .MuiButton-root {
+    padding: 6px 16px;
+    border: 1px solid #1976d2; // Match primary color
+    color: #1976d2;
+    background-color: transparent;
+    &:hover {
+      background-color: #1976d2;
+      color: #fff;
+    }
+  }
+}
+
+/* Snackbar Styles */
+.snackbar {
+  &.MuiSnackbar-root {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+  }
+
+  .MuiAlert-root {
+    font-size: 0.875rem;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .container {
+    padding: 16px;
+  }
+
+  .form {
+    gap: 12px;
+  }
+
+  .dialogContent {
+    gap: 10px;
+  }
+
+  .dialogActions {
+    gap: 6px;
+  }
+
+  .MuiButton-root {
+    padding: 6px 12px;
+  }
+}

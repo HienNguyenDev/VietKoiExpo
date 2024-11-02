@@ -45,6 +45,9 @@ import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
 import ForgetPass from './page/2.LOGIN/ForgetPass';
 import WireframeCompetitionBracket from './page/5.MEMBER/WireFrame';
 import ViewContests from './component/ManageContest/ViewContests';
+import UploadKoiForm from './page/5.MEMBER/uploadKoi/UploadKoiForm';
+import MyKoi from './component/ManageKoiEntries/ApproveKoiEntries';
+import ViewKoiEntries from './component/ManageKoiEntries/ViewKoiEntries';
 const App = () => {
   const location = useLocation();
   const nodeRef = useRef(null); 
@@ -95,7 +98,13 @@ const App = () => {
             <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="announcement" element={<Announcement />} />
             <Route path="admin" element={<AdminPanel />} />
+            
+
         </Route>
+        home/view-koi
+        <Route path='home/view-koi' element={<ViewKoiEntries/>}></Route>
+        <Route path='home/view-contests' element={<ApproveKoiEntries/>}></Route>
+          <Route path='forget' element={<ForgetPass/>}></Route>
           
         </Routes>
         </div>

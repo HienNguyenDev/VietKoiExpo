@@ -38,14 +38,14 @@ export const getAllContest = () => {
         method: 'GET',
     });
 };
-
-export const assignKoiToContest = (contestId, koiId) => {
+export const assignKoiToContest = (compId, koiId, status = 0) => {
     return axios({
         url: `https://localhost:7246/api/Registration`,
         method: 'POST',
         data: {
-            contestId,
-            koiId,
+            compId, // Competition ID
+            koiId,  // Koi ID
+            status, // Registration status (default: 0)
         },
     });
-}
+};

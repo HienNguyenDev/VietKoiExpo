@@ -50,17 +50,11 @@ const CompetitionPage = () => {
             <Menu.Item key="2">
               <Link to="/competition/competition" style={{ color: '#00ffcc' }}>Competition Bracket</Link>
             </Menu.Item>
-            <Menu.Item key="4">
-              <Link to="/competition/advancement" style={{ color: '#00ffcc' }}>Advancement View</Link>
-            </Menu.Item>
             <Menu.Item key="5">
               <Link to="/competition/leaderboard" style={{ color: '#00ffcc' }}>Leaderboard</Link>
             </Menu.Item>
             <Menu.Item key="6">
               <Link to="/competition/announcement" style={{ color: '#00ffcc' }}>Announcement</Link>
-            </Menu.Item>
-            <Menu.Item key="7">
-              <Link to="/competition/admin" style={{ color: '#00ffcc' }}>Admin Panel</Link>
             </Menu.Item>
           </Menu>
         </Header>
