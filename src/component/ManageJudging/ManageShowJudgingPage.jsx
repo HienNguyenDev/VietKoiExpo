@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Table, Button, Tabs, Spin } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Table, Button, Tabs, Spin, Radio, Tag } from 'antd';
 import { fetchAllContests } from '../../store/redux/action/contestAction'; // Assuming your action fetches contests
 
 const { TabPane } = Tabs;
@@ -14,75 +15,79 @@ const mockContests = [
 
 const ManageShowJudgingPage = () => {
   const [loading, setLoading] = useState(true);
-  const [contests, setContests] = useState([]);
-  const [filteredContests, setFilteredContests] = useState([]);
+  const [filterStatus, setFilterStatus] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  
+  const contests = useSelector(state => state.contestReducer.contestList);
   useEffect(() => {
     // Try to fetch data from the API
     const fetchData = async () => {
-      try {
-        const response = await fetchAllContests(); // Actual data fetch
-        setContests(response.data || mockContests); // If API fetch fails, fallback to mock data
-        setFilteredContests(response.data || mockContests); // Initially show all
-      } catch (error) {
-        console.error('Failed to fetch contests, using mock data:', error);
-        setContests(mockContests); // Fallback to mock data on error
-        setFilteredContests(mockContests);
-      } finally {
-        setLoading(false);
-      }
+      setLoading(true); // Bắt đầu loading
+      await dispatch(fetchAllContests()); // Fetch contests
+      setLoading(false); // Kết thúc loading
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
-  const handleShowClick = (show) => {
-    navigate(`/referee/manage-judging/${show.status}/${show.id}`);
+  const handleViewKoiEntries = (compId, compName) => {
+    navigate(`/referee/manage-judging/comp/${compName}`, { state: { compId, compName } });
   };
 
-  // Function to filter contests based on status
-  const handleTabChange = (key) => {
-    setActiveTab(key);
-    if (key === 'all') {
-      setFilteredContests(contests); // Show all contests
-    } else if (key === '1') {
-      setFilteredContests(contests.filter((contest) => contest.status === 1)); // Upcoming
-    } else if (key === '2') {
-      setFilteredContests(contests.filter((contest) => contest.status === 2)); // Ongoing
-    } else if (key === '3') {
-      setFilteredContests(contests.filter((contest) => contest.status === 3)); // Completed
-    }
-  };
+  // Lọc danh sách các cuộc thi theo trạng thái
+  const filteredCompetitions = contests.filter(competition => {
+    if (filterStatus === 'all') return true;
+    if (filterStatus === 'upcoming') return competition.status === 0;
+    if (filterStatus === 'ongoing') return competition.status === 1;
+    if (filterStatus === 'completed') return competition.status === 2;
+    return true;
+  });
 
   const columns = [
     {
-      title: 'Show Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Competition Name',
+      dataIndex: 'compName',
+      key: 'compName',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'compDescription',
+      key: 'compDescription',
+    },
+    {
+      title: 'Location',
+      dataIndex: 'location',
+      key: 'location',
+    },
+    {
+      title: 'Start Date',
+      dataIndex: 'startDate',
+      key: 'startDate',
+    },
+    {
+      title: 'End Date',
+      dataIndex: 'endDate',
+      key: 'endDate',
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
-        if (status === 1) return 'Upcoming';
-        if (status === 2) return 'Ongoing';
-        return 'Completed';
+        let color = status === 0 ? 'green' : status === 1 ? 'blue' : 'red';
+        let statusText = status === 0 ? 'Upcoming' : status === 1 ? 'Ongoing' : 'Completed';
+        return <Tag color={color}>{statusText}</Tag>;
       },
     },
     {
       title: 'Action',
       key: 'action',
-      render: (show) => (
-        <Button
-          type="primary"
-          onClick={() => handleShowClick(show)}
-          disabled={show.status !== 2} // Only enable judging for ongoing shows
-        >
-          {show.status === 2 ? 'Judge' : 'View'}
-        </Button>
+      render: (_, record) => (
+        record.status === 1 ? (
+          <Button type="primary" onClick={() => handleViewKoiEntries(record.compId, record.compName)}>View Koi Entries</Button>
+        ) : null
       ),
     },
   ];
@@ -90,21 +95,24 @@ const ManageShowJudgingPage = () => {
   return (
     <div>
       <h2>Judging Shows</h2>
-      <Tabs activeKey={activeTab} onChange={handleTabChange}>
-        <TabPane tab="All" key="all" />
-        <TabPane tab="Upcoming" key="1" />
-        <TabPane tab="Ongoing" key="2" />
-        <TabPane tab="Completed" key="3" />
-      </Tabs>
-      {loading ? (
-        <Spin size="large" />
-      ) : (
-        <Table dataSource={filteredContests} columns={columns} rowKey="id" />
-      )}
+      <Radio.Group 
+        onChange={(e) => setFilterStatus(e.target.value)} 
+        value={filterStatus}
+        style={{ marginBottom: 16 }}>
+        <Radio.Button value="all">All</Radio.Button>
+        <Radio.Button value="upcoming">Upcoming</Radio.Button>
+        <Radio.Button value="ongoing">Ongoing</Radio.Button>
+        <Radio.Button value="completed">Completed</Radio.Button>
+      </Radio.Group>
 
-      <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
-        Quay lại
-      </Button>
+      {/* Table hiển thị các cuộc thi đã lọc */}
+      <Table
+        columns={columns}
+        dataSource={filteredCompetitions}
+        rowKey="compId"
+        pagination={{ pageSize: 5 }}
+        loading={loading} // Hiển thị trạng thái loading nếu cần
+      />
     </div>
   );
 };
