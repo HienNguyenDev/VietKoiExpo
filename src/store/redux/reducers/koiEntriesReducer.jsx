@@ -58,6 +58,7 @@ const koiEntriesReducer = createSlice({
         setListKoiEntriesAction: (state, action) => {
             state.koiEntries = action.payload;
         },
+        // Thiết lập danh thông tin đầy đủ của cá Koi trong đơn đăng ký
         setListKoiByCategoryAndCompIdAction: (state, action) => {
             state.KoiList = action.payload;
         },

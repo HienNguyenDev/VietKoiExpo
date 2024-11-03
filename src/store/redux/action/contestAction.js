@@ -7,9 +7,10 @@ import {
     fetchContestDetailsSuccess,
     fetchContestDetailsFailure,
     setContestListAction,
-    setCategoriesListByContestAction
+    setCategoriesListByContestAction,
+    setKoiListByContestAction
 } from '../reducers/contestReducer';
-import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
+import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId, assignKoiToContest, getKoiListbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
 
 // async actions
 export const createContestActionApi = (contestDetails) => {
@@ -87,8 +88,7 @@ export const fetchCategoriesByCompId = (contestId) => {
         const res = await getCategoriesbyCompId(contestId);
         if (res && res.data) {
           dispatch(setCategoriesListByContestAction(res.data));
-          return res; // Return the response for use in your component
-        } else {
+          return res;
           throw new Error('No data returned from API');
         }
       } catch (error) {
@@ -97,10 +97,31 @@ export const fetchCategoriesByCompId = (contestId) => {
       }
     };
 };
-export const assignKoiToContestActionApi = (contestId) => {
+export const assignKoiToContestActionApi = (contestId, koiId) => {
+    return async (dispatch) => {
+        try {
+            const res = await assignKoiToContest(contestId, koiId);
+            console.log('Assigned koi to contest:', res.data);
+            // Dispatch success action or handle success state
+            dispatch({ type: 'ASSIGN_KOI_SUCCESS', payload: res.data });
+            return res.data;
+        } catch (error) {
+            // Dispatch failure action or handle error state
+            dispatch({ type: 'ASSIGN_KOI_FAILURE', payload: error });
+            throw error;
+        }
+    };
+}
+export const fetchKoiFromCompId = (contestId) => {
     return async (dispatch) => {
       try {
-        
+        const res = await getKoiListbyCompId(contestId);
+        if (res && res.data) {
+            dispatch(setKoiListByContestAction(res.data));
+          return res; 
+        } else {
+          throw new Error('No data returned from API');
+        }
       } catch (error) {
         
         return null; // Return null to indicate failure

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Radio } from 'antd';
-import { fetchAllKoiEntriesApi, approveKoiEntryApi, rejectKoiEntryApi, reviewKoiEntryAction } from '../../store/redux/action/koiEntriesAction';
+import { fetchAllKoiEntriesApi, approveKoiEntryApi, rejectKoiEntryApi, reviewKoiEntryAction, classifyKoiEntryApi } from '../../store/redux/action/koiEntriesAction';
 
 const ReviewKoiEntriesPage = () => {
   const location = useLocation();
@@ -10,7 +10,7 @@ const ReviewKoiEntriesPage = () => {
   const { compId, compName } = location.state || {}; // Lấy compId và compName từ state
   const [filterStatus, setFilterStatus] = useState('all');
   const [koiDetails, setKoiDetails] = useState({}); // State để lưu chi tiết cá Koi
-
+  const navigate = useNavigate();
   // Lấy danh sách các đơn đăng ký từ Redux store
   const koiEntries = useSelector(state => state.koiEntriesReducer.koiEntries);
 
@@ -54,6 +54,12 @@ const ReviewKoiEntriesPage = () => {
       render: (koiId) => koiDetails[koiId]?.koiName || 'Loading...',
     },
     {
+      title: 'Image',
+      dataIndex: 'koiId',
+      key: 'image',
+      render: (koiId) => koiDetails[koiId]?.imageUrl || 'Loading...',
+    },
+    {
       title: 'Age',
       dataIndex: 'koiId',
       key: 'age',
@@ -69,7 +75,7 @@ const ReviewKoiEntriesPage = () => {
       title: 'Variety',
       dataIndex: 'koiId',
       key: 'variety',
-      render: (koiId) => koiDetails[koiId]?.variety || 'Loading...',
+      render: (koiId) => koiDetails[koiId]?.varietyId || 'Loading...',
     },
     {
       title: 'Status',
@@ -95,24 +101,23 @@ const ReviewKoiEntriesPage = () => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <>
-          {record.status === 0 ? (
-            <>
-              <Button type="primary" onClick={() => handleApprove(record.registrationId)}>Approve</Button>
-              <Button type="default" onClick={() => handleReject(record.registrationId)}>Reject</Button>
-            </>
-          ) : record.status === 2 ? (
-            <Button type="primary" onClick={() => handleReApprove(record.registrationId)}>ReApprove</Button>
-          ) : (
-            <Button type="danger" onClick={() => handleRevertToPending(record.registrationId)}>Revert to Pending</Button>
-          )}
-        </>
+        record.status === 0 ? (
+          <>
+            <Button type="primary" onClick={() => handleApprove(record.registrationId)}>Approve</Button>
+            <Button type="default" onClick={() => handleReject(record.registrationId)}>Reject</Button>
+          </>
+        ) : record.status === 2 ? (
+          <Button type="primary" onClick={() => handleReApprove(record.registrationId)}>ReApprove</Button>
+        ) : (
+          <Button type="danger" onClick={() => handleRevertToPending(record.registrationId)}>Revert to Pending</Button>
+        )
       ),
     },
   ];
-  // Hàm xử lý phê duyệt đơn đăng ký
+  // Hàm xử lý phê duyệt đơn đăng ký và phân loại vô hạng mục thi
   const handleApprove = (entryId) => {
     dispatch(approveKoiEntryApi(entryId)); // Gọi action để phê duyệt
+    dispatch(classifyKoiEntryApi(entryId));
   };
 
   // Hàm xử lý từ chối đơn đăng ký
@@ -153,7 +158,11 @@ const ReviewKoiEntriesPage = () => {
         rowKey="id"
         pagination={{ pageSize: 5 }}
       />
+      <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
+        Back
+      </Button>
     </div>
+    
   );
 };
 

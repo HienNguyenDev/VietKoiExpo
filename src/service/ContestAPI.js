@@ -45,6 +45,8 @@ export const getAllContest = () => {
         method: 'GET',
     });
 };
+
+
 export const assignKoiToContest = (compId, koiId, status = 0) => {
     return axios({
         url: `https://localhost:7246/api/Registration`,
@@ -54,5 +56,12 @@ export const assignKoiToContest = (compId, koiId, status = 0) => {
             koiId,  // Koi ID
             status, // Registration status (default: 0)
         },
+    });
+};
+
+export const getKoiListbyCompId = (compId) => {
+    return axios({
+        url: `${BASE_URL}/KoiFish/${compId}`,
+        method: 'GET',
     });
 };
