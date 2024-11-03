@@ -233,6 +233,7 @@ namespace KSM.APIService.Controllers
             public int? Size { get; set; }
             public string Variety { get; set; }
             public bool Status { get; set; } // True if there is a score, otherwise false
+            public string ImageUrl { get; set; }
         }
 
         [HttpGet("KoiFish/{compId}")]
@@ -248,7 +249,8 @@ namespace KSM.APIService.Controllers
                     Age = koi.Age,
                     Size = koi.Size,
                     Variety = koi.VarietyId, // Assuming you have a navigation property for Variety
-                    Status = koi.Tblscores.Any() // Check if there are any scores associated with the Koi
+                    Status = koi.Tblscores.Any(), // Check if there are any scores associated with the Koi
+                    ImageUrl = koi.ImageUrl
                 }).ToList();
 
                 return Ok(result);
