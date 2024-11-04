@@ -59,6 +59,7 @@ export const assignKoiToContest = (compId, koiId, status = 0) => {
     });
 };
 
+
 export const getKoiListbyCompId = (compId) => {
     return axios({
         url: `${BASE_URL}/KoiFish/${compId}`,

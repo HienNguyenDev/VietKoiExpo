@@ -7,6 +7,9 @@ const initialState = {
     koiEntryDetails: {}, // Chi tiết một đơn đăng ký cá Koi cụ thể
     koiEntries: [], // Danh sách các đơn đăng ký cá Koi
     KoiList: [],
+    scoretList: [],
+    owner: null,
+    submissionResponse: null,
     loading: false, // Trạng thái tải
     error: null, // Lỗi nếu có
 };
@@ -50,6 +53,33 @@ const koiEntriesReducer = createSlice({
                 entry.classificationData = data; // Cập nhật dữ liệu phân loại
             }
         },
+        // xử lý khi gửi điểm  
+        submitKoiScoreAction: (state, action) => {
+            const { compId, userId, scoreData, data } = action.payload;
+      
+            // Optionally, update koiEntries with the new scoreData if necessary
+            const updatedKoiList = state.KoiList.map((entry) => {
+              if (entry.compId === compId && entry.userId === userId) {
+                return {
+                  ...entry,
+                  scoreData, // Update score data
+                };
+              }
+              return entry;
+            });
+      
+            // Update the state with the response and updated entries
+            state.KoiList = updatedKoiList;
+            state.submissionResponse = data;
+            state.error = null; // Clear any previous errors
+        },
+        // Lấy thông tin user
+        getKoiEntryOwnerAction: (state, action) => {
+            state.owner = action.payload;
+        },
+        setScoreListAction: (state, action) => {
+            state.scoretList = action.payload;
+        },
         // Thiết lập danh sách các đơn đăng ký Koi
         setKoiEntriesAction: (state, action) => {
             state.koiEntryDetails = action.payload;
@@ -77,6 +107,9 @@ export const {
     approveKoiEntryAction,
     rejectKoiEntryAction,
     classifyKoiEntryAction,
+    submitKoiScoreAction,
+    getKoiEntryOwnerAction,
+    setScoreListAction,
     setKoiEntryDetailsAction,
     setListKoiEntriesAction,
     setListKoiByCategoryAndCompIdAction,

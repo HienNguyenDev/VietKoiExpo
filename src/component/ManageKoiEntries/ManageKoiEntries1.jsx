@@ -83,6 +83,7 @@ const ManageKoiEntriesPage = () => {
   console.log('Contests:', contests);
   // Điều hướng tới trang chi tiết các Koi Entries
   const handleViewKoiEntries = (compId, compName) => {
+    
     navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
   };
 

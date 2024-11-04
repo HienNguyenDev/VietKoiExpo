@@ -132,7 +132,6 @@ const ReviewKoiEntriesPage = () => {
 
   // Hàm xử lý chuyển trạng thái từ Đã duyệt về Chờ duyệt
   const handleRevertToPending = (entryId) => {
-    console.log("aaaaaaaaaaaaaaa",entryId)
     dispatch(rejectKoiEntryApi(entryId)); // Chuyển trạng thái về Chờ duyệt (0)
   };
 

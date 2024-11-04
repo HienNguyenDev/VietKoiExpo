@@ -28,6 +28,30 @@ export const classifyKoiEntry = (registrationID) => {
     return axios({
         url: `${BASE_URL}/Registration/Classificate/${registrationID}`,
         method: 'POST',
+        data: registrationID,
+    });
+};
+
+export const submitKoiScoreApi = (compId, koiId, userId, scoreShape, scoreColor, scorePattern, totalScore, status ) => {
+    return axios({
+        url: `${BASE_URL}/Score`,
+        method: 'POST',
+        data: {
+            koiId,        // Koi ID
+            compId,       // Competition ID
+            userId,       // User ID
+            scoreShape,   // Shape score
+            scoreColor,   // Color score
+            scorePattern, // Pattern score
+            status 
+        },
+    });
+};
+
+export const getKoiOwnerApi = (koiId) => {
+    return axios({
+        url: `${BASE_URL}/Koifish/${koiId}/user`,
+        method: 'GET',
     });
 };
 
@@ -47,6 +71,13 @@ export const getAllKoiEntriesBycompId = (compId) => {
 export const getAllKoiEntriesByCategoryAndCompId = (compId,categoryId) => {
     return axios({
         url: `${BASE_URL}/Competition/CompetitonCategoriesFish/${compId}?comID=${categoryId}`,
+        method: 'GET',
+    });
+};
+
+export const getAllScore = () => {
+    return axios({
+        url: `${BASE_URL}/Score`,
         method: 'GET',
     });
 };

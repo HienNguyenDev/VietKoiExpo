@@ -6,17 +6,11 @@ import { fetchAllContests } from '../../store/redux/action/contestAction'; // As
 
 const { TabPane } = Tabs;
 
-// Mock data for testing
-const mockContests = [
-  { id: 1, name: 'Spring Koi Show', status: 1 }, // 1 = upcoming
-  { id: 2, name: 'Summer Koi Championship', status: 2 }, // 2 = ongoing
-  { id: 3, name: 'Autumn Koi Classic', status: 3 }, // 3 = completed
-];
 
 const ManageShowJudgingPage = () => {
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState([]);
-  const [activeTab, setActiveTab] = useState('all');
+  //const [activeTab, setActiveTab] = useState('all');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
