@@ -260,5 +260,35 @@ namespace KSM.APIService.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("Ongoing/{id}")]
+        public async Task<IActionResult> UpdateStatusOngoing(Guid id)
+        {
+            var registration = await _competitionRepo.GetByIDAsync(id);
+            if (registration == null)
+            {
+                return NotFound();
+            }
+
+            registration.Status = 1;
+
+            await _competitionRepo.UpdateAsync(registration);
+            return Ok();
+        }
+
+        [HttpPut("Complete/{id}")]
+        public async Task<IActionResult> UpdateStatusComplete(Guid id)
+        {
+            var registration = await _competitionRepo.GetByIDAsync(id);
+            if (registration == null)
+            {
+                return NotFound();
+            }
+
+            registration.Status = 2;
+
+            await _competitionRepo.UpdateAsync(registration);
+            return Ok();
+        }
     }
 }
