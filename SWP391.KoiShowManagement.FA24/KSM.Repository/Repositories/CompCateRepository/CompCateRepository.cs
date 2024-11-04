@@ -47,9 +47,9 @@ namespace KSM.Repository.Repositories.CompCateRepository
         public async Task<List<TblkoiFish>> GetAllFishByCompetitionId(Guid compId)
         {
             return await _context.TblkoiFishes
-                .Include(koi => koi.Tblscores) // Include scores if necessary
-                .Where(koi => koi.TblcompetitionCategories.Any(r => r.CompId == compId)) // Filter based on competition
-                .ToListAsync();
+        .Include(k => k.Tblscores) // Include scores if needed
+        .Where(k => k.Tblregistrations.Any(r => r.CompId == compId && r.Status == 1)) // Assuming CompetitionId is in Tblregistration
+        .ToListAsync();
         }
     }
 }
