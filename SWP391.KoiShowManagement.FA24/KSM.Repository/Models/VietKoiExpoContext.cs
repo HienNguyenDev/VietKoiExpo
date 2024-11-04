@@ -3,11 +3,16 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace KSM.Repository.Models;
 
 public partial class VietKoiExpoContext : DbContext
 {
+    public VietKoiExpoContext()
+    {
+
+    }
     public VietKoiExpoContext(DbContextOptions<VietKoiExpoContext> options)
         : base(options)
     {
@@ -44,6 +49,20 @@ public partial class VietKoiExpoContext : DbContext
     public virtual DbSet<Tbluser> Tblusers { get; set; }
 
     public virtual DbSet<Tblvariety> Tblvarieties { get; set; }
+
+    public static string GetConnectionString(string connectionStringName)
+    {
+        var config = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+        string connectionString = config.GetConnectionString(connectionStringName);
+        return connectionString;
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
