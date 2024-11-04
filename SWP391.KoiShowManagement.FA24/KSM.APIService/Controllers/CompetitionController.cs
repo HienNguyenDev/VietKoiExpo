@@ -228,6 +228,7 @@ namespace KSM.APIService.Controllers
 
         public class KoiFishDto
         {
+            public Guid KoiId { get; set; }
             public string KoiName { get; set; }
             public int? Age { get; set; }
             public int? Size { get; set; }
@@ -245,6 +246,7 @@ namespace KSM.APIService.Controllers
 
                 var result = koiFishData.Select(koi => new KoiFishDto
                 {
+                    KoiId = koi.KoiId,
                     KoiName = koi.KoiName,
                     Age = koi.Age,
                     Size = koi.Size,
