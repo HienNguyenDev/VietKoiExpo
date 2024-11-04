@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using KSM.Repository.Models;
 using KSM.Repository.ModelsMapper;
+using KSM.Repository.Repositories.CheckInRepository;
 using KSM.Repository.Repositories.CompCateRepository;
 using KSM.Repository.Repositories.KoifishRepository;
 using KSM.Repository.Repositories.PredictRepository;
@@ -20,13 +21,15 @@ namespace KSM.APIService.Controllers
         private readonly IMapper _mapper;
         private readonly IKoifishRepository _koiFishRepo;
         private readonly ICompCateRepository _compCateRepo;
-        public RegistrationController(IRegistrationRepository repo, IMapper mapper, IPredictRepository predictRepo, IKoifishRepository koiFishrepo, ICompCateRepository compCateRepo)
+        private readonly ICheckInRepository _checkInRepo;
+        public RegistrationController(IRegistrationRepository repo, IMapper mapper, IPredictRepository predictRepo, IKoifishRepository koiFishrepo, ICompCateRepository compCateRepo, ICheckInRepository checkInRepo)
         {
             _registRepo = repo;
             _mapper = mapper;
             _predictRepo = predictRepo;
             _koiFishRepo = koiFishrepo;
             _compCateRepo = compCateRepo;
+            _checkInRepo = checkInRepo;
         }
 
         [HttpGet("Predict")]
@@ -118,7 +121,16 @@ namespace KSM.APIService.Controllers
 
                 await _compCateRepo.CreateAsync(koiFishCategory);
 
-
+                var checkIn = new TblcheckIn
+                {
+                    CheckInId = Guid.NewGuid(),
+                    ImageUrl = null,      // Image is null initially
+                    Status = 0,         // Status is set to 0 initially
+                    RegistrationId = registrationID
+                };
+                await _checkInRepo.CreateAsync(checkIn);
+                Guid newCheckInID = checkIn.CheckInId;
+                var newCheckIn = await _checkInRepo.GetByIDAsync(newCheckInID);
 
                 return Ok();
             }
@@ -155,6 +167,19 @@ namespace KSM.APIService.Controllers
                 Guid newRegistratioID = newRegistration.RegistrationId;
 
                 var regist = await _registRepo.GetByIDAsync(newRegistratioID);
+
+                //var checkIn = new TblcheckIn
+                //{
+                //    CheckInId = Guid.NewGuid(),
+                //    ImageUrl = null,      // Image is null initially
+                //    Status = 0,         // Status is set to 0 initially
+                //    RegistrationId = newRegistratioID
+                //};
+                //await _checkInRepo.CreateAsync(checkIn);
+                //Guid newCheckInID = checkIn.CheckInId;
+                //var newCheckIn = await _checkInRepo.GetByIDAsync(newCheckInID);
+
+
                 var koiInfo = await _koiFishRepo.GetByIDAsync((Guid)regist.KoiId);
                 if (newRegistration != null)
                 {

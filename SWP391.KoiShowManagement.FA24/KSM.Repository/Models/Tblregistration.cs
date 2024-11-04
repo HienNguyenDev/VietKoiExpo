@@ -18,4 +18,6 @@ public partial class Tblregistration
     public virtual Tblcompetition Comp { get; set; }
 
     public virtual TblkoiFish Koi { get; set; }
+
+    public virtual ICollection<TblcheckIn> TblcheckIns { get; set; } = new List<TblcheckIn>();
 }

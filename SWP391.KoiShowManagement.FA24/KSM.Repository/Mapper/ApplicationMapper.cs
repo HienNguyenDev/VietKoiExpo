@@ -18,6 +18,7 @@ namespace KSM.Repository.Mapper
             CreateMap<Tblregistration, RegistrationModel>().ReverseMap();
             CreateMap<Tbltask, TaskModel>().ReverseMap();
             CreateMap<Tbluser, UserModel>().ReverseMap();
+            CreateMap<TblcheckIn, CheckInModel>().ReverseMap();
         }
     }
 }

@@ -25,6 +25,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Net.WebSockets;
 using KSM.Repository.Repositories.ResultRepository;
+using KSM.Repository.Repositories.CheckInRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,6 +85,7 @@ builder.Services.AddScoped<ICompCateRepository, CompCateRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IResultRepository, ResultRepository>();
+builder.Services.AddScoped<ICheckInRepository, CheckInRepository>();
 builder.Services.AddScoped<GoogleTokenValidator>();
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
