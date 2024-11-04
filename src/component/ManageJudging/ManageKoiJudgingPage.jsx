@@ -18,7 +18,7 @@ const ManageKoiJudgingPage = () => {
 
   // Lấy danh sách cá Koi có trong cuộc thi từ Redux store
   const koiList = useSelector(state => state.contestReducer.koiList);
-
+  console.log("useSelectorbbbbbbbbbbbbbbbbb",koiList);
   useEffect(() => {
     if (compId) {
       dispatch(fetchKoiFromCompId(compId)).finally(() => setLoading(false));
@@ -58,25 +58,45 @@ const ManageKoiJudgingPage = () => {
       title: 'Shape Score',
       dataIndex: 'koiId',
       key: 'scoreShape',
-      render: (koiId) => koiId.scoreShape || 'Loading...',
+      render: (koiId) => {
+        if (!koiId || koiId.scoreShape === null || koiId.scoreShape === undefined) {
+          return 'None';
+        }
+        return koiId.scoreShape;
+      },
     },
     {
       title: 'Color Score',
       dataIndex: 'koiId',
       key: 'scoreColor',
-      render: (koiId) => koiId.scoreColor || 'Loading...',
+      render: (koiId) => {
+        if (!koiId || koiId.scoreColor === null || koiId.scoreColor === undefined) {
+          return 'None';
+        }
+        return koiId.scoreColor;
+      },
     },
     {
       title: 'Pattern Score',
       dataIndex: 'koiId',
       key: 'scorePattern',
-      render: (koiId) => koiId.scorePattern || 'Loading...',
+      render: (koiId) => {
+        if (!koiId || koiId.scorePattern === null || koiId.scorePattern === undefined) {
+          return 'None';
+        }
+        return koiId.scorePattern;
+      },
     },
     {
       title: 'Total Score',
       dataIndex: 'koiId',
       key: 'totalScore',
-      render: (koiId) => koiId.totalScore || 'Loading...',
+      render: (koiId) => {
+        if (!koiId || koiId.totalScore === null || koiId.totalScore === undefined) {
+          return 'None';
+        }
+        return koiId.totalScore;
+      },
     },
     {
       title: 'Status',
