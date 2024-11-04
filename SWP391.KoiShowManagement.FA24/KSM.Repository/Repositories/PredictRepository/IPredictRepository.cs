@@ -10,5 +10,6 @@ namespace KSM.Repository.Repositories.PredictRepository
 {
     public interface IPredictRepository : IGenericRepository<Tblprediction, string>
     {
+        float PredictKoiScore(string variety, int size, int age);
     }
 }

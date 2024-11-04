@@ -155,25 +155,18 @@ namespace KSM.APIService.Controllers
                 Guid newRegistratioID = newRegistration.RegistrationId;
 
                 var regist = await _registRepo.GetByIDAsync(newRegistratioID);
-
-
+                var koiInfo = await _koiFishRepo.GetByIDAsync((Guid)regist.KoiId);
                 if (newRegistration != null)
                 {
                     var predict = new Tblprediction();
                     predict.CompId = newRegistration.CompId;
                     predict.KoiId = newRegistration.KoiId;
-                    predict.PredictedScore = new Random().Next(1, 101);
+                    predict.PredictedScore = (int?)_predictRepo.PredictKoiScore(koiInfo.VarietyId, (int)koiInfo.Size, (int)koiInfo.Age);
                     predict.PredictionId = Guid.NewGuid();
 
                     await _predictRepo.CreateAsync(predict);
-
-
-
-
                 }
                 return regist == null ? NotFound() : Ok(regist);
-
-
             }
             catch (Exception ex)
             {
