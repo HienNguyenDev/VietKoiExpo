@@ -8,9 +8,21 @@ export const approveKoiEntry = (entryId) => {
         method: 'PUT',
     });
 };
+export const checkInKoiEntry = (entryId,imageUrl,description) => {
+    return axios({
+        url: `${BASE_URL}/api/CheckIn/byRegistrationId/${entryId}`,
+        method: 'PUT',
+    });
+};
 export const rejectKoiEntry = (entryId) => {    
     return axios({
         url: `${BASE_URL}/Registration/RejectRegistration/${entryId}`,
+        method: 'PUT',
+    });
+};
+export const rejectCheckInKoiEntry = (entryId) => {
+    return axios({
+        url: `${BASE_URL}/api/CheckIn/byRegistrationId/${entryId}`,
         method: 'PUT',
     });
 };
@@ -61,6 +73,14 @@ export const reviewKoiEntry = (koiId) => {
         method: 'GET',
     });
 };
+
+export const getCheckinByCompIdApi = (compId) => {
+    return axios({
+        url: `${BASE_URL}/api/CheckIn/competition/${compId}`,
+        method: 'GET',
+    });
+};
+
 export const getAllKoiEntriesBycompId = (compId) => {
     return axios({
         url: `${BASE_URL}/Registration/GetAllRegistByCompId/${compId}`,

@@ -1,7 +1,7 @@
 // actions/koiEntriesActions.js
 
 import { KOI_ASSIGN, KOI_APPROVE, KOI_CHECKIN, KOI_REVIEW, KOI_CATEGORY } from '../../../util/config';
-import { getAllScore, getKoiOwnerApi, getAllKoiEntriesBycompId, getAllKoiEntriesByCategoryAndCompId, approveKoiEntry, rejectKoiEntry, createKoiRegistration, classifyKoiEntry, reviewKoiEntry, submitKoiScoreApi } from '../../../service/KoiEntriesAPI';
+import { getCheckinByCompIdApi, rejectCheckInKoiEntry, checkInKoiEntry, getAllScore, getKoiOwnerApi, getAllKoiEntriesBycompId, getAllKoiEntriesByCategoryAndCompId, approveKoiEntry, rejectKoiEntry, createKoiRegistration, classifyKoiEntry, reviewKoiEntry, submitKoiScoreApi } from '../../../service/KoiEntriesAPI';
 import {
     createKoiEntryAction,
     approveKoiEntryAction,
@@ -12,7 +12,10 @@ import {
     setListKoiEntriesAction,
     submitKoiScoreAction,
     getKoiEntryOwnerAction,
-    setScoreListAction
+    setScoreListAction,
+    checkInKoiEntryAction,
+    rejectCheckInKoiEntryAction,
+    setCheckinByCompIdAction
 } from '../reducers/koiEntriesReducer';
 // Action Creators
 export const createKoiRegistrationApi = (registrationDetails) => {
@@ -38,6 +41,7 @@ export const approveKoiEntryApi = (entryId) => {
         }
     };
 };
+
 export const rejectKoiEntryApi = (entryId) => {
     return async (dispatch) => {
         try {
@@ -49,6 +53,32 @@ export const rejectKoiEntryApi = (entryId) => {
         }
     };
 };
+
+// Approve Koi check in
+export const checkInKoiEntryApi = (entryId,imageUrl,description) => {
+    return async (dispatch) => {
+        try {
+            await checkInKoiEntry(entryId,imageUrl,description);
+            const action = checkInKoiEntryAction(entryId,imageUrl,description);
+            dispatch(action);
+        } catch (error) {
+            console.error("Failed to approve Koi entry:", error.response ? error.response.data : error.message);
+        }
+    };
+};
+// reject Koi check in
+export const rejectCheckInKoiEntryApi = (entryId,imageUrl,description) => {
+    return async (dispatch) => {
+        try {
+            await rejectCheckInKoiEntry(entryId,imageUrl,description);
+            const action = rejectCheckInKoiEntryAction(entryId,imageUrl,description);
+            dispatch(action);
+        } catch (error) {
+            console.error("Failed to approve Koi entry:", error.response ? error.response.data : error.message);
+        }
+    };
+};
+
 
 // Action để phân loại tự động đơn đăng ký cá Koi
 export const classifyKoiEntryApi = (registrationID) => {
@@ -62,6 +92,9 @@ export const classifyKoiEntryApi = (registrationID) => {
         }
     };
 };
+
+
+
 
 export const submitScoreAction = (compId,userId,scoreData,status) => {
     return async (dispatch) => {
@@ -126,6 +159,17 @@ export const reviewKoiEntryAction = (entryId) => {
     };
 };
 
+export const fetchCheckinByCompId = (compId) => {
+    return async (dispatch) => {
+        try {
+            const res = await getCheckinByCompIdApi(compId);
+            dispatch(setCheckinByCompIdAction(res.data));
+            console.log("Get KoiOwne successful:", res.data);
+        } catch (error) {
+            console.error("Failed to submit Koi score entry:", error.response ? error.response.data : error.message);
+        }
+    };
+};
 
 export const fetchAllKoiEntriesApi = (compId) => {
     return async (dispatch) => {

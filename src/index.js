@@ -41,6 +41,9 @@ import FinalizeContestResults from './component/ManageJudging/FinalizeContestRes
 import AsssignJugingProcess from './component/ManageJudging/AssignJudgingProcess';
 import ManageKoiEntriesPage from './component/ManageKoiEntries/ManageKoiEntries1';
 import ReviewKoiEntries from './component/ManageKoiEntries/ReviewKoiEntries';
+import ManageKoiCheckIn from './component/ManageCheckInKoi/ManageKoiCheckIn';
+import ReviewKoiCheckIn from './component/ManageCheckInKoi/ReviewKoiCheckIn';
+
 import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
 import ForgetPass from './page/2.LOGIN/ForgetPass';
 import WireframeCompetitionBracket from './page/5.MEMBER/WireFrame';
@@ -73,12 +76,15 @@ const App = () => {
             <Route path="manage-judging-criteria" element={<ManageJudgingCriteria />} />
             <Route path="manage-task-allocation" element={<AssignTaskPage />} />
             <Route path="manage-task-allocation/process/:compID" element={<TaskAllocationProcess />} />
-          <Route path="admin" element={<AdminPage />}></Route>
+            
             <Route path="manage-koi-entries" element={<ManageKoiEntriesPage />} />
             <Route path="manage-koi-entries/review-koi-entries/:compName" element={<ReviewKoiEntries />} />
-           
+
+            <Route path="manage-koi-checkin" element={<ManageKoiCheckIn />} />
+            <Route path="manage-koi-checkin/review-koi-checkin/:compName" element={<ReviewKoiCheckIn />} />
           </Route>
           
+
           
           <Route path="assignKoi" element={<ApproveKoiEntries />} />
           <Route path="referee" element={<RefereePage />}>
