@@ -10,5 +10,8 @@ namespace KSM.Repository.Repositories.ResultRepository
 {
     public interface IResultRepository : IGenericRepository<Tblresult, Guid>
     {
+        Task<IEnumerable<Tblresult>> GetByKoiIdAsync(Guid koiId);
+        Task<IEnumerable<Tblresult>> GetByCompIdAsync(Guid compId);
+        Task<IEnumerable<Tblresult>> GetByKoiIdAndCompIdAsync(Guid koiId, Guid compId);
     }
 }
