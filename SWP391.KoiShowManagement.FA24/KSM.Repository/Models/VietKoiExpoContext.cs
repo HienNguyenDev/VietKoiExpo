@@ -4,14 +4,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
 namespace KSM.Repository.Models;
 
 public partial class VietKoiExpoContext : DbContext
 {
     public VietKoiExpoContext()
     {
-
     }
     public VietKoiExpoContext(DbContextOptions<VietKoiExpoContext> options)
         : base(options)
@@ -56,13 +54,12 @@ public partial class VietKoiExpoContext : DbContext
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile("appsettings.json")
             .Build();
-
         string connectionString = config.GetConnectionString(connectionStringName);
         return connectionString;
     }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -89,6 +86,7 @@ public partial class VietKoiExpoContext : DbContext
             entity.Property(e => e.CheckInId)
                 .ValueGeneratedNever()
                 .HasColumnName("CheckInID");
+            entity.Property(e => e.Description).HasMaxLength(100);
             entity.Property(e => e.ImageUrl)
                 .HasMaxLength(50)
                 .IsUnicode(false);

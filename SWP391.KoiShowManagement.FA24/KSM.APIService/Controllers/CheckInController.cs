@@ -37,10 +37,37 @@ namespace KSM.APIService.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCheckInById(Guid id)
         {
-            var checkIn = await _checkInRepo.GetByIDAsync(id);
-            return Ok(checkIn);
+            var checkIn = await _checkInRepo.GetCheckInWithKoiImageAsync(id);
 
+            if (checkIn == null)
+            {
+                return NotFound();
+            }
+
+            var response = new
+            {
+                CheckInId = checkIn.CheckInId,
+                ImageUrl = checkIn.ImageUrl,
+                Status = checkIn.Status,
+                KoiImageUrl = checkIn.Registration?.Koi?.ImageUrl // Additional field for Koi image URL
+            };
+
+            return Ok(response);
         }
+
+        [HttpGet("competition/{compId}")]
+        public async Task<IActionResult> GetCheckInsByCompId(Guid compId)
+        {
+            var checkIns = await _checkInRepo.GetCheckInsByCompIdAsync(compId);
+
+            if (!checkIns.Any())
+            {
+                return NotFound("No check-ins found with the given competition ID and registration status.");
+            }
+
+            return Ok(checkIns);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> AddCheckIn(CheckInModel model)
@@ -91,6 +118,7 @@ namespace KSM.APIService.Controllers
         {
             public int? Status { get; set; }
             public string ImageUrl { get; set; }
+            public string Description { get; set; }
         }
 
         [HttpPut("byRegistrationId/{registrationId}")]
@@ -105,6 +133,7 @@ namespace KSM.APIService.Controllers
             // Update only the Status and ImageUrl fields
             checkIn.Status = model.Status;
             checkIn.ImageUrl = model.ImageUrl;
+            checkIn.Description = model.Description;
 
             var result = await _checkInRepo.UpdateAsync(checkIn);
             return result ? Ok(checkIn) : BadRequest();

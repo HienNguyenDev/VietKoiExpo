@@ -15,5 +15,7 @@ public partial class TblcheckIn
 
     public Guid? RegistrationId { get; set; }
 
+    public string Description { get; set; }
+
     public virtual Tblregistration Registration { get; set; }
 }

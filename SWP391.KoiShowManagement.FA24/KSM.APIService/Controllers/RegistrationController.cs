@@ -126,7 +126,8 @@ namespace KSM.APIService.Controllers
                     CheckInId = Guid.NewGuid(),
                     ImageUrl = null,      // Image is null initially
                     Status = 0,         // Status is set to 0 initially
-                    RegistrationId = registrationID
+                    RegistrationId = registrationID,
+                    Description = null  // Description is set to null initially
                 };
                 await _checkInRepo.CreateAsync(checkIn);
                 Guid newCheckInID = checkIn.CheckInId;

@@ -13,5 +13,6 @@ namespace KSM.Repository.ModelsMapper
         public int? Status { get; set; }
 
         public Guid? RegistrationId { get; set; }
+        public string Description { get; set; }
     }
 }
