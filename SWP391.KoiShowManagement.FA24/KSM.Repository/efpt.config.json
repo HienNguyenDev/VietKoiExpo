@@ -43,6 +43,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[TBLPayment]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[TBLPrediction]",
          "ObjectType": 0
       },
