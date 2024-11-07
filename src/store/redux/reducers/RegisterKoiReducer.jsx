@@ -23,18 +23,39 @@ const registerKoiReducer = createSlice({
       state.error = action.payload;
     },
     updateDetailOfRegisterKoi: (state, action) => {
-        const { id, ...newDetail } = action.payload;
-        const koiIndex = state.koiList.findIndex((koi) => koi.id === id);
-        if (koiIndex !== -1) {
-            state.koiList[koiIndex] = { ...state.koiList[koiIndex], ...newDetail };
-        }
+      const { id, ...newDetail } = action.payload;
+      const koiIndex = state.koiList.findIndex((koi) => koi.id === id);
+      if (koiIndex !== -1) {
+        state.koiList[koiIndex] = { ...state.koiList[koiIndex], ...newDetail };
+      }
     },
     setListKoi: (state, action) => {
       state.koiList = action.payload;
-    }
+    },
+    getAllRegisteredKoiForCompetitionRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    getAllRegisteredKoiForCompetitionSuccess: (state, action) => {
+      state.loading = false;
+      state.koiList = action.payload; // Cập nhật danh sách Koi đã đăng ký
+    },
+    getAllRegisteredKoiForCompetitionFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { registerKoiRequest, registerKoiSuccess, registerKoiFailure,updateDetailOfRegisterKoi,setListKoi } = registerKoiReducer.actions;
+export const {
+  registerKoiRequest,
+  registerKoiSuccess,
+  registerKoiFailure,
+  updateDetailOfRegisterKoi,
+  setListKoi,
+  getAllRegisteredKoiForCompetitionRequest,
+  getAllRegisteredKoiForCompetitionSuccess,
+  getAllRegisteredKoiForCompetitionFailure,
+} = registerKoiReducer.actions;
 
 export default registerKoiReducer.reducer;

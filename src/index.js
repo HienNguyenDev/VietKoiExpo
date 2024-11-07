@@ -48,6 +48,7 @@ import ViewContests from './component/ManageContest/ViewContests';
 import UploadKoiForm from './page/5.MEMBER/uploadKoi/UploadKoiForm';
 import MyKoi from './component/ManageKoiEntries/ApproveKoiEntries';
 import ViewKoiEntries from './component/ManageKoiEntries/ViewKoiEntries';
+import UserViewResultsPage from './component/ManageJudging/UserViewResult';
 const App = () => {
   const location = useLocation();
   const nodeRef = useRef(null); 
@@ -57,7 +58,10 @@ const App = () => {
         <div ref={nodeRef}>
         <Routes location={location}>
           <Route path="/"  element={<LoginPage/>}/>
-          <Route path='home' element={<MemberPage />} />
+          <Route path='home' element={<MemberPage />}>
+           
+          </Route>
+          <Route path='home/register-koi' element={<ApproveKoiEntries/>}></Route>
             <Route path='view-contest' element={< ViewContests/>} />
             <Route path="view-koi" element={<ReviewKoiEntries />} />
           
@@ -93,7 +97,7 @@ const App = () => {
           <Route path='fishkoi' element={<FishKoiEventDetail />} />
           <Route path="/competition" element={<CompetitionPage />}>
             <Route path="landing" element={<LandingPage />} />
-            <Route path="competition" element={<CompetitionBracket />} />
+            <Route path="/competition/:compId" element={<CompetitionBracket />} />
             <Route path="advancement" element={<AdvancementView />} />
             <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="announcement" element={<Announcement />} />
@@ -102,6 +106,7 @@ const App = () => {
 
         </Route>
         home/view-koi
+        <Route path="/results/:compId" element={<UserViewResultsPage />} />
         <Route path='home/view-koi' element={<ViewKoiEntries/>}></Route>
         <Route path='home/view-contests' element={<ApproveKoiEntries/>}></Route>
           <Route path='forget' element={<ForgetPass/>}></Route>

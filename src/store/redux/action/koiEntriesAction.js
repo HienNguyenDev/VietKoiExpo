@@ -2,6 +2,7 @@
 
 import { KOI_ASSIGN, KOI_APPROVE, KOI_CHECKIN, KOI_REVIEW, KOI_CATEGORY } from '../../../util/config';
 import {getAllKoiEntriesBycompId, getAllKoiEntriesByCategoryAndCompId, approveKoiEntry, rejectKoiEntry, createKoiRegistration, classifyKoiEntry, reviewKoiEntry } from '../../../service/KoiEntriesAPI';
+import { registerKoiForCompetitionApi } from '../../../service/koiRegist';
 import {
     createKoiEntryAction,
     approveKoiEntryAction,
@@ -11,6 +12,12 @@ import {
     setListKoiByCategoryAndCompIdAction,
     setListKoiEntriesAction
 } from '../reducers/koiEntriesReducer';
+import {
+    registerKoiForCompetitionRequest,
+    registerKoiForCompetitionSuccess,
+    registerKoiForCompetitionFailure,
+} from '../reducers/koiEntriesReducer';
+
 // Action Creators
 export const createKoiRegistrationApi = (registrationDetails) => {
     return async (dispatch) => {
@@ -97,3 +104,21 @@ export const fetchKoiEntriesByCategoryAndCompId = (compId,categoryId) => {
         }
     };
 };
+
+//đăng kí cá koi của người dùng vào cuộc thi
+
+
+export const registerKoiForCompetition = (koiIds, competitionId) => async (dispatch) => {
+    console.log('registerKoiForCompetition action called with:', { koiIds, competitionId }); // Debug input parameters
+    dispatch(registerKoiForCompetitionRequest());
+    try {
+      const response = await registerKoiForCompetitionApi(koiIds, competitionId);
+      console.log('registerKoiForCompetition action response:', response); // Debug response
+      dispatch(registerKoiForCompetitionSuccess(response));
+      return response;
+    } catch (error) {
+      console.error('registerKoiForCompetition action error:', error); // Debug error
+      dispatch(registerKoiForCompetitionFailure(error));
+      throw error;
+    }
+  };

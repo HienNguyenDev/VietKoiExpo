@@ -1,6 +1,6 @@
 // koiAction.js
-import { registerKoiRequest, registerKoiSuccess, registerKoiFailure, updateDetailOfRegisterKoi, setListKoi } from '../reducers/RegisterKoiReducer';
-import { getAllKoiApi, getKoiByIdApi, registerKoiApi, updateKoiDetailApi } from '../../../service/koiRegist';
+import { registerKoiRequest, registerKoiSuccess, registerKoiFailure, updateDetailOfRegisterKoi, setListKoi, getAllRegisteredKoiForCompetitionRequest, getAllRegisteredKoiForCompetitionSuccess, getAllRegisteredKoiForCompetitionFailure } from '../reducers/RegisterKoiReducer';
+import { getAllKoiApi, getAllRegisteredKoiForCompetitionApi, getKoiByIdApi,registerKoiApi,updateKoiDetailApi } from '../../../service/koiRegist';
 
 export const registerKoi = (koiData) => async (dispatch) => {
   try {
@@ -38,11 +38,13 @@ export  const getAllKoi = async () => {
   }
 } 
 
+//get List Koi by User Id 
 export const getKoiById = (id) => {
   return async (dispatch) => {
     try {
       const res = await getKoiByIdApi(id);
-      dispatch(setListKoi(res.data));
+      console.log('getKoiById response:', res);
+      dispatch(setListKoi(res)); // Ensure res is the correct data format
     } catch (error) {
       console.error(
         "Fetching listKoi failed:",
@@ -52,3 +54,13 @@ export const getKoiById = (id) => {
     }
   };
 };
+export const getAllRegisteredKoiForCompetition = () => async (dispatch) => {
+  dispatch(getAllRegisteredKoiForCompetitionRequest());
+  try {
+    const response = await getAllRegisteredKoiForCompetitionApi();
+    dispatch(getAllRegisteredKoiForCompetitionSuccess(response));
+  } catch (error) {
+    dispatch(getAllRegisteredKoiForCompetitionFailure(error));
+  }
+};
+

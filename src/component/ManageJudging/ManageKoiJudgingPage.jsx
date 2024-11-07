@@ -1,71 +1,77 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Table, Button, Spin, Tabs } from 'antd';
-import { fetchContestDetails } from '../../store/redux/action/contestAction'; // Assuming your action fetches a specific contest
-
-const { TabPane } = Tabs;
-
-// Mock data for testing
-const mockKoiEntries = {
-  1: [
-    { id: 1, koiID: 'K001', name: 'Koi Fish 1', score: null },
-    { id: 2, koiID: 'K002', name: 'Koi Fish 2', score: null },
-  ],
-  2: [
-    { id: 3, koiID: 'K003', name: 'Koi Fish 3', score: null },
-    { id: 4, koiID: 'K004', name: 'Koi Fish 4', score: null },
-  ],
-  3: [
-    { id: 5, koiID: 'K005', name: 'Koi Fish 5', score: 8.5 },
-    { id: 6, koiID: 'K006', name: 'Koi Fish 6', score: 9.0 },
-  ],
-};
+import { Table, Button, Spin } from 'antd';
+import { useDispatch } from 'react-redux';
+import { fetchContestDetails, fetchAllContests } from '../../store/redux/action/contestAction'; // Assuming your action fetches a specific contest
 
 const ManageKoiJudgingPage = () => {
   const { id, status } = useParams(); // Status is passed in the URL
   const [loading, setLoading] = useState(true);
   const [koiEntries, setKoiEntries] = useState([]);
   const [filteredKoi, setFilteredKoi] = useState([]);
-  const [activeTab, setActiveTab] = useState('all');
+  const [mockKoiList, setMockKoiList] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchAllContests());
+        // Retrieve updated Koi list from local storage
+        const storedKoiList = JSON.parse(localStorage.getItem('mockKoiList')) || [];
+        setMockKoiList(storedKoiList);
+      } catch (error) {
+        console.error('Failed to fetch contests:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchKoiEntries = async () => {
       try {
-        const response = await fetchContestDetails(id); // Try fetching actual data
-        const entries = response.data?.koiEntries || mockKoiEntries[id]; // Fallback to mock if no data
+        const response = await dispatch(fetchContestDetails(id)); // Try fetching actual data
+        const entries = response.data?.koiEntries || []; // Fallback to empty array if no data
         setKoiEntries(entries);
-        setFilteredKoi(entries); // Initially show all koi entries
+
+        // Retrieve Koi fish from local storage
+        const storedKoi = JSON.parse(localStorage.getItem('koiRegistrations')) || {};
+        const localKoiEntries = Object.values(storedKoi).filter(koi => koi.competitions.includes(id));
+
+        // Combine local Koi entries with API entries
+        const combinedKoiEntries = [...localKoiEntries, ...entries];
+
+        setFilteredKoi(combinedKoiEntries); // Initially show all koi entries
       } catch (error) {
-        console.error('Failed to fetch koi entries, using mock data:', error);
-        setKoiEntries(mockKoiEntries[id]); // Use mock data on error
-        setFilteredKoi(mockKoiEntries[id]);
+        console.error('Failed to fetch koi entries:', error);
+        setKoiEntries([]); // Use empty array on error
+        setFilteredKoi([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchKoiEntries();
-  }, [id]);
-
-  
+  }, [dispatch, id]);
 
   const handleJudgeClick = (koi) => {
     if (status === '2') {
-      navigate(`/referee/manage-judging/scoring/${koi.id}`);
+      navigate(`/referee/manage-judging/scoring/${koi.koiId}`);
     }
   };
 
   const columns = [
     {
       title: 'Koi ID',
-      dataIndex: 'koiID',
-      key: 'koiID',
+      dataIndex: 'koiId',
+      key: 'koiId',
     },
     {
       title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'koiName',
+      key: 'koiName',
     },
     {
       title: 'Score',
@@ -95,12 +101,11 @@ const ManageKoiJudgingPage = () => {
   return (
     <div>
       <h2>Manage Koi Judging</h2>
-     
 
       {loading ? (
         <Spin size="large" />
       ) : (
-        <Table dataSource={filteredKoi} columns={columns} rowKey="id" />
+        <Table dataSource={filteredKoi} columns={columns} rowKey="koiId" />
       )}
 
       <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>

@@ -15,14 +15,15 @@ import bgred from '../../asset/photo/bgred.png';
 import qc from '../../asset/photo/qc.jpg';
 import RankingComponent from './RankingComponent';
 import NewsComp from '../../component/shared/news/NewsComp';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { Header, Footer, Content } = Layout;
 
 const MemberPage = () => {
   const [themeMode, setThemeMode] = useState('light'); // State to store theme mode
   const navigate = useNavigate();
-
-  // Hàm điều hướng tới các trang
+  const dispatch = useDispatch();
+  const userId = useSelector(state => state.userReducer.userLogin.userId); 
   const handleNavigation = (path) => {
     navigate(path);
   };
@@ -251,9 +252,9 @@ const MemberPage = () => {
               borderColor: currentTheme.palette.primary.main,
               color: currentTheme.palette.primary.main,
             }}
-            onClick={() => handleNavigation('view-contests')} /* thêm navigation */
+            onClick={() => handleNavigation('register-koi')} /* thêm navigation */
           >
-            Competition
+           REGISTER?
           </MuiButton>
 
           {/* Nút truy cập MyKoi */}
@@ -385,7 +386,7 @@ const MemberPage = () => {
                     Join the most exciting Koi contest of the year! Showcase your beautiful Koi fish and compete for the top prize.
                   </p>
                 </div>
-                <MuiButton variant="text" className={styles.readMore} onClick={()=>handleNavigation('/competition')}>
+                <MuiButton variant="text" className={styles.readMore} onClick={()=>handleNavigation('/competition/landing')}>
                     Join Now
                   </MuiButton>
               </Card>

@@ -1,110 +1,165 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Table, Button, Tabs, Spin } from 'antd';
-import { fetchAllContests } from '../../store/redux/action/contestAction'; // Assuming your action fetches contests
-
-const { TabPane } = Tabs;
-
-// Mock data for testing
-const mockContests = [
-  { id: 1, name: 'Spring Koi Show', status: 1 }, // 1 = upcoming
-  { id: 2, name: 'Summer Koi Championship', status: 2 }, // 2 = ongoing
-  { id: 3, name: 'Autumn Koi Classic', status: 3 }, // 3 = completed
-];
+import { Table, Button, Drawer, Form, Input, Radio, Tag, message } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
+import styles from './ManageShowJudgingPage.module.scss';
+import { fetchAllContests } from '../../store/redux/action/contestAction';
 
 const ManageShowJudgingPage = () => {
-  const [loading, setLoading] = useState(true);
-  const [contests, setContests] = useState([]);
-  const [filteredContests, setFilteredContests] = useState([]);
-  const [activeTab, setActiveTab] = useState('all');
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [drawerTitle, setDrawerTitle] = useState('');
+  const [selectedContest, setSelectedContest] = useState(null);
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [koiEntries, setKoiEntries] = useState([]);
+  
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const contestsData = useSelector(state => state.contestReducer.contestList);
 
   useEffect(() => {
-    // Try to fetch data from the API
-    const fetchData = async () => {
-      try {
-        const response = await fetchAllContests(); // Actual data fetch
-        setContests(response.data || mockContests); // If API fetch fails, fallback to mock data
-        setFilteredContests(response.data || mockContests); // Initially show all
-      } catch (error) {
-        console.error('Failed to fetch contests, using mock data:', error);
-        setContests(mockContests); // Fallback to mock data on error
-        setFilteredContests(mockContests);
-      } finally {
-        setLoading(false);
-      }
-    };
+    dispatch(fetchAllContests());
+  }, [dispatch]);
 
-    fetchData();
-  }, []);
+  const filteredCompetitions = contestsData.filter(competition => {
+    if (filterStatus === 'all') return true;
+    if (filterStatus === 'upcoming') return competition.status === 0;
+    if (filterStatus === 'ongoing') return competition.status === 1;
+    if (filterStatus === 'completed') return competition.status === 2;
+    return true;
+  });
 
-  const handleShowClick = (show) => {
-    navigate(`/referee/manage-judging/${show.status}/${show.id}`);
-  };
+  const showDrawer = (title, contest) => {
+    setDrawerTitle(title);
+    setSelectedContest(contest);
+    setDrawerVisible(true);
 
-  // Function to filter contests based on status
-  const handleTabChange = (key) => {
-    setActiveTab(key);
-    if (key === 'all') {
-      setFilteredContests(contests); // Show all contests
-    } else if (key === '1') {
-      setFilteredContests(contests.filter((contest) => contest.status === 1)); // Upcoming
-    } else if (key === '2') {
-      setFilteredContests(contests.filter((contest) => contest.status === 2)); // Ongoing
-    } else if (key === '3') {
-      setFilteredContests(contests.filter((contest) => contest.status === 3)); // Completed
+    if (contest) {
+      // Retrieve Koi fish from local storage
+      const storedKoi = JSON.parse(localStorage.getItem('koiRegistrations')) || {};
+      const localKoiEntries = Object.values(storedKoi).filter(koi => koi.competitions.includes(contest.compId));
+      setKoiEntries(localKoiEntries);
     }
   };
 
+  const closeDrawer = () => {
+    setDrawerVisible(false);
+    setSelectedContest(null);
+  };
+
+  const handleView = (id) => {
+    const contest = contestsData.find(contest => contest.compId === id);
+    if (contest) {
+      showDrawer('Judging for Contest', contest);
+    }
+  };
+
+  const handleScoreChange = (id, newScore) => {
+    setKoiEntries(entries => entries.map(entry =>
+      entry.koiId === id ? { ...entry, score: newScore } : entry
+    ));
+  };
+
+  const confirmScores = () => {
+    // Update local storage
+    const storedKoi = JSON.parse(localStorage.getItem('koiRegistrations')) || {};
+    koiEntries.forEach(entry => {
+      if (storedKoi[entry.koiId]) {
+        storedKoi[entry.koiId].score = entry.score;
+      }
+    });
+    localStorage.setItem('koiRegistrations', JSON.stringify(storedKoi));
+
+    // Update competition status to "completed"
+    const updatedContests = contestsData.map(contest => 
+      contest.compId === selectedContest.compId ? { ...contest, status: 2 } : contest
+    );
+    localStorage.setItem('competitions', JSON.stringify(updatedContests));
+
+    // Notify other tabs about the update
+    localStorage.setItem('competitionStatusUpdate', Date.now());
+
+    message.success('Scores confirmed and saved successfully!');
+    closeDrawer();
+  };
+
   const columns = [
-    {
-      title: 'Show Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Status',
+    { title: 'Name', dataIndex: 'compName', key: 'compName' },
+    { title: 'Start Date', dataIndex: 'startDate', key: 'startDate' },
+    { title: 'End Date', dataIndex: 'endDate', key: 'endDate' },
+    { title: 'Location', dataIndex: 'location', key: 'location' },
+    { title: 'Status',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
-        if (status === 1) return 'Upcoming';
-        if (status === 2) return 'Ongoing';
-        return 'Completed';
+        let color = status === 0 ? 'green' : status === 1 ? 'blue' : 'red';
+        let statusText = status === 0 ? 'Upcoming' : status === 1 ? 'Ongoing' : 'Completed';
+        return <Tag color={color}>{statusText}</Tag>;
       },
     },
     {
-      title: 'Action',
-      key: 'action',
-      render: (show) => (
-        <Button
-          type="primary"
-          onClick={() => handleShowClick(show)}
-          disabled={show.status !== 2} // Only enable judging for ongoing shows
-        >
-          {show.status === 2 ? 'Judge' : 'View'}
-        </Button>
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.compId)}>Judge</Button>
       ),
     },
   ];
 
   return (
-    <div>
-      <h2>Judging Shows</h2>
-      <Tabs activeKey={activeTab} onChange={handleTabChange}>
-        <TabPane tab="All" key="all" />
-        <TabPane tab="Upcoming" key="1" />
-        <TabPane tab="Ongoing" key="2" />
-        <TabPane tab="Completed" key="3" />
-      </Tabs>
-      {loading ? (
-        <Spin size="large" />
-      ) : (
-        <Table dataSource={filteredContests} columns={columns} rowKey="id" />
-      )}
+    <div className={styles.manageShowJudgingPage}>
+      <Radio.Group 
+        onChange={(e) => setFilterStatus(e.target.value)} 
+        value={filterStatus}
+        style={{ marginBottom: 16 }}>
+        <Radio.Button value="all">All</Radio.Button>
+        <Radio.Button value="upcoming">Upcoming</Radio.Button>
+        <Radio.Button value="ongoing">Ongoing</Radio.Button>
+        <Radio.Button value="completed">Completed</Radio.Button>
+      </Radio.Group>
 
-      <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
-        Quay lại
-      </Button>
+      <Table dataSource={filteredCompetitions} columns={columns} rowKey="compId" />
+
+      <Drawer
+        title={drawerTitle}
+        width={640}
+        onClose={closeDrawer}
+        visible={drawerVisible}
+      >
+        <Form layout="vertical">
+          <Form.Item label="Contest Name">
+            <Input value={selectedContest ? selectedContest.compName : ''} disabled />
+          </Form.Item>
+          <Table
+            dataSource={koiEntries}
+            columns={[
+              { title: 'Koi Name', dataIndex: 'koiName', key: 'koiName' },
+              { title: 'Age', dataIndex: 'age', key: 'age' },
+              { title: 'Size (cm)', dataIndex: 'size', key: 'size' },
+              { title: 'Variety', dataIndex: 'variety', key: 'variety' },
+              {
+                title: 'Score',
+                key: 'score',
+                render: (text, record) => (
+                  <Input
+                    type="number"
+                    placeholder="Enter score"
+                    value={record.score || ''}
+                    onChange={(e) => handleScoreChange(record.koiId, e.target.value)}
+                  />
+                ),
+              },
+            ]}
+            rowKey="koiId"
+            pagination={{ pageSize: 5 }}
+          />
+          <Form.Item>
+            <Button type="primary" onClick={confirmScores}>
+              Confirm Scores
+            </Button>
+          </Form.Item>
+        </Form>
+      </Drawer>
     </div>
   );
 };

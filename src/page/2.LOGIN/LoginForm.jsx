@@ -84,7 +84,7 @@ const LoginForm = () => {
             </div>
           </Col>
         </Row>
-        <div className={styles.loginWithGoogleItem}>
+        {/* <div className={styles.loginWithGoogleItem}>
           <GoogleLogin
             clientId={"676957431672-9mb5rgvuvpb000p93e3i8f7jg622a9ln.apps.googleusercontent.com"}
             buttonText="Login with Google"
@@ -100,7 +100,7 @@ const LoginForm = () => {
               </Button>
             )}
           />
-        </div>
+        </div> */}
       </form>
     </div>
   );

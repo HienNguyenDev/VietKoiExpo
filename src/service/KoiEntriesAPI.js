@@ -50,3 +50,18 @@ export const getAllKoiEntriesByCategoryAndCompId = (compId,categoryId) => {
         method: 'GET',
     });
 };
+
+
+/*đăng kí những con cá của user đăng nhập vào cuộc thi với url https://localhost:7246/api/Registration, form nhập là {
+  "koiId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "compId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "status": 0
+
+}*/
+export const registerKoiForCompetition = (entryDetails) => {
+    return axios({
+        url: `${BASE_URL}/Registration`,
+        method: 'POST',
+        data: entryDetails,
+    });
+};
