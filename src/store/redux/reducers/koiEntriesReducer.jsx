@@ -67,7 +67,7 @@ const koiEntriesReducer = createSlice({
             const { registrationId, data } = action.payload;
             const entry = state.koiEntries.find(entry => entry.registrationId === registrationId);
             if (entry) {
-                entry.classificationData = data; // Cập nhật dữ liệu phân loại
+                entry.koiEntries = action.payload; // Cập nhật dữ liệu phân loại
             }
         },
         // xử lý khi gửi điểm  

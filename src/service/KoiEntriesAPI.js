@@ -8,10 +8,11 @@ export const approveKoiEntry = (entryId) => {
         method: 'PUT',
     });
 };
-export const checkInKoiEntry = (entryId,imageUrl,description) => {
+export const checkInKoiEntry = (entryId,checkinData) => {
     return axios({
-        url: `${BASE_URL}/api/CheckIn/byRegistrationId/${entryId}`,
+        url: `${BASE_URL}/CheckIn/byRegistrationId/${entryId}`,
         method: 'PUT',
+        data: checkinData,
     });
 };
 export const rejectKoiEntry = (entryId) => {    
@@ -22,7 +23,7 @@ export const rejectKoiEntry = (entryId) => {
 };
 export const rejectCheckInKoiEntry = (entryId) => {
     return axios({
-        url: `${BASE_URL}/api/CheckIn/byRegistrationId/${entryId}`,
+        url: `${BASE_URL}/CheckIn/byRegistrationId/${entryId}`,
         method: 'PUT',
     });
 };
@@ -36,11 +37,11 @@ export const createKoiRegistration = (entryDetails) => {
     });
 };
 // Phân loại tự động đơn đăng ký cá Koi
-export const classifyKoiEntry = (registrationID) => {
+export const classifyKoiEntry = (RegistrationId) => {
     return axios({
-        url: `${BASE_URL}/Registration/Classificate/${registrationID}`,
+        url: `${BASE_URL}/Registration/Classificate/${RegistrationId}`,
         method: 'POST',
-        data: registrationID,
+        data: {},
     });
 };
 
@@ -76,7 +77,7 @@ export const reviewKoiEntry = (koiId) => {
 
 export const getCheckinByCompIdApi = (compId) => {
     return axios({
-        url: `${BASE_URL}/api/CheckIn/competition/${compId}`,
+        url: `${BASE_URL}/CheckIn/competition/${compId}`,
         method: 'GET',
     });
 };

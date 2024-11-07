@@ -116,23 +116,30 @@ const ReviewKoiEntriesPage = () => {
   ];
   // Hàm xử lý phê duyệt đơn đăng ký và phân loại vô hạng mục thi
   const handleApprove = (entryId) => {
-    dispatch(approveKoiEntryApi(entryId)); // Gọi action để phê duyệt
-    dispatch(classifyKoiEntryApi(entryId));
+
+    if(dispatch(approveKoiEntryApi(entryId,compId, compName, navigate))){
+      navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`);
+    } // Gọi action để phê duyệt
+    console.log('classifyKoiEntryApi',entryId);
+    dispatch(classifyKoiEntryApi(entryId));// Gọi action để phân vô hạng mục
   };
 
   // Hàm xử lý từ chối đơn đăng ký
   const handleReject = (entryId) => {
-    dispatch(rejectKoiEntryApi(entryId)); // Gọi action để từ chối
+    dispatch(rejectKoiEntryApi(entryId, compId, compName, navigate)); // Gọi action để từ chối
   };
 
   // Hàm xử lý chuyển trạng thái từ Bị từ chối sang Chờ duyệt (ReApprove)
   const handleReApprove = (entryId) => {
-    dispatch(approveKoiEntryApi(entryId)); // Gọi action để ReApprove
+    if(dispatch(approveKoiEntryApi(entryId, compId, compName, navigate))){
+      navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
+    }// Gọi action để ReApprove
+    
   };
 
   // Hàm xử lý chuyển trạng thái từ Đã duyệt về Chờ duyệt
   const handleRevertToPending = (entryId) => {
-    dispatch(rejectKoiEntryApi(entryId)); // Chuyển trạng thái về Chờ duyệt (0)
+    dispatch(rejectKoiEntryApi(entryId, compId, compName, navigate)); // Chuyển trạng thái về Chờ duyệt (0)
   };
 
   return (
@@ -155,7 +162,7 @@ const ReviewKoiEntriesPage = () => {
       <Table
         columns={columns}
         dataSource={filteredKoiEntries}
-        rowKey="id"
+        rowKey="koiId"
         pagination={{ pageSize: 5 }}
       />
       <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
