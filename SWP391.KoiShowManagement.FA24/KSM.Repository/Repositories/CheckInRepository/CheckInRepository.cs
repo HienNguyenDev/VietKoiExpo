@@ -56,7 +56,8 @@ namespace KSM.Repository.Repositories.CheckInRepository
                     CheckInImageUrl = c.ImageUrl,
                     Status = c.Status,
                     KoiId = c.Registration.Koi.KoiId,
-                    KoiImageUrl = c.Registration.Koi.ImageUrl
+                    KoiImageUrl = c.Registration.Koi.ImageUrl,
+                    Description = c.Description // Added Description property
                 })
                 .ToListAsync();
         }

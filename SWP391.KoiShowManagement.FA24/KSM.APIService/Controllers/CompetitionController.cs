@@ -228,7 +228,7 @@ namespace KSM.APIService.Controllers
 
         public class KoiFishDto
         {
-            public Guid KoiId { get; set; }
+            public Guid RegistrationId { get; set; } // New property
             public string KoiName { get; set; }
             public int? Age { get; set; }
             public int? Size { get; set; }
@@ -246,11 +246,11 @@ namespace KSM.APIService.Controllers
 
                 var result = koiFishData.Select(koi => new KoiFishDto
                 {
-                    KoiId = koi.KoiId,
+                    RegistrationId = koi.Tblregistrations.FirstOrDefault(r => r.CompId == compId)?.RegistrationId ?? Guid.Empty,
                     KoiName = koi.KoiName,
                     Age = koi.Age,
                     Size = koi.Size,
-                    Variety = koi.VarietyId, // Assuming you have a navigation property for Variety
+                    Variety = koi.VarietyId,
                     Status = koi.Tblscores.Any(), // Check if there are any scores associated with the Koi
                     ImageUrl = koi.ImageUrl
                 }).ToList();
