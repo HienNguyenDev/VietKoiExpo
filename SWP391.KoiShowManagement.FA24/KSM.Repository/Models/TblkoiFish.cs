@@ -27,8 +27,6 @@ public partial class TblkoiFish
 
     public virtual ICollection<Tblprediction> Tblpredictions { get; set; } = new List<Tblprediction>();
 
-    public virtual ICollection<Tblrank> Tblranks { get; set; } = new List<Tblrank>();
-
     public virtual ICollection<Tblregistration> Tblregistrations { get; set; } = new List<Tblregistration>();
 
     public virtual ICollection<Tblresult> Tblresults { get; set; } = new List<Tblresult>();

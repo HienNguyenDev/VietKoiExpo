@@ -33,8 +33,6 @@ public partial class Tbluser
 
     public virtual ICollection<Tblnews> Tblnews { get; set; } = new List<Tblnews>();
 
-    public virtual ICollection<Tblrank> Tblranks { get; set; } = new List<Tblrank>();
-
     public virtual ICollection<Tblscore> Tblscores { get; set; } = new List<Tblscore>();
 
     public virtual ICollection<Tbltask> Tbltasks { get; set; } = new List<Tbltask>();

@@ -47,10 +47,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[TBLRank]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[TBLRegistration]",
          "ObjectType": 0
       },
