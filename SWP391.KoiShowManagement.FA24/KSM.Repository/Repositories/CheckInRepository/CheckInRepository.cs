@@ -55,12 +55,14 @@ namespace KSM.Repository.Repositories.CheckInRepository
                     CheckInId = c.CheckInId,
                     CheckInImageUrl = c.ImageUrl,
                     Status = c.Status,
+                    RegistrationId = c.Registration.RegistrationId, // Added RegistrationId
                     KoiId = c.Registration.Koi.KoiId,
                     KoiImageUrl = c.Registration.Koi.ImageUrl,
-                    Description = c.Description // Added Description property
+                    Description = c.Description,
                 })
                 .ToListAsync();
         }
+
 
     }
 }
