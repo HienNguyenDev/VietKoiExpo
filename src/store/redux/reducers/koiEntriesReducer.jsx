@@ -119,7 +119,21 @@ const koiEntriesReducer = createSlice({
         // Xử lý trạng thái tải
         setLoading: (state, action) => {
             state.loading = action.payload;
+        },    registerKoiForCompetitionRequest: (state) => {
+            state.loading = true;
+            state.error = null;
         },
+        // Xử lý khi đăng ký Koi cho cuộc thi thành công
+        registerKoiForCompetitionSuccess: (state, action) => {
+            state.loading = false;
+            state.koiEntries.push(action.payload); // Thêm đơn đăng ký mới vào danh sách
+        },
+        // Xử lý khi đăng ký Koi cho cuộc thi thất bại
+        registerKoiForCompetitionFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
     },
 });
 export const {
@@ -137,7 +151,10 @@ export const {
     setListKoiEntriesAction,
     setListKoiByCategoryAndCompIdAction,
     setError,
-    setLoading
+    setLoading,
+    registerKoiForCompetitionRequest,
+    registerKoiForCompetitionSuccess,
+    registerKoiForCompetitionFailure,
 } = koiEntriesReducer.actions;
 
 

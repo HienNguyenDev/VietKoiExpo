@@ -14,6 +14,23 @@ const ManageKoiJudgingPage = () => {
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('all');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchAllContests());
+        // Retrieve updated Koi list from local storage
+        const storedKoiList = JSON.parse(localStorage.getItem('mockKoiList')) || [];
+        setMockKoiList(storedKoiList);
+      } catch (error) {
+        console.error('Failed to fetch contests:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
 
   const scores = useSelector(state => state.koiEntriesReducer.scoretList);
   useEffect(() => {

@@ -10,7 +10,7 @@ import {
     setCategoriesListByContestAction,
     setKoiListByContestAction
 } from '../reducers/contestReducer';
-import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId, assignKoiToContest, getKoiListbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
+import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId, assignKoiToContest, getCategoriesbyCompId, getKoiListbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
 
 // async actions
 export const createContestActionApi = (contestDetails) => {
@@ -20,6 +20,11 @@ export const createContestActionApi = (contestDetails) => {
             const action = createContestAction(res.data.content);
             dispatch(action);
             dispatch(fetchAllContests()); // Refetch contests after creating
+
+            // Save contest details to local storage
+            const existingContests = JSON.parse(localStorage.getItem('contests')) || [];
+            existingContests.push(res.data.content);
+            localStorage.setItem('contests', JSON.stringify(existingContests));
         } catch (error) {
             console.error("Contest creation failed:", error.response ? error.response.data : error.message);
             dispatch({ type: 'CONTEST_CREATE_FAILURE', payload: error.response ? error.response.data : error.message });
@@ -95,6 +100,18 @@ export const fetchCategoriesByCompId = (contestId) => {
         console.error("Failed to fetch Categories:", error.message);
         return null; // Return null to indicate failure
       }
+    };
+};
+
+export const assignKoiToContestActionApi = (competitionId, koiId) => {
+    return async (dispatch) => {
+        try {
+            await assignKoiToContest(competitionId, koiId);
+            dispatch(fetchAllContests()); // Refetch contests after assigning Koi
+        } catch (error) {
+            console.error("Failed to assign Koi to contest:", error.response ? error.response.data : error.message);
+            dispatch({ type: 'ASSIGN_KOI_TO_CONTEST_FAILURE', payload: error.response ? error.response.data : error.message });
+        }
     };
 };
 export const assignKoiToContestActionApi = (contestId, koiId) => {

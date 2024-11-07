@@ -1,73 +1,80 @@
-import React from 'react';
-import { Layout, Menu } from 'antd';
-import { Link, Outlet } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Layout, Typography, Row, Col, Spin, Tooltip } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCheckInData } from '../../store/redux/action/CheckInActionNguyen';
+import { fetchCompetitionData, fetchCategoryData, fetchKoiEntries, checkCompetitionStatus } from '../../store/redux/action/competitionAction';
+import BracketList from './competition/BracketList';
+import KoiList from './competition/KoiList';
 import styles from './CompetitionPage.module.scss';
+import { getRegistrationByRegisID } from '../../service/koiRegist';
 
-const { Header, Content, Footer } = Layout;
+const CompetitionPage = ({ match }) => {
+  const { compId } = match.params;
+  const dispatch = useDispatch();
+  const checkInData = useSelector(state => state.checkInReducer.checkInData);
+  const registrationData = useSelector(state => state.registrationReducer.registrationData);
+  const competition = useSelector(state => state.competitionReducer.competition);
+  const categories = useSelector(state => state.competitionReducer.categories);
+  const koiEntries = useSelector(state => state.competitionReducer.koiEntries);
+  const loading = useSelector(state => state.checkInReducer.loading || state.registrationReducer.loading || state.competitionReducer.loading);
+  const competitionStatus = useSelector(state => state.competitionReducer.competitionStatus);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-// Define the neon dark theme
-const neonDarkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#00ffcc', // Neon cyan for primary elements
-    },
-    background: {
-      default: '#141414', // Darker background for neon contrast
-      paper: '#1c1c1c', // Dark card background
-    },
-    text: {
-      primary: '#ffffff', // White text
-      secondary: '#ff00ff', // Neon magenta for secondary text
-    },
-  },
-  components: {
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          textShadow: '0 0 8px #00ffcc', // Neon glow for text
-        },
-      },
-    },
-  },
-});
+  useEffect(() => {
+    dispatch(fetchCheckInData());
+  }, [dispatch]);
 
-const CompetitionPage = () => {
+  useEffect(() => {
+    if (checkInData.length > 0) {
+      const passedCheckIn = checkInData.filter(checkIn => checkIn.status === 1);
+      const registrationIds = passedCheckIn.map(checkIn => checkIn.registrationId);
+      dispatch(getRegistrationByRegisID(registrationIds));
+    }
+  }, [checkInData, dispatch]);
+
+  useEffect(() => {
+    if (registrationData.length > 0) {
+      const ongoingRegistrations = registrationData.filter(registration => registration.status === 1);
+      const competitionIds = ongoingRegistrations.map(registration => registration.compId);
+      competitionIds.forEach(compId => dispatch(fetchCompetitionData(compId)));
+    }
+  }, [registrationData, dispatch]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      dispatch(fetchKoiEntries(compId, selectedCategory));
+    }
+  }, [selectedCategory, dispatch]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(checkCompetitionStatus(compId));
+    }, 5000); // Check competition status every 5 seconds
+    return () => clearInterval(interval);
+  }, [dispatch, compId]);
+
+  if (loading) {
+    return <Spin size="large" />;
+  }
+
   return (
-    <ThemeProvider theme={neonDarkTheme}>
-      <CssBaseline />
-      <Layout style={{padding:'10px',width:'100vw', backgroundColor: neonDarkTheme.palette.background.default }}>
-        <Header className={styles.header} style={{ backgroundColor: neonDarkTheme.palette.background.paper }}>
-          <div className={styles.logo} style={{ color: neonDarkTheme.palette.primary.main, textShadow: '0 0 8px #00ffcc' }}>
-            Koi Fish Competition
-          </div>
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1">
-              <Link to="/competition/landing" style={{ color: '#00ffcc' }}>Landing Page</Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Link to="/competition/competition" style={{ color: '#00ffcc' }}>Competition Bracket</Link>
-            </Menu.Item>
-            <Menu.Item key="5">
-              <Link to="/competition/leaderboard" style={{ color: '#00ffcc' }}>Leaderboard</Link>
-            </Menu.Item>
-            <Menu.Item key="6">
-              <Link to="/competition/announcement" style={{ color: '#00ffcc' }}>Announcement</Link>
-            </Menu.Item>
-          </Menu>
-        </Header>
-        <Content className={styles.content}>
-          <div className={styles.siteLayoutContent}>
-            <Outlet />
-          </div>
-        </Content>
-        <Footer style={{ textAlign: 'center', backgroundColor:  neonDarkTheme.palette.background.default, color:  neonDarkTheme.palette.text.primary, }}>
-          VietKoiExpo ©2024 - All Rights Reserved
-        </Footer>
-      </Layout>
-    </ThemeProvider>
+    <Layout className={styles.competitionPage}>
+      <Typography.Title level={2}>{competition?.compName}</Typography.Title>
+      <Row gutter={[16, 16]}>
+        <Col span={6}>
+          <Typography.Title level={4}>Brackets</Typography.Title>
+          <BracketList brackets={categories} onSelectBracket={setSelectedCategory} />
+        </Col>
+        <Col span={18}>
+          <Typography.Title level={4}>Koi Entries</Typography.Title>
+          {selectedCategory ? (
+            <KoiList koiEntries={koiEntries} />
+          ) : (
+            <Typography.Text>Select a bracket to view Koi entries</Typography.Text>
+          )}
+        </Col>
+      </Row>
+    </Layout>
   );
 };
 
