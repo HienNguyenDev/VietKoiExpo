@@ -43,10 +43,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[TBLPayment]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[TBLPrediction]",
          "ObjectType": 0
       },
@@ -56,6 +52,10 @@
       },
       {
          "Name": "[dbo].[TBLRegistration]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TBLRegistrationPayment]",
          "ObjectType": 0
       },
       {
