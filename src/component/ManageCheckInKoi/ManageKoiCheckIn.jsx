@@ -91,7 +91,7 @@ const ManageKoiEntriesPage = () => {
 
   return (
     <div>
-      <h2>Manage Koi Entries</h2>
+      <h2>Manage Check In </h2>
 
       {/* Radio buttons để chọn lọc trạng thái */}
       <Radio.Group 

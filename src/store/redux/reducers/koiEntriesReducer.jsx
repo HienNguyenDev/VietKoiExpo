@@ -8,7 +8,6 @@ const initialState = {
     koiEntries: [], // Danh sách các đơn đăng ký cá Koi
     KoiList: [],
     scoretList: [],
-    checkinList: [],
     owner: null,
     submissionResponse: null,
     loading: false, // Trạng thái tải
@@ -46,22 +45,6 @@ const koiEntriesReducer = createSlice({
             }
             
         },
-        checkInKoiEntryAction: (state, action) => {
-            const registrationId = action.payload;
-            const entry = state.checkinList.find(entry => entry.registrationId === registrationId);
-            if (entry) {
-                entry.status = 1; // Cập nhật trạng thái từ 0 thành 1
-            }
-            
-        },
-        rejectcheckInKoiEntryAction: (state, action) => {
-            const registrationId = action.payload;
-            const entry = state.checkinList.find(entry => entry.registrationId === registrationId);
-            if (entry) {
-                entry.status = 2; // Cập nhật trạng thái thành 2 aka hủy
-            }
-            
-        },
         // Xử lý khi phân loại tự động đơn đăng ký Koi
         classifyKoiEntryAction: (state, action) => {
             const { registrationId, data } = action.payload;
@@ -94,9 +77,6 @@ const koiEntriesReducer = createSlice({
         getKoiEntryOwnerAction: (state, action) => {
             state.owner = action.payload;
         },
-        setCheckinByCompIdAction: (state, action) => {
-            state.checkinList = action.payload;
-        },
         setScoreListAction: (state, action) => {
             state.scoretList = action.payload;
         },
@@ -119,7 +99,8 @@ const koiEntriesReducer = createSlice({
         // Xử lý trạng thái tải
         setLoading: (state, action) => {
             state.loading = action.payload;
-        },    registerKoiForCompetitionRequest: (state) => {
+        },    
+        registerKoiForCompetitionRequest: (state) => {
             state.loading = true;
             state.error = null;
         },
@@ -140,12 +121,9 @@ export const {
     createKoiEntryAction,
     approveKoiEntryAction,
     rejectKoiEntryAction,
-    checkInKoiEntryAction,
-    rejectCheckInKoiEntryAction,
     classifyKoiEntryAction,
     submitKoiScoreAction,
     getKoiEntryOwnerAction,
-    setCheckinByCompIdAction,
     setScoreListAction,
     setKoiEntryDetailsAction,
     setListKoiEntriesAction,

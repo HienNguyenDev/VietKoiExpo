@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Radio, Input } from 'antd';
-import { fetchCheckinByCompId, checkInKoiEntryApi, rejectCheckInKoiEntryApi, reviewKoiEntryAction, classifyKoiEntryApi } from '../../store/redux/action/koiEntriesAction';
-
+import { fetchCheckInByCompId, checkInKoiEntry,  } from '../../store/redux/action/CheckInAction';
+import {  reviewKoiEntryAction } from '../../store/redux/action/CheckInAction';
 const ReviewKoiEntriesPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -13,12 +13,12 @@ const ReviewKoiEntriesPage = () => {
   const [descriptionMap, setDescriptionMap] = useState({}); // State để lưu trữ mô tả nhập liệu
   const navigate = useNavigate();
   // Lấy danh sách các đơn đăng ký từ Redux store
-  const koiCheckIn = useSelector(state => state.koiEntriesReducer.checkinList);
+  const koiCheckIn = useSelector(state => state.checkInReducer.checkinByCompList);
 
   useEffect(() => {
     if (compId) {
       // Fetch tất cả các đơn đăng ký cá Koi cho cuộc thi đã chọn
-      dispatch(fetchCheckinByCompId(compId));
+      dispatch(fetchCheckInByCompId(compId));
     }
   }, [dispatch, compId]);
   
@@ -153,7 +153,7 @@ const ReviewKoiEntriesPage = () => {
       description: description // mô tả check-in
     };
     console.log('checkInDatacheckInData', imageUrl)
-    dispatch(checkInKoiEntryApi(entryId,checkInData, compId, compName, navigate)); // Gọi action để phê duyệt
+    dispatch(checkInKoiEntry(entryId,checkInData, compId, compName, navigate)); // Gọi action để phê duyệt
  
   };
 
@@ -172,7 +172,7 @@ const ReviewKoiEntriesPage = () => {
     };
     
     
-    dispatch(checkInKoiEntryApi(entryId,checkInData, compId, compName, navigate)); // Gọi action để từ chối
+    dispatch(checkInKoiEntry(entryId,checkInData, compId, compName, navigate)); // Gọi action để từ chối
   };
   return (
     <div>

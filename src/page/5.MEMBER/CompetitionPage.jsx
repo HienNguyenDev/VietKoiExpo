@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Row, Col, Spin, Tooltip } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCheckInData } from '../../store/redux/action/CheckInActionNguyen';
+import { fetchCheckInData } from '../../store/redux/action/CheckInAction';
 import { fetchCompetitionData, fetchCategoryData, fetchKoiEntries, checkCompetitionStatus } from '../../store/redux/action/competitionAction';
 import BracketList from './competition/BracketList';
 import KoiList from './competition/KoiList';

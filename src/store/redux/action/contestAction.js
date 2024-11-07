@@ -10,7 +10,7 @@ import {
     setCategoriesListByContestAction,
     setKoiListByContestAction
 } from '../reducers/contestReducer';
-import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId, assignKoiToContest, getCategoriesbyCompId, getKoiListbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
+import { createContest, updateContest, getContest, getAllContest, removeContest,  assignKoiToContest, getCategoriesbyCompId, getKoiListbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
 
 // async actions
 export const createContestActionApi = (contestDetails) => {
@@ -103,17 +103,7 @@ export const fetchCategoriesByCompId = (contestId) => {
     };
 };
 
-export const assignKoiToContestActionApi = (competitionId, koiId) => {
-    return async (dispatch) => {
-        try {
-            await assignKoiToContest(competitionId, koiId);
-            dispatch(fetchAllContests()); // Refetch contests after assigning Koi
-        } catch (error) {
-            console.error("Failed to assign Koi to contest:", error.response ? error.response.data : error.message);
-            dispatch({ type: 'ASSIGN_KOI_TO_CONTEST_FAILURE', payload: error.response ? error.response.data : error.message });
-        }
-    };
-};
+
 export const assignKoiToContestActionApi = (contestId, koiId) => {
     return async (dispatch) => {
         try {
