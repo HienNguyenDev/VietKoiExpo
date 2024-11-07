@@ -49,7 +49,9 @@ namespace KSM.Repository.Repositories.CompCateRepository
             return await _context.TblkoiFishes
                 .Include(k => k.Tblscores) // Include scores if needed
                 .Include(k => k.Tblregistrations) // Include registrations to access RegistrationId
-                .Where(k => k.Tblregistrations.Any(r => r.CompId == compId && r.Status == 1))
+                    .ThenInclude(r => r.TblcheckIns) // Include check-ins to filter by Status
+                .Where(k => k.Tblregistrations.Any(r => r.CompId == compId && r.Status == 1
+                                                        && r.TblcheckIns.Any(c => c.Status == 1)))
                 .ToListAsync();
         }
     }
