@@ -43,10 +43,10 @@ export const updateNewsActionApi = (newsId, newsDetails, navigate) => {
 export const removeNewsActionApi = (newsId) => {
     return async (dispatch) => {
         try {
-            await deleteNews(newsId);
+             await deleteNews(newsId);
             const action = removeNewsAction(newsId);
             dispatch(action);
-            dispatch(fetchAllNews()); 
+            
         } catch (error) {
             console.error("News removal failed:", error.response ? error.response.data : error.message);
             dispatch({ type: 'NEWS_REMOVE_FAILURE', payload: error.response ? error.response.data : error.message });

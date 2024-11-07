@@ -30,6 +30,14 @@ export const updateDetailUser = (userId, userUpdate) => {
         data: userUpdate,
     });
 };
+export const removeUser = (userId, userDelete   ) => {
+    return axios({
+        url: `${BASE_URL}/${userId}`,
+        method: 'Delete',
+        data: userDelete,
+    });
+};
+
 
 export const getUserProfile = async (userId) => {
     const url = `${BASE_URL}/${userId}`;

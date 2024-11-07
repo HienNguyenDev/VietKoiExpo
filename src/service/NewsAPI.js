@@ -27,7 +27,7 @@ export const getNews = (newsId) => {
 
 export const getAllNews = () => {
     return axios({
-        url: `${BASE_URL}/news/`,
+        url: `${BASE_URL}/News`,
         method: 'GET',
     });
 };
@@ -36,7 +36,7 @@ export const getAllNews = () => {
 
 export const deleteNews = (newsId) => {
     return axios({
-        url: `${BASE_URL}/news/${newsId}`,
+        url: `${BASE_URL}/News/${newsId}`,
         method: 'DELETE',
     });
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Radio } from 'antd';
-import { fetchAllKoiEntriesApi, approveKoiEntryApi, rejectKoiEntryApi, reviewKoiEntryAction, classifyKoiEntryApi } from '../../store/redux/action/koiEntriesAction';
+import { fetchCheckinByCompId, approveKoiEntryApi, rejectKoiEntryApi, reviewKoiEntryAction, classifyKoiEntryApi } from '../../store/redux/action/koiEntriesAction';
 
 const ReviewKoiEntriesPage = () => {
   const location = useLocation();
@@ -12,18 +12,18 @@ const ReviewKoiEntriesPage = () => {
   const [koiDetails, setKoiDetails] = useState({}); // State để lưu chi tiết cá Koi
   const navigate = useNavigate();
   // Lấy danh sách các đơn đăng ký từ Redux store
-  const koiEntries = useSelector(state => state.koiEntriesReducer.koiEntries);
+  const koiCheckIn = useSelector(state => state.koiEntriesReducer.checkinList);
 
   useEffect(() => {
     if (compId) {
       // Fetch tất cả các đơn đăng ký cá Koi cho cuộc thi đã chọn
-      dispatch(fetchAllKoiEntriesApi(compId));
+      dispatch(fetchCheckinByCompId(compId));
     }
   }, [dispatch, compId]);
 
   useEffect(() => {
     // Lấy chi tiết từng cá Koi
-    koiEntries.forEach(entry => {
+    koiCheckIn.forEach(entry => {
       if (!koiDetails[entry.koiId]) {
         
         dispatch(reviewKoiEntryAction(entry.koiId)).then(detail => {
@@ -34,13 +34,13 @@ const ReviewKoiEntriesPage = () => {
         });
       }
     });
-  }, [dispatch, koiEntries, koiDetails]);
+  }, [dispatch, koiCheckIn, koiDetails]);
 
   // Lọc danh sách các đơn đăng ký theo trạng thái
-  const filteredKoiEntries = koiEntries.filter(entry => {
+  const filteredKoiEntries = koiCheckIn.filter(entry => {
     if (filterStatus === 'all') return true;
     if (filterStatus === 'pending') return entry.status === 0;
-    if (filterStatus === 'approved') return entry.status === 1;
+    if (filterStatus === 'checkin') return entry.status === 1;
     if (filterStatus === 'rejected') return entry.status === 2;
     return true;
   });
@@ -48,28 +48,21 @@ const ReviewKoiEntriesPage = () => {
   // Cột cho bảng đơn đăng ký cá Koi
   const columns = [
     {
+      title: 'Koi Image',
+      dataIndex: 'koiId',
+      key: 'koiimageurl',
+      render: (koiId) => koiDetails[koiId]?.imageUrl || 'Loading...',
+    },
+    {
       title: 'Koi Name',
       dataIndex: 'koiId',
       key: 'koiName',
       render: (koiId) => koiDetails[koiId]?.koiName || 'Loading...',
     },
     {
-      title: 'Image',
-      dataIndex: 'koiId',
-      key: 'image',
-      render: (koiId) => koiDetails[koiId]?.imageUrl || 'Loading...',
-    },
-    {
-      title: 'Age',
-      dataIndex: 'koiId',
-      key: 'age',
-      render: (koiId) => koiDetails[koiId]?.age || 'Loading...',
-    },
-    {
-      title: 'Size (cm)',
-      dataIndex: 'koiId',
-      key: 'size',
-      render: (koiId) => koiDetails[koiId]?.size || 'Loading...',
+      title: 'CheckIn Image',
+      dataIndex: 'checkInId',
+      key: 'checkinimageurl'
     },
     {
       title: 'Variety',
@@ -77,6 +70,7 @@ const ReviewKoiEntriesPage = () => {
       key: 'variety',
       render: (koiId) => koiDetails[koiId]?.varietyId || 'Loading...',
     },
+
     {
       title: 'Status',
       dataIndex: 'status',
@@ -89,7 +83,7 @@ const ReviewKoiEntriesPage = () => {
           statusText = 'Pending';
         } else if (status === 1) {
           color = 'green';
-          statusText = 'Approved';
+          statusText = 'CheckIn';
         } else {
           color = 'red';
           statusText = 'Rejected';
@@ -103,7 +97,7 @@ const ReviewKoiEntriesPage = () => {
       render: (_, record) => (
         record.status === 0 ? (
           <>
-            <Button type="primary" onClick={() => handleApprove(record.registrationId)}>Approve</Button>
+            <Button type="primary" onClick={() => handleCheckin(record.registrationId,record.imageUrl,record.description)}>Check In</Button>
             <Button type="default" onClick={() => handleReject(record.registrationId)}>Reject</Button>
           </>
         ) : record.status === 2 ? (
@@ -115,8 +109,8 @@ const ReviewKoiEntriesPage = () => {
     },
   ];
   // Hàm xử lý phê duyệt đơn đăng ký và phân loại vô hạng mục thi
-  const handleApprove = (entryId) => {
-    dispatch(approveKoiEntryApi(entryId)); // Gọi action để phê duyệt
+  const handleCheckin = (entryId,imageUrl,description) => {
+    dispatch(approveKoiEntryApi(entryId,imageUrl,description)); // Gọi action để phê duyệt
     dispatch(classifyKoiEntryApi(entryId));
   };
 
@@ -147,7 +141,7 @@ const ReviewKoiEntriesPage = () => {
       >
         <Radio.Button value="all">All</Radio.Button>
         <Radio.Button value="pending">Pending</Radio.Button>
-        <Radio.Button value="approved">Approved</Radio.Button>
+        <Radio.Button value="checkin">CheckIn</Radio.Button>
         <Radio.Button value="rejected">Rejected</Radio.Button>
       </Radio.Group>
 

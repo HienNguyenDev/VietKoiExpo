@@ -1,41 +1,74 @@
-import React, { useState } from 'react';
-import { Box, Typography, Slider, Button, CircularProgress } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+  import React, { useState,useEffect } from 'react';
+  import { useDispatch, useSelector } from 'react-redux';
+  import { Box, Typography, Slider, Button, CircularProgress } from '@mui/material';
+  import { useNavigate, useLocation } from 'react-router-dom';
+  import { submitScoreAction, fetchKoiOwner } from '../../store/redux/action/koiEntriesAction';
 
-// Mock Koi object
-const mockKoi = {
-  KoiID: 'K001',
-  Scores: {
-    shape: 0,
-    color: 0,
-    pattern: 0,
-  },
-};
 
-const ManageScoringProcess = ({ koi = mockKoi }) => {
-  const initialScores = koi?.Scores || { shape: 0, color: 0, pattern: 0 };
-  const [shapeScore, setShapeScore] = useState(initialScores.shape);
-  const [colorScore, setColorScore] = useState(initialScores.color);
-  const [patternScore, setPatternScore] = useState(initialScores.pattern);
-  const navigate = useNavigate();
+  const ManageScoringProcess = () => {
+    const location = useLocation();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { koiId, koiName, compId, userId } = location.state || {};
+    // Safely set initial scores, defaulting to 0 if koiId or score values are not available
+    const [shapeScore, setShapeScore] = useState(koiId?.scoreShape || 0);
+    const [colorScore, setColorScore] = useState(koiId?.scoreColor || 0);
+    const [patternScore, setPatternScore] = useState(koiId?.scorePattern || 0);
 
+    const OwnerProfile = useSelector(state => state.koiEntriesReducer.owner);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (koiId) {
+            dispatch(fetchKoiOwner(koiId)).then(() => setLoading(false));
+        } else {
+            setLoading(false);
+        }
+    }, [dispatch, koiId]);
+  
   const calculateTotalScore = () => {
     return (shapeScore * 0.5 + colorScore * 0.3 + patternScore * 0.2).toFixed(2);
   };
+  
+  const ownerId = OwnerProfile?.userId;
 
   const handleBack = () => {
     navigate(-1); // Go back to the previous route
   };
 
+
   const totalScore = calculateTotalScore();
 
+  const handleSubmit = () => {
+    // Create the score data object
+    const scoreData = {
+      koiId,
+      shapeScore,
+      colorScore,
+      patternScore,
+      totalScore: parseFloat(calculateTotalScore()),
+    };
+    
+    // Dispatch the score data to Redux
+    console.log("koiId",koiId);
+    console.log("compId",compId);
+    console.log("OwnerId",ownerId);
+    console.log("scoreData",scoreData);
+    dispatch(submitScoreAction(compId,userId,scoreData,true));
+
+    // Navigate back after submission
+    navigate(-1);
+  };
+  if (loading) {
+    return <CircularProgress />;
+  }
   return (
     <Box sx={{ maxWidth: 400, margin: '0 auto', padding: '20px', border: '1px solid #ddd', borderRadius: '10px' }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Chấm điểm cá Koi
+        {koiName} Koi grading!
       </Typography>
 
-      <Typography>Dáng (50%)</Typography>
+      <Typography>Shape (50%)</Typography>
       <Slider
         value={shapeScore}
         onChange={(e, newValue) => setShapeScore(newValue)}
@@ -46,7 +79,7 @@ const ManageScoringProcess = ({ koi = mockKoi }) => {
         max={10}
       />
 
-      <Typography>Màu sắc (30%)</Typography>
+      <Typography>Color (30%)</Typography>
       <Slider
         value={colorScore}
         onChange={(e, newValue) => setColorScore(newValue)}
@@ -57,7 +90,7 @@ const ManageScoringProcess = ({ koi = mockKoi }) => {
         max={10}
       />
 
-      <Typography>Hoa văn (20%)</Typography>
+      <Typography>Pattern (20%)</Typography>
       <Slider
         value={patternScore}
         onChange={(e, newValue) => setPatternScore(newValue)}
@@ -79,12 +112,12 @@ const ManageScoringProcess = ({ koi = mockKoi }) => {
         </Box>
       </Box>
 
-      <Button variant="contained" sx={{ mt: 3 }}>
-        Gửi điểm (mock)
+      <Button variant="contained" sx={{ mt: 3 }} onClick={handleSubmit }>
+        Submit
       </Button>
 
       <Button variant="outlined" sx={{ mt: 3, ml: 2 }} onClick={handleBack}>
-        Quay lại
+        Back
       </Button>
     </Box>
   );

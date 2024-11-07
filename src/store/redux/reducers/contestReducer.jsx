@@ -5,6 +5,7 @@ const initialState = {
     contestCreate: getStoreJson(CONTEST_CREATE),
     contestDetails: {},
     contestList: [],
+    koiList: [],
     categoriesList: [],
     loading: false,
     error: null,
@@ -25,6 +26,9 @@ const contestReducer = createSlice({
         },
         setCategoriesListByContestAction: (state, action) => {
             state.categoriesList = action.payload;
+        },
+        setKoiListByContestAction: (state, action) => {
+            state.koiList = action.payload;
         },
         updateContestAction: (state, action) => {
             console.log('updateContestAction payload:', action.payload); // Debugging log
@@ -57,6 +61,7 @@ export const {
     setContestDetailsAction,
     setContestListAction,
     setCategoriesListByContestAction,
+    setKoiListByContestAction,
     updateContestAction,
     removeContestAction,
     fetchContestDetailsSuccess,

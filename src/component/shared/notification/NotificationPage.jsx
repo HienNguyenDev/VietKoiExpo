@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { List, Button, Typography, Badge, Card } from 'antd';
+import {  Layout, List, Button, Typography, Badge, Card } from 'antd';
 import { fetchUserByIdActionApi } from '../../../../src/store/redux/action/userAction'; // Import action
-
+import AccountMenu from '../../shared/AccountMenu/AccountMenu';
+const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const NotificationPage = () => {
@@ -39,34 +40,61 @@ const NotificationPage = () => {
   };
 
   return (
-    <Card style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
-      <Title level={3}>Thông Báo</Title>
-      
-      <List
-        itemLayout="horizontal"
-        dataSource={notifications}
-        renderItem={(item) => (
-          <List.Item
-            actions={[
-              !item.isRead && (
-                <Button type="primary" onClick={() => markAsRead(item.id)}>
-                  Đánh dấu đã đọc
-                </Button>
-              ),
-            ]}
-          >
-            <List.Item.Meta
-              title={
-                <Badge dot={!item.isRead}>
-                  {item.message}
-                </Badge>
-              }
-              description={item.date}
-            />
-          </List.Item>
-        )}
-      />
-    </Card>
+    <Layout style={{ minHeight: '100vh', width: '100vw' }}>
+      <Header
+        style={{
+          padding: '0 20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: 'dark', // Change to a valid color value
+          position: 'fixed',
+          width: '100%',
+          zIndex: 1000,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src="https://imgur.com/V1zXtZN.jpg"
+            alt="VietKoiExpo Logo"
+            style={{ height: '40px', marginRight: '12px' }}
+          />
+          <h2 style={{ margin: 0, color: 'cyan' }}>VietKoiExpo</h2>
+        </div>
+        <div>
+          <AccountMenu />
+        </div>
+      </Header>
+      <Content style={{ padding: '80px 24px', marginTop: '64px' }}>
+        <Card style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
+          <Title level={3}>Thông Báo</Title>
+          <List
+            itemLayout="horizontal"
+            dataSource={notifications}
+            renderItem={(item) => (
+              <List.Item
+                actions={[
+                  !item.isRead && (
+                    <Button type="primary" onClick={() => markAsRead(item.id)}>
+                      Đánh dấu đã đọc
+                    </Button>
+                  ),
+                ]}
+              >
+                <List.Item.Meta
+                  title={
+                    <Badge dot={!item.isRead}>
+                      {item.message}
+                    </Badge>
+                  }
+                  description={item.date}
+                />
+              </List.Item>
+            )}
+          />
+        </Card>
+      </Content>
+    </Layout>
   );
 };
 

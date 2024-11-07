@@ -41,6 +41,9 @@ import FinalizeContestResults from './component/ManageJudging/FinalizeContestRes
 import AsssignJugingProcess from './component/ManageJudging/AssignJudgingProcess';
 import ManageKoiEntriesPage from './component/ManageKoiEntries/ManageKoiEntries1';
 import ReviewKoiEntries from './component/ManageKoiEntries/ReviewKoiEntries';
+import ManageKoiCheckIn from './component/ManageCheckInKoi/ManageKoiCheckIn';
+import ReviewKoiCheckIn from './component/ManageCheckInKoi/ReviewKoiCheckIn';
+
 import ApproveKoiEntries from './component/ManageKoiEntries/ApproveKoiEntries';
 import ForgetPass from './page/2.LOGIN/ForgetPass';
 import WireframeCompetitionBracket from './page/5.MEMBER/WireFrame';
@@ -67,7 +70,7 @@ const App = () => {
           
           {/* Main Route for Managing */}
           <Route path="admin" element={<AdminPage />}>
-            <Route path="notifications" element={<NotificationPage />} />
+          
             <Route path="manage-contests" element={<ManageContestsPage />} />
             <Route path="manage-users" element={<ManageUsersPage />} />
             <Route path="view-contest-reports" element={<StatisticDiagram />} />
@@ -76,19 +79,22 @@ const App = () => {
             <Route path="manage-news" element={<ManageNewsUpdatesPage />} />
             <Route path="manage-judging-criteria" element={<ManageJudgingCriteria />} />
             <Route path="manage-task-allocation" element={<AssignTaskPage />} />
-            <Route path="manage-task-allocation/:compID" element={<TaskAllocationProcess />} />
-          <Route path="admin" element={<AdminPage />}></Route>
+            <Route path="manage-task-allocation/process/:compID" element={<TaskAllocationProcess />} />
+            
             <Route path="manage-koi-entries" element={<ManageKoiEntriesPage />} />
             <Route path="manage-koi-entries/review-koi-entries/:compName" element={<ReviewKoiEntries />} />
-            
+
+            <Route path="manage-koi-checkin" element={<ManageKoiCheckIn />} />
+            <Route path="manage-koi-checkin/review-koi-checkin/:compName" element={<ReviewKoiCheckIn />} />
           </Route>
           
+
           
           <Route path="assignKoi" element={<ApproveKoiEntries />} />
           <Route path="referee" element={<RefereePage />}>
             {/* Step 1: Show all contests */}
             <Route path="manage-judging" element={<ManageShowJudgingPage />} />
-            <Route path="manage-judging/:status/:id" element={<ManageKoiJudgingPage />} />
+            <Route path="manage-judging/comp/:compName" element={<ManageKoiJudgingPage />} />
             <Route path="manage-judging/scoring/:koiId" element={<ManageScoringProcess />} />
           </Route>
           <Route path='login' element={<LoginPage />} />
@@ -105,6 +111,7 @@ const App = () => {
             
 
         </Route>
+        <Route path="notifications" element={<NotificationPage />} />
         home/view-koi
         <Route path="/results/:compId" element={<UserViewResultsPage />} />
         <Route path='home/view-koi' element={<ViewKoiEntries/>}></Route>

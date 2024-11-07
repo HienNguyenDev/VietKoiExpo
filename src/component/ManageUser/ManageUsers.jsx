@@ -22,8 +22,8 @@ const   ManageUsersPage = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.userReducer.listUser);
-  const userDetailData = useSelector(state => state.userReducer.userDetail);
-
+  const userDetailData  = useSelector(state => state.userReducer.userDetail);
+  
   useEffect(() => {
     dispatch(fetchUsersActionApi());
   }, [dispatch]);
@@ -39,9 +39,11 @@ const   ManageUsersPage = () => {
     setDrawerTitle(title);
     setSelectedUser(user);
     setOpen(true); // Show the drawer first
-
+    
     if (user) {
+      
       form.setFieldsValue({
+        
         fullName: userDetailData.fullName || '',
         email: userDetailData.email || '',
         role: userDetailData.role || '',
@@ -51,6 +53,7 @@ const   ManageUsersPage = () => {
     } else {
       form.resetFields();
     }
+    console.log('aaaaaaaaa',userDetailData);
   };
 
   const closeDrawer = () => {
@@ -129,7 +132,11 @@ const   ManageUsersPage = () => {
       <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginBottom: 16 }}>
         Create User
       </Button>
-      <Table dataSource={Array.isArray(usersData) ? usersData : []} columns={columns} rowKey="userId" />
+      <Table 
+        dataSource={Array.isArray(usersData) ? usersData.filter(user => user.status === true) : []} 
+        columns={columns} 
+        rowKey="userId" 
+      />
       <Drawer
         title={drawerTitle}
         width={640}

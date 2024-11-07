@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Table, Button, Spin } from 'antd';
-import { useDispatch } from 'react-redux';
-import { fetchContestDetails, fetchAllContests } from '../../store/redux/action/contestAction'; // Assuming your action fetches a specific contest
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { Table, Button, Spin, Tabs, Tag, Radio } from 'antd';
+import { fetchKoiFromCompId} from '../../store/redux/action/contestAction'; // Assuming your action fetches a specific contest
+import { fetchAllScore } from '../../store/redux/action/koiEntriesAction';
+const { TabPane } = Tabs;
+
 
 const ManageKoiJudgingPage = () => {
-  const { id, status } = useParams(); // Status is passed in the URL
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { compId, compName, userId } = location.state || {};
   const [loading, setLoading] = useState(true);
-  const [koiEntries, setKoiEntries] = useState([]);
-  const [filteredKoi, setFilteredKoi] = useState([]);
-  const [mockKoiList, setMockKoiList] = useState([]);
+  const [filterStatus, setFilterStatus] = useState('all');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -29,87 +32,143 @@ const ManageKoiJudgingPage = () => {
     fetchData();
   }, [dispatch]);
 
+  const scores = useSelector(state => state.koiEntriesReducer.scoretList);
   useEffect(() => {
-    const fetchKoiEntries = async () => {
-      try {
-        const response = await dispatch(fetchContestDetails(id)); // Try fetching actual data
-        const entries = response.data?.koiEntries || []; // Fallback to empty array if no data
-        setKoiEntries(entries);
-
-        // Retrieve Koi fish from local storage
-        const storedKoi = JSON.parse(localStorage.getItem('koiRegistrations')) || {};
-        const localKoiEntries = Object.values(storedKoi).filter(koi => koi.competitions.includes(id));
-
-        // Combine local Koi entries with API entries
-        const combinedKoiEntries = [...localKoiEntries, ...entries];
-
-        setFilteredKoi(combinedKoiEntries); // Initially show all koi entries
-      } catch (error) {
-        console.error('Failed to fetch koi entries:', error);
-        setKoiEntries([]); // Use empty array on error
-        setFilteredKoi([]);
-      } finally {
-        setLoading(false);
-      }
+    const fetchScore = async () => {
+      setLoading(true); // Bắt đầu loading
+      await dispatch(fetchAllScore()); // Fetch score 
+      setLoading(false); // Kết thúc loading
     };
+    
+    fetchScore();
+  }, [dispatch]);
+  //tôi cần lấy những thông tin như scoreShape,scoreColor,scorePattern và scoreTotal từ fetchAllScore với điều kiện là koiId với compId trùng với những gì đang có của tôi
 
-    fetchKoiEntries();
-  }, [dispatch, id]);
-
-  const handleJudgeClick = (koi) => {
-    if (status === '2') {
-      navigate(`/referee/manage-judging/scoring/${koi.koiId}`);
+  // Lấy danh sách cá Koi có trong cuộc thi từ Redux store
+  const koiList = useSelector(state => state.contestReducer.koiList);
+  console.log("koiList",koiList);
+  useEffect(() => {
+    if (compId) {
+      dispatch(fetchKoiFromCompId(compId)).finally(() => setLoading(false));
     }
-  };
+  }, [dispatch, compId]);
 
+  // Filter koi based on status
+  const filteredKoi = koiList.filter(koi => {
+    if (filterStatus === 'all') return true;
+    if (filterStatus === 'unjudged') return !koi.status;
+    if (filterStatus === 'judged') return koi.status;
+    return true;
+  }).map(koi => {
+    const matchedScore = Array.isArray(scores)
+        ? scores.find(score => score.koiId === koi.koiId && score.compId === compId)
+        : null;
+    
+      return {
+      ...koi,
+      scoreShape: matchedScore?.scoreShape ?? 'None',
+      scoreColor: matchedScore?.scoreColor ?? 'None',
+      scorePattern: matchedScore?.scorePattern ?? 'None',
+      totalScore: matchedScore?.totalScore ?? 'None',
+    };
+  });
+  
+  
   const columns = [
     {
-      title: 'Koi ID',
-      dataIndex: 'koiId',
-      key: 'koiId',
-    },
-    {
-      title: 'Name',
+      title: 'Koi Name',
       dataIndex: 'koiName',
       key: 'koiName',
     },
     {
-      title: 'Score',
-      dataIndex: 'score',
-      key: 'score',
-      render: (score, koi) => {
-        if (status === '3') return score; // Completed: Show scores
-        if (status === '1') return 'N/A'; // Upcoming: Not available for judging
-        return score || 'Pending'; // Ongoing: Show pending if no score
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
+    },
+    {
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
+    },
+    {
+      title: 'Size (cm)',
+      dataIndex: 'size',
+      key: 'size',
+    },
+    {
+      title: 'Shape Score',
+      dataIndex: 'scoreShape',
+      key: 'scoreShape',
+      
+    },
+    {
+      title: 'Color Score',
+      dataIndex: 'scoreColor',
+      key: 'scoreColor',
+      
+    },
+    {
+      title: 'Pattern Score',
+      dataIndex: 'scorePattern',
+      key: 'scorePattern',
+    },
+    {
+      title: 'Total Score',
+      dataIndex: 'totalScore',
+      key: 'totalScore',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => {
+        let color = status ? 'green' : 'red';
+        let statusText = status ? 'Graded' : 'Pending';
+        return <Tag color={color}>{statusText}</Tag>;
       },
     },
     {
       title: 'Action',
       key: 'action',
-      render: (koi) => (
-        <Button
-          type="primary"
-          onClick={() => handleJudgeClick(koi)}
-          disabled={status !== '2'} // Only enable judging for ongoing contests
-        >
-          {status === '2' ? 'Judge' : 'View'}
-        </Button>
+      render: (_, record) => (
+        record.status ? (
+          <Button type="  danger" onClick={() => handleJudgeClick(record.koiId, record.koiName)}>ReJudge</Button>
+        ) : (
+          <Button type="primary" onClick={() => handleJudgeClick(record.koiId, record.koiName)}>Judge</Button>
+        )
       ),
     },
   ];
+  
+  const handleJudgeClick = (koiId, koiName) => {
+      navigate(`/referee/manage-judging/scoring/${koiId}`, { state: { koiId, koiName, compId } });
+  };
 
   return (
     <div>
-      <h2>Manage Koi Judging</h2>
+      <h2>Manage Koi Judging in {compName} </h2>
+      <Radio.Group
+        onChange={(e) => setFilterStatus(e.target.value)}
+        value={filterStatus}
+        style={{ marginBottom: 16 }}
+      >
+        <Radio.Button value="all">All</Radio.Button>
+        <Radio.Button value="unjudged">Unjudged</Radio.Button>
+        <Radio.Button value="judged">Judged</Radio.Button>
+      </Radio.Group>
 
-      {loading ? (
-        <Spin size="large" />
-      ) : (
-        <Table dataSource={filteredKoi} columns={columns} rowKey="koiId" />
-      )}
+      {/* Table component with pagination and loading */}
+      <Table
+        columns={columns}
+        dataSource={filteredKoi}
+        rowKey="koiId"
+        pagination={{ pageSize: 5 }}
+        loading={loading}
+      />
+
 
       <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
-        Quay lại
+        Back
       </Button>
     </div>
   );

@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Table, Button, Tag, Radio } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button, Tabs, Spin, Radio, Tag } from 'antd';
-import { fetchAllContests } from '../../store/redux/action/contestAction'; // Assuming your action fetches contests
-
-const { TabPane } = Tabs;
-
-
-const ManageShowJudgingPage = () => {
-  const [loading, setLoading] = useState(true);
-  const [filterStatus, setFilterStatus] = useState([]);
-  //const [activeTab, setActiveTab] = useState('all');
+import axios from 'axios';  // Thêm axios cho phần gọi API
+import { fetchAllContests } from '../../store/redux/action/contestAction'; 
+const ManageKoiEntriesPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
   const contests = useSelector(state => state.contestReducer.contestList);
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [loading, setLoading] = useState(false); // Để quản lý trạng thái loading
+
   useEffect(() => {
-    // Try to fetch data from the API
-    const fetchData = async () => {
+    const fetchContests = async () => {
       setLoading(true); // Bắt đầu loading
       await dispatch(fetchAllContests()); // Fetch contests
       setLoading(false); // Kết thúc loading
     };
 
-    fetchData();
+    fetchContests();
   }, [dispatch]);
-
-  const handleViewKoiEntries = (compId, compName) => {
-    navigate(`/referee/manage-judging/comp/${compName}`, { state: { compId, compName } });
-  };
 
   // Lọc danh sách các cuộc thi theo trạng thái
   const filteredCompetitions = contests.filter(competition => {
@@ -40,6 +31,7 @@ const ManageShowJudgingPage = () => {
     return true;
   });
 
+  // Cột cho bảng cuộc thi
   const columns = [
     {
       title: 'Competition Name',
@@ -80,16 +72,28 @@ const ManageShowJudgingPage = () => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        record.status === 1 ? (
-          <Button type="primary" onClick={() => handleViewKoiEntries(record.compId, record.compName)}>View Koi Entries</Button>
+        record.status === 0 ? (
+          <Button type="primary" onClick={() => handleViewKoiCheckIn(record.compId, record.compName)}>View Koi Entries</Button>
         ) : null
       ),
     },
   ];
 
+
+  console.log('Contests:', contests);
+  // Điều hướng tới trang chi tiết các Koi Entries
+  const handleViewKoiCheckIn = (compId, compName) => {
+    
+    navigate(`/admin/manage-koi-checkin/review-koi-checkin/${compName}`, { state: { compId, compName } });
+  };
+
+  
+
   return (
     <div>
-      <h2>Judging Shows</h2>
+      <h2>Manage Koi Entries</h2>
+
+      {/* Radio buttons để chọn lọc trạng thái */}
       <Radio.Group 
         onChange={(e) => setFilterStatus(e.target.value)} 
         value={filterStatus}
@@ -112,4 +116,4 @@ const ManageShowJudgingPage = () => {
   );
 };
 
-export default ManageShowJudgingPage;
+export default ManageKoiEntriesPage;
