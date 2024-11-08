@@ -16,6 +16,7 @@ const ManageKoiJudgingPage = () => {
   const navigate = useNavigate();
   
 
+
   const scores = useSelector(state => state.koiEntriesReducer.scoretList);
   useEffect(() => {
     const fetchScore = async () => {

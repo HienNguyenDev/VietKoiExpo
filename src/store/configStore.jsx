@@ -9,6 +9,7 @@ import competitionReducer from "./redux/reducers/CompetitionReducer";
 export const store=configureStore({
     reducer:{
         userReducer,
+        checkInReducer,
         contestReducer,
         newsReducer,
         koiEntriesReducer,
