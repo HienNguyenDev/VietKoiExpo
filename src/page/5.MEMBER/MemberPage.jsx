@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Layout, Row, Col, Carousel, Card, List, Switch, Button as AntButton , Menu } from 'antd';
+import { Layout, Row, Col, Carousel, Card, List, Switch, Button as AntButton, Menu, Modal } from 'antd';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link, useNavigate   } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CssBaseline, Typography, Button as MuiButton } from '@mui/material';
 import AccountMenu from '../../component/shared/AccountMenu/AccountMenu';
 import styles from '../../asset/scss/MemberPage.module.scss';
@@ -21,11 +21,22 @@ const { Header, Footer, Content } = Layout;
 
 const MemberPage = () => {
   const [themeMode, setThemeMode] = useState('light'); // State to store theme mode
+  const [isModalVisible, setIsModalVisible] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userId = useSelector(state => state.userReducer.userLogin.userId); 
+  const userId = useSelector(state => state.userReducer.userLogin.userId);
+
   const handleNavigation = (path) => {
-    navigate(path);
+    if (!userId) {
+      setIsModalVisible(true); // Show modal if user is not logged in
+    } else {
+      navigate(path);
+    }
+  };
+
+  // Function to toggle theme
+  const handleThemeChange = (checked) => {
+    setThemeMode(checked ? 'dark' : 'light');
   };
   const lightTheme = createTheme({
     palette: {
@@ -172,10 +183,6 @@ const MemberPage = () => {
     },
   });
 
-  // Function to toggle theme
-  const handleThemeChange = (checked) => {
-    setThemeMode(checked ? 'dark' : 'light');
-  };
 
   const rankingData = [
     {
@@ -203,7 +210,6 @@ const MemberPage = () => {
 
   const sponsorsData = [
     { logo: qc },
-
   ];
 
   const [isExpanded, setIsExpanded] = useState(false); // State to control read more
@@ -218,7 +224,7 @@ const MemberPage = () => {
   return (
     <ThemeProvider theme={currentTheme}>
       <CssBaseline /> {/* Apply default theme properties */}
-      <Layout style={{ width: '100vw',    backgroundImage: `url(${currentTheme.palette.background.image})`, }}>
+      <Layout style={{ width: '100vw', backgroundImage: `url(${currentTheme.palette.background.image})` }}>
         {/* Fixed Header */}
         <Header
           style={{
@@ -239,35 +245,35 @@ const MemberPage = () => {
               alt="VietKoiExpo Logo"
               style={{ height: '40px', marginRight: '12px' }}
             />
-            <Typography variant="h6" style={{fontWeight:'bold', color: currentTheme.palette.primary.main }}>
+            <Typography variant="h6" style={{ fontWeight: 'bold', color: currentTheme.palette.primary.main }}>
               VietKoiExpo
             </Typography>
           </div>
 
           <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-          {/* Nút truy cập Competition */}
-          <MuiButton
-            variant="outlined"
-            style={{
-              borderColor: currentTheme.palette.primary.main,
-              color: currentTheme.palette.primary.main,
-            }}
-            onClick={() => handleNavigation('register-koi')} /* thêm navigation */
-          >
-           REGISTER?
-          </MuiButton>
+            {/* Nút truy cập Competition */}
+            <MuiButton
+              variant="outlined"
+              style={{
+                borderColor: currentTheme.palette.primary.main,
+                color: currentTheme.palette.primary.main,
+              }}
+              onClick={() => handleNavigation('register-koi')} /* thêm navigation */
+            >
+              REGISTER?
+            </MuiButton>
 
-          {/* Nút truy cập MyKoi */}
-          <MuiButton
-            variant="outlined"
-            style={{
-              borderColor: currentTheme.palette.primary.main,
-              color: currentTheme.palette.primary.main,
-            }}
-            onClick={() => handleNavigation('/home/view-koi')}   /* thêm navigation */
-          >
-            MyKoi
-          </MuiButton>
+            {/* Nút truy cập MyKoi */}
+            <MuiButton
+              variant="outlined"
+              style={{
+                borderColor: currentTheme.palette.primary.main,
+                color: currentTheme.palette.primary.main,
+              }}
+              onClick={() => handleNavigation('/home/view-koi')} /* thêm navigation */
+            >
+              MyKoi
+            </MuiButton>
 
             {/* Switch to toggle theme */}
             <Switch
@@ -293,7 +299,6 @@ const MemberPage = () => {
             </div>
             <div>
               <img src={banner3} alt="Banner 3" className={styles.bannerImage} />
-              
             </div>
           </Carousel>
 
@@ -326,32 +331,31 @@ const MemberPage = () => {
                 <p style={{ color: currentTheme.palette.text.primary }}>
                   VietKoiExpo là nền tảng trực tuyến hàng đầu tại Việt Nam dành riêng cho thế giới cá Koi rực rỡ và xinh đẹp. Trang web của chúng tôi là nơi hội tụ của những người đam mê cá Koi, những nhà lai tạo và người chơi cá từ khắp mọi miền đất nước để giới thiệu các chú cá đẹp nhất, tham gia các cuộc thi, và kết nối với cộng đồng yêu cá Koi.
                 </p>
-{/* Read More/Collapse Section */}
-{isExpanded ? (
-  <div>
-    <p style={{ color: currentTheme.palette.text.primary }}>
-      Mục tiêu chính của chúng tôi là tạo ra một không gian sôi động, nơi cộng đồng cá Koi có thể cùng nhau chia sẻ niềm đam mê và nghệ thuật trong việc nuôi dưỡng loài cá tuyệt đẹp này. Dù bạn là nhà lai tạo cá Koi chuyên nghiệp hay người mới bắt đầu, VietKoiExpo luôn chào đón và cung cấp nền tảng cho tất cả mọi người.
-    </p>
-    <p style={{ color: currentTheme.palette.text.primary }}>Những gì chúng tôi cung cấp:</p>
-    <ul style={{ color: currentTheme.palette.text.primary }}>
-      <li style={{ color: currentTheme.palette.text.primary }}>Cuộc thi cá Koi toàn quốc: Các cuộc thi thường niên với giải thưởng hấp dẫn, được đánh giá bởi những chuyên gia hàng đầu về cá Koi.</li>
-      <li style={{ color: currentTheme.palette.text.primary }}>Triển lãm cá Koi: Phòng trưng bày trực tuyến với những chú cá Koi đẹp nhất Việt Nam.</li>
-      <li style={{ color: currentTheme.palette.text.primary }}>Bí quyết từ chuyên gia: Các bài viết, mẹo và hướng dẫn từ những nhà lai tạo và chuyên gia hàng đầu trong cộng đồng.</li>
-      <li style={{ color: currentTheme.palette.text.primary }}>Cộng đồng & Chợ cá Koi: Tham gia cùng những thành viên khác, chia sẻ kiến thức và tham gia vào các cuộc đấu giá, mua bán cá Koi.</li>
-    </ul>
-    <p style={{ color: currentTheme.palette.text.primary }}>
-      Tại VietKoiExpo, chúng tôi cam kết mang đến cho bạn trải nghiệm tuyệt vời với cá Koi, trong một môi trường giàu tính học hỏi, cạnh tranh và sự tôn vinh nghệ thuật nuôi cá.
-    </p>
-    <Typography variant="body2" style={{ cursor: 'pointer', color: currentTheme.palette.primary.main }} onClick={handleReadMore}>
-      Read Less
-    </Typography>
-  </div>
-) : (
-  <Typography variant="body2" style={{ cursor: 'pointer', color: currentTheme.palette.primary.main }} onClick={handleReadMore}>
-    Read More
-  </Typography>
-)}
-
+                {/* Read More/Collapse Section */}
+                {isExpanded ? (
+                  <div>
+                    <p style={{ color: currentTheme.palette.text.primary }}>
+                      Mục tiêu chính của chúng tôi là tạo ra một không gian sôi động, nơi cộng đồng cá Koi có thể cùng nhau chia sẻ niềm đam mê và nghệ thuật trong việc nuôi dưỡng loài cá tuyệt đẹp này. Dù bạn là nhà lai tạo cá Koi chuyên nghiệp hay người mới bắt đầu, VietKoiExpo luôn chào đón và cung cấp nền tảng cho tất cả mọi người.
+                    </p>
+                    <p style={{ color: currentTheme.palette.text.primary }}>Những gì chúng tôi cung cấp:</p>
+                    <ul style={{ color: currentTheme.palette.text.primary }}>
+                      <li style={{ color: currentTheme.palette.text.primary }}>Cuộc thi cá Koi toàn quốc: Các cuộc thi thường niên với giải thưởng hấp dẫn, được đánh giá bởi những chuyên gia hàng đầu về cá Koi.</li>
+                      <li style={{ color: currentTheme.palette.text.primary }}>Triển lãm cá Koi: Phòng trưng bày trực tuyến với những chú cá Koi đẹp nhất Việt Nam.</li>
+                      <li style={{ color: currentTheme.palette.text.primary }}>Bí quyết từ chuyên gia: Các bài viết, mẹo và hướng dẫn từ những nhà lai tạo và chuyên gia hàng đầu trong cộng đồng.</li>
+                      <li style={{ color: currentTheme.palette.text.primary }}>Cộng đồng & Chợ cá Koi: Tham gia cùng những thành viên khác, chia sẻ kiến thức và tham gia vào các cuộc đấu giá, mua bán cá Koi.</li>
+                    </ul>
+                    <p style={{ color: currentTheme.palette.text.primary }}>
+                      Tại VietKoiExpo, chúng tôi cam kết mang đến cho bạn trải nghiệm tuyệt vời với cá Koi, trong một môi trường giàu tính học hỏi, cạnh tranh và sự tôn vinh nghệ thuật nuôi cá.
+                    </p>
+                    <Typography variant="body2" style={{ cursor: 'pointer', color: currentTheme.palette.primary.main }} onClick={handleReadMore}>
+                      Read Less
+                    </Typography>
+                  </div>
+                ) : (
+                  <Typography variant="body2" style={{ cursor: 'pointer', color: currentTheme.palette.primary.main }} onClick={handleReadMore}>
+                    Read More
+                  </Typography>
+                )}
               </Card>
             </Col>
           </Row>
@@ -369,7 +373,7 @@ const MemberPage = () => {
                       fontWeight: 'bold',
                     }}
                   >
-                    <Typography variant="h6"  style={{ fontWeight: 'bold', color: currentTheme.palette.primary.main }}>
+                    <Typography variant="h6" style={{ fontWeight: 'bold', color: currentTheme.palette.primary.main }}>
                       Cuộc thi cá Koi Hấp Dẫn
                     </Typography>
                   </div>
@@ -386,9 +390,9 @@ const MemberPage = () => {
                     Join the most exciting Koi contest of the year! Showcase your beautiful Koi fish and compete for the top prize.
                   </p>
                 </div>
-                <MuiButton variant="text" className={styles.readMore} onClick={()=>handleNavigation('/competition/landing')}>
-                    Join Now
-                  </MuiButton>
+                <MuiButton variant="text" className={styles.readMore} onClick={() => handleNavigation('/competition/landing')}>
+                  Join Now
+                </MuiButton>
               </Card>
             </Col>
             <Col span={12}>
@@ -396,7 +400,6 @@ const MemberPage = () => {
                 title={
                   <div
                     style={{
-                     
                       color: currentTheme.palette.textTittle.primary,
                       padding: '10px',
                       borderRadius: '5px',
@@ -419,8 +422,8 @@ const MemberPage = () => {
                   Cast your vote for the most beautiful Koi fish in the contest. Your vote can help decide the winner!
                 </p>
                 <MuiButton variant="text" className={styles.readMore}>
-                    Vote Now?
-                  </MuiButton>
+                  Vote Now?
+                </MuiButton>
               </Card>
             </Col>
           </Row>
@@ -430,7 +433,6 @@ const MemberPage = () => {
             <Col span={12} style={{ display: 'flex', flexDirection: 'column' }}>
               <RankingComponent rankingData={rankingData} theme={currentTheme} style={{ flex: 1 }} />
               <Card
-
                 className={styles.sponsorCard}
                 style={{
                   backgroundColor: currentTheme.palette.background.paper,
@@ -462,20 +464,37 @@ const MemberPage = () => {
                 />
               </Card>
             </Col>
-            <Col  style={{
-                          backgroundColor: currentTheme.palette.background.paper,
-                          border: `2px solid ${currentTheme.palette.primary.main}`,
-                          boxShadow: `0 0 10px ${currentTheme.palette.primary.main}`,
-                        }} span={12}>
+            <Col
+              style={{
+                backgroundColor: currentTheme.palette.background.paper,
+                border: `2px solid ${currentTheme.palette.primary.main}`,
+                boxShadow: `0 0 10px ${currentTheme.palette.primary.main}`,
+              }}
+              span={12}
+            >
               <NewsComp theme={currentTheme} style={{ height: '100%' }} />
             </Col>
           </Row>
         </Content>
 
         {/* Footer */}
-        <Footer style={{ textAlign: 'center', backgroundColor: currentTheme.palette.background.default, color: currentTheme.palette.text.primary, }}>
+        <Footer style={{ textAlign: 'center', backgroundColor: currentTheme.palette.background.default, color: currentTheme.palette.text.primary }}>
           VietKoiExpo ©2024 - All Rights Reserved
         </Footer>
+
+        {/* Modal for login prompt */}
+        <Modal
+          title="Login Required"
+          visible={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={[
+            <MuiButton key="login" variant="contained" color="primary" onClick={() => navigate('/login')}>
+              Go to Login
+            </MuiButton>,
+          ]}
+        >
+          <p>You need to log in to access this feature.</p>
+        </Modal>
       </Layout>
     </ThemeProvider>
   );

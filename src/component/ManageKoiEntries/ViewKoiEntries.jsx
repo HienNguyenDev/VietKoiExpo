@@ -1,18 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Row, Col, Card, Image } from 'antd';
+import { Typography, Row, Col, Card, Image, Spin, Button } from 'antd';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styles from './ViewKoiEntries.module.scss';
 
 const ViewKoiEntries = () => {
   const [localKoi, setLocalKoi] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const userId = useSelector(state => state.userReducer.userLogin.userId);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve Koi fish from local storage
-    const storedKoi = JSON.parse(localStorage.getItem('koiRegistrations')) || {};
-    setLocalKoi(Object.values(storedKoi));
-  }, []);
+    const fetchKoiEntries = async () => {
+      try {
+        const response = await axios.get(`https://localhost:7246/api/Koifish/user/${userId}`);
+        setLocalKoi(response.data);
+      } catch (error) {
+        console.error('Error fetching Koi entries:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchKoiEntries();
+    }
+  }, [userId]);
+
+  if (loading) {
+    return <Spin size="large" />;
+  }
 
   return (
     <div className={styles.viewKoiEntries}>
+      <Button className={styles.backButton} onClick={() => navigate('/home')}>Back to Homepage</Button>
       <Typography.Title level={2} className={styles.title}>View Koi Entries</Typography.Title>
       <Row gutter={[16, 16]}>
         {localKoi.map(koi => (
@@ -22,14 +44,12 @@ const ViewKoiEntries = () => {
               cover={<Image alt={koi.koiName} src={koi.imageUrl || 'https://via.placeholder.com/150'} />}
               className={styles.koiCard}
             >
-              <Card.Meta title={koi.koiName} description={`Variety: ${koi.varietyId}`} />
+              <Card.Meta title={koi.koiName} description={<p style={{color:'#ffffff'}}>Variety: ${koi.varietyId}</p>} />
               <div className={styles.koiDetails}>
-                <p><strong>ID:</strong> {koi.koiId}</p>
                 <p><strong>User ID:</strong> {koi.userId}</p>
                 <p><strong>Size:</strong> {koi.size} cm</p>
                 <p><strong>Age:</strong> {koi.age} years</p>
                 <p><strong>Status:</strong> {koi.status ? 'Active' : 'Inactive'}</p>
-                <p><strong>Competitions:</strong> {koi.competitions.join(', ')}</p>
               </div>
             </Card>
           </Col>

@@ -1,30 +1,62 @@
 .viewKoiEntries {
+  height: 100vh;
+  width: 100vw;
   padding: 20px;
-  background-color: #f0f2f5;
+  background-color: #000; // Black background for contrast
+  color: #fff; // White text color
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .title {
-    text-align: center;
+    color: #ff6f61; // Pastel Coral
+    text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61, 0 0 30px #ff6f61;
     margin-bottom: 20px;
   }
 
+  .backButton {
+    margin-bottom: 20px;
+    background-color: #ff6f61; // Pastel Coral
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+
+    &:hover {
+      background-color: #40a9ff; // Blue
+      transform: translateY(-2px);
+    }
+  }
+
   .koiCard {
-    .ant-card-cover {
-      height: 200px;
-      overflow: hidden;
+    background-color: #222; // Dark background for cards
+    border: 1px solid #ff6f61; // Pastel Coral border
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 400px;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-    .ant-card-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .ant-card-meta-title {
+      color: #ff6f61; // Pastel Coral
+      text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61, 0 0 30px #ff6f61;
+    }
+
+    .ant-card-meta-description {
+      color: #40a9ff; // Blue
+      text-shadow: 0 0 10px #40a9ff, 0 0 20px #40a9ff, 0 0 30px #40a9ff;
     }
 
     .koiDetails {
-      margin-top: 10px;
-
       p {
-        margin: 0;
-        line-height: 1.5;
+        color: #fff; // White text color
       }
     }
   }

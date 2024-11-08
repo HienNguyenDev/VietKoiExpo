@@ -11,7 +11,7 @@ import {
   getCheckInDataApi,
   reviewKoiEntryApi,
   checkInKoiEntryApi
- } from '../../../service/checkInAPI';
+ } from '../../../service/CheckInAPI';
 
 
 
@@ -69,7 +69,3 @@ export const checkInKoiEntry = (entryId,checkinData, compId, compName, navigate)
       }
   };
 };
-
-
-
-//gọi listRegistrationByCompId, nếu status của registration là 1 thì sẽ hiển thị trên trang checkin
