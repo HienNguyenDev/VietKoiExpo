@@ -32,7 +32,7 @@ export const fetchCheckInByCompId = (compId) => {
       try {
           const res = await getCheckInByCompIdApi(compId);
           dispatch(setCheckInByCompIdAction(res.data));
-          console.log("getCheckInByCompIdApi successful:", res.data);
+          console.log("getCheckInByCompIdApi result:", res.data); // Kiểm tra kiểu dữ liệu;
       } catch (error) {
           console.error("Failed to fetchCheckinByCompId:", error.response ? error.response.data : error.message);
       }
@@ -56,6 +56,7 @@ export const checkInKoiEntry = (entryId,checkinData, compId, compName, navigate)
   return async (dispatch) => {
       try {
           await checkInKoiEntryApi(entryId,checkinData);
+          console.log("checkInKoiEntry !!",checkinData);
           const action = checkInKoiEntryAction(entryId,checkinData);
           dispatch(action);
           console.log("checkInKoiEntry successful!!");

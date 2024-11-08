@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Radio, Input } from 'antd';
-import { fetchCheckInByCompId, checkInKoiEntry,  } from '../../store/redux/action/CheckInAction';
-import {  reviewKoiEntryAction } from '../../store/redux/action/CheckInAction';
-const ReviewKoiEntriesPage = () => {
+import { fetchCheckInByCompId, checkInKoiEntry, reviewKoiEntryAction } from '../../store/redux/action/CheckInAction';
+const ReviewKoiCheckInPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { compId, compName } = location.state || {}; // Lấy compId và compName từ state
@@ -14,7 +13,7 @@ const ReviewKoiEntriesPage = () => {
   const navigate = useNavigate();
   // Lấy danh sách các đơn đăng ký từ Redux store
   const koiCheckIn = useSelector(state => state.checkInReducer.checkinByCompList);
-
+  
   useEffect(() => {
     if (compId) {
       // Fetch tất cả các đơn đăng ký cá Koi cho cuộc thi đã chọn
@@ -41,7 +40,7 @@ const ReviewKoiEntriesPage = () => {
     });
     }
   }, [dispatch, koiCheckIn, koiDetails]);
-
+  
   // Lọc danh sách các đơn đăng ký theo trạng thái
   const filteredKoiEntries = Array.isArray(koiCheckIn) ? koiCheckIn.filter(entry => {
     if (filterStatus === 'all') return true;
@@ -68,7 +67,8 @@ const ReviewKoiEntriesPage = () => {
     {
       title: 'CheckIn Image',
       dataIndex: 'checkInId',
-      key: 'checkinimageurl'
+      key: 'checkinimageurl',
+      
     },
     {
       title: 'CheckIn Description',
@@ -178,7 +178,7 @@ const ReviewKoiEntriesPage = () => {
   };
   return (
     <div>
-      <h2>Review Koi Entries for {compName}</h2>
+      <h2>Review Koi CheckIn for {compName}</h2>
 
       {/* Bộ lọc trạng thái */}
       <Radio.Group
@@ -207,4 +207,4 @@ const ReviewKoiEntriesPage = () => {
   );
 };
 
-export default ReviewKoiEntriesPage;
+export default ReviewKoiCheckInPage;

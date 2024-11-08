@@ -67,11 +67,6 @@ const ManageKoiJudgingPage = () => {
     },
     {
       title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Age',
 dataIndex: 'age',
       key: 'age',
     },
