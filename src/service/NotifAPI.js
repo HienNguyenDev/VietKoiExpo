@@ -11,3 +11,5 @@ export const sendNotificationAPI = async (userId, message) => {
     throw error;
   }
 };
+
+//get Status When Register Koi to Competition

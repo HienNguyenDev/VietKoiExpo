@@ -20,7 +20,7 @@ export const getCategoriesByCompIdApi = async (compId) => {
 
 export const getKoiEntriesByCompIdApi = async (compId, categoryId) => {
   try {
-    const response = await axios.get(`https://localhost:7246/api/Competition/${compId}?comID=${categoryId}`);
+    const response = await axios.get(`https://localhost:7246/api/Competition/CompetitonCategoriesFish/${compId}?comID=${categoryId}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -119,3 +119,13 @@ export const sendNotificationAPI = async (compId, message) => {
     throw error;
   }
 };
+
+export const filterKoiEntriesByCompIdAPI = async (compId) => {
+  try{
+    const response = await axios.get(`https://localhost:7246/api/Competition/KoiFish/${compId}`);
+    return response.data;
+  }
+  catch(error){
+    throw error;
+  }
+}

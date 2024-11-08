@@ -5,7 +5,7 @@ const KoiList = ({ koiEntries }) => {
   return (
     <List
       grid={{ gutter: 16, column: 4 }}
-      dataSource={koiEntries}
+      dataSource={Array.isArray(koiEntries) ? koiEntries : []} // Ensure koiEntries is an array
       renderItem={item => (
         <List.Item>
           <Card title={item.koiName}>

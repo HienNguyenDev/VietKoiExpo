@@ -9,7 +9,8 @@ import {
   getCheckedInKoiForCompetition,
   getAllCheckInData,
   getFishFromRegistrationApi,
-  getKoiFishByIdApi
+  getKoiFishByIdApi,
+  filterKoiEntriesByCompIdAPI
 } from '../../../service/CompetitionAPI';
 import {
   fetchCompetitionDataSuccess,
@@ -47,6 +48,7 @@ export const fetchCategoriesByCompId = (compId) => async (dispatch) => {
   }
 };
 
+//trả về danh sách cá theo cuộc thi đó dựa trên từng cattegory
 export const fetchKoiEntries = (compId, categoryId) => async (dispatch) => {
   try {
     const data = await getKoiEntriesByCompIdApi(compId, categoryId);
@@ -114,4 +116,13 @@ export const sendNotification = (compId, message) => async (dispatch) => {
     dispatch(sendNotificationFailure(error.message));
   }
 };
+
+export const filterKoiEntriesByCompId = (compId) => async (dispatch) => {
+
+  const listKoiEntriesByCompId = await filterKoiEntriesByCompIdAPI(compId);
+
+  console.log("listKoiEntriesByCompId: ", listKoiEntriesByCompId);
+  dispatch(fetchKoiEntriesSuccess(listKoiEntriesByCompId));
+
+}
 

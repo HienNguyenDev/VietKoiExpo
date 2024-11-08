@@ -1,16 +1,19 @@
+// BracketList.jsx
 import React from 'react';
-import { List, Typography } from 'antd';
-import styles from './BracketList.module.scss';
+import { List, Button } from 'antd';
 
 const BracketList = ({ brackets, onSelectBracket }) => {
+  const handleSelectBracket = (categoryId) => {
+    console.log('Selected category ID:', categoryId); // Log the selected category ID
+    onSelectBracket(categoryId);
+  };
+
   return (
     <List
-      className={styles.bracketList}
-      bordered
-      dataSource={brackets}
+      dataSource={Array.isArray(brackets) ? brackets : []} // Ensure brackets is an array
       renderItem={item => (
-        <List.Item onClick={() => onSelectBracket(item.competitionCategoryId)}>
-          <Typography.Text>{item.categoryId}</Typography.Text>
+        <List.Item>
+          <Button onClick={() => handleSelectBracket(item.categoryId)}>{item.categoryId}</Button>
         </List.Item>
       )}
     />

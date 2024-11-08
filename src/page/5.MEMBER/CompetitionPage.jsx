@@ -1,32 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Typography, Row, Col, Spin, notification, Card } from 'antd';
+import { Layout, Typography, Spin, notification, Card, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchCheckInData } from '../../store/redux/action/CheckInAction';
 import { fetchCompetitionData, fetchCategoriesByCompId, fetchKoiEntries, fetchCheckedInKoiForCompetition } from '../../store/redux/action/competitionAction';
 import BracketList from './competition/BracketList';
 import KoiList from './competition/KoiList';
 import styles from './CompetitionPage.module.scss';
 import { getRegistrationByRegisID } from '../../service/koiRegist';
+import { fetchScores } from '../../store/redux/action/scoreAction';
 
 const { Title, Paragraph } = Typography;
 
 const CompetitionPage = () => {
   const { compId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const checkInData = useSelector(state => state.checkInReducer.checkInData || []);
   const registrationData = useSelector(state => state.registerKoi.regisKoiList || []);
   const competition = useSelector(state => state.competitionReducer.competition || {});
-  const categories = useSelector(state => state.competitionReducer.categories || []);
+  const categories = useSelector(state => Array.isArray(state.competitionReducer.categories) ? state.competitionReducer.categories : []); // Ensure categories is an array
   const koiEntries = useSelector(state => state.competitionReducer.koiEntries || []);
-  const loading = useSelector(state => state.checkInReducer.loading || state.registerKoi.loading || state.competitionReducer.loading);
+  const loading = useSelector(state => state.checkInReducer.loading || state.registerKoi.loading || state.competitionReducer.loading || state.scoreReducer.loading);
   const competitionStatus = useSelector(state => state.competitionReducer.competitionStatus || []);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const koiEntriesListScore = useSelector(state => state.scoreReducer.scores || []);
+  const [notificationShown, setNotificationShown] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCheckInData());
     dispatch(fetchCompetitionData(compId));
     dispatch(fetchCategoriesByCompId(compId));
+    dispatch(fetchScores(compId));
   }, [dispatch, compId]);
 
   useEffect(() => {
@@ -49,6 +54,7 @@ const CompetitionPage = () => {
 
   useEffect(() => {
     if (selectedCategory) {
+      console.log('Fetching koi entries for category ID:', selectedCategory); // Log the selected category ID
       dispatch(fetchKoiEntries(compId, selectedCategory));
     }
   }, [selectedCategory, dispatch, compId]);
@@ -62,24 +68,47 @@ const CompetitionPage = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(fetchCheckedInKoiForCompetition(compId));
+      dispatch(fetchScores(compId));
     }, 5000); // Check competition status every 5 seconds
     return () => clearInterval(interval);
   }, [dispatch, compId]);
 
   useEffect(() => {
-    if (competitionStatus === 'completed') {
+    const allJudged = koiEntriesListScore.every(koi => koi.status === true);
+    if (allJudged && !notificationShown) {
       notification.success({
         message: 'Competition Completed',
         description: 'The competition has ended. You can now view the dashboard or ranking.',
+        btn: (
+          <Button type="primary" onClick={() => navigate(`/dashboard/${compId}`, { state: { compId, compName: competition.compName } })}>
+            Go to Dashboard
+          </Button>
+        ),
+        onClose: () => setNotificationShown(true),
       });
     }
-  }, [competitionStatus]);
+  }, [koiEntriesListScore, notificationShown, navigate, compId, competition.compName]);
+
+  useEffect(() => {
+    if (competitionStatus === 'completed' && !notificationShown) {
+      notification.success({
+        message: 'Competition Completed',
+        description: 'The competition has ended. You can now view the dashboard or ranking.',
+        btn: (
+          <Button type="primary" onClick={() => navigate(`/dashboard/${compId}`, { state: { compId, compName: competition.compName } })}>
+            Go to Dashboard
+          </Button>
+        ),
+        onClose: () => setNotificationShown(true),
+      });
+    }
+  }, [competitionStatus, notificationShown, navigate, compId, competition.compName]);
 
   if (loading) {
     return <Spin size="large" />;
   }
 
-  console.log('Filtered Koi entries:', competitionStatus);
+  console.log('Filtered Koi entries:', koiEntries);
 
   return (
     <Layout className={styles.competitionPage}>
@@ -97,11 +126,11 @@ const CompetitionPage = () => {
           <BracketList brackets={categories} onSelectBracket={setSelectedCategory} />
         </Card>
         <Card className={styles.koiEntriesCard}>
-          <Title   style={{color:'#ffffff'}} level={4}>Koi Entries</Title>
+          <Title style={{color:'#ffffff'}} level={4}>Koi Entries</Title>
           {selectedCategory ? (
-            <KoiList koiEntries={competitionStatus} />
+            <KoiList koiEntries={koiEntries} />
           ) : (
-            <KoiList koiEntries={competitionStatus} />
+            <Paragraph style={{color:'#ffffff'}}>Please select a category to view koi entries.</Paragraph>
           )}
         </Card>
       </div>

@@ -54,6 +54,9 @@ import ViewKoiEntries from './component/ManageKoiEntries/ViewKoiEntries';
 import UserViewResultsPage from './component/ManageJudging/UserViewResult';
 import CheckIn from './page/5.MEMBER/competition/CheckIn';
 import NewsPage from './page/5.MEMBER/news/NewsPage';
+import ResetPage from './page/2.LOGIN/ResetPage';
+import KoiListForCompetition from './page/5.MEMBER/competition/CheckIn';
+import Dashboard from './component/shared/DashBoard/dashBoard';
 const App = () => {
   const location = useLocation();
   const nodeRef = useRef(null); 
@@ -62,7 +65,7 @@ const App = () => {
       <CSSTransition key={location.key} nodeRef={nodeRef} classNames="fade" timeout={700}>
         <div ref={nodeRef}>
         <Routes location={location}>
-          <Route path="/"  element={<LoginPage/>}/>
+          <Route path="/"  element={<MemberPage/>}/>
           <Route path='home' element={<MemberPage />}>
            
           </Route>
@@ -118,9 +121,11 @@ const App = () => {
         <Route path='home/view-koi' element={<ViewKoiEntries/>}></Route>
         <Route path='home/view-contests' element={<ApproveKoiEntries/>}></Route>
           <Route path='/forget-password' element={<ForgetPass/>}></Route>
-          <Route path="/checkin/:competitionId" element={<CheckIn />} />
+          <Route path="/checkin/:competitionId" element={<KoiListForCompetition />} />
           <Route path="/competitionMatch/:compId" element={<CompetitionPage />} />
           <Route path="/news/:newsTypeId" element={<NewsPage />} />
+          <Route path="/reset-password/:jwt" element={<ResetPage/>} />
+          <Route path="/dashboard/:compId" element={<Dashboard />} />
         </Routes>
         </div>
       </CSSTransition>

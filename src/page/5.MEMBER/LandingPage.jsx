@@ -78,30 +78,17 @@ const LandingPage = () => {
       return;
     }
 
-    for (const koiId of koiIds) {
-      const koi = mockKoiList.find(k => k.koiId === koiId);
-      const confirmRegistration = await new Promise((resolve) => {
-        Modal.confirm({
-          title: 'Confirm Registration',
-          content: `Do you want to register Koi "${koi.koiName}" for the competition "${selectedCompetition.compName}"?`,
-          onOk: () => resolve(true),
-          onCancel: () => resolve(false),
-        });
-      });
-
-      if (confirmRegistration) {
-        try {
-          console.log(`Registering Koi "${koi.koiName}" for competition "${selectedCompetition.compName}" with compId: ${selectedCompetition.compId}`); // Debug compId
-          await registerKoiForCompetitionApi(koiId, selectedCompetition.compId,0); // Register each koi individually
-          message.success(`Koi "${koi.koiName}" successfully registered!`);
-          await reloadKoiList(); // Reload the Koi list after registration
-        } catch (error) {
-          message.error(`Registration failed for Koi "${koi.koiName}".`);
-          console.error('Error during koi registration:', error);
-        }
-      } else {
-        message.info(`Skipped registration for Koi "${koi.koiName}".`);
+    try {
+      for (const koiId of koiIds) {
+        const koi = mockKoiList.find(k => k.koiId === koiId);
+        console.log(`Registering Koi "${koi.koiName}" for competition "${selectedCompetition.compName}" with compId: ${selectedCompetition.compId}`); // Debug compId
+        await registerKoiForCompetitionApi(koiId, selectedCompetition.compId, 0); // Register each koi individually
       }
+      message.success('All selected Koi successfully registered!');
+      await reloadKoiList(); // Reload the Koi list after registration
+    } catch (error) {
+      message.error('Registration failed for some Koi.');
+      console.error('Error during koi registration:', error);
     }
 
     setIsModalVisible(false); // Close modal after processing all koi

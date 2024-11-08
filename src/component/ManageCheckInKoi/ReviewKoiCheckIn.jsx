@@ -24,6 +24,7 @@ const ReviewKoiEntriesPage = () => {
   
   useEffect(() => {
     // Lấy chi tiết từng cá Koi
+    if (Array.isArray(koiCheckIn)) {
     koiCheckIn.forEach(entry => {
       if (!koiDetails[entry.koiId]) {
         dispatch(reviewKoiEntryAction(entry.koiId)).then(detail => {
@@ -38,16 +39,17 @@ const ReviewKoiEntriesPage = () => {
         [entry.checkInId]: entry.description || '' // Sử dụng mô tả hiện có nếu có
       }));
     });
+    }
   }, [dispatch, koiCheckIn, koiDetails]);
 
   // Lọc danh sách các đơn đăng ký theo trạng thái
-  const filteredKoiEntries = koiCheckIn.filter(entry => {
+  const filteredKoiEntries = Array.isArray(koiCheckIn) ? koiCheckIn.filter(entry => {
     if (filterStatus === 'all') return true;
     if (filterStatus === 'pending') return entry.status === 0;
     if (filterStatus === 'checkin') return entry.status === 1;
     if (filterStatus === 'rejected') return entry.status === 2;
     return true;
-  });
+  }) : [];
 
   // Cột cho bảng đơn đăng ký cá Koi
   const columns = [
