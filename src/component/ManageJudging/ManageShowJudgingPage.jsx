@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Table, Button, Tabs, Spin, Radio, Tag } from 'antd';
 import { fetchAllContests } from '../../store/redux/action/contestAction'; // Assuming your action fetches contests
 

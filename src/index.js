@@ -52,6 +52,7 @@ import UploadKoiForm from './page/5.MEMBER/uploadKoi/UploadKoiForm';
 import MyKoi from './component/ManageKoiEntries/ApproveKoiEntries';
 import ViewKoiEntries from './component/ManageKoiEntries/ViewKoiEntries';
 import UserViewResultsPage from './component/ManageJudging/UserViewResult';
+import CheckIn from './page/5.MEMBER/competition/CheckIn';
 const App = () => {
   const location = useLocation();
   const nodeRef = useRef(null); 
@@ -101,7 +102,7 @@ const App = () => {
           <Route path='register' element={<RegisterPage />} />
           <Route path='notif' element={<NotificationPage />} />
           <Route path='fishkoi' element={<FishKoiEventDetail />} />
-          <Route path="/competition" element={<CompetitionPage />}>
+          <Route path="/competition" >
             <Route path="landing" element={<LandingPage />} />
             <Route path="/competition/:compId" element={<CompetitionBracket />} />
             <Route path="advancement" element={<AdvancementView />} />
@@ -109,7 +110,6 @@ const App = () => {
             <Route path="announcement" element={<Announcement />} />
             <Route path="admin" element={<AdminPanel />} />
             
-
         </Route>
         <Route path="notifications" element={<NotificationPage />} />
         home/view-koi
@@ -117,7 +117,8 @@ const App = () => {
         <Route path='home/view-koi' element={<ViewKoiEntries/>}></Route>
         <Route path='home/view-contests' element={<ApproveKoiEntries/>}></Route>
           <Route path='forget' element={<ForgetPass/>}></Route>
-          
+          <Route path="/checkin/:competitionId" element={<CheckIn />} />
+          <Route path="/competitionMatch/:compId" element={<CompetitionPage />} />
         </Routes>
         </div>
       </CSSTransition>

@@ -10,7 +10,7 @@ import {
     setCategoriesListByContestAction,
     setKoiListByContestAction
 } from '../reducers/contestReducer';
-import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId, assignKoiToContest, getCategoriesbyCompId, getKoiListbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
+import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId, assignKoiToContest,  getKoiListbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
 
 // async actions
 export const createContestActionApi = (contestDetails) => {
@@ -103,10 +103,10 @@ export const fetchCategoriesByCompId = (contestId) => {
     };
 };
 
-export const assignKoiToContestActionApi = (competitionId, koiId) => {
+export const assignKoiToContestActionApi = (competitionId, koiId,statusAss) => {
     return async (dispatch) => {
         try {
-            await assignKoiToContest(competitionId, koiId);
+            await assignKoiToContest(competitionId, koiId,statusAss);
             dispatch(fetchAllContests()); // Refetch contests after assigning Koi
         } catch (error) {
             console.error("Failed to assign Koi to contest:", error.response ? error.response.data : error.message);
@@ -114,21 +114,21 @@ export const assignKoiToContestActionApi = (competitionId, koiId) => {
         }
     };
 };
-export const assignKoiToContestActionApi = (contestId, koiId) => {
-    return async (dispatch) => {
-        try {
-            const res = await assignKoiToContest(contestId, koiId);
-            console.log('Assigned koi to contest:', res.data);
-            // Dispatch success action or handle success state
-            dispatch({ type: 'ASSIGN_KOI_SUCCESS', payload: res.data });
-            return res.data;
-        } catch (error) {
-            // Dispatch failure action or handle error state
-            dispatch({ type: 'ASSIGN_KOI_FAILURE', payload: error });
-            throw error;
-        }
-    };
-}
+// export const assignKoiToContestActionApi = (contestId, koiId) => {
+//     return async (dispatch) => {
+//         try {
+//             const res = await assignKoiToContest(contestId, koiId);
+//             console.log('Assigned koi to contest:', res.data);
+//             // Dispatch success action or handle success state
+//             dispatch({ type: 'ASSIGN_KOI_SUCCESS', payload: res.data });
+//             return res.data;
+//         } catch (error) {
+//             // Dispatch failure action or handle error state
+//             dispatch({ type: 'ASSIGN_KOI_FAILURE', payload: error });
+//             throw error;
+//         }
+//     };
+// }
 export const fetchKoiFromCompId = (contestId) => {
     return async (dispatch) => {
       try {

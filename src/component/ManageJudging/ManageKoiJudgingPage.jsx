@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Table, Button, Spin, Tabs, Tag, Radio } from 'antd';
-import { fetchKoiFromCompId} from '../../store/redux/action/contestAction'; // Assuming your action fetches a specific contest
+import { fetchAllContests, fetchKoiFromCompId} from '../../store/redux/action/contestAction'; // Assuming your action fetches a specific contest
 import { fetchAllScore } from '../../store/redux/action/koiEntriesAction';
 const { TabPane } = Tabs;
 
@@ -14,23 +14,7 @@ const ManageKoiJudgingPage = () => {
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('all');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch(fetchAllContests());
-        // Retrieve updated Koi list from local storage
-        const storedKoiList = JSON.parse(localStorage.getItem('mockKoiList')) || [];
-        setMockKoiList(storedKoiList);
-      } catch (error) {
-        console.error('Failed to fetch contests:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [dispatch]);
+  
 
   const scores = useSelector(state => state.koiEntriesReducer.scoretList);
   useEffect(() => {
@@ -87,7 +71,7 @@ const ManageKoiJudgingPage = () => {
     },
     {
       title: 'Age',
-      dataIndex: 'age',
+dataIndex: 'age',
       key: 'age',
     },
     {

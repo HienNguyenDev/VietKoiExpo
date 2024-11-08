@@ -79,24 +79,14 @@ export const getRegistrationByRegisID = async(regisID) => {
   }
 }
 
-// export const registerKoiForCompetitionApi = async (koiIds, competitionId) => {
-//   try {
-//     const response = await axios.post(`https://localhost:7246/api/Registration`, { koiIds, competitionId });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Failed to register Koi for competition:', error);
-//     throw error;
-//   }
-// };
 
-
-export const registerKoiForCompetitionApi = async (koiId, compId) => {
+export const registerKoiForCompetitionApi = async (koiId, compId,status) => {
   console.log('registerKoiForCompetitionApi called with:', { koiId, compId }); // Debug input parameters
   try {
     const response = await axios({
       url: `https://localhost:7246/api/Registration`,
       method: 'POST',
-      data: { koiId, compId },
+      data: { koiId, compId,status },
     });
     console.log('registerKoiForCompetitionApi response:', response.data); // Debug response
     return response.data;
@@ -110,6 +100,23 @@ export const getAllRegisteredKoiForCompetitionApi = async()=>{
   try {
     const response = await axios({
       url: `https://localhost:7246/api/Registration`,
+      method: 'GET',
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+} 
+
+export const getAllRegistrationsApi = async () => {
+  const response = await axios.get('https://localhost:7246/api/Registration');
+  return response.data;
+};
+
+export const getListRegisteredKoiByCompId = async (compId) => {
+  try {
+    const response = await axios({
+      url: `https://localhost:7246/api/Registration/competition/${compId}`,
       method: 'GET',
     });
     return response.data;

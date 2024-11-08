@@ -1,154 +1,117 @@
 import {
-  fetchCompetitionDetailsAPI,
+  getCompetitionDataApi,
+  getCategoriesByCompIdApi,
+  getKoiEntriesByCompIdApi,
+  checkCompetitionStatusApi,
   fetchBracketsAPI,
-  fetchKoiEntriesAPI,
   updateKoiScoreAPI,
   sendNotificationAPI,
-  checkCompetitionStatusAPI,
+  getCheckedInKoiForCompetition,
+  getAllCheckInData,
+  getFishFromRegistrationApi,
+  getKoiFishByIdApi
 } from '../../../service/CompetitionAPI';
-import { fetchContestDetails } from './contestAction';
-import { fetchKoiEntriesByCategoryAndCompId } from './koiEntriesAction';
+import {
+  fetchCompetitionDataSuccess,
+  fetchCompetitionDataFailure,
+  fetchCategoriesSuccess,
+  fetchCategoriesFailure,
+  fetchKoiEntriesSuccess,
+  fetchKoiEntriesFailure,
+  checkCompetitionStatusSuccess,
+  checkCompetitionStatusFailure,
+  fetchBracketsFailure,
+  fetchBracketsSuccess,
+  updateKoiScoreSuccess,
+  updateKoiScoreFailure,
+  sendNotificationSuccess,
+  sendNotificationFailure
+} from '../reducers/CompetitionReducer';
 
-// Action Types
-const FETCH_COMPETITION_DATA_REQUEST = 'FETCH_COMPETITION_DATA_REQUEST';
-const FETCH_COMPETITION_DATA_SUCCESS = 'FETCH_COMPETITION_DATA_SUCCESS';
-const FETCH_COMPETITION_DATA_FAILURE = 'FETCH_COMPETITION_DATA_FAILURE';
-
-const FETCH_CATEGORY_DATA_REQUEST = 'FETCH_CATEGORY_DATA_REQUEST';
-const FETCH_CATEGORY_DATA_SUCCESS = 'FETCH_CATEGORY_DATA_SUCCESS';
-const FETCH_CATEGORY_DATA_FAILURE = 'FETCH_CATEGORY_DATA_FAILURE';
-
-const FETCH_KOI_ENTRIES_REQUEST = 'FETCH_KOI_ENTRIES_REQUEST';
-const FETCH_KOI_ENTRIES_SUCCESS = 'FETCH_KOI_ENTRIES_SUCCESS';
-const FETCH_KOI_ENTRIES_FAILURE = 'FETCH_KOI_ENTRIES_FAILURE';
-
-const UPDATE_KOI_SCORE_REQUEST = 'UPDATE_KOI_SCORE_REQUEST';
-const UPDATE_KOI_SCORE_SUCCESS = 'UPDATE_KOI_SCORE_SUCCESS';
-const UPDATE_KOI_SCORE_FAILURE = 'UPDATE_KOI_SCORE_FAILURE';
-
-const CHECK_COMPETITION_STATUS_REQUEST = 'CHECK_COMPETITION_STATUS_REQUEST';
-const CHECK_COMPETITION_STATUS_SUCCESS = 'CHECK_COMPETITION_STATUS_SUCCESS';
-const CHECK_COMPETITION_STATUS_FAILURE = 'CHECK_COMPETITION_STATUS_FAILURE';
-
-// Action Creators
-const fetchCompetitionDataRequest = () => ({
-  type: FETCH_COMPETITION_DATA_REQUEST,
-});
-
-const fetchCompetitionDataSuccess = (data) => ({
-  type: FETCH_COMPETITION_DATA_SUCCESS,
-  payload: data,
-});
-
-const fetchCompetitionDataFailure = (error) => ({
-  type: FETCH_COMPETITION_DATA_FAILURE,
-  payload: error,
-});
-
-const fetchCategoryDataRequest = () => ({
-  type: FETCH_CATEGORY_DATA_REQUEST,
-});
-
-const fetchCategoryDataSuccess = (data) => ({
-  type: FETCH_CATEGORY_DATA_SUCCESS,
-  payload: data,
-});
-
-const fetchCategoryDataFailure = (error) => ({
-  type: FETCH_CATEGORY_DATA_FAILURE,
-  payload: error,
-});
-
-const fetchKoiEntriesRequest = () => ({
-  type: FETCH_KOI_ENTRIES_REQUEST,
-});
-
-const fetchKoiEntriesSuccess = (data) => ({
-  type: FETCH_KOI_ENTRIES_SUCCESS,
-  payload: data,
-});
-
-const fetchKoiEntriesFailure = (error) => ({
-  type: FETCH_KOI_ENTRIES_FAILURE,
-  payload: error,
-});
-
-const updateKoiScoreRequest = () => ({
-  type: UPDATE_KOI_SCORE_REQUEST,
-});
-
-const updateKoiScoreSuccess = (data) => ({
-  type: UPDATE_KOI_SCORE_SUCCESS,
-  payload: data,
-});
-
-const updateKoiScoreFailure = (error) => ({
-  type: UPDATE_KOI_SCORE_FAILURE,
-  payload: error,
-});
-
-const checkCompetitionStatusRequest = () => ({
-  type: CHECK_COMPETITION_STATUS_REQUEST,
-});
-
-const checkCompetitionStatusSuccess = (data) => ({
-  type: CHECK_COMPETITION_STATUS_SUCCESS,
-  payload: data,
-});
-
-const checkCompetitionStatusFailure = (error) => ({
-  type: CHECK_COMPETITION_STATUS_FAILURE,
-  payload: error,
-});
-
-// Thunk Actions
 export const fetchCompetitionData = (compId) => async (dispatch) => {
-  dispatch(fetchCompetitionDataRequest());
   try {
-    const data = await fetchContestDetails(compId);
+    const data = await getCompetitionDataApi(compId);
     dispatch(fetchCompetitionDataSuccess(data));
+    console.log("getCompetitionDataApi successful:", data);
   } catch (error) {
-    dispatch(fetchCompetitionDataFailure(error));
+    dispatch(fetchCompetitionDataFailure(error.message));
   }
 };
 
-export const fetchCategoryData = (compId) => async (dispatch) => {
-  dispatch(fetchCategoryDataRequest());
+export const fetchCategoriesByCompId = (compId) => async (dispatch) => {
   try {
-    const data = await fetchBracketsAPI(compId);
-    dispatch(fetchCategoryDataSuccess(data));
+    const data = await getCategoriesByCompIdApi(compId);
+    dispatch(fetchCategoriesSuccess(data));
   } catch (error) {
-    dispatch(fetchCategoryDataFailure(error));
+    dispatch(fetchCategoriesFailure(error.message));
   }
 };
 
 export const fetchKoiEntries = (compId, categoryId) => async (dispatch) => {
-  dispatch(fetchKoiEntriesRequest());
   try {
-    const data = await fetchKoiEntriesByCategoryAndCompId(compId, categoryId);
+    const data = await getKoiEntriesByCompIdApi(compId, categoryId);
     dispatch(fetchKoiEntriesSuccess(data));
   } catch (error) {
-    dispatch(fetchKoiEntriesFailure(error));
+    dispatch(fetchKoiEntriesFailure(error.message));
   }
 };
 
-export const updateKoiScoreAction = (koiId, score, userId) => async (dispatch) => {
-  dispatch(updateKoiScoreRequest());
+// export const checkCompetitionStatus = (compId) => async (dispatch) => {
+//   try {
+//     const koiEntries = await getCheckedInKoiForCompetition(compId);
+//     dispatch(checkCompetitionStatusSuccess(koiEntries));
+//   } catch (error) {
+//     dispatch(checkCompetitionStatusFailure(error.message));
+//   }
+// };
+
+export const fetchCheckedInKoiForCompetition = (compId) => async (dispatch) => {
   try {
-    const data = await updateKoiScoreAPI(koiId, score);
+    // Fetch check-in data
+    const checkInData = await getAllCheckInData();
+    const passedCheckIn = checkInData.filter(checkIn => checkIn.status === 1);
+    const registrationIds = passedCheckIn.map(checkIn => checkIn.registrationId);
+
+    // Fetch registration and Koi fish data
+    const koiEntries = await Promise.all(
+      registrationIds.map(async (regisID) => {
+        const registrationData = await getFishFromRegistrationApi(regisID);
+        const koiData = await getKoiFishByIdApi(registrationData.koiId);
+        return { ...koiData, registration: registrationData };
+      })
+    );
+
+    dispatch(checkCompetitionStatusSuccess(koiEntries));
+  } catch (error) {
+    dispatch(checkCompetitionStatusFailure(error.message));
+  }
+};
+
+
+export const fetchBrackets = (compId) => async (dispatch) => {
+  try {
+    const data = await fetchBracketsAPI(compId);
+    dispatch(fetchBracketsSuccess(data));
+  } catch (error) {
+    dispatch(fetchBracketsFailure(error.message));
+  }
+};
+
+export const updateKoiScore = (compId, koiId, score) => async (dispatch) => {
+  try {
+    const data = await updateKoiScoreAPI(compId, koiId, score);
     dispatch(updateKoiScoreSuccess(data));
-    await sendNotificationAPI(userId, `Your Koi fish has been scored: ${score}`);
   } catch (error) {
-    dispatch(updateKoiScoreFailure(error));
+    dispatch(updateKoiScoreFailure(error.message));
   }
 };
 
-export const checkCompetitionStatus = (compId) => async (dispatch) => {
-  dispatch(checkCompetitionStatusRequest());
+export const sendNotification = (compId, message) => async (dispatch) => {
   try {
-    const data = await checkCompetitionStatusAPI(compId);
-    dispatch(checkCompetitionStatusSuccess(data));
+    const data = await sendNotificationAPI(compId, message);
+    dispatch(sendNotificationSuccess(data));
   } catch (error) {
-    dispatch(checkCompetitionStatusFailure(error));
+    dispatch(sendNotificationFailure(error.message));
   }
 };
+

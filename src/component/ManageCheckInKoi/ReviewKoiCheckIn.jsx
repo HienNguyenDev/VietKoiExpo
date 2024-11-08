@@ -148,7 +148,7 @@ const ReviewKoiEntriesPage = () => {
     }
     console.log('checkInData - imageUrl:', imageUrl);
     const checkInData = {
-      status: 0, // duyệt (số 1)
+      status: 1, // duyệt (số 1)
       imageUrl: imageUrl, // đường dẫn ảnh
       description: description // mô tả check-in
     };

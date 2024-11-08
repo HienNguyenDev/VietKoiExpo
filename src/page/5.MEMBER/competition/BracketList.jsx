@@ -1,9 +1,11 @@
 import React from 'react';
 import { List, Typography } from 'antd';
+import styles from './BracketList.module.scss';
 
 const BracketList = ({ brackets, onSelectBracket }) => {
   return (
     <List
+      className={styles.bracketList}
       bordered
       dataSource={brackets}
       renderItem={item => (

@@ -1,32 +1,98 @@
-// CompetitionPage.module.scss
-
-.header {
+.competitionPage {
+  width: 100vw;
+  padding: 20px;
+  background-color: #000; // Black background for contrast
+  color: #fff; // White text color
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #001529;
-}
+  flex-direction: column;
 
-.logo {
-  color: #fff;
-  font-size: 20px;
-  font-weight: bold;
-}
+  .competitionCard {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #222; // Dark background for cards
+    border: 1px solid #e162c1; // Pink border
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-.content {
-  background: #f0f2f5;
-  min-height: calc(100vh - 128px); // Adjust height to account for header and footer
-}
+    .ant-typography {
+      color: #fff; // White text color
+    }
+  }
 
-.siteLayoutContent {
-  background: #fff;
-  min-height: 280px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+  }
 
-.footer {
-  text-align: center;
-  background: #001529;
-  color: #fff;
+  .bracketCard {
+    flex: 1;
+    padding: 20px;
+    background-color: #222; // Dark background for cards
+    border: 1px solid #e162c1; // Pink border
+    border-radius: 10px;
+    color: #fff;
+    overflow-y: auto;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .ant-typography {
+      color: #fff; // White text color
+    }
+  }
+
+  .koiEntriesCard {
+    flex: 3;
+    padding: 20px;
+    background-color: #222; // Dark background for cards
+    border: 1px solid #e162c1; // Pink border
+    border-radius: 10px;
+    color: #fff;
+    overflow-y: auto;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .ant-typography {
+      color: #fff; // White text color
+    }
+  }
+
+  .ant-card {
+    border: none;
+  }
+
+  .ant-card-head {
+    background-color: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .ant-card-body {
+    padding: 16px;
+  }
+
+  .registerButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e162c1; // Pink
+    color: #ffffff;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+
+    &:hover {
+      background-color: #40a9ff; // Blue
+      transform: translateY(-2px);
+    }
+  }
 }

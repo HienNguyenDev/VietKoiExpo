@@ -1,6 +1,6 @@
 // koiAction.js
-import { registerKoiRequest, registerKoiSuccess, registerKoiFailure, updateDetailOfRegisterKoi, setListKoi, getAllRegisteredKoiForCompetitionRequest, getAllRegisteredKoiForCompetitionSuccess, getAllRegisteredKoiForCompetitionFailure } from '../reducers/RegisterKoiReducer';
-import { getAllKoiApi, getAllRegisteredKoiForCompetitionApi, getKoiByIdApi,registerKoiApi,updateKoiDetailApi } from '../../../service/koiRegist';
+import { registerKoiRequest, registerKoiSuccess, registerKoiFailure, updateDetailOfRegisterKoi, setListKoi, getAllRegisteredKoiForCompetitionRequest, getAllRegisteredKoiForCompetitionSuccess, getAllRegisteredKoiForCompetitionFailure, getAllRegistrationsByCompId } from '../reducers/RegisterKoiReducer';
+import { getAllKoiApi, getAllRegisteredKoiForCompetitionApi, getAllRegistrationsApi, getKoiByIdApi,getListRegisteredKoiByCompId,registerKoiApi,updateKoiDetailApi } from '../../../service/koiRegist';
 
 export const registerKoi = (koiData) => async (dispatch) => {
   try {
@@ -55,12 +55,37 @@ export const getKoiById = (id) => {
   };
 };
 export const getAllRegisteredKoiForCompetition = () => async (dispatch) => {
+ 
+  try {
+    dispatch(getAllRegisteredKoiForCompetitionRequest());
+    const response = await getAllRegisteredKoiForCompetitionApi();
+    dispatch(getAllRegisteredKoiForCompetitionSuccess(response.data));
+  } catch (error) {
+    console.error('Failed to get all registered Koi for competition:', error);
+    dispatch(getAllRegisteredKoiForCompetitionFailure(error));
+  }
+
+}
+
+export const getAllRegistrations = () => async (dispatch) => {
   dispatch(getAllRegisteredKoiForCompetitionRequest());
   try {
-    const response = await getAllRegisteredKoiForCompetitionApi();
+    const response = await getAllRegistrationsApi();
     dispatch(getAllRegisteredKoiForCompetitionSuccess(response));
   } catch (error) {
+    console.error('Failed to get all registrations:', error);
     dispatch(getAllRegisteredKoiForCompetitionFailure(error));
   }
 };
 
+export const getRegistrationByRegisID = async(regisID) => {
+  return async (dispatch) => {
+    try {
+      const response = await getListRegisteredKoiByCompId(regisID);
+      dispatch(getAllRegistrationsByCompId(response.data));
+    }catch(error){
+      console.error('Failed to get registration by ID:', error);
+      throw error;
+    }
+  }
+}

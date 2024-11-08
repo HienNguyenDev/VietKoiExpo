@@ -1,9 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getAllRegistrations } from '../action/koiRegisterAction';
 
 const initialState = {
   koiList: [],
+  registrationList: [], // New state property to store the list of registrations
   loading: false,
   error: null,
+  registrationListById: [],
 };
 
 const registerKoiReducer = createSlice({
@@ -38,12 +41,15 @@ const registerKoiReducer = createSlice({
     },
     getAllRegisteredKoiForCompetitionSuccess: (state, action) => {
       state.loading = false;
-      state.koiList = action.payload; // Cập nhật danh sách Koi đã đăng ký
+      state.registrationList = action.payload; // Update the list of registrations
     },
     getAllRegisteredKoiForCompetitionFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
+    getAllRegistrationsByCompId: (state, action) => {
+      state.registrationListById = action.payload;
+    }
   },
 });
 
@@ -56,6 +62,7 @@ export const {
   getAllRegisteredKoiForCompetitionRequest,
   getAllRegisteredKoiForCompetitionSuccess,
   getAllRegisteredKoiForCompetitionFailure,
+  getAllRegistrationsByCompId
 } = registerKoiReducer.actions;
 
 export default registerKoiReducer.reducer;

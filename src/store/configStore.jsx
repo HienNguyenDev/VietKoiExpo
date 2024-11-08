@@ -4,12 +4,16 @@ import contestReducer from "./redux/reducers/contestReducer";
 import newsReducer from "./redux/reducers/newsReducer";
 import koiEntriesReducer from "./redux/reducers/koiEntriesReducer";
 import RegisterKoiReducer from "./redux/reducers/RegisterKoiReducer";
+import checkInReducer from "./redux/reducers/checkInReducer";
+import competitionReducer from "./redux/reducers/CompetitionReducer";
 export const store=configureStore({
     reducer:{
         userReducer,
         contestReducer,
         newsReducer,
         koiEntriesReducer,
-        registerKoi:RegisterKoiReducer
+        registerKoi:RegisterKoiReducer,
+        checkInReducer,
+        competitionReducer
     },
 })

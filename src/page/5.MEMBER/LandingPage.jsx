@@ -3,7 +3,7 @@ import { Typography, Button, Card, Row, Col, Modal, Form, Select, message } from
 import Countdown from 'react-countdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllContests } from '../../store/redux/action/contestAction';
-import { getAllRegisteredKoiForCompetition, getKoiById } from '../../store/redux/action/koiRegisterAction';
+import { getAllRegistrations, getKoiById } from '../../store/redux/action/koiRegisterAction';
 import { CalendarOutlined, TrophyOutlined, FlagOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import styles from './LandingPage.module.scss';
@@ -16,6 +16,7 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const competitions = useSelector(state => state.contestReducer.contestList);
   const registeredKoi = useSelector(state => state.registerKoi.koiList);
+  const registrationList = useSelector(state => state.registerKoi.registrationList); // Get registration list from Redux state
   const userId = useSelector(state => state.userReducer.userLogin.userId); // Select userId
   const koiList = useSelector(state => state.registerKoi.koiList); // Get koiList from Redux state
 
@@ -24,10 +25,10 @@ const LandingPage = () => {
   const [selectedCompetition, setSelectedCompetition] = useState(null);
   const [mockKoiList, setMockKoiList] = useState([]);
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchData = async () => {
       await dispatch(fetchAllContests());
-      await dispatch(getAllRegisteredKoiForCompetition());
+      await dispatch(getAllRegistrations());
       await dispatch(getKoiById(userId));
       setLoading(false);
     };
@@ -39,7 +40,7 @@ const LandingPage = () => {
   }, [koiList]);
 
   const reloadKoiList = async () => {
-    await dispatch(getAllRegisteredKoiForCompetition());
+    await dispatch(getAllRegistrations());
     await dispatch(getKoiById(userId));
   };
 
@@ -90,7 +91,7 @@ const LandingPage = () => {
       if (confirmRegistration) {
         try {
           console.log(`Registering Koi "${koi.koiName}" for competition "${selectedCompetition.compName}" with compId: ${selectedCompetition.compId}`); // Debug compId
-          await registerKoiForCompetitionApi(koiId, selectedCompetition.compId); // Register each koi individually
+          await registerKoiForCompetitionApi(koiId, selectedCompetition.compId,0); // Register each koi individually
           message.success(`Koi "${koi.koiName}" successfully registered!`);
           await reloadKoiList(); // Reload the Koi list after registration
         } catch (error) {
@@ -107,25 +108,25 @@ const LandingPage = () => {
 
   // Filter out Koi fish that have already been registered for the selected competition
   const availableKoiList = mockKoiList.filter(koi => {
-    return !registeredKoi.some(registration => registration.koiId === koi.koiId && registration.compId === selectedCompetition?.compId);
+    return !registrationList.some(registration => registration.koiId === koi.koiId && registration.compId === selectedCompetition?.compId);
   });
 
   const getCompetitionStatus = (competition) => {
-    const now = new Date();
-    const startDate = new Date(competition.startDate);
-    const endDate = new Date(competition.endDate);
+    const statusCom = competition.status;
 
-    if (now < startDate) {
+    if (statusCom === 0) {
       return 'upcoming';
-    } else if (now >= startDate && now <= endDate) {
+    }
+    if (statusCom === 1) {
       return 'ongoing';
-    } else {
+    }
+    if (statusCom === 2) {
       return 'ended';
     }
   };
 
   const isUserRegistered = (competitionId) => {
-    return mockKoiList.some(koi => koi.competitions?.includes(competitionId));
+    return registrationList.some(registration => registration.compId === competitionId && registeredKoi.some(koi => koi.koiId === registration.koiId));
   };
 
   return (
@@ -172,7 +173,7 @@ const LandingPage = () => {
                           </Col>
                           <Col span={8}>
                             <Typography.Paragraph>
-                              Key Dates:
+                             <h1 style={{fontSize:'30px',color:'#ffffff'}}>Key Dates</h1>
                               <ul className={styles.keyDatesList}>
                                 <li><CalendarOutlined /> Registration: {new Date(competition.startDate).toLocaleDateString()}</li>
                                 <li><TrophyOutlined /> Competition Start: {new Date(competition.startDate).toLocaleDateString()}</li>
@@ -188,8 +189,8 @@ const LandingPage = () => {
                               </>
                             )}
                             {status === 'ongoing' && userRegistered && (
-                              <Button type="primary" onClick={() => navigate(`/competition/${competition.compId}`)}>
-                                Compete
+                              <Button type="link" onClick={() => navigate(`/checkin/${competition.compId}`)}>
+                                Check In
                               </Button>
                             )}
                             {status === 'ongoing' && !userRegistered && (
@@ -200,7 +201,7 @@ const LandingPage = () => {
                             )}
                           </Col>
                         </Row>
-                        <Button type="link" onClick={() => showModal(competition)}>Register</Button>
+                        <Button className={styles.registerButton} type="link" onClick={() => showModal(competition)}>Register</Button>
                       </Col>
                     </Row>
                   </Card>
@@ -236,7 +237,7 @@ const LandingPage = () => {
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" >
               Submit
             </Button>
           </Form.Item>
