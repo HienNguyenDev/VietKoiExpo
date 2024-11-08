@@ -4,7 +4,9 @@ const BASE_URL = 'https://localhost:7246/api/CheckIn'; // Replace with your actu
 
 
 export const checkInKoiEntryApi = (entryId,checkinData) => {
+    console.log("checkInKoiEntry !!",checkinData);
     return axios({
+        
         url: `${BASE_URL}/byRegistrationId/${entryId}`,
         method: 'PUT',
         data: checkinData,

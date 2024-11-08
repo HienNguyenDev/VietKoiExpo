@@ -97,7 +97,7 @@ export const classifyKoiEntryApi = (registrationID) => {
 
 
 
-export const submitScoreAction = (compId,userId,scoreData,status) => {
+export const submitScoreAction = (compId,userId,scoreData,status,navigate, compName) => {
     return async (dispatch) => {
         try {
             // Extract scores from scoreData
@@ -116,7 +116,13 @@ export const submitScoreAction = (compId,userId,scoreData,status) => {
 
             // Dispatch the action with the response data
             dispatch(submitKoiScoreAction({ compId, userId, scoreData, data: res.data }));
+
             console.log("Submit score successful:", res.data);
+            dispatch(fetchAllScore(compId)).then(() => {
+              
+                navigate(`/referee/manage-judging/comp/${compName}`, { state: { compId, compName } });
+               // Navigate to the desired URL after state update
+          });
         } catch (error) {
             console.error("Failed to submit Koi score entry:", error.response ? error.response.data : error.message);
         }

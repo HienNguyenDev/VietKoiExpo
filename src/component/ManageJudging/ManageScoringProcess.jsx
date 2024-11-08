@@ -9,7 +9,7 @@
     const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { koiId, koiName, compId, userId } = location.state || {};
+    const { koiId, koiName, compId, userId,compName } = location.state || {};
     // Safely set initial scores, defaulting to 0 if koiId or score values are not available
     const [shapeScore, setShapeScore] = useState(koiId?.scoreShape || 0);
     const [colorScore, setColorScore] = useState(koiId?.scoreColor || 0);
@@ -54,10 +54,10 @@
     console.log("compId",compId);
     console.log("OwnerId",ownerId);
     console.log("scoreData",scoreData);
-    dispatch(submitScoreAction(compId,userId,scoreData,true));
+    dispatch(submitScoreAction(compId,userId,scoreData,true,navigate,compName));
 
     // Navigate back after submission
-    navigate(-1);
+    //navigate(-1);
   };
   if (loading) {
     return <CircularProgress />;
@@ -65,7 +65,7 @@
   return (
     <Box sx={{ maxWidth: 400, margin: '0 auto', padding: '20px', border: '1px solid #ddd', borderRadius: '10px' }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        {koiName} Koi grading!
+        {koiName} grading!
       </Typography>
 
       <Typography>Shape (50%)</Typography>

@@ -4,7 +4,7 @@ import { Table, Button, Tag, Radio } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';  // Thêm axios cho phần gọi API
 import { fetchAllContests } from '../../store/redux/action/contestAction'; 
-const ManageKoiEntriesPage = () => {
+const ManageKoiCheckInPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
@@ -116,4 +116,4 @@ const ManageKoiEntriesPage = () => {
   );
 };
 
-export default ManageKoiEntriesPage;
+export default ManageKoiCheckInPage;

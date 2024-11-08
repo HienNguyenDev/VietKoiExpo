@@ -2,8 +2,8 @@
     import { createSlice } from '@reduxjs/toolkit';
 
     const initialState = {
-        checkinByCompList: [],
-        checkinList: [],
+        compResultList: [],
+        //checkinList: [],
         loading: false, // Trạng thái tải
         error: null, // Lỗi nếu có
     };
@@ -12,15 +12,11 @@
         name: 'checkInReducer',
         initialState,
         reducers: {
-            checkInKoiEntryAction: (state, action) => {
-                state.checkinByCompList = action.payload;
+            
+            setAllResultByCompAction: (state, action) => {
+                state.compResultList = action.payload;
             },
-            setCheckInByCompIdAction: (state, action) => {
-                state.checkinByCompList = action.payload;
-            },
-            setCheckInDataAction: (state, action) => {
-                state.checkinList = action.payload;
-            },
+           
             // Xử lý khi có lỗi
             setError: (state, action) => {
                 state.error = action.payload;
@@ -33,9 +29,9 @@
     });
     export const {
 
-        checkInKoiEntryAction,
-        setCheckInByCompIdAction,
-        setCheckInDataAction,
+
+        setAllResultByCompAction,
+
         setError,
         setLoading,
     } = checkInReducer.actions;
