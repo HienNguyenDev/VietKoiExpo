@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Button, Col, Divider, Drawer, List, Row, Typography, Modal, Form, Input, Card, Table } from 'antd';
+import { Avatar, Button, Col, Divider, Drawer, List, Row, Typography, Modal, Form, Input, Card, Table, Select } from 'antd';
 import { EditOutlined, DeleteOutlined, UserSwitchOutlined, ExclamationCircleOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from '../../asset/scss/ManageUsersPage.module.scss';
 import { fetchUserByIdActionApi, fetchUsersActionApi, removeUserActionApi, updateUserActionApi } from '../../store/redux/action/userAction';
 
 const { Title, Paragraph } = Typography;
 const { confirm } = Modal;
+const { Option } = Select;
 
 const DescriptionItem = ({ title, content }) => (
   <div className="site-description-item-profile-wrapper">
@@ -15,14 +16,14 @@ const DescriptionItem = ({ title, content }) => (
   </div>
 );
 
-const   ManageUsersPage = () => {
+const ManageUsersPage = () => {
   const [open, setOpen] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.userReducer.listUser);
-  const userDetailData  = useSelector(state => state.userReducer.userDetail);
+  const userDetailData = useSelector(state => state.userReducer.userDetail);
   
   useEffect(() => {
     dispatch(fetchUsersActionApi());
@@ -41,9 +42,7 @@ const   ManageUsersPage = () => {
     setOpen(true); // Show the drawer first
     
     if (user) {
-      
       form.setFieldsValue({
-        
         fullName: userDetailData.fullName || '',
         email: userDetailData.email || '',
         role: userDetailData.role || '',
@@ -53,7 +52,7 @@ const   ManageUsersPage = () => {
     } else {
       form.resetFields();
     }
-    console.log('aaaaaaaaa',userDetailData);
+    console.log('User details:', userDetailData);
   };
 
   const closeDrawer = () => {
@@ -98,7 +97,7 @@ const   ManageUsersPage = () => {
         status: true, // Assuming status is always true for simplicity
       };
       console.log('Submitting values:', formattedValues); // Debugging log
-     if (drawerTitle === 'Update User' && selectedUser) {
+      if (drawerTitle === 'Update User' && selectedUser) {
         dispatch(updateUserActionApi(selectedUser.userId, formattedValues));
       }
       closeDrawer();
@@ -150,8 +149,13 @@ const   ManageUsersPage = () => {
           <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Please enter the email' }]}>
             <Input placeholder="Please enter the email" disabled={drawerTitle === 'View User'} />
           </Form.Item>
-          <Form.Item name="role" label="Role" rules={[{ required: true, message: 'Please enter the role' }]}>
-            <Input placeholder="Please enter the role" disabled={drawerTitle === 'View User'} />
+          <Form.Item name="role" label="Role" rules={[{ required: true, message: 'Please select the role' }]}>
+            <Select placeholder="Please select the role" disabled={drawerTitle === 'View User'}>
+              <Option value="manager">Manager</Option>
+              <Option value="staff">Staff</Option>
+              <Option value="judge">Judge</Option>
+              <Option value="member">Member</Option>
+            </Select>
           </Form.Item>
           <Form.Item name="address" label="Address" rules={[{ required: true, message: 'Please enter the address' }]}>
             <Input placeholder="Please enter the address" disabled={drawerTitle === 'View User'} />

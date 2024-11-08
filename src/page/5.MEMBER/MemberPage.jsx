@@ -488,9 +488,15 @@ const MemberPage = () => {
           visible={isModalVisible}
           onCancel={() => setIsModalVisible(false)}
           footer={[
-            <MuiButton key="login" variant="contained" color="primary" onClick={() => navigate('/login')}>
+                       <MuiButton
+              key="login"
+              variant="contained"
+              color="primary"
+              style={{ color: '#ffffff' }} // Ensure text color is set
+              onClick={() => navigate('/login')}
+            >
               Go to Login
-            </MuiButton>,
+            </MuiButton>
           ]}
         >
           <p>You need to log in to access this feature.</p>

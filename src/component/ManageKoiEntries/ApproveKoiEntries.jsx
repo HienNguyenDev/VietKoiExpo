@@ -59,8 +59,8 @@ const ApproveKoiEntries = () => {
     validationSchema: yup.object({
       varietyId: yup.string().required('Variety ID is required'),
       koiName: yup.string().required('Koi name is required'),
-      size: yup.number().typeError('Size must be a number').required('Size is required'),
-      age: yup.number().typeError('Age must be a number').required('Age is required'),
+      size: yup.number().typeError('Size must be a number').required('Size is required').min(0, 'Size cannot be negative'),
+      age: yup.number().typeError('Age must be a number').required('Age is required').min(0, 'Age cannot be negative'),
       imageUrl: yup.string().url('Enter a valid URL').required('Image URL is required'),
       status: yup.boolean().required('Status is required')
     }),

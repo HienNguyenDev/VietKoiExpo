@@ -7,6 +7,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import styles from '../../asset/scss/ManageNewsUpdatesPage.module.scss';
 import { fetchAllNews, createNewsActionApi, updateNewsActionApi, removeNewsActionApi, fetchNewsDetails } from '../../store/redux/action/NewsAction';
+import { fetchUsersActionApi } from '../../store/redux/action/userAction';
 import moment from 'moment';
 
 const { confirm } = Modal;
@@ -17,15 +18,16 @@ const ManageNewsUpdatesPage = () => {
   const [drawerTitle, setDrawerTitle] = useState('');
   const [selectedNews, setSelectedNews] = useState(null);
   const [quillValue, setQuillValue] = useState(''); // State for ReactQuill value
-  const userId = useSelector(state => state.userReducer.userLogin.userId);
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const newsData = useSelector(state => state.newsReducer.newsList);
+  const usersData = useSelector(state => state.userReducer.listUser);
 
   useEffect(() => {
     dispatch(fetchAllNews());
+    dispatch(fetchUsersActionApi());
   }, [dispatch]);
 
   const showDrawer = async (title, news = null) => {
@@ -39,12 +41,12 @@ const ManageNewsUpdatesPage = () => {
       form.setFieldsValue({
         ...news,
         newsDate: moment(news.newsDate),
-        userId: userId, // Set the userId from state
+        userId: news.userId, // Set the userId from news data
       });
       setQuillValue(news.newsDescription); // Set the initial value for ReactQuill
     } else {
       form.setFieldsValue({
-        userId: userId, // Set the userId from state
+        userId: '', // Reset the userId
       });
       setQuillValue(''); // Reset the ReactQuill value
     }
@@ -160,8 +162,14 @@ const ManageNewsUpdatesPage = () => {
               <Option value="type2">Type 2</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="userId" label="User ID" rules={[{ required: true, message: 'Please enter the user ID' }]}>
-            <Input id="userId" placeholder="Please enter the user ID" disabled={true} />
+          <Form.Item name="userId" label="User" rules={[{ required: true, message: 'Please select the user' }]}>
+            <Select id="userId" placeholder="Select user" disabled={drawerTitle === 'View News'}>
+              {usersData.map(user => (
+                <Option key={user.userId} value={user.userId}>
+                  {user.fullName}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item name="newsDate" label="Date" rules={[{ required: true, message: 'Please enter the date' }]}>
             <DatePicker id="newsDate" style={{ width: '100%' }} disabled={drawerTitle === 'View News'} />
