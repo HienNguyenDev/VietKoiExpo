@@ -111,6 +111,9 @@ const LandingPage = () => {
     if (statusCom === 2) {
       return 'ended';
     }
+    if (statusCom === 3) {
+      return 'completed';
+    }
   };
 
   const isUserRegistered = (competitionId) => {
@@ -190,9 +193,19 @@ const LandingPage = () => {
                             {status === 'ended' && (
                               <Typography.Title level={5}>Competition Ended</Typography.Title>
                             )}
+                            {status === 'completed' && (
+                              <Typography.Title level={5}>Competition Completed</Typography.Title>
+                            )}
                           </Col>
                         </Row>
-                        <Button className={styles.registerButton} type="link" onClick={() => showModal(competition)}>Register</Button>
+                        <Button
+                          className={styles.registerButton}
+                          type="link"
+                          onClick={() => showModal(competition)}
+                          disabled={status === 'ended' || status === 'completed'}
+                        >
+                          Register
+                        </Button>
                       </Col>
                     </Row>
                   </Card>
