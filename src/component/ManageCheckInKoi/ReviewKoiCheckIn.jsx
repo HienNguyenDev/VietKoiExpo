@@ -1,56 +1,90 @@
+// ReviewKoiCheckInPage.js
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Radio, Input } from 'antd';
 import { fetchCheckInByCompId, checkInKoiEntry, reviewKoiEntryAction } from '../../store/redux/action/CheckInAction';
+import UploadImageComponent from '../shared/UploadImage/UploadImage';
+
 const ReviewKoiCheckInPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { compId, compName } = location.state || {}; // Lấy compId và compName từ state
+  const { compId, compName } = location.state || {};
   const [filterStatus, setFilterStatus] = useState('all');
-  const [koiDetails, setKoiDetails] = useState({}); // State để lưu chi tiết cá Koi
-  const [descriptionMap, setDescriptionMap] = useState({}); // State để lưu trữ mô tả nhập liệu
+  const [koiDetails, setKoiDetails] = useState({});
+  const [descriptionMap, setDescriptionMap] = useState({});
+  const [imageMap, setImageMap] = useState({});
   const navigate = useNavigate();
-  // Lấy danh sách các đơn đăng ký từ Redux store
-  const koiCheckIn = useSelector(state => state.checkInReducer.checkinByCompList);
-  
+
+  const koiCheckIn = useSelector(state => state.checkInReducer.checkinByCompList) || [];
+
   useEffect(() => {
     if (compId) {
-      // Fetch tất cả các đơn đăng ký cá Koi cho cuộc thi đã chọn
       dispatch(fetchCheckInByCompId(compId));
     }
   }, [dispatch, compId]);
-  
+
   useEffect(() => {
-    // Lấy chi tiết từng cá Koi
     if (Array.isArray(koiCheckIn)) {
-    koiCheckIn.forEach(entry => {
-      if (!koiDetails[entry.koiId]) {
-        dispatch(reviewKoiEntryAction(entry.koiId)).then(detail => {
-          setKoiDetails(prevDetails => ({
-            ...prevDetails,
-            [entry.koiId]: detail,
-          }));
-        });
-      }
-      setDescriptionMap(prevMap => ({
-        ...prevMap,
-        [entry.checkInId]: entry.description || '' // Sử dụng mô tả hiện có nếu có
-      }));
-    });
+      koiCheckIn.forEach(entry => {
+        if (!koiDetails[entry.koiId]) {
+          dispatch(reviewKoiEntryAction(entry.koiId)).then(detail => {
+            setKoiDetails(prevDetails => ({
+              ...prevDetails,
+              [entry.koiId]: detail,
+            }));
+          });
+        }
+        setDescriptionMap(prevMap => ({
+          ...prevMap,
+          [entry.checkInId]: entry.description || ''
+        }));
+        setImageMap(prevMap => ({
+          ...prevMap,
+          [entry.checkInId]: entry.checkInImageUrl || ''
+        }));
+      });
     }
   }, [dispatch, koiCheckIn, koiDetails]);
-  
-  // Lọc danh sách các đơn đăng ký theo trạng thái
-  const filteredKoiEntries = Array.isArray(koiCheckIn) ? koiCheckIn.filter(entry => {
-    if (filterStatus === 'all') return true;
-    if (filterStatus === 'pending') return entry.status === 0;
-    if (filterStatus === 'checkin') return entry.status === 1;
-    if (filterStatus === 'rejected') return entry.status === 2;
-    return true;
-  }) : [];
 
-  // Cột cho bảng đơn đăng ký cá Koi
+  const handleDescriptionChange = (checkInId, value) => {
+    setDescriptionMap(prevMap => ({
+      ...prevMap,
+      [checkInId]: value,
+    }));
+  };
+
+  const onImageUploadSuccess = (checkInId, url) => {
+    setImageMap(prevMap => ({
+      ...prevMap,
+      [checkInId]: url,
+    }));
+  };
+
+  const handleCheckin = (entryId, checkInId) => {
+    const description = descriptionMap[checkInId] || '';
+    const imageUrl = imageMap[checkInId] || 'https://defaultimageurl.com/placeholder.jpg';
+
+    const checkInData = {
+      status: 1,
+      imageUrl,
+      description,
+    };
+    dispatch(checkInKoiEntry(entryId, checkInData, compId, compName, navigate));
+  };
+
+  const handleReject = (entryId, checkInId) => {
+    const description = descriptionMap[checkInId] || '';
+    const imageUrl = imageMap[checkInId] || 'https://defaultimageurl.com/placeholder.jpg';
+
+    const checkInData = {
+      status: 2,
+      imageUrl,
+      description,
+    };
+    dispatch(checkInKoiEntry(entryId, checkInData, compId, compName, navigate));
+  };
+
   const columns = [
     {
       title: 'Koi Image',
@@ -68,7 +102,16 @@ const ReviewKoiCheckInPage = () => {
       title: 'CheckIn Image',
       dataIndex: 'checkInId',
       key: 'checkinimageurl',
-      
+      render: (checkInId, record) => (
+        record.status === 0 ? (
+          <UploadImageComponent
+            onSuccess={(url) => onImageUploadSuccess(checkInId, url)}
+            defaultUrl={imageMap[checkInId]}
+          />
+        ) : (
+          <img src={imageMap[checkInId]} alt="CheckIn Image" style={{ width: '100px' }} />
+        )
+      ),
     },
     {
       title: 'CheckIn Description',
@@ -76,19 +119,11 @@ const ReviewKoiCheckInPage = () => {
       key: 'description',
       render: (checkInId, record) => (
         record.status === 0 ? (
-          <div>
-        <Input
-          value={descriptionMap[checkInId]}
-          onChange={(e) => handleDescriptionChange(checkInId, e.target.value)}
-          placeholder="Enter description"
-        />
-        {/* Hiển thị thông báo nếu description trống */}
-        {!descriptionMap[checkInId] && (
-          <span style={{ color: 'red', fontSize: '12px' }}>
-            Please enter a description.
-          </span>
-        )}
-      </div>
+          <Input
+            value={descriptionMap[checkInId]}
+            onChange={(e) => handleDescriptionChange(checkInId, e.target.value)}
+            placeholder="Enter description"
+          />
         ) : (
           record.description || 'N/A'
         )
@@ -100,21 +135,17 @@ const ReviewKoiCheckInPage = () => {
       key: 'variety',
       render: (koiId) => koiDetails[koiId]?.varietyId || 'Loading...',
     },
-
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
-        let color;
-        let statusText;
+        let color = 'green';
+        let statusText = 'CheckIn';
         if (status === 0) {
           color = 'volcano';
           statusText = 'Pending';
-        } else if (status === 1) {
-          color = 'green';
-          statusText = 'CheckIn';
-        } else {
+        } else if (status === 2) {
           color = 'red';
           statusText = 'Rejected';
         }
@@ -127,60 +158,21 @@ const ReviewKoiCheckInPage = () => {
       render: (_, record) => (
         record.status === 0 ? (
           <>
-            <Button type="primary" onClick={() => handleCheckin(record.registrationId,record.checkInImageUrl,record.checkInId)}>Check In</Button>
-            <Button type="default" onClick={() => handleReject(record.registrationId,record.checkInImageUrl,record.checkInId)}>Reject</Button>
+            <Button type="primary" onClick={() => handleCheckin(record.registrationId, record.checkInId)}>
+              Check In
+            </Button>
+            <Button type="default" onClick={() => handleReject(record.registrationId, record.checkInId)}>
+              Reject
+            </Button>
           </>
-        )  :null
+        ) : null
       ),
     },
   ];
-  const handleDescriptionChange = (checkInId, value) => {
-    setDescriptionMap(prevMap => ({
-      ...prevMap,
-      [checkInId]: value,
-    }));
-  };
- // Hàm xử lý phê duyệt đơn đăng ký và phân loại vô hạng mục thi
-  const handleCheckin = (entryId,imageUrl,checkInId) => {
-    
-    const description = descriptionMap[checkInId] || '';
-    console.log('checkInDatacheckInData', description)
-    if(imageUrl === null){
-      imageUrl = "https://imageurl.com/tmpl.jpg";
-    }
-    console.log('checkInData - imageUrl:', imageUrl);
-    const checkInData = {
-      status: 1, // duyệt (số 1)
-      imageUrl: imageUrl, // đường dẫn ảnh
-      description: description // mô tả check-in
-    };
-    console.log('checkInDatacheckInData', imageUrl)
-    dispatch(checkInKoiEntry(entryId,checkInData, compId, compName, navigate)); // Gọi action để phê duyệt
- 
-  };
 
-
-  const handleReject = (entryId,imageUrl,checkInId) => {
-    const description = descriptionMap[checkInId] || '';
-    console.log('checkInDatacheckInData', description)
-    if(imageUrl === null){
-      imageUrl = "https://imageurl.com/tmpl.jpg";
-    }
-    console.log('checkInData - imageUrl:', imageUrl);
-    const checkInData = {
-      status: 2, // hủy (số 2)
-      imageUrl: imageUrl, // đường dẫn ảnh
-      description: description // mô tả check-in
-    };
-    
-    
-    dispatch(checkInKoiEntry(entryId,checkInData, compId, compName, navigate)); // Gọi action để từ chối
-  };
   return (
     <div>
       <h2>Review Koi CheckIn for {compName}</h2>
-
-      {/* Bộ lọc trạng thái */}
       <Radio.Group
         onChange={(e) => setFilterStatus(e.target.value)}
         value={filterStatus}
@@ -191,11 +183,9 @@ const ReviewKoiCheckInPage = () => {
         <Radio.Button value="checkin">CheckIn</Radio.Button>
         <Radio.Button value="rejected">Rejected</Radio.Button>
       </Radio.Group>
-
-      {/* Bảng hiển thị danh sách cá Koi */}
       <Table
         columns={columns}
-        dataSource={filteredKoiEntries}
+        dataSource={Array.isArray(koiCheckIn) ? koiCheckIn.filter(entry => filterStatus === 'all' || entry.status === filterStatus) : []}
         rowKey="checkInId"
         pagination={{ pageSize: 5 }}
       />
@@ -203,7 +193,6 @@ const ReviewKoiCheckInPage = () => {
         Back
       </Button>
     </div>
-    
   );
 };
 

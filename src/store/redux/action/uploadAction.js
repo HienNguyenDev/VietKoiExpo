@@ -1,5 +1,5 @@
 // src/actions/imageUploadActions.js
-import { uploadImageAPI } from '../../../service/u';
+import { uploadImageAPI } from '../../../service/uploadsApi';
 import { setImageUrl, setLoading, setError } from '../reducers/uploadReducer';
 
 // Async thunk để upload ảnh lên Cloudinary
