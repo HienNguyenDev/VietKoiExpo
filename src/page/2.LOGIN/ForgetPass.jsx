@@ -2,19 +2,26 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Typography, message, Layout } from 'antd';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import axios from 'axios';
+import styles from './ForgetPass.module.scss';
 
 const { Content } = Layout;
 
 const ForgetPass = () => {
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     setLoading(true);
-    // Simulate an API call
-    setTimeout(() => {
+    try {
+      const response = await axios.post('https://localhost:7246/Forgot-Password', {
+        email: values.email,
+      });
       setLoading(false);
       message.success('Password reset link has been sent to your email!');
-    }, 2000);
+    } catch (error) {
+      setLoading(false);
+      message.error('Failed to send password reset link. Please try again.');
+    }
   };
 
   const lightTheme = createTheme({
@@ -57,22 +64,22 @@ const ForgetPass = () => {
   const currentTheme = themeMode === 'dark' ? darkTheme : lightTheme;
 
   return (
-    <ThemeProvider theme={currentTheme}>
-      <CssBaseline />
-      <Layout style={{ minHeight: '100vh', backgroundColor: currentTheme.palette.background.default }}>
+      <Layout style={{ minHeight: '100vh',minWidth:'100vw'}} className={styles.container}>
         <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px' }}>
-          <div style={{ width: '100%', maxWidth: '400px', backgroundColor: currentTheme.palette.background.paper, padding: '20px', borderRadius: '10px', boxShadow: `0 0 10px ${currentTheme.palette.primary.main}` }}>
-            <Typography.Title level={2} style={{ textAlign: 'center', color: currentTheme.palette.primary.main }}>Forget Password</Typography.Title>
+          <div className={styles.forgetPassForm}>
+            <div className={styles.titleForgetPass}>
+              <Typography.Title className={styles.titleForgetPass} level={2}><h1>Forget Password</h1></Typography.Title>
+            </div>
             <Form layout="vertical" onFinish={handleSubmit}>
               <Form.Item
-                label={<Typography.Text style={{ color: currentTheme.palette.text.primary }}>Email</Typography.Text>}
+                label={<Typography.Text className={styles.emailLabel}>Email</Typography.Text>}
                 name="email"
                 rules={[{ required: true, message: 'Please enter your email!' }, { type: 'email', message: 'Please enter a valid email!' }]}
               >
                 <Input placeholder="Enter your email" />
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit" loading={loading} block>
+                <Button type="primary" htmlType="submit" loading={loading} className={styles.submitButton}>
                   Send Reset Link
                 </Button>
               </Form.Item>
@@ -80,7 +87,6 @@ const ForgetPass = () => {
           </div>
         </Content>
       </Layout>
-    </ThemeProvider>
   );
 };
 

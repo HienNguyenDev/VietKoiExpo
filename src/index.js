@@ -53,6 +53,7 @@ import MyKoi from './component/ManageKoiEntries/ApproveKoiEntries';
 import ViewKoiEntries from './component/ManageKoiEntries/ViewKoiEntries';
 import UserViewResultsPage from './component/ManageJudging/UserViewResult';
 import CheckIn from './page/5.MEMBER/competition/CheckIn';
+import NewsPage from './page/5.MEMBER/news/NewsPage';
 const App = () => {
   const location = useLocation();
   const nodeRef = useRef(null); 
@@ -116,9 +117,10 @@ const App = () => {
         <Route path="/results/:compId" element={<UserViewResultsPage />} />
         <Route path='home/view-koi' element={<ViewKoiEntries/>}></Route>
         <Route path='home/view-contests' element={<ApproveKoiEntries/>}></Route>
-          <Route path='forget' element={<ForgetPass/>}></Route>
+          <Route path='/forget-password' element={<ForgetPass/>}></Route>
           <Route path="/checkin/:competitionId" element={<CheckIn />} />
           <Route path="/competitionMatch/:compId" element={<CompetitionPage />} />
+          <Route path="/news/:newsTypeId" element={<NewsPage />} />
         </Routes>
         </div>
       </CSSTransition>

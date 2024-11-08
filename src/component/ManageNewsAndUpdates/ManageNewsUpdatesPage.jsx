@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Table, Button, Drawer, Form, Input, Modal, DatePicker, Switch, Select, Upload } from 'antd';
-import { PlusOutlined, EditOutlined, EyeOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
+import { Table, Button, Drawer, Form, Input, Modal, DatePicker, Switch, Select } from 'antd';
+import { PlusOutlined, EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import styles from '../../asset/scss/ManageNewsUpdatesPage.module.scss';
@@ -16,9 +16,10 @@ const ManageNewsUpdatesPage = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('');
   const [selectedNews, setSelectedNews] = useState(null);
+  const [quillValue, setQuillValue] = useState(''); // State for ReactQuill value
+  const userId = useSelector(state => state.userReducer.userLogin.userId);
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [fileList, setFileList] = useState([]);
 
   const dispatch = useDispatch();
   const newsData = useSelector(state => state.newsReducer.newsList);
@@ -38,9 +39,14 @@ const ManageNewsUpdatesPage = () => {
       form.setFieldsValue({
         ...news,
         newsDate: moment(news.newsDate),
+        userId: userId, // Set the userId from state
       });
+      setQuillValue(news.newsDescription); // Set the initial value for ReactQuill
     } else {
-      form.resetFields();
+      form.setFieldsValue({
+        userId: userId, // Set the userId from state
+      });
+      setQuillValue(''); // Reset the ReactQuill value
     }
   };
 
@@ -48,7 +54,7 @@ const ManageNewsUpdatesPage = () => {
     setDrawerVisible(false);
     setSelectedNews(null);
     form.resetFields();
-    setFileList([]);
+    setQuillValue(''); // Reset the ReactQuill value
   };
 
   const handleCreate = () => {
@@ -73,13 +79,16 @@ const ManageNewsUpdatesPage = () => {
     confirm({
       title: 'Are you sure you want to delete this news?',
       onOk() {
-        dispatch(removeNewsActionApi(id));
+        console.log('Deleting news with ID:', id); // Debugging log
+        dispatch(removeNewsActionApi(id))
+          .then(response => {
+            console.log('Delete News Response:', response); // Debugging log
+          })
+          .catch(error => {
+            console.error('Delete News Error:', error); // Debugging log
+          });
       },
     });
-  };
-
-  const handleUploadChange = ({ fileList }) => {
-    setFileList(fileList);
   };
 
   const handleSubmit = () => {
@@ -88,13 +97,25 @@ const ManageNewsUpdatesPage = () => {
         ...values,
         newsDate: values.newsDate.format('YYYY-MM-DD'),
         status: values.status ? 1 : 0, // Convert boolean to integer
-        imageUrl: fileList.length > 0 ? fileList[0].response.url : '', // Assuming the server returns the URL in the response
+        newsDescription: quillValue, // Include the ReactQuill value
       };
       console.log('Submitting values:', formattedValues); // Debugging log
       if (drawerTitle === 'Create News') {
-        dispatch(createNewsActionApi(formattedValues));
+        dispatch(createNewsActionApi(formattedValues))
+          .then(response => {
+            console.log('Create News Response:', response); // Debugging log
+          })
+          .catch(error => {
+            console.error('Create News Error:', error); // Debugging log
+          });
       } else if (drawerTitle === 'Update News' && selectedNews) {
-        dispatch(updateNewsActionApi(selectedNews.newsId, formattedValues, navigate));
+        dispatch(updateNewsActionApi(selectedNews.newsId, formattedValues, navigate))
+          .then(response => {
+            console.log('Update News Response:', response); // Debugging log
+          })
+          .catch(error => {
+            console.error('Update News Error:', error); // Debugging log
+          });
       }
       closeDrawer();
       navigate('/admin/manage-news');
@@ -134,33 +155,32 @@ const ManageNewsUpdatesPage = () => {
       >
         <Form layout="vertical" form={form}>
           <Form.Item name="newsTypeId" label="News Type" rules={[{ required: true, message: 'Please select the news type' }]}>
-            <Select placeholder="Select news type" disabled={drawerTitle === 'View News'}>
+            <Select id="newsTypeId" placeholder="Select news type" disabled={drawerTitle === 'View News'}>
               <Option value="type1">Type 1</Option>
               <Option value="type2">Type 2</Option>
             </Select>
           </Form.Item>
           <Form.Item name="userId" label="User ID" rules={[{ required: true, message: 'Please enter the user ID' }]}>
-            <Input placeholder="Please enter the user ID" disabled={drawerTitle === 'View News'} />
+            <Input id="userId" placeholder="Please enter the user ID" disabled={true} />
           </Form.Item>
           <Form.Item name="newsDate" label="Date" rules={[{ required: true, message: 'Please enter the date' }]}>
-            <DatePicker style={{ width: '100%' }} disabled={drawerTitle === 'View News'} />
+            <DatePicker id="newsDate" style={{ width: '100%' }} disabled={drawerTitle === 'View News'} />
           </Form.Item>
           <Form.Item name="status" label="Status" valuePropName="checked">
-            <Switch disabled={drawerTitle === 'View News'} />
+            <Switch id="status" disabled={drawerTitle === 'View News'} />
           </Form.Item>
           <Form.Item name="newsDescription" label="Description" rules={[{ required: true, message: 'Please enter the description' }]}>
-            <ReactQuill theme="snow" placeholder="Please enter the description" readOnly={drawerTitle === 'View News'} />
+            <ReactQuill
+              id="newsDescription"
+              theme="snow"
+              value={quillValue}
+              onChange={setQuillValue}
+              readOnly={drawerTitle === 'View News'}
+              placeholder="Please enter the description"
+            />
           </Form.Item>
-          <Form.Item name="imageUrl" label="Image URL" rules={[{ required: true, message: 'Please upload an image' }]}>
-            <Upload
-              action="/upload" // Replace with your upload URL
-              listType="picture"
-              fileList={fileList}
-              onChange={handleUploadChange}
-              disabled={drawerTitle === 'View News'}
-            >
-              <Button icon={<UploadOutlined />}>Upload</Button>
-            </Upload>
+          <Form.Item name="imageUrl" label="Image URL" rules={[{ required: true, message: 'Please enter the image URL' }]}>
+            <Input id="imageUrl" placeholder="Please enter the image URL" />
           </Form.Item>
           {drawerTitle !== 'View News' && (
             <Form.Item>

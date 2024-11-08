@@ -1,29 +1,36 @@
-
 .container {
   width: 100vw;
-  height: 100vh;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9; // Light background for form container
+  background: url(../../asset/photo/OL0CSN0.jpg) no-repeat center center fixed;
+  background-size: cover;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   
   // Responsive adjustments
   @media (max-width: 768px) {
     padding: 16px;
+
   }
 }
 
 h4 {
   text-align: center;
   margin-bottom: 24px;
-  color: #333; // Dark text for heading
+  color: #ffffff; // White text for heading
 }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background-color: rgba(235, 235, 235, 0.674); // Semi-transparent black background for form
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+  position: relative;
+  left: 35vw;
 
   .MuiFormControl-root {
     width: 100%;
@@ -33,23 +40,32 @@ h4 {
     width: 100%;
   }
 
+  .MuiInputLabel-root {
+    color: #ffffff; // White text for labels
+  }
+
+  .MuiInputBase-input {
+    color: #ffffff; // White text for input
+  }
+
   .MuiCheckbox-root {
     margin-right: 8px;
+    color: #ff6f00; // Neon orange for checkbox
   }
 
   .MuiButton-root {
     align-self: flex-end;
     padding: 8px 16px;
-    background-color: #1976d2; // Primary color
-    color: #fff;
+    background-color: #ff6f00; // Neon orange for button background
+    color: #ffffff; // White text for button
     &:hover {
-      background-color: #1565c0; // Darker shade on hover
+      background-color: #ff8c00; // Darker shade on hover
     }
   }
 }
 
 .error {
-  color: #d32f2f; // Red color for error messages
+  color: #ff6f00; // Neon orange for error messages
   font-size: 0.875rem;
   margin-top: -12px;
   margin-bottom: 8px;
@@ -62,7 +78,7 @@ h4 {
 
   .MuiTypography-body1 {
     margin-bottom: 4px;
-    color: #333; // Ensure text within dialog is readable
+    color: #000000; // Ensure text within dialog is readable
   }
 }
 
@@ -73,12 +89,12 @@ h4 {
 
   .MuiButton-root {
     padding: 6px 16px;
-    border: 1px solid #1976d2; // Match primary color
-    color: #1976d2;
+    border: 1px solid #ff6f00; // Match neon orange color
+    color: #ff6f00;
     background-color: transparent;
     &:hover {
-      background-color: #1976d2;
-      color: #fff;
+      background-color: #ff6f00;
+      color: #000000;
     }
   }
 }

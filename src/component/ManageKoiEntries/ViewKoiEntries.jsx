@@ -9,6 +9,7 @@ const ViewKoiEntries = () => {
   const [localKoi, setLocalKoi] = useState([]);
   const [loading, setLoading] = useState(true);
   const userId = useSelector(state => state.userReducer.userLogin.userId);
+  const fullName = useSelector(state => state.userReducer.userLogin.fullName);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,9 +45,9 @@ const ViewKoiEntries = () => {
               cover={<Image alt={koi.koiName} src={koi.imageUrl || 'https://via.placeholder.com/150'} />}
               className={styles.koiCard}
             >
-              <Card.Meta title={koi.koiName} description={<p style={{color:'#ffffff'}}>Variety: ${koi.varietyId}</p>} />
+              <Card.Meta title={koi.koiName} description={<p style={{color:'#ffffff'}}><strong>Variety:</strong>{koi.varietyId}</p>} />
               <div className={styles.koiDetails}>
-                <p><strong>User ID:</strong> {koi.userId}</p>
+                <p><strong>Owner:</strong> {fullName}</p>
                 <p><strong>Size:</strong> {koi.size} cm</p>
                 <p><strong>Age:</strong> {koi.age} years</p>
                 <p><strong>Status:</strong> {koi.status ? 'Active' : 'Inactive'}</p>

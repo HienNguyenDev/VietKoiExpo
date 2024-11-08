@@ -69,14 +69,14 @@ const LoginForm = () => {
         <div className={styles.passwordItem}>
           <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
         </div>
-        <div className={styles.rememberItem}>
-          <Checkbox className={styles.checkbox}>Remember me</Checkbox>
-        </div>
         <Row>
           <Col span={14}>
             <div className={styles.registerItem}>
               <Link to='/register' className={styles.link}>Chưa có tài khoản?</Link>
             </div>
+            <div className={styles.forgetPasswordItem}>
+          <Link to='/forget-password' className={styles.link}>Quên mật khẩu?</Link>
+        </div>
           </Col>
           <Col span={10}>
             <div>
@@ -84,7 +84,8 @@ const LoginForm = () => {
             </div>
           </Col>
         </Row>
-        {/* <div className={styles.loginWithGoogleItem}>
+        
+        <div className={styles.loginWithGoogleItem}>
           <GoogleLogin
             clientId={"676957431672-9mb5rgvuvpb000p93e3i8f7jg622a9ln.apps.googleusercontent.com"}
             buttonText="Login with Google"
@@ -100,7 +101,7 @@ const LoginForm = () => {
               </Button>
             )}
           />
-        </div> */}
+        </div>
       </form>
     </div>
   );

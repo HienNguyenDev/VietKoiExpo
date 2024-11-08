@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
     createNewsAction,
     updateNewsAction,
@@ -14,6 +13,7 @@ export const createNewsActionApi = (newsDetails) => {
     return async (dispatch) => {
         try {
             const res = await createNews(newsDetails);
+            console.log('Create News API Response:', res.data); // Debugging log
             const action = createNewsAction(res.data.content);
             dispatch(action);
             dispatch(fetchAllNews()); // Refetch news after creating
@@ -28,7 +28,7 @@ export const updateNewsActionApi = (newsId, newsDetails, navigate) => {
     return async (dispatch) => {
         try {
             const res = await updateNews(newsId, newsDetails);
-            console.log('API Response:', res.data); // Debugging log
+            console.log('Update News API Response:', res.data); // Debugging log
             const action = updateNewsAction(res.data.content);
             dispatch(action);
             dispatch(fetchAllNews()); // Refetch news after updating
@@ -43,10 +43,10 @@ export const updateNewsActionApi = (newsId, newsDetails, navigate) => {
 export const removeNewsActionApi = (newsId) => {
     return async (dispatch) => {
         try {
-             await deleteNews(newsId);
+            await deleteNews(newsId);
+            console.log('Delete News API Response:', newsId); // Debugging log
             const action = removeNewsAction(newsId);
             dispatch(action);
-            
         } catch (error) {
             console.error("News removal failed:", error.response ? error.response.data : error.message);
             dispatch({ type: 'NEWS_REMOVE_FAILURE', payload: error.response ? error.response.data : error.message });
@@ -58,6 +58,7 @@ export const fetchNewsDetails = (newsId) => {
     return async (dispatch) => {
         try {
             const res = await getNews(newsId);
+            console.log('Fetch News Details API Response:', res.data); // Debugging log
             dispatch(fetchNewsDetailsSuccess(res.data.content));
         } catch (error) {
             console.error("Fetching news details failed:", error.response ? error.response.data : error.message);
@@ -70,6 +71,7 @@ export const fetchAllNews = () => {
     return async (dispatch) => {
         try {
             const res = await getAllNews();
+            console.log('Fetch All News API Response:', res.data); // Debugging log
             dispatch(setNewsListAction(res.data)); // Assuming res.data is the array of news
         } catch (error) {
             console.error("Failed to fetch news:", error.response ? error.response.data : error.message);

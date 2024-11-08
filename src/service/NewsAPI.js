@@ -12,7 +12,7 @@ export const createNews = (newsData) => {
 
 export const updateNews = (newsId, newsData) => {
     return axios({
-        url: `${BASE_URL}/news/${newsId}`,
+        url: `${BASE_URL}/News/${newsId}`,
         method: 'PUT',
         data: newsData,
     });
@@ -20,7 +20,7 @@ export const updateNews = (newsId, newsData) => {
 
 export const getNews = (newsId) => {
     return axios({
-        url: `${BASE_URL}/news/${newsId}`,
+        url: `${BASE_URL}/News/${newsId}`,
         method: 'GET',
     });
 };
@@ -31,8 +31,6 @@ export const getAllNews = () => {
         method: 'GET',
     });
 };
-
-
 
 export const deleteNews = (newsId) => {
     return axios({

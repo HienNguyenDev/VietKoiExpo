@@ -1,0 +1,88 @@
+@font-face {
+  font-family: 'UtRightMilksDemoRegular';
+  src: url('../../asset/font/ut-right-milks-font/UtRightMilksDemoRegular-JpZo7.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'AutumnFlowerFont';
+  src: url('../../asset/font/autumn-flowers-font/AutumnFlowers-9YVZK.otf') format('opentype');
+}
+
+.container {
+  font-family: 'UtRightMilksDemoRegular' !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('../../asset/photo/koibanner.png') no-repeat center center;
+  background-size: cover; // Adjusted to cover the entire container
+  height: 100vh;
+  padding: 20px;
+}
+
+.forgetPassForm {
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.103);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgb(63,94,251);
+  background: -moz-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
+  background: -webkit-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
+  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fd9ceb",GradientType=1);
+
+  .titleForgetPass {
+    text-align: center;
+    font-family: 'UtRightMilksDemoRegular';
+    h1 {
+      color: #00ffcc; // Neon cyan for title
+      font-size: 2.5rem;
+      font-family: 'AutumnFlowerFont';
+      text-shadow: 0 0 8px #00ffcc; // Neon glow for text
+    }
+  }
+
+  .emailItem {
+    margin-bottom: 16px;
+
+    .emailLabel {
+      color: #00ffcc; // Neon cyan for label
+      font-size: 1rem;
+    }
+  }
+
+  .submitButton {
+    background-color: #00ffcc; // Neon cyan for button background
+    border: none;
+    box-shadow: 0 0 10px #00ffcc; // Neon glow for button
+    color: #141414; // Dark text for contrast
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+
+    &:hover {
+      background-color: #40a9ff; // Blue
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .forgetPassForm {
+    padding: 15px;
+    border-radius: 20px;
+
+    .titleForgetPass h1 {
+      font-size: 2rem;
+    }
+  }
+}

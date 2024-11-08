@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NEWS_CREATE, NEWS_UPDATE, NEWS_REMOVE, NEWS_LIST } from '../../../util/config';
 
 const initialState = {
-    news: {}
+    news: {},
+    newsList: [],
+    error: null,
 };
 
 const newsReducer = createSlice({
@@ -16,8 +17,9 @@ const newsReducer = createSlice({
             state.news[action.payload.id] = action.payload;
         },
         removeNewsAction: (state, action) => {
-            state.news = state.news.filter(news => news.newsId !== action.payload);
-        },fetchNewsDetailsSuccess: (state, action) => {
+            state.newsList = state.newsList.filter(news => news.newsId !== action.payload);
+        },
+        fetchNewsDetailsSuccess: (state, action) => {
             state.news = action.payload;
         },
         fetchNewsDetailsFailure: (state, action) => {
@@ -26,7 +28,6 @@ const newsReducer = createSlice({
         setNewsListAction: (state, action) => {
             state.newsList = action.payload;
         },
-
     }
 });
 

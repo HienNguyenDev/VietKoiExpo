@@ -8,6 +8,7 @@ import { CalendarOutlined, TrophyOutlined, FlagOutlined } from '@ant-design/icon
 import { useNavigate } from 'react-router-dom';
 import styles from './LandingPage.module.scss';
 import { registerKoiForCompetitionApi } from '../../service/koiRegist';
+import BackButton from '../../component/shared/button/BackButton';
 
 const { Option } = Select;
 
@@ -131,6 +132,9 @@ const LandingPage = () => {
 
   return (
     <div className={styles.landingPage}>
+       <div style={{position:'absolute',display:'inline',top:'30px',left:'30px'}}>
+       <BackButton />
+       </div>
       <div className={styles.heroSection}>
         <Typography.Title level={1}>Welcome to the Koi Fish Competition</Typography.Title>
         <img className="giphy-gif-img giphy-img-loaded" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjJwbWl3b2szazdoOGp3dGN4emliMTFuZ3NuYzFvMDk3ZjE3ejR0ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KAI3j7HLC93Lq/giphy.gif" alt="high life fish GIF" />

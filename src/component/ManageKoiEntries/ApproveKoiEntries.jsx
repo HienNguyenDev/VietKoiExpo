@@ -1,10 +1,9 @@
-// ApproveKoiEntries.jsx
 import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
   TextField,
-  Button,
+  Button as MuiButton,
   Dialog,
   DialogActions,
   DialogContent,
@@ -23,6 +22,7 @@ import { getKoiVarietiesApi } from '../../service/koiRegist';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import styles from './ApproveKoiEntries.module.scss';
+import BackButton from '../shared/button/BackButton'; // Import the BackButton component
 
 const ApproveKoiEntries = () => {
   const dispatch = useDispatch();
@@ -92,12 +92,13 @@ const ApproveKoiEntries = () => {
 
   return (
     <Box className={styles.container}>
-      <Typography variant="h4" gutterBottom>
+      <BackButton /> {/* Include the BackButton component */}
+      <Typography variant="h4" gutterBottom className={styles.title}>
         Register Koi Entry
       </Typography>
       <Box component="form" className={styles.form} onSubmit={formik.handleSubmit}>
         <FormControl fullWidth margin="normal">
-          <InputLabel id="varietyId-label">Variety ID</InputLabel>
+          <InputLabel id="varietyId-label" className={styles.textField}>Variety ID</InputLabel>
           <Select
             labelId="varietyId-label"
             id="varietyId"
@@ -105,6 +106,7 @@ const ApproveKoiEntries = () => {
             value={formik.values.varietyId}
             onChange={formik.handleChange}
             label="Variety ID"
+            className={styles.textField}
           >
             {koiVarieties.map(variety => (
               <MenuItem key={variety.varietyId} value={variety.varietyId}>
@@ -127,6 +129,7 @@ const ApproveKoiEntries = () => {
           onChange={formik.handleChange}
           error={formik.touched.koiName && Boolean(formik.errors.koiName)}
           helperText={formik.touched.koiName && formik.errors.koiName}
+          className={styles.textField}
         />
 
         <TextField
@@ -140,6 +143,7 @@ const ApproveKoiEntries = () => {
           onChange={formik.handleChange}
           error={formik.touched.size && Boolean(formik.errors.size)}
           helperText={formik.touched.size && formik.errors.size}
+          className={styles.textField}
         />
 
         <TextField
@@ -153,6 +157,7 @@ const ApproveKoiEntries = () => {
           onChange={formik.handleChange}
           error={formik.touched.age && Boolean(formik.errors.age)}
           helperText={formik.touched.age && formik.errors.age}
+          className={styles.textField}
         />
 
         <TextField
@@ -166,6 +171,7 @@ const ApproveKoiEntries = () => {
           onChange={formik.handleChange}
           error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
           helperText={formik.touched.imageUrl && formik.errors.imageUrl}
+          className={styles.textField}
         />
 
         <FormControlLabel
@@ -179,42 +185,43 @@ const ApproveKoiEntries = () => {
             />
           }
           label="Active Status"
+          style={{ color: '#ffffff' }}
         />
         {formik.touched.status && formik.errors.status && (
           <Typography color="error">{formik.errors.status}</Typography>
         )}
 
-        <Button
+        <MuiButton
           color="primary"
           variant="contained"
           fullWidth
           type="submit"
-          style={{ marginTop: '16px' }}
+          className={styles.submitButton}
         >
           Register
-        </Button>
+        </MuiButton>
       </Box>
 
       <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="confirm-dialog-title">
-        <DialogTitle id="confirm-dialog-title">Confirm Registration</DialogTitle>
+        <DialogTitle id="confirm-dialog-title" className={styles.dialogTitle}>Confirm Registration</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText className={styles.dialogContentText}>
             Are you sure you want to register this Koi entry with the following details?
           </DialogContentText>
-          <Typography variant="body1"><strong>Variety ID:</strong> {formik.values.varietyId}</Typography>
-          <Typography variant="body1"><strong>Koi Name:</strong> {formik.values.koiName}</Typography>
-          <Typography variant="body1"><strong>Size:</strong> {formik.values.size} cm</Typography>
-          <Typography variant="body1"><strong>Age:</strong> {formik.values.age} years</Typography>
-          <Typography variant="body1"><strong>Image URL:</strong> {formik.values.imageUrl || 'No Image Provided'}</Typography>
-          <Typography variant="body1"><strong>Status:</strong> {formik.values.status ? 'Active' : 'Inactive'}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Variety ID:</strong> {formik.values.varietyId}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Koi Name:</strong> {formik.values.koiName}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Size:</strong> {formik.values.size} cm</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Age:</strong> {formik.values.age} years</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Image URL:</strong> {formik.values.imageUrl || 'No Image Provided'}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Status:</strong> {formik.values.status ? 'Active' : 'Inactive'}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)} color="primary">
+          <MuiButton onClick={() => setOpen(false)} className={styles.dialogButton}>
             Cancel
-          </Button>
-          <Button onClick={handleConfirm} color="primary">
+          </MuiButton>
+          <MuiButton onClick={handleConfirm} className={styles.dialogButton}>
             Confirm
-          </Button>
+          </MuiButton>
         </DialogActions>
       </Dialog>
 
