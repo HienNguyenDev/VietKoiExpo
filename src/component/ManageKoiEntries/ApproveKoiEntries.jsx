@@ -1,3 +1,4 @@
+// ApproveKoiEntries.js
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -23,6 +24,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import styles from './ApproveKoiEntries.module.scss';
 import BackButton from '../shared/button/BackButton'; // Import the BackButton component
+import UploadImageComponent from '../shared/UploadImage/UploadImage';
 
 const ApproveKoiEntries = () => {
   const dispatch = useDispatch();
@@ -88,6 +90,10 @@ const ApproveKoiEntries = () => {
       setErrorMessage('Failed to register koi. Please try again.');
       console.error(error);
     }
+  };
+
+  const handleImageUploadSuccess = (url) => {
+    formik.setFieldValue('imageUrl', url);
   };
 
   return (
@@ -160,18 +166,9 @@ const ApproveKoiEntries = () => {
           className={styles.textField}
         />
 
-        <TextField
-          fullWidth
-          margin="normal"
-          id="imageUrl"
-          name="imageUrl"
-          label="Image URL"
-          type="text"
-          value={formik.values.imageUrl}
-          onChange={formik.handleChange}
-          error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
-          helperText={formik.touched.imageUrl && formik.errors.imageUrl}
-          className={styles.textField}
+        <UploadImageComponent
+          onSuccess={handleImageUploadSuccess}
+          defaultUrl={formik.values.imageUrl}
         />
 
         <FormControlLabel
