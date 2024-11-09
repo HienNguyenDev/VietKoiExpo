@@ -4,14 +4,14 @@ import {
   setCheckInDataAction,
   checkInKoiEntryAction,
   setError
-} from '../reducers/CheckInReducer';
+} from '../reducers/checkInReducer';
 
 import { 
   getCheckInByCompIdApi,
   getCheckInDataApi,
   reviewKoiEntryApi,
   checkInKoiEntryApi  
- } from '../../../service/checkInAPI';
+ } from '../../../service/CheckInAPI';
 
 
 
