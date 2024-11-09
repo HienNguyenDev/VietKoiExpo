@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson, deleteCookieJson } from '../../../util/config';
-import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction } from '../../redux/reducers/userReducer';
+import { logoutAction, loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction } from '../../redux/reducers/userReducer';
 import { getUserByKoiIdApi, getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser, removeUser } from '../../../service/userAPI';
 
 // async actions
@@ -107,7 +107,7 @@ export const updateUserActionApi = (userId, userDetails, navigate) => {
             const res = await updateDetailUser(userId, userDetails);
             const action = updateUserAction(res.data);
             dispatch(action);
-            navigate('/admin/manage-users'); // Navigate to users page after updating
+            navigate(-1); // Navigate to users page after updating
         } catch (error) {
             console.error("Failed to update user:", error.response ? error.response.data : error.message);
         }
@@ -134,7 +134,7 @@ export const logoutActionApi = (navigate) => {
         localStorage.removeItem(USER_LOGIN);
         
         // Dispatch hành động để xóa thông tin người dùng khỏi Redux store
-        dispatch(loginAction(null));
+        dispatch(logoutAction());
 
         // Điều hướng tới trang đăng nhập
         navigate('/login');

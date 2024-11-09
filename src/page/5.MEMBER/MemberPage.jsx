@@ -24,10 +24,10 @@ const MemberPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userId = useSelector(state => state.userReducer.userLogin.userId);
-
+  const userLogin = useSelector(state => state.userReducer.userLogin);
+  
   const handleNavigation = (path) => {
-    if (!userId) {
+    if (!userLogin.userId) {
       setIsModalVisible(true); // Show modal if user is not logged in
     } else {
       navigate(path);

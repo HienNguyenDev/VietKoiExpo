@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/configStore';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import NotificationPage from './component/shared/notification/NotificationPage';
+import MyProfile from './component/shared/userProfile/MyProfile';
 import NotificationBlock from './component/shared/notification/NotificationBlock';
 import ManageNewsUpdatesPage from './component/ManageNewsAndUpdates/ManageNewsUpdatesPage';
 import { ThemeProvider } from './template/theme/ThemeContext';
@@ -120,6 +121,7 @@ const App = () => {
             
         </Route>
         <Route path="notifications" element={<NotificationPage />} />
+        <Route path="myprofile" element={<MyProfile />} />
         home/view-koi
         <Route path="/results/:compId" element={<UserViewResultsPage />} />
         <Route path='home/view-koi' element={<ViewKoiEntries/>}></Route>

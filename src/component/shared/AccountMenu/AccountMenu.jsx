@@ -21,14 +21,14 @@ const MenuAccount = () => {
     }
   }, [dispatch, userLogin]);
 
-  // Mock data cho notifications nếu chưa có
-  const mockNotifications = [
-    { id: 1, message: "Bạn có tin nhắn mới", isRead: true, date: "2024-10-25 08:00" },
-    { id: 2, message: "Cập nhật quan trọng từ hệ thống", isRead: false, date: "2024-10-24 10:30" },
-    { id: 3, message: "Sự kiện sắp tới vào tuần tới", isRead: false, date: "2024-10-23 12:45" },
-    { id: 4, message: "Đăng ký thành công sự kiện", isRead: true, date: "2024-10-22 14:00" },
-    { id: 5, message: "Bình luận mới về bài viết của bạn", isRead: false, date: "2024-10-21 16:15" }
-  ];
+    // Mock data cho notifications nếu chưa có
+    const mockNotifications = [
+      { id: 1, message: "Bạn có tin nhắn mới", isRead: true, date: "2024-10-25 08:00" },
+      { id: 2, message: "Cập nhật quan trọng từ hệ thống", isRead: false, date: "2024-10-24 10:30" },
+      { id: 3, message: "Sự kiện sắp tới vào tuần tới", isRead: false, date: "2024-10-23 12:45" },
+      { id: 4, message: "Đăng ký thành công sự kiện", isRead: true, date: "2024-10-22 14:00" },
+      { id: 5, message: "Bình luận mới về bài viết của bạn", isRead: false, date: "2024-10-21 16:15" }
+    ];
 
   
 
@@ -51,8 +51,10 @@ const MenuAccount = () => {
     dispatch(logoutActionApi(navigate));
   };
   const handleNotificationClick = () => {
-    const role = userProfile?.roleId || 'admin'; // Lấy role của user,test thử với 'admin'
     navigate(`/notifications`); // Điều hướng đến trang thông báo với đường dẫn tùy thuộc vào role
+  };
+  const handleMyProfileClick = () => {
+    navigate(`/myprofile`); // Điều hướng đến trang thông báo với đường dẫn tùy thuộc vào role
   };
 
   // Tạo hàm để hiển thị role bên cạnh tên người dùng
@@ -67,6 +69,7 @@ const MenuAccount = () => {
       key: '1',
       icon: <ProfileOutlined />,
       label: 'My Profile',
+      onClick: handleMyProfileClick, 
     },
     {
       key: '2',
