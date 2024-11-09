@@ -38,7 +38,6 @@ export const removeUser = (userId, userDelete   ) => {
     });
 };
 
-
 export const getUserProfile = async (userId) => {
     const url = `${BASE_URL}/${userId}`;
     console.log('Fetching URL:', url); 

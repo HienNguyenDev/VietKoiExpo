@@ -7,7 +7,7 @@ import { getAllRegistrations, getKoiById } from '../../store/redux/action/koiReg
 import { CalendarOutlined, TrophyOutlined, FlagOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import styles from './LandingPage.module.scss';
-import { registerKoiForCompetitionApi } from '../../service/koiRegist';
+import { registerKoiForCompetitionApi } from '../../service/koiRegistAPI';
 import BackButton from '../../component/shared/button/BackButton';
 
 const { Option } = Select;

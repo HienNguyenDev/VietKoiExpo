@@ -42,18 +42,26 @@ export const updateKoiDetailApi = async (id, newDetail) => {
   }
 };
 
-export const getAllKoiApi = async () => {
-  try {
-    const response = await axios({
-      url: 'https://localhost:7246/api/Koifish',
+export const getAllKoiApi = () => {
+  return axios({
+      url: `https://localhost:7246/api/Koifish`,
       method: 'GET',
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  });
 };
 
+export const getOwnerByKoiIdApi = (koiId) => {
+  return axios({
+      url: `https://localhost:7246/api/Koifish/${koiId}/user`,
+      method: 'GET',
+  });
+};
+
+export const getOwnerDetailApi = async (userId) => {
+  return axios({
+    url: `https://localhost:7246/api/User/${userId}`,
+    method: 'GET',
+  });
+};
 
 export const getKoiByIdApi = async (id) => {
   try {
@@ -67,6 +75,7 @@ export const getKoiByIdApi = async (id) => {
   }
 };
 
+
 export const getRegistrationByRegisID = async(regisID) => {
   try {
     const response = await axios({
@@ -78,6 +87,7 @@ export const getRegistrationByRegisID = async(regisID) => {
     throw error;
   }
 }
+
 
 
 export const registerKoiForCompetitionApi = async (koiId, compId,status) => {

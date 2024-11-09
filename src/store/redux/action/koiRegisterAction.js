@@ -1,6 +1,6 @@
 // koiAction.js
-import { registerKoiRequest, registerKoiSuccess, registerKoiFailure, updateDetailOfRegisterKoi, setListKoi, getAllRegisteredKoiForCompetitionRequest, getAllRegisteredKoiForCompetitionSuccess, getAllRegisteredKoiForCompetitionFailure, getAllRegistrationsByCompId } from '../reducers/RegisterKoiReducer';
-import { getAllKoiApi, getAllRegisteredKoiForCompetitionApi, getAllRegistrationsApi, getKoiByIdApi,getListRegisteredKoiByCompId,registerKoiApi,updateKoiDetailApi } from '../../../service/koiRegist';
+import { setOwnerDetailAction, registerKoiRequest, registerKoiSuccess, registerKoiFailure, updateDetailOfRegisterKoi, setListAllKoi, getAllRegisteredKoiForCompetitionRequest, getAllRegisteredKoiForCompetitionSuccess, getAllRegisteredKoiForCompetitionFailure, getAllRegistrationsByCompId } from '../reducers/RegisterKoiReducer';
+import { getOwnerDetailApi, getOwnerByKoiIdApi, getAllKoiApi, getAllRegisteredKoiForCompetitionApi, getAllRegistrationsApi, getKoiListOfUserID,getListRegisteredKoiByCompId,registerKoiApi,updateKoiDetailApi } from '../../../service/koiRegistAPI';
 
 export const registerKoi = (koiData) => async (dispatch) => {
   try {
@@ -25,26 +25,51 @@ export const updateKoiDetail = (id, newDetail) => {
     }
   };
 };
-
-export  const getAllKoi = async () => {
+export const fetchAllKoi = () => {
   return async (dispatch) => {
-    try{
-      const res=getAllKoiApi();
-      dispatch(setListKoi(res.data));
-
-    }catch(error){
-
+      try {
+          const res = await getAllKoiApi();
+          console.log("getAllKoiApi",res.data)
+          dispatch(setListAllKoi(res.data)); // Assuming res.data is the array of contests
+      } catch (error) {
+          console.error("Failed to fetch contests:", error.response ? error.response.data : error.message);
+      }
+  };
+};
+//get user by koiId
+export const fetchOwnerByKoiId = (koiId) => {
+  return async (dispatch) => {
+    try {
+      const res = await getOwnerByKoiIdApi(koiId);
+      console.log('getUserByKoiIdApi response:', res);
+      dispatch(setOwnerDetailAction(res.data)); // Ensure res is the correct data format
+    } catch (error) {
+      console.error("getUserByKoiIdApi failed:",error.response ? error.response.data : error.message);
+      // Optionally, dispatch an error action here
     }
-  }
-} 
-
+  };
+};
+//get user by koiId
+export const fetchOwnerByUserId = (koiId) => {
+  return async (dispatch) => {
+    try {
+      const res = await getOwnerDetailApi(koiId);
+      console.log('fetchOwnerByUserId response:', res);
+      dispatch(setOwnerDetailAction(res.data));
+      return res.data; // Ensure res is the correct data format
+    } catch (error) {
+      console.error("fetchOwnerByUserId failed:",error.response ? error.response.data : error.message);
+      // Optionally, dispatch an error action here
+    }
+  };
+};
 //get List Koi by User Id 
 export const getKoiById = (id) => {
   return async (dispatch) => {
     try {
-      const res = await getKoiByIdApi(id);
+      const res = await getKoiListOfUserID(id);
       console.log('getKoiById response:', res);
-      dispatch(setListKoi(res)); // Ensure res is the correct data format
+      dispatch(setListAllKoi(res)); // Ensure res is the correct data format
     } catch (error) {
       console.error(
         "Fetching listKoi failed:",

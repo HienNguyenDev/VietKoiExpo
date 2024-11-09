@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson, deleteCookieJson } from '../../../util/config';
 import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction } from '../../redux/reducers/userReducer';
-import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser, removeUser } from '../../../service/userAPI';
+import { getUserByKoiIdApi, getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser, removeUser } from '../../../service/userAPI';
 
 // async actions
 export const loginActionApi = (userLogin, navigate) => {

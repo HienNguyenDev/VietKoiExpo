@@ -7,7 +7,7 @@ import { fetchCompetitionData, fetchCategoriesByCompId, fetchKoiEntries, fetchCh
 import BracketList from './competition/BracketList';
 import KoiList from './competition/KoiList';
 import styles from './CompetitionPage.module.scss';
-import { getRegistrationByRegisID } from '../../service/koiRegist';
+import { getRegistrationByRegisID } from '../../service/koiRegistAPI';
 import { fetchScores } from '../../store/redux/action/scoreAction';
 
 const { Title, Paragraph } = Typography;

@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerKoi } from '../../store/redux/action/koiRegisterAction';
-import { getKoiVarietiesApi } from '../../service/koiRegist';
+import { getKoiVarietiesApi } from '../../service/koiRegistAPI';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import styles from './ApproveKoiEntries.module.scss';
