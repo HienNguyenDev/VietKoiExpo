@@ -1,3 +1,4 @@
+// ManageContestsPage.js
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +7,7 @@ import { PlusOutlined, EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-de
 import styles from '../../asset/scss/ManageContestsPage.module.scss';
 import { fetchAllContests, createContestActionApi, updateContestActionApi, removeContestActionApi, fetchContestDetails, fetchCategoriesByCompId } from '../../store/redux/action/contestAction';
 import moment from 'moment';
+import UploadImageComponent from '../../component/shared/UploadImage/UploadImage';
 
 const { confirm } = Modal;
 
@@ -20,7 +22,6 @@ const ManageContestsPage = () => {
   const navigate = useNavigate();
   
   const [checkedCategories, setCheckedCategories] = useState([]);
-  const [koiEntries, setKoiEntries] = useState([]);
   const dispatch = useDispatch();
   const contestsData = useSelector(state => state.contestReducer.contestList);
   const categoriesList = useSelector(state => state.contestReducer.categoriesList);
@@ -237,8 +238,15 @@ const ManageContestsPage = () => {
           <Form.Item name="location" label="Location" rules={[{ required: true, message: 'Please enter the location' }]}>
             <Input placeholder="Please enter the location" disabled={drawerTitle === 'View Contest'} />
           </Form.Item>
-          <Form.Item name="imageUrl" label="Image URL" rules={[{ required: true, message: 'Please enter the image URL' }]}>
-            <Input placeholder="Please enter the image URL" disabled={drawerTitle === 'View Contest'} />
+          <Form.Item name="imageUrl" label="Image">
+            {drawerTitle !== 'View Contest' ? (
+              <UploadImageComponent 
+                onSuccess={(url) => form.setFieldsValue({ imageUrl: url })}
+                defaultUrl={form.getFieldValue('imageUrl')}
+              />
+            ) : (
+              <img src={form.getFieldValue('imageUrl')} alt="Contest" style={{ width: '100px', marginTop: '10px' }} />
+            )}
           </Form.Item>
           <Form.Item name="startDate" label="Start Date" rules={[{ required: true, message: 'Please enter the start date' }]}>
             <DatePicker style={{ width: '100%' }} disabledDate={disabledDate} disabled={drawerTitle === 'View Contest'} />
