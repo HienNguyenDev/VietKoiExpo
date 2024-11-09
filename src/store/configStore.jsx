@@ -4,7 +4,7 @@ import contestReducer from "./redux/reducers/contestReducer";
 import newsReducer from "./redux/reducers/newsReducer";
 import koiEntriesReducer from "./redux/reducers/koiEntriesReducer";
 import RegisterKoiReducer from "./redux/reducers/RegisterKoiReducer";
-import checkInReducer from "./redux/reducers/CheckInReducer";
+import checkInReducer from "./redux/reducers/checkInReducer";
 import competitionReducer from "./redux/reducers/CompetitionReducer";
 import scoreReducer from "./redux/reducers/ScoreReducer";
 import resultReducer from "./redux/reducers/resultReducer";
