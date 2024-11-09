@@ -57,6 +57,7 @@ import NewsPage from './page/5.MEMBER/news/NewsPage';
 import ResetPage from './page/2.LOGIN/ResetPage';
 import KoiListForCompetition from './page/5.MEMBER/competition/CheckIn';
 import Dashboard from './component/shared/DashBoard/dashBoard';
+import ResetPasswordPage from './page/2.LOGIN/ResetPage';
 const App = () => {
   const location = useLocation();
   const nodeRef = useRef(null); 
@@ -124,7 +125,7 @@ const App = () => {
           <Route path="/checkin/:competitionId" element={<KoiListForCompetition />} />
           <Route path="/competitionMatch/:compId" element={<CompetitionPage />} />
           <Route path="/news/:newsTypeId" element={<NewsPage />} />
-          <Route path="/reset-password/:jwt" element={<ResetPage/>} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="/dashboard/:compId" element={<Dashboard />} />
         </Routes>
         </div>
