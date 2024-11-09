@@ -109,15 +109,31 @@ namespace KSM.APIService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFish([FromRoute] Guid id)
         {
-            var deleteFish = await _koiFishRepo.GetByIDAsync(id);
-            if (deleteFish == null)
+            var koiFish = await _koiFishRepo.GetByIDAsync(id);
+            if (koiFish == null)
             {
                 return NotFound();
             }
-            deleteFish.Status = false;
-            await _koiFishRepo.UpdateAsync(deleteFish);
-            return NoContent();
 
+            // Check conditions for Tblregistration and Tblcompetition statuses
+            var registrations = await _koiFishRepo.GetRegistrationsByKoiIdAsync(id);
+            foreach (var reg in registrations)
+            {
+                if (reg.Status == 1 && reg.Comp.Status != 2)
+                {
+                    // Prevent setting koi fish status to 0 if the conditions are not met
+                    return BadRequest("Cannot delete this Koi fish Delete because it is in the competition.");
+                }
+            }
+
+            // Set koiFish status to 0
+            koiFish.Status = false;
+            await _koiFishRepo.UpdateAsync(koiFish);
+
+            // Set related entities' status to 0 or 2 as appropriate
+            await _koiFishRepo.SetRelatedEntitiesStatusToInactive(id);
+
+            return NoContent();
         }
 
 

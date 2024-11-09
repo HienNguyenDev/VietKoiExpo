@@ -32,5 +32,34 @@ namespace KSM.Repository.Repositories.KoifishRepository
             return (Guid)koiFish.UserId;
 
         }
+
+        public async Task<IEnumerable<Tblregistration>> GetRegistrationsByKoiIdAsync(Guid koiFishId)
+        {
+            return await _context.Tblregistrations
+                .Include(reg => reg.Comp) // Include the related competition
+                .Where(reg => reg.KoiId == koiFishId)
+                .ToListAsync();
+        }
+
+        public async Task SetRelatedEntitiesStatusToInactive(Guid koiFishId)
+        {
+            try
+            {
+                var registrations = await _context.Tblregistrations.Where(reg => reg.KoiId == koiFishId).ToListAsync();
+
+                // Set registration statuses to 2 if koi fish status is set to 0
+                registrations.ForEach(reg => reg.Status = 2);
+
+                var predictions = await _context.Tblpredictions.Where(p => p.KoiId == koiFishId).ToListAsync();
+                predictions.ForEach(p => p.Status = false);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log exception or handle it as necessary
+                throw new Exception("An error occurred while updating related entities' statuses.", ex);
+            }
+        }
     }
 }

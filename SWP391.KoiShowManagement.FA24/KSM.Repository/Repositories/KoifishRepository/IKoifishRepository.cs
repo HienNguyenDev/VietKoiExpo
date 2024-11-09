@@ -14,5 +14,7 @@ namespace KSM.Repository.Repositories.KoifishRepository
         Task<IEnumerable<TblkoiFish>> GetAllByUserIdAsync(Guid userId);
 
         Task<Guid> GetUserByKoiFishIdAsync(Guid koiFishId);
+        Task<IEnumerable<Tblregistration>> GetRegistrationsByKoiIdAsync(Guid koiFishId);
+        Task SetRelatedEntitiesStatusToInactive(Guid koiFishId);
     }
 }
