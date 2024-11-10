@@ -44,6 +44,7 @@ const items = [
   getItem('Manage Users', 'sub2', <MountIcon />, undefined, 'manage-users'),
   getItem('Manage Koi Entries', 'sub3', <KoiIcon />, undefined, 'manage-koi-entries'),
   getItem('Check In Koi', 'sub4', <KoiIcon />, undefined, 'manage-koi-checkin'),
+  getItem('Manage All Koi', 'sub5', <MountIcon />, undefined, 'manage-all-koi'),
   // //// Nhóm 3: Manage Judging Process
   // getItem('Manage Judging Process', 'sub4', <TorriJapanIcon />, [
   //   getItem('Assign Judges to Contests', '61', undefined, undefined, 'assign-judges-to-contest'),

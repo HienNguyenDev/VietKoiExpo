@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/configStore';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import NotificationPage from './component/shared/notification/NotificationPage';
+import MyProfile from './component/shared/userProfile/MyProfile';
 import NotificationBlock from './component/shared/notification/NotificationBlock';
 import ManageNewsUpdatesPage from './component/ManageNewsAndUpdates/ManageNewsUpdatesPage';
 import { ThemeProvider } from './template/theme/ThemeContext';
@@ -30,6 +31,7 @@ import FishKoiEventDetail from './page/5.MEMBER/FishKoiEventDetail';
 import MemberPage from './page/5.MEMBER/MemberPage';
 import KoiFishCompetition from './page/5.MEMBER/KoiFishCompetition';
 import ManageUsersPage from './component/ManageUser/ManageUsers';
+import ManageAllKoiPage from './component/ManageAllKoi/ManageAllKoiPage';
 import AssignTaskPage from './component/ManageTaskAllocation/AssignTaskPage';
 import TaskAllocationProcess from './component/ManageTaskAllocation/TaskAllocationProcess';
 import ManageContestsPage from './component/ManageContest/ManageContestsPage';
@@ -92,6 +94,8 @@ const App = () => {
 
             <Route path="manage-koi-checkin" element={<ManageKoiCheckIn />} />
             <Route path="manage-koi-checkin/review-koi-checkin/:compName" element={<ReviewKoiCheckIn />} />
+
+            <Route path="manage-all-koi" element={<ManageAllKoiPage />} />
           </Route>
           
 
@@ -117,6 +121,7 @@ const App = () => {
             
         </Route>
         <Route path="notifications" element={<NotificationPage />} />
+        <Route path="myprofile" element={<MyProfile />} />
         home/view-koi
         <Route path="/results/:compId" element={<UserViewResultsPage />} />
         <Route path='home/view-koi' element={<ViewKoiEntries/>}></Route>

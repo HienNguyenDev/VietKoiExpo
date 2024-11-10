@@ -1,14 +1,13 @@
 // UploadImageComponent.js
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Upload, Button, Input, message } from 'antd';
+import { Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { uploadImageAction } from '../../../store/redux/action/uploadAction';
 
 const UploadImageComponent = ({ onSuccess, defaultUrl }) => {
   const dispatch = useDispatch();
-  const [uploadedUrl, setUploadedUrl] = useState(defaultUrl || '');
-  const [inputUrl, setInputUrl] = useState(''); // Trạng thái cho URL nhập vào
+  const [uploadedUrl, setUploadedUrl] = useState(defaultUrl || ''); 
   const loading = useSelector(state => state.uploadReducer.loading);
 
   const handleImageUpload = async (file) => {
@@ -25,16 +24,6 @@ const UploadImageComponent = ({ onSuccess, defaultUrl }) => {
     return false; // Ngăn upload tự động của antd
   };
 
-  const handleInputUrlChange = (e) => {
-    setInputUrl(e.target.value);
-  };
-
-  const handleInputUrlSubmit = () => {
-    setUploadedUrl(inputUrl); // Sử dụng URL nhập vào thay cho URL upload
-    onSuccess(inputUrl); // Gọi callback với URL nhập vào
-    message.success("URL ảnh đã được cập nhật!");
-  };
-
   return (
     <div>
       <Upload
@@ -45,16 +34,6 @@ const UploadImageComponent = ({ onSuccess, defaultUrl }) => {
           {uploadedUrl ? "Thay đổi ảnh" : "Upload Ảnh"}
         </Button>
       </Upload>
-      <Input
-        placeholder="Hoặc nhập URL ảnh"
-        value={inputUrl}
-        onChange={handleInputUrlChange}
-        onPressEnter={handleInputUrlSubmit}
-        style={{ marginTop: '10px', marginBottom: '10px' }}
-      />
-      <Button onClick={handleInputUrlSubmit} type="primary" disabled={!inputUrl}>
-        Cập nhật URL
-      </Button>
       {uploadedUrl && (
         <img src={uploadedUrl} alt="Uploaded" style={{ width: '100px', marginTop: '10px' }} />
       )}

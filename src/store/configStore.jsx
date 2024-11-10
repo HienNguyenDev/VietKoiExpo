@@ -17,7 +17,7 @@ export const store=configureStore({
         newsReducer,
         uploadReducer,
         koiEntriesReducer,
-        registerKoi:RegisterKoiReducer,
+        RegisterKoiReducer,
         checkInReducer,
         competitionReducer,
         scoreReducer,

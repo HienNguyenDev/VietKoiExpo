@@ -5,6 +5,7 @@ const initialState = {
   koiList: [],
   registrationList: [], // New state property to store the list of registrations
   loading: false,
+  ownerDetail: {},
   error: null,
   registrationListById: [],
 };
@@ -32,8 +33,11 @@ const registerKoiReducer = createSlice({
         state.koiList[koiIndex] = { ...state.koiList[koiIndex], ...newDetail };
       }
     },
-    setListKoi: (state, action) => {
+    setListAllKoi: (state, action) => {
       state.koiList = action.payload;
+    },
+    setOwnerDetailAction: (state, action) => {
+      state.ownerDetail = action.payload;
     },
     getAllRegisteredKoiForCompetitionRequest: (state) => {
       state.loading = true;
@@ -58,7 +62,8 @@ export const {
   registerKoiSuccess,
   registerKoiFailure,
   updateDetailOfRegisterKoi,
-  setListKoi,
+  setListAllKoi,
+  setOwnerDetailAction,
   getAllRegisteredKoiForCompetitionRequest,
   getAllRegisteredKoiForCompetitionSuccess,
   getAllRegisteredKoiForCompetitionFailure,

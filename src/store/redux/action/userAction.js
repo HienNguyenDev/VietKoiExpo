@@ -133,7 +133,7 @@ export const logoutActionApi = (navigate) => {
         localStorage.removeItem(USER_LOGIN);
         
         // Dispatch hành động để xóa thông tin người dùng khỏi Redux store
-        dispatch(loginAction(null));
+        dispatch(logoutAction());
 
         // Điều hướng tới trang đăng nhập
         navigate('/login');
