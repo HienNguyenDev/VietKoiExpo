@@ -41,25 +41,6 @@ namespace KSM.APIService.Controllers
             return Ok(_mapper.Map<VarietyModel>(varieties));
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddNewVariety(VarietyModel model)
-        //{
-        //    try
-        //    {
-        //        var newVariety = _mapper.Map<Tblvariety>(model);
-        //        await _varietyRepo.CreateAsync(newVariety);
-        //        string newVarietyID = new Guid();
-        //        var variety = await _varietyRepo.GetByIDAsync(newVarietyID);
-        //        var varietyhModel = _mapper.Map<VarietyModel>(variety);
-        //        return varietyhModel == null ? NotFound() : Ok(varietyhModel);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateVariety(string id, [FromBody] VarietyModel model)
         {
