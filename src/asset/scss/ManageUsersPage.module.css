@@ -1,0 +1,52 @@
+.manageUsersPage .containerUsers {
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+.manageUsersPage .containerUsers .viewComponent .viewAllCard .createUserButton {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #1890ff;
+  cursor: pointer;
+  display: inline-block;
+}
+.manageUsersPage .containerUsers .viewComponent .viewAllCard .ant-list-item {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+.manageUsersPage .containerUsers .viewComponent .viewAllCard .ant-list-item-meta-title a {
+  color: #1890ff;
+}
+.manageUsersPage .containerUsers .viewComponent .viewAllCard .ant-list-item-meta-description {
+  color: #8c8c8c;
+}
+.manageUsersPage .containerUsers .viewComponent .viewAllCard .ant-list-item-actions {
+  display: flex;
+  gap: 10px;
+}
+.manageUsersPage .containerUsers .viewComponent .viewAllCard .ant-list-item-actions .ant-btn-link {
+  padding: 0;
+}
+
+.site-description-item-profile-wrapper {
+  margin-bottom: 7px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  line-height: 1.5715;
+}
+
+.ant-drawer-body p.site-description-item-profile-p {
+  display: block;
+  margin-bottom: 16px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+  line-height: 1.5715;
+}
+
+.site-description-item-profile-p-label {
+  display: inline-block;
+  margin-inline-end: 8px;
+  color: rgba(0, 0, 0, 0.85);
+}/*# sourceMappingURL=ManageUsersPage.module.css.map */

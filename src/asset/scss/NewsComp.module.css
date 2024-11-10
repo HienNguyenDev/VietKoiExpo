@@ -1,0 +1,69 @@
+.newsList {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.newsList .ant-list-item {
+  border-bottom: 1px solid #e8e8e8;
+  padding: 20px 0;
+}
+
+.newsList .ant-list-item-meta-avatar {
+  margin-right: 16px;
+}
+
+.newsList .ant-list-item-meta-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.newsList .ant-list-item-meta-description {
+  font-size: 14px;
+  color: #888;
+}
+
+.newsList .ant-list-item-meta {
+  margin-bottom: 12px;
+}
+
+.newsList .ant-list-item-extra {
+  margin-left: 20px;
+}
+
+.newsList .ant-list-item-actions {
+  margin-top: 10px;
+}
+
+.newsList .ant-list-item-actions > li {
+  margin-right: 16px;
+}
+
+.iconText {
+  display: flex;
+  align-items: center;
+  color: #888;
+}
+
+.iconText svg {
+  margin-right: 8px;
+}
+
+.title {
+  color: #1890ff;
+}
+.title:hover {
+  text-decoration: underline;
+}
+
+.description {
+  color: #555;
+}
+
+.content {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+}/*# sourceMappingURL=NewsComp.module.css.map */

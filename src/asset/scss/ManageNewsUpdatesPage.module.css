@@ -1,0 +1,71 @@
+.manageNewsUpdatesPage .containerNews {
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+.manageNewsUpdatesPage .containerNews .viewComponent .viewAllCard .viewAllContentItem {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.manageNewsUpdatesPage .containerNews .viewComponent .viewAllCard .viewAllContentItem .newsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.manageNewsUpdatesPage .containerNews .viewComponent .viewAllCard .viewAllContentItem .newsHeader .newsActions {
+  display: flex;
+  gap: 10px;
+}
+.manageNewsUpdatesPage .containerNews .viewComponent .viewAllCard .viewAllContentItem .newsHeader .newsActions .updateButton {
+  background-color: #52c41a;
+  border-color: #52c41a;
+  color: #fff;
+}
+.manageNewsUpdatesPage .containerNews .viewComponent .viewAllCard .viewAllContentItem .newsHeader .newsActions .deleteButton {
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+  color: #fff;
+}
+.manageNewsUpdatesPage .containerNews .viewComponent .viewAllCard .viewAllContentItem .newsTitle {
+  margin-bottom: 10px;
+}
+.manageNewsUpdatesPage .containerNews .viewComponent .viewAllCard .viewAllContentItem .newsContent {
+  margin-bottom: 10px;
+}
+.manageNewsUpdatesPage .containerNews .viewComponent .viewAllCard .viewAllContentItem .viewButton {
+  display: block;
+  width: 100%;
+}
+.manageNewsUpdatesPage .containerNews .viewComponent .viewAllCard .pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+.manageNewsUpdatesPage .containerNews .containerFunction .functionCard {
+  text-align: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.manageNewsUpdatesPage .containerNews .containerFunction .functionCard .createNewsButton,
+.manageNewsUpdatesPage .containerNews .containerFunction .functionCard .updateNewsButton,
+.manageNewsUpdatesPage .containerNews .containerFunction .functionCard .deleteNewsButton {
+  width: 100%;
+}
+.manageNewsUpdatesPage .containerNews .templateComponent {
+  text-align: center;
+  margin-top: 20px;
+}
+.manageNewsUpdatesPage .containerNews .templateComponent .box1, .manageNewsUpdatesPage .containerNews .templateComponent .box2, .manageNewsUpdatesPage .containerNews .templateComponent .box3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 24px;
+}
+.manageNewsUpdatesPage .containerNews .carousel {
+  margin-top: 20px;
+}/*# sourceMappingURL=ManageNewsUpdatesPage.module.css.map */

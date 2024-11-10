@@ -1,8 +1,10 @@
 :root {
   --bg: rgb(41, 39, 43);
-  --white: rgb(151, 141, 141);
+  --white: rgb(211, 146, 243);
+  --text-tittle: #FFEF06;
   --primary: rgb(50, 206, 154);
-  --placeholder: rgb(106, 102, 108);
+  --placeholder: rgb(211, 146, 243);
+  --neon-yl: #FFEF06;
 }
 
 * {
@@ -30,7 +32,6 @@ body {
   grid-column: 1;
   grid-row: 1;
   font: 1.1rem futura, helvetica, sans-serif;
-  color: var(--white);
 }
 .containerPH .wrapper input {
   border: none;
@@ -40,10 +41,21 @@ body {
   border-radius: 0.25rem;
   outline: none;
   background-color: transparent;
-  color: var(--white);
+  color: var(--neon-yl);
+  text-shadow: 0 0 8px var(--neon-yl);
   padding: 1rem;
   z-index: 0;
   transition: border-color 0.5s;
+}
+.containerPH .wrapper input::-moz-placeholder {
+  color: var(--placeholder);
+  text-shadow: 0 0 8px var(--placeholder);
+  opacity: 1;
+}
+.containerPH .wrapper input::placeholder {
+  color: var(--placeholder);
+  text-shadow: 0 0 8px var(--placeholder);
+  opacity: 1;
 }
 .containerPH .wrapper input:focus {
   border-color: var(--primary);
@@ -51,12 +63,12 @@ body {
 .containerPH .wrapper input:not(:-moz-placeholder-shown) ~ span {
   transform: translateY(-1.8rem) scale(0.75);
   padding: 0 0.25rem;
-  color: var(--white);
+  color: var(--text-tittle);
 }
 .containerPH .wrapper input:focus ~ span, .containerPH .wrapper input:not(:placeholder-shown) ~ span {
   transform: translateY(-1.8rem) scale(0.75);
   padding: 0 0.25rem;
-  color: var(--white);
+  color: var(--text-tittle);
 }
 .containerPH .wrapper span {
   width: -moz-max-content;
@@ -69,11 +81,13 @@ body {
 .containerPH label {
   z-index: 1;
   position: absolute;
-  top: -10px;
+  top: -18px;
   left: 10px;
   padding: 0 0px;
-  background: #ffffff;
   border-radius: 7px;
   width: -moz-max-content;
   width: max-content;
+  color: var(--neon-yl);
+  text-shadow: 0 0 8px var(--neon-yl);
+  font-weight: 700;
 }/*# sourceMappingURL=PlaceHolder.module.css.map */

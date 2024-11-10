@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson, deleteCookieJson } from '../../../util/config';
 import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction } from '../../redux/reducers/userReducer';
-import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser, removeUser } from '../../../service/userAPI';
+import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser, removeUser, createUser } from '../../../service/userAPI';
 
 // async actions
 export const loginActionApi = (userLogin, navigate) => {
@@ -101,13 +101,12 @@ export const fetchUserByIdActionApi = (userId) => {
     };
 };
 
-export const updateUserActionApi = (userId, userDetails, navigate) => {
+export const updateUserActionApi = (userId, userDetails) => {
     return async (dispatch) => {
         try {
             const res = await updateDetailUser(userId, userDetails);
             const action = updateUserAction(res.data);
             dispatch(action);
-            navigate('/admin/manage-users'); // Navigate to users page after updating
         } catch (error) {
             console.error("Failed to update user:", error.response ? error.response.data : error.message);
         }
@@ -140,3 +139,17 @@ export const logoutActionApi = (navigate) => {
         navigate('/login');
     };
 };
+
+export const createUsersActionApi = (userRegister) => {
+    return async (dispatch) => {
+        try {
+            const res = await createUser(userRegister);
+            const action = registerAction(res.data);
+            dispatch(action);
+
+        } catch (error) {
+            console.error("Failed to create user:", error.response ? error.response.data : error.message);
+        }
+
+}
+}

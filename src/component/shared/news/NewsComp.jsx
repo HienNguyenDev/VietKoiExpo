@@ -52,7 +52,7 @@ const NewsComp = ({ theme }) => {
       style={{ backgroundColor: theme.palette.background.paper }} // Apply background color to the list container
       renderItem={(item) => (
         <List.Item
-          key={item.title}
+          key={item.newsId}
           actions={[
             <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
             <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
@@ -61,10 +61,10 @@ const NewsComp = ({ theme }) => {
           style={{ border: `1px solid ${theme.palette.primary.main}`, boxShadow: `0 0 8px ${theme.palette.primary.main}`, backgroundColor: theme.palette.background.paper }} // Apply background color to the list item
         >
           <List.Item.Meta
-            title={<a onClick={() => navigate(`/news/${item.newsTypeId}`)} className={styles.title} style={{ color: theme.palette.textTittle.primary }}>{item.title}</a>} // Added custom class for title
-            description={<span className={styles.description} style={{ color: theme.palette.text.secondary }}>{item.description}</span>} // Added custom class for description
+            title={<a onClick={() => navigate(`/news/${item.newsId}`)} className={styles.title} style={{ color: theme.palette.textTittle.primary }}>{item.title}</a>} // Added custom class for title
+            description={<span className={styles.description} style={{ color: theme.palette.text.secondary }} dangerouslySetInnerHTML={{ __html: item.newsDescription }} />} // Added custom class for description
           />
-          <p className={styles.content} style={{ color: theme.palette.text.primary }}>{item.content}</p> {/* Added custom class for content */}
+          <div className={styles.content} style={{ color: theme.palette.text.primary }} dangerouslySetInnerHTML={{ __html: item.newsDescription }} /> {/* Added custom class for content */}
         </List.Item>
       )}
     />

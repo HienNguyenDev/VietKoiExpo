@@ -46,6 +46,7 @@ const ManageNewsUpdatesPage = () => {
       setQuillValue(news.newsDescription); // Set the initial value for ReactQuill
     } else {
       form.setFieldsValue({
+        newsDate: moment(), // Set the initial value to the current date and time
         userId: '', // Reset the userId
       });
       setQuillValue(''); // Reset the ReactQuill value
@@ -97,8 +98,8 @@ const ManageNewsUpdatesPage = () => {
     form.validateFields().then(values => {
       const formattedValues = {
         ...values,
-        newsDate: values.newsDate.format('YYYY-MM-DD'),
-        status: values.status ? 1 : 0, // Convert boolean to integer
+        newsDate: values.newsDate.format('YYYY-MM-DD'), // Ensure date is in the correct format
+        status: values.status, // Send status as boolean
         newsDescription: quillValue, // Include the ReactQuill value
       };
       console.log('Submitting values:', formattedValues); // Debugging log
@@ -158,21 +159,23 @@ const ManageNewsUpdatesPage = () => {
         <Form layout="vertical" form={form}>
           <Form.Item name="newsTypeId" label="News Type" rules={[{ required: true, message: 'Please select the news type' }]}>
             <Select id="newsTypeId" placeholder="Select news type" disabled={drawerTitle === 'View News'}>
-              <Option value="type1">Type 1</Option>
-              <Option value="type2">Type 2</Option>
+              <Option value="competition">Competition</Option>
+              <Option value="general">General</Option>
+              <Option value="others">Others</Option>
+              <Option value="updates">Updates</Option>
             </Select>
           </Form.Item>
           <Form.Item name="userId" label="User" rules={[{ required: true, message: 'Please select the user' }]}>
             <Select id="userId" placeholder="Select user" disabled={drawerTitle === 'View News'}>
-              {usersData.map(user => (
+              {usersData.filter(user => ['staff', 'manager'].includes(user.roleId)).map(user => (
                 <Option key={user.userId} value={user.userId}>
                   {user.fullName}
                 </Option>
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name="newsDate" label="Date" rules={[{ required: true, message: 'Please enter the date' }]}>
-            <DatePicker id="newsDate" style={{ width: '100%' }} disabled={drawerTitle === 'View News'} />
+          <Form.Item name="newsDate" label="Date" initialValue={moment()} rules={[{ required: true, message: 'Please enter the date' }]}>
+            <DatePicker id="newsDate" style={{ width: '100%' }} disabled={true} format="YYYY-MM-DD" />
           </Form.Item>
           <Form.Item name="status" label="Status" valuePropName="checked">
             <Switch id="status" disabled={drawerTitle === 'View News'} />

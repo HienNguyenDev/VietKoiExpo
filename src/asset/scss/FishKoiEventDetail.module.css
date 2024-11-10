@@ -1,0 +1,94 @@
+.introductionCard {
+  background-color: #ff6f61;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ff6f61;
+  padding: 20px;
+  color: #333333;
+}
+
+.eventStats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.eventStats .likeButton,
+.eventStats .dislikeButton {
+  background-color: transparent;
+  color: #ff6f61;
+  border: 1px solid #ff6f61;
+  box-shadow: 0 0 8px #ff6f61;
+}
+.eventStats .likeButton:hover,
+.eventStats .dislikeButton:hover {
+  background-color: #ff6f61;
+  color: white;
+  box-shadow: 0 0 12px #ff6f61;
+}
+
+.readMore {
+  background-color: transparent;
+  color: #ff6f61;
+  border: 1px solid #ff6f61;
+  box-shadow: 0 0 8px #ff6f61;
+}
+.readMore:hover {
+  background-color: #ff6f61;
+  color: white;
+  box-shadow: 0 0 12px #ff6f61;
+}
+
+.voteOptions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.voteOptions .voteOption {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #ff6f61;
+}
+.voteOptions .voteOption:hover {
+  box-shadow: 0 0 12px #ff6f61;
+}
+.voteOptions .voteOption img {
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.eventCards {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.eventCards .eventCard {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ff6f61;
+  text-align: center;
+}
+.eventCards .eventCard:hover {
+  box-shadow: 0 0 12px #ff6f61;
+}
+
+@media (max-width: 768px) {
+  .voteOptions {
+    flex-direction: column;
+  }
+  .voteOptions .voteOption {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+.discountButton {
+  border: 1px solid var(--primary-main);
+  color: var(--primary-main);
+  box-shadow: 0 0 8px var(--primary-main);
+  transition: all 0.3s ease;
+}
+.discountButton:hover {
+  background-color: var(--primary-main);
+  color: #713232;
+  box-shadow: 0 0 12px var(--primary-main);
+}/*# sourceMappingURL=FishKoiEventDetail.module.css.map */

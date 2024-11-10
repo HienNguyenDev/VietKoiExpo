@@ -1,0 +1,17 @@
+.advancementView {
+  text-align: center;
+  padding: 20px;
+}
+.advancementView .roundSelect {
+  margin-bottom: 20px;
+}
+.advancementView .fishCards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.advancementView .fishCard {
+  margin: 10px;
+  border: 2px solid #ff6f61;
+  box-shadow: 0 0 10px #ff6f61;
+}/*# sourceMappingURL=AdvancementView.module.css.map */

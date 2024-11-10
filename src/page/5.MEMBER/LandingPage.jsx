@@ -47,7 +47,7 @@ const LandingPage = () => {
 
   const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
-      return <span>Competition has ended</span>;
+      return <span>Competition has started</span>;
     } else {
       return (
         <div className={styles.countdown}>
@@ -58,7 +58,21 @@ const LandingPage = () => {
   };
 
   const showModal = (competition) => {
-    console.log('Selected competition:', competition); // Debug selected competition
+    const status = getCompetitionStatus(competition);
+    if (status === 'ongoing') {
+      Modal.warning({
+        title: 'Competition Ongoing',
+        content: 'The competition is currently ongoing. Registration is not allowed.',
+      });
+      return;
+    }
+    if (status === 'completed') {
+      Modal.warning({
+        title: 'Competition Completed',
+        content: 'The competition has ended. Please select another competition.',
+      });
+      return;
+    }
     setSelectedCompetition(competition);
     setIsModalVisible(true);
   };
@@ -109,9 +123,6 @@ const LandingPage = () => {
       return 'ongoing';
     }
     if (statusCom === 2) {
-      return 'ended';
-    }
-    if (statusCom === 3) {
       return 'completed';
     }
   };
@@ -190,9 +201,6 @@ const LandingPage = () => {
                             {status === 'ongoing' && !userRegistered && (
                               <Typography.Title style={{ color: 'red' }} level={5}>Please Register to Compete</Typography.Title>
                             )}
-                            {status === 'ended' && (
-                              <Typography.Title level={5}>Competition Ended</Typography.Title>
-                            )}
                             {status === 'completed' && (
                               <Typography.Title level={5}>Competition Completed</Typography.Title>
                             )}
@@ -202,7 +210,6 @@ const LandingPage = () => {
                           className={styles.registerButton}
                           type="link"
                           onClick={() => showModal(competition)}
-                          disabled={status === 'ended' || status === 'completed'}
                         >
                           Register
                         </Button>

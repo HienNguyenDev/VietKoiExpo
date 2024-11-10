@@ -1,0 +1,84 @@
+.competitionPage {
+  width: 100vw;
+  padding: 20px;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.competitionPage .competitionCard {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #222;
+  border: 1px solid #e162c1;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.competitionPage .competitionCard .ant-typography {
+  color: #fff;
+}
+.competitionPage .content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+.competitionPage .bracketCard {
+  flex: 1;
+  padding: 20px;
+  background-color: #222;
+  border: 1px solid #e162c1;
+  border-radius: 10px;
+  color: #fff;
+  overflow-y: auto;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.competitionPage .bracketCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.competitionPage .bracketCard .ant-typography {
+  color: #fff;
+}
+.competitionPage .koiEntriesCard {
+  flex: 3;
+  padding: 20px;
+  background-color: #222;
+  border: 1px solid #e162c1;
+  border-radius: 10px;
+  color: #fff;
+  overflow-y: auto;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.competitionPage .koiEntriesCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.competitionPage .koiEntriesCard .ant-typography {
+  color: #fff;
+}
+.competitionPage .ant-card {
+  border: none;
+}
+.competitionPage .ant-card-head {
+  background-color: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+}
+.competitionPage .ant-card-body {
+  padding: 16px;
+}
+.competitionPage .registerButton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #e162c1;
+  color: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.competitionPage .registerButton:hover {
+  background-color: #40a9ff;
+  transform: translateY(-2px);
+}/*# sourceMappingURL=CompetitionPage.module.css.map */

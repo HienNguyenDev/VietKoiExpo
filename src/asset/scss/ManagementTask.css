@@ -1,0 +1,41 @@
+.management-task .headerManageTask {
+  background-color: #f0f2f5;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+.management-task .calendar,
+.management-task .urgentTask,
+.management-task .projectDirectory,
+.management-task .newComment,
+.management-task .teamDirectory {
+  padding: 20px;
+  background-color: #fff;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.management-task .calendar {
+  height: 400px;
+}
+.management-task .urgentTask {
+  height: 400px;
+}
+.management-task .projectDirectory,
+.management-task .newComment,
+.management-task .teamDirectory {
+  height: 300px;
+}
+.management-task .create-task-card {
+  background-color: #fafafa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.management-task .create-task-form .ant-form-item {
+  margin-bottom: 16px;
+}
+.management-task .create-task-form .ant-btn-primary {
+  width: 100%;
+}/*# sourceMappingURL=ManagementTask.css.map */

@@ -1,0 +1,261 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@keyframes rainbowBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.rainbow-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+  background-size: 1400% 1400%;
+  animation: rainbowBackground 10s linear infinite;
+  opacity: 0.9;
+  z-index: 1;
+  border-radius: 20px;
+}
+
+.container {
+  position: relative;
+  font-family: "Roboto", Arial, sans-serif;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.container .event-header,
+.container .event-info,
+.container .predict-fish,
+.container .vote-section,
+.container .similar-events,
+.container .footer {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  animation: rainbowBackground 10s infinite;
+  background-size: cover;
+  background-position: center;
+}
+.container .event-header {
+  text-align: center;
+}
+.container .event-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+}
+.container .event-header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+.container .event-header .event-stats {
+  margin-top: 10px;
+}
+.container .event-header .event-stats button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.container .event-header .event-stats button:hover {
+  background-color: #0056b3;
+}
+.container .event-info {
+  display: flex;
+  justify-content: space-between;
+  background: rgb(63, 94, 251);
+}
+.container .event-info .date-location {
+  display: flex;
+  flex-direction: column;
+}
+.container .event-info .date-location div {
+  margin-bottom: 10px;
+}
+.container .event-info .date-location div h4 {
+  font-size: 1.5rem;
+  color: #333;
+}
+.container .event-info .date-location div p {
+  font-size: 1.2rem;
+  color: #666;
+}
+.container .event-info .vote-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.container .event-info .vote-section h4 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+.container .event-info .vote-section .vote-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.container .event-info .vote-section .vote-button:hover {
+  background-color: #218838;
+}
+.container .predict-fish {
+  background: #ffffff;
+}
+.container .predict-fish h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+.container .predict-fish p {
+  font-size: 1.2rem;
+  color: #666;
+}
+.container .predict-fish .read-more {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.container .predict-fish .read-more:hover {
+  background-color: #0056b3;
+}
+.container .vote-section {
+  background-image: url("../photo/koi/nenmua.jpg");
+}
+.container .vote-section h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+.container .vote-section .vote-options {
+  display: flex;
+  justify-content: space-between;
+}
+.container .vote-section .vote-options .vote-option {
+  flex: 1;
+  margin: 0 10px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: rgba(70, 79, 89, 0.3450980392);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.container .vote-section .vote-options .vote-option:hover {
+  background-color: rgba(153, 83, 176, 0.7254901961);
+}
+.container .similar-events {
+  background-image: url("../photo/1046552_OL0CSR0.jpg");
+}
+.container .similar-events h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+.container .similar-events .event-cards {
+  display: flex;
+  justify-content: space-between;
+}
+.container .similar-events .event-cards .event-card {
+  flex: 1;
+  margin: 0 10px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.container .similar-events .event-cards .event-card h4 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+.container .similar-events .event-cards .event-card p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+.container .similar-events .event-cards .event-card button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.container .similar-events .event-cards .event-card button:hover {
+  background-color: #218838;
+}
+.container .footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 10px;
+  background-image: url("../photo/1046552_OL0CSR0.jpg");
+}
+.container .footer .footer-info,
+.container .footer .newsletter {
+  flex: 1;
+  margin: 0 10px;
+}
+.container .footer .footer-info h4,
+.container .footer .newsletter h4 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+.container .footer .footer-info p,
+.container .footer .footer-info input,
+.container .footer .newsletter p,
+.container .footer .newsletter input {
+  font-size: 1.2rem;
+}
+.container .footer .footer-info input,
+.container .footer .newsletter input {
+  padding: 10px;
+  width: calc(100% - 20px);
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.container .footer .footer-info button,
+.container .footer .newsletter button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.container .footer .footer-info button:hover,
+.container .footer .newsletter button:hover {
+  background-color: #0056b3;
+}/*# sourceMappingURL=FishKoiEventDetail.css.map */

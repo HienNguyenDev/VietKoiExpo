@@ -1,0 +1,132 @@
+@font-face {
+  font-family: "UtRightMilksDemoRegular";
+  src: url("../font/ut-right-milks-font/UtRightMilksDemoRegular-JpZo7.otf") format("opentype");
+}
+@font-face {
+  font-family: "AutumnFlowerFont";
+  src: url("../font/autumn-flowers-font/AutumnFlowers-9YVZK.otf") format("opentype");
+}
+.container {
+  font-family: "UtRightMilksDemoRegular" !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  background: url("../photo/koibanner.png");
+  background-position: center;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+}
+
+.registerForm {
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.103);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  max-width: 450px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.registerForm .tittleRegister {
+  text-align: center;
+}
+.registerForm .tittleRegister h1 {
+  font-size: 2.5rem;
+  font-family: "AutumnFlowerFont";
+}
+.registerForm .formItem {
+  margin-bottom: 16px;
+}
+.registerForm .formItem .formLabel {
+  color: rgb(146, 52, 52);
+  font-size: 1rem;
+}
+.registerForm .actionItems {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.registerForm .haveAccountItem {
+  text-align: start;
+  color: red;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  .registerForm {
+    padding: 15px;
+    border-radius: 20px;
+  }
+  .registerForm .tittleRegister h1 {
+    font-size: 2rem;
+  }
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 0;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.registerForm {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffcc;
+  width: 100%;
+  max-width: 400px;
+  background: rgb(63, 94, 251);
+  background: radial-gradient(circle, rgb(63, 94, 251) 0%, rgba(253, 156, 235, 0.4850533964) 0%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fd9ceb",GradientType=1);
+}
+
+.tittleRegister h1 {
+  color: #00ffcc;
+  text-align: center;
+  text-shadow: 0 0 8px #00ffcc;
+}
+
+.error {
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
+}
+
+.formItem {
+  margin-bottom: 20px;
+}
+
+.actionItems {
+  margin-bottom: 20px;
+}
+
+.checkbox {
+  font-family: "futura, helvetica, sans-serif";
+  color: #00ffcc;
+}
+
+.haveAccountItem .link {
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
+}/*# sourceMappingURL=RegisterPage.module.css.map */

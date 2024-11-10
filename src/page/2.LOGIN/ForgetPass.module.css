@@ -1,0 +1,77 @@
+@font-face {
+  font-family: "UtRightMilksDemoRegular";
+  src: url("../../asset/font/ut-right-milks-font/UtRightMilksDemoRegular-JpZo7.otf") format("opentype");
+}
+@font-face {
+  font-family: "AutumnFlowerFont";
+  src: url("../../asset/font/autumn-flowers-font/AutumnFlowers-9YVZK.otf") format("opentype");
+}
+.container {
+  font-family: "UtRightMilksDemoRegular" !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("../../asset/photo/koibanner.png") no-repeat center center;
+  background-size: cover;
+  height: 100vh;
+  padding: 20px;
+}
+
+.forgetPassForm {
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.103);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgb(63, 94, 251);
+  background: radial-gradient(circle, rgb(63, 94, 251) 0%, rgba(253, 156, 235, 0.4850533964) 0%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fd9ceb",GradientType=1);
+}
+.forgetPassForm .titleForgetPass {
+  text-align: center;
+  font-family: "UtRightMilksDemoRegular";
+}
+.forgetPassForm .titleForgetPass h1 {
+  color: #00ffcc;
+  font-size: 2.5rem;
+  font-family: "AutumnFlowerFont";
+  text-shadow: 0 0 8px #00ffcc;
+}
+.forgetPassForm .emailItem {
+  margin-bottom: 16px;
+}
+.forgetPassForm .emailItem .emailLabel {
+  color: #00ffcc;
+  font-size: 1rem;
+}
+.forgetPassForm .submitButton {
+  background-color: #00ffcc;
+  border: none;
+  box-shadow: 0 0 10px #00ffcc;
+  color: #141414;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.forgetPassForm .submitButton:hover {
+  background-color: #40a9ff;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  .forgetPassForm {
+    padding: 15px;
+    border-radius: 20px;
+  }
+  .forgetPassForm .titleForgetPass h1 {
+    font-size: 2rem;
+  }
+}/*# sourceMappingURL=ForgetPass.module.css.map */

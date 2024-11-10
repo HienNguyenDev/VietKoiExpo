@@ -1,0 +1,120 @@
+@keyframes neon {
+  0%, 100% {
+    text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 40px #00ffcc, 0 0 80px #00ffcc, 0 0 90px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc;
+  }
+  50% {
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc, 0 0 50px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc, 0 0 200px #00ffcc, 0 0 250px #00ffcc;
+  }
+}
+.neonTitle {
+  animation: neon 1.5s infinite alternate;
+}
+
+.introductionCard {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.introductionCard .ant-card-head-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+.introductionCard p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #555;
+  margin-bottom: 10px;
+}
+.introductionCard ul {
+  margin-left: 20px;
+  list-style-type: disc;
+}
+.introductionCard ul li {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #555;
+  margin-bottom: 5px;
+}
+.introductionCard .readMore {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #1890ff;
+}
+.introductionCard .readMore:hover {
+  color: #40a9ff;
+}
+
+.page-content {
+  padding: 20px;
+  margin-top: 64px;
+}
+
+.card-animated {
+  animation: fadeInUp 1s;
+}
+
+.sponsors-card {
+  margin-bottom: 20px;
+}
+
+.carousel-content {
+  color: #1890ff;
+  font-size: 24px;
+  text-align: center;
+  line-height: 5rem;
+}
+
+.introduction-card,
+.miscellaneous-card,
+.koi-competition-card,
+.ranking-card,
+.news-card {
+  margin-bottom: 20px;
+}
+
+.carousel {
+  width: 100%;
+  height: auto;
+}
+
+.bannerImage {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+@keyframes neonGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 40px #00ffcc, 0 0 80px #00ffcc, 0 0 90px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc;
+  }
+  50% {
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc, 0 0 50px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc, 0 0 200px #00ffcc, 0 0 250px #00ffcc;
+  }
+}
+@keyframes neonGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 40px #00ffcc, 0 0 80px #00ffcc, 0 0 90px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc;
+  }
+  50% {
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc, 0 0 50px #00ffcc, 0 0 100px #00ffcc, 0 0 150px #00ffcc, 0 0 200px #00ffcc, 0 0 250px #00ffcc;
+  }
+}
+.discount_button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #00ffcc;
+  background-color: transparent;
+  border: 2px solid #00ffcc;
+  border-radius: 5px;
+  cursor: pointer;
+  animation: neonGlow 1.5s infinite alternate;
+  transition: background-color 0.3s, color 0.3s;
+}
+.discount_button:hover {
+  background-color: #00ffcc;
+  color: #141414;
+}/*# sourceMappingURL=MemberPage.module.css.map */

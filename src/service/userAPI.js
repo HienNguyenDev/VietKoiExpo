@@ -38,6 +38,14 @@ export const removeUser = (userId, userDelete   ) => {
     });
 };
 
+export const createUser = (userCreate) => {
+    return axios({
+        url: BASE_URL,
+        method: 'POST',
+        data: userCreate,
+    });
+}
+
 
 export const getUserProfile = async (userId) => {
     const url = `${BASE_URL}/${userId}`;

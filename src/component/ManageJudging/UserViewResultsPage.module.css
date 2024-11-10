@@ -1,0 +1,36 @@
+.userViewResultsPage {
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.resultsSection {
+  margin-top: 40px;
+}
+
+.resultsTitle {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.koiCard {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+}
+
+.koiName {
+  color: #1890ff;
+}
+
+.koiOwner,
+.koiScore,
+.koiRank {
+  display: block;
+  margin-top: 10px;
+}/*# sourceMappingURL=UserViewResultsPage.module.css.map */

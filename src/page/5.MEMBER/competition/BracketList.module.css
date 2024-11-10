@@ -1,0 +1,12 @@
+.bracketList .ant-list-item {
+  transition: background-color 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+.bracketList .ant-list-item:hover {
+  background-color: #e162c1;
+  transform: translateY(-2px);
+  color: #fff;
+}
+.bracketList .ant-list-item:hover .ant-typography {
+  color: #fff;
+}/*# sourceMappingURL=BracketList.module.css.map */

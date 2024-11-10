@@ -4,7 +4,7 @@ const BASE_URL = 'https://localhost:7246/api'; // Replace with your actual base 
 
 export const createNews = (newsData) => {
     return axios({
-        url: `${BASE_URL}/News`,
+        url: `https://localhost:7246/api/News`,
         method: 'POST',
         data: newsData,
     });

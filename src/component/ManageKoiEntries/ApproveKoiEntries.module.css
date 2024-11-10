@@ -1,0 +1,121 @@
+.container {
+  width: 100vw;
+  margin: 0 auto;
+  padding: 20px;
+  background: url(../../asset/photo/OL0CSN0.jpg) no-repeat center center fixed;
+  background-size: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+}
+
+h4 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #ffffff;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: rgba(235, 235, 235, 0.674);
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+  position: relative;
+  left: 35vw;
+}
+.form .MuiFormControl-root {
+  width: 100%;
+}
+.form .MuiTextField-root {
+  width: 100%;
+}
+.form .MuiInputLabel-root {
+  color: #ffffff;
+}
+.form .MuiInputBase-input {
+  color: #ffffff;
+}
+.form .MuiCheckbox-root {
+  margin-right: 8px;
+  color: #ff6f00;
+}
+.form .MuiButton-root {
+  align-self: flex-end;
+  padding: 8px 16px;
+  background-color: #ff6f00;
+  color: #ffffff;
+}
+.form .MuiButton-root:hover {
+  background-color: #ff8c00;
+}
+
+.error {
+  color: #ff6f00;
+  font-size: 0.875rem;
+  margin-top: -12px;
+  margin-bottom: 8px;
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dialogContent .MuiTypography-body1 {
+  margin-bottom: 4px;
+  color: #000000;
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.dialogActions .MuiButton-root {
+  padding: 6px 16px;
+  border: 1px solid #ff6f00;
+  color: #ff6f00;
+  background-color: transparent;
+}
+.dialogActions .MuiButton-root:hover {
+  background-color: #ff6f00;
+  color: #000000;
+}
+
+/* Snackbar Styles */
+.snackbar.MuiSnackbar-root {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+}
+.snackbar .MuiAlert-root {
+  font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .container {
+    padding: 16px;
+  }
+  .form {
+    gap: 12px;
+  }
+  .dialogContent {
+    gap: 10px;
+  }
+  .dialogActions {
+    gap: 6px;
+  }
+  .MuiButton-root {
+    padding: 6px 12px;
+  }
+}/*# sourceMappingURL=ApproveKoiEntries.module.css.map */

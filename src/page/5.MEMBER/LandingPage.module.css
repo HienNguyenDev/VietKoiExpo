@@ -1,0 +1,88 @@
+.landingPage {
+  background-color: #000;
+  color: #fff;
+}
+.landingPage .heroSection {
+  text-align: center;
+  padding: 20px;
+  background-color: #111;
+}
+.landingPage .heroSection h1 {
+  color: #e162c1;
+  text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+}
+.landingPage .heroSection p {
+  color: #40a9ff;
+  text-shadow: 0 0 10px #40a9ff, 0 0 20px #40a9ff, 0 0 30px #40a9ff;
+}
+.landingPage .heroSection img {
+  border: 2px solid #e162c1;
+  border-radius: 10px;
+}
+.landingPage .competitionsSection {
+  padding: 20px;
+}
+.landingPage .competitionsSection .competitionCard {
+  background-color: #222;
+  border: 1px solid #e162c1;
+  border-radius: 10px;
+  color: #fff;
+}
+.landingPage .competitionsSection .competitionCard .ant-card-body {
+  padding: 10px;
+}
+.landingPage .competitionsSection .competitionCard .ant-card-meta-title {
+  color: #e162c1;
+  text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+}
+.landingPage .competitionsSection .competitionCard .ant-card-meta-description {
+  color: #40a9ff;
+  text-shadow: 0 0 10px #40a9ff, 0 0 20px #40a9ff, 0 0 30px #40a9ff;
+}
+.landingPage .competitionsSection .competitionCard .ant-btn-link {
+  color: #e162c1;
+  text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+}
+.landingPage .competitionsSection .countdown {
+  color: #e162c1;
+  text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+}
+.landingPage .competitionsSection .keyDatesList li {
+  color: #40a9ff;
+  text-shadow: 0 0 10px #40a9ff, 0 0 20px #40a9ff, 0 0 30px #40a9ff;
+}
+.landingPage .ant-modal-content {
+  background-color: #111;
+  color: #fff;
+}
+.landingPage .ant-modal-content .ant-modal-header {
+  background-color: #222;
+  border-bottom: 1px solid #e162c1;
+}
+.landingPage .ant-modal-content .ant-modal-title {
+  color: #e162c1;
+  text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+}
+.landingPage .ant-modal-content .ant-modal-footer {
+  border-top: 1px solid #e162c1;
+}
+.landingPage .ant-modal-content .ant-btn-primary {
+  background-color: #e162c1;
+  border-color: #e162c1;
+  color: #000;
+  text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+}
+
+.registerButton {
+  display: inline-block;
+  background-color: #e162c1;
+  color: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.registerButton:hover {
+  background-color: #40a9ff;
+  transform: translateY(-2px);
+}/*# sourceMappingURL=LandingPage.module.css.map */

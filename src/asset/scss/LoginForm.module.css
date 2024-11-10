@@ -7,53 +7,83 @@
   src: url("../font/autumn-flowers-font/AutumnFlowers-9YVZK.otf") format("opentype");
 }
 .container {
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  width: 100vw;
-  height: 100vh;
   font-family: "UtRightMilksDemoRegular" !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
 }
-.container .loginForm {
+
+.loginForm {
   padding: 20px;
   border: 1px solid rgba(255, 255, 255, 0.103);
   border-radius: 30px;
-  position: relative;
-  top: 20rem;
-  left: 50rem;
-  background-color: #ffffff;
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  max-width: 450px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.container .loginForm .tittleLogin {
+.loginForm .tittleLogin {
   text-align: center;
 }
-.container .loginForm .tittleLogin h1 {
+.loginForm .tittleLogin h1 {
   color: rgb(202, 140, 140);
-  font-size: 60px;
-  padding-left: 100px;
+  font-size: 2.5rem;
   font-family: "AutumnFlowerFont";
 }
-.container .loginForm .usernameItem {
-  padding-left: 33px;
+.loginForm .usernameItem,
+.loginForm .passwordItem {
+  margin-bottom: 16px;
 }
-.container .loginForm .usernameItem .usernameLabel {
+.loginForm .usernameItem .usernameLabel,
+.loginForm .usernameItem .passwordLabel,
+.loginForm .passwordItem .usernameLabel,
+.loginForm .passwordItem .passwordLabel {
   color: rgb(146, 52, 52);
   font-size: 1rem;
 }
-.container .loginForm .passwordItem {
-  padding-left: 33px;
+.loginForm .rememberItem {
+  width: 100%;
+  margin-bottom: 16px;
 }
-.container .loginForm .passwordItem .passwordLabel {
-  color: rgb(189, 133, 133);
-  font-size: 1rem;
-}
-.container .loginForm .rememberItem {
+.loginForm .registerItem {
   text-align: start;
-}
-.container .loginForm .registerItem {
   color: red;
+  margin-bottom: 16px;
+}
+.loginForm .loginWithGoogleItem {
+  margin-top: 16px;
+}
+.loginForm .loginWithGoogleItem .loginWithGoogle {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loginForm .loginWithGoogleItem .loginWithGoogle p {
+  margin: 0;
+  margin-right: 8px;
+}
+.loginForm .loginWithGoogleItem .loginWithGoogle img {
+  width: 20px;
+  height: 20px;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  .loginForm {
+    padding: 15px;
+    border-radius: 20px;
+  }
+  .loginForm .tittleLogin h1 {
+    font-size: 2rem;
+  }
+}
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -70,4 +100,72 @@
   100% {
     background-position: 0% 50%;
   }
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loginForm {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffcc;
+  width: 100%;
+  max-width: 400px;
+  background: rgb(63, 94, 251);
+  background: radial-gradient(circle, rgb(63, 94, 251) 0%, rgba(253, 156, 235, 0.4850533964) 0%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fd9ceb",GradientType=1);
+}
+
+.titleLogin h1 {
+  color: #00ffcc;
+  text-align: center;
+  text-shadow: 0 0 8px #00ffcc;
+}
+
+.error {
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
+}
+
+.usernameItem,
+.passwordItem {
+  margin-bottom: 20px;
+}
+
+.rememberItem {
+  margin-bottom: 20px;
+}
+
+.checkbox {
+  font-family: "futura, helvetica, sans-serif";
+  color: #00ffcc;
+}
+
+.registerItem .link {
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
+}
+
+.loginWithGoogleItem {
+  margin-top: 20px;
+}
+
+.googleButton {
+  background-color: #00ffcc;
+  border: none;
+  box-shadow: 0 0 10px #00ffcc;
+}
+
+.loginWithGoogle p {
+  color: #141414;
+  margin: 0;
+}
+
+.loginWithGoogle img {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
 }/*# sourceMappingURL=LoginForm.module.css.map */

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Button, Col, Divider, Drawer, List, Row, Typography, Modal, Form, Input, Card, Table, Select } from 'antd';
+import { Avatar, Button, Col, Divider, Drawer, List, Row, Typography, Modal, Form, Input, Card, Table, Select, notification } from 'antd';
 import { EditOutlined, DeleteOutlined, UserSwitchOutlined, ExclamationCircleOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from '../../asset/scss/ManageUsersPage.module.scss';
-import { fetchUserByIdActionApi, fetchUsersActionApi, removeUserActionApi, updateUserActionApi } from '../../store/redux/action/userAction';
+import { fetchUserByIdActionApi, fetchUsersActionApi, removeUserActionApi, updateUserActionApi, createUsersActionApi } from '../../store/redux/action/userAction';
 
 const { Title, Paragraph } = Typography;
 const { confirm } = Modal;
@@ -24,7 +24,7 @@ const ManageUsersPage = () => {
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.userReducer.listUser);
   const userDetailData = useSelector(state => state.userReducer.userDetail);
-  
+
   useEffect(() => {
     dispatch(fetchUsersActionApi());
   }, [dispatch]);
@@ -36,24 +36,39 @@ const ManageUsersPage = () => {
     }
   }, [usersData]);
 
+  const roleMapping = {
+    manager: 'Manager',
+    staff: 'Staff',
+    judge: 'Judge',
+    member: 'Member',
+  };
+
   const showDrawer = (title, user = null) => {
     setDrawerTitle(title);
     setSelectedUser(user);
     setOpen(true); // Show the drawer first
-    
+
     if (user) {
-      form.setFieldsValue({
-        fullName: userDetailData.fullName || '',
-        email: userDetailData.email || '',
-        role: userDetailData.role || '',
-        address: userDetailData.address || '',
-        phone: userDetailData.phone || '',
-      });
+      dispatch(fetchUserByIdActionApi(user.userId));
     } else {
       form.resetFields();
     }
-    console.log('User details:', userDetailData);
   };
+
+  useEffect(() => {
+    if (selectedUser) {
+      form.setFieldsValue({
+        fullName: userDetailData.fullName || '',
+        email: userDetailData.email || '',
+        roleId: userDetailData.roleId || '',
+        address: userDetailData.address || '',
+        phone: userDetailData.phone || '',
+        password: userDetailData.password || '',
+        imageUrl: userDetailData.imageUrl || '',
+        experience: userDetailData.experience || 0,
+      });
+    }
+  }, [userDetailData, selectedUser, form]);
 
   const closeDrawer = () => {
     setOpen(false);
@@ -68,6 +83,7 @@ const ManageUsersPage = () => {
   const handleUpdate = (id) => {
     const user = usersData.find(user => user.userId === id);
     if (user) {
+      dispatch(fetchUserByIdActionApi(user.userId));
       showDrawer('Update User', user);
     }
   };
@@ -97,8 +113,36 @@ const ManageUsersPage = () => {
         status: true, // Assuming status is always true for simplicity
       };
       console.log('Submitting values:', formattedValues); // Debugging log
-      if (drawerTitle === 'Update User' && selectedUser) {
-        dispatch(updateUserActionApi(selectedUser.userId, formattedValues));
+      if (drawerTitle === 'Create User') {
+        dispatch(createUsersActionApi(formattedValues))
+          .then(() => {
+            notification.success({
+              message: 'Success',
+              description: 'User created successfully',
+            });
+            dispatch(fetchUsersActionApi()); // Fetch updated list of users
+          })
+          .catch(() => {
+            notification.error({
+              message: 'Error',
+              description: 'Failed to create user',
+            });
+          });
+      } else if (drawerTitle === 'Update User' && selectedUser) {
+        dispatch(updateUserActionApi(selectedUser.userId, formattedValues))
+          .then(() => {
+            notification.success({
+              message: 'Success',
+              description: 'User updated successfully',
+            });
+            dispatch(fetchUsersActionApi()); // Fetch updated list of users
+          })
+          .catch(() => {
+            notification.error({
+              message: 'Error',
+              description: 'Failed to update user',
+            });
+          });
       }
       closeDrawer();
     }).catch(errorInfo => {
@@ -109,7 +153,7 @@ const ManageUsersPage = () => {
   const columns = [
     { title: 'Name', dataIndex: 'fullName', key: 'fullName' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Role', dataIndex: 'role', key: 'role' },
+    { title: 'Role', dataIndex: 'roleId', key: 'roleId', render: roleId => roleMapping[roleId] },
     { title: 'Phone', dataIndex: 'phone', key: 'phone' },
     { title: 'Address', dataIndex: 'address', key: 'address' },
     { title: 'Status', dataIndex: 'status', key: 'status', render: status => (status ? 'Active' : 'Inactive') },
@@ -141,6 +185,11 @@ const ManageUsersPage = () => {
         width={640}
         onClose={closeDrawer}
         visible={open}
+        afterVisibleChange={(visible) => {
+          if (!visible) {
+            form.resetFields();
+          }
+        }}
       >
         <Form layout="vertical" form={form}>
           <Form.Item name="fullName" label="Full Name" rules={[{ required: true, message: 'Please enter the full name' }]}>
@@ -149,7 +198,10 @@ const ManageUsersPage = () => {
           <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Please enter the email' }]}>
             <Input placeholder="Please enter the email" disabled={drawerTitle === 'View User'} />
           </Form.Item>
-          <Form.Item name="role" label="Role" rules={[{ required: true, message: 'Please select the role' }]}>
+          <Form.Item name="password" label="Password" rules={[{ required: true, message: 'Please enter the password' }]}>
+            <Input.Password placeholder="Please enter the password" disabled={drawerTitle === 'View User'} />
+          </Form.Item>
+          <Form.Item name="roleId" label="Role" rules={[{ required: true, message: 'Please select the role' }]}>
             <Select placeholder="Please select the role" disabled={drawerTitle === 'View User'}>
               <Option value="manager">Manager</Option>
               <Option value="staff">Staff</Option>
@@ -162,6 +214,12 @@ const ManageUsersPage = () => {
           </Form.Item>
           <Form.Item name="phone" label="Phone" rules={[{ required: true, message: 'Please enter the phone number' }]}>
             <Input placeholder="Please enter the phone number" disabled={drawerTitle === 'View User'} />
+          </Form.Item>
+          <Form.Item name="imageUrl" label="Image URL" rules={[{ required: true, message: 'Please enter the image URL' }]}>
+            <Input placeholder="Please enter the image URL" disabled={drawerTitle === 'View User'} />
+          </Form.Item>
+          <Form.Item name="experience" label="Experience" rules={[{ required: true, message: 'Please enter the experience' }]}>
+            <Input type="number" placeholder="Please enter the experience" disabled={drawerTitle === 'View User'} />
           </Form.Item>
           {drawerTitle !== 'View User' && (
             <Form.Item>

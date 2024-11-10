@@ -1,0 +1,59 @@
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.formContainer {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.createContestForm {
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.title h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.formItem {
+  margin-bottom: 20px;
+}
+.formItem label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+.formItem input, .formItem textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.formItem .ant-upload-list-picture {
+  display: flex;
+  justify-content: center;
+}
+
+.competitionsContainer {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.competitionsContainer h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}/*# sourceMappingURL=CreateContestForm.module.css.map */

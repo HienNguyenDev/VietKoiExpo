@@ -1,0 +1,53 @@
+.viewKoiEntries {
+  height: 100vh;
+  width: 100vw;
+  padding: 20px;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.viewKoiEntries .title {
+  color: #ff6f61;
+  text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61, 0 0 30px #ff6f61;
+  margin-bottom: 20px;
+}
+.viewKoiEntries .backButton {
+  margin-bottom: 20px;
+  background-color: #ff6f61;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.viewKoiEntries .backButton:hover {
+  background-color: #40a9ff;
+  transform: translateY(-2px);
+}
+.viewKoiEntries .koiCard {
+  background-color: #222;
+  border: 1px solid #ff6f61;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 400px;
+}
+.viewKoiEntries .koiCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.viewKoiEntries .koiCard .ant-card-meta-title {
+  color: #ff6f61;
+  text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61, 0 0 30px #ff6f61;
+}
+.viewKoiEntries .koiCard .ant-card-meta-description {
+  color: #40a9ff;
+  text-shadow: 0 0 10px #40a9ff, 0 0 20px #40a9ff, 0 0 30px #40a9ff;
+}
+.viewKoiEntries .koiCard .koiDetails p {
+  color: #fff;
+}/*# sourceMappingURL=ViewKoiEntries.module.css.map */

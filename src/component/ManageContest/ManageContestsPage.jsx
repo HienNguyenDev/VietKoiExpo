@@ -140,7 +140,7 @@ const ManageContestsPage = () => {
         ...values,
         startDate: values.startDate.format('YYYY-MM-DD'),
         endDate: values.endDate.format('YYYY-MM-DD'),
-        status: values.status ? 1 : 0,
+        status: values.status,
         tblcompetitionCategories: values.categoryId.map(categoryId => ({ categoryId })),
       };
       console.log('Submitting values:', formattedValues);
@@ -156,9 +156,28 @@ const ManageContestsPage = () => {
     });
   };
 
-  const disabledDate = (current) => {
+  const disabledStartDate = (current) => {
     return current && current < moment().startOf('day');
   };
+
+  const disabledEndDate = (current) => {
+    const startDate = form.getFieldValue('startDate');
+    return current && (current < moment().startOf('day') || (startDate && current < startDate));
+  };
+
+  const updateContestStatus = () => {
+    const now = moment();
+    contestsData.forEach(contest => {
+      if (contest.status === 0 && moment(contest.startDate).isSameOrBefore(now)) {
+        dispatch(updateContestActionApi(contest.compId, { ...contest, status: 1 }));
+      }
+    });
+  };
+
+  useEffect(() => {
+    const interval = setInterval(updateContestStatus, 60000); // Check every minute
+    return () => clearInterval(interval);
+  }, [contestsData, dispatch]);
 
   const columns = [
     { title: 'Name', dataIndex: 'compName', key: 'compName' },
@@ -170,7 +189,7 @@ const ManageContestsPage = () => {
       key: 'status',
       render: (status) => {
         let color = status === 0 ? 'green' : status === 1 ? 'blue' : 'red';
-        let statusText = status === 0 ? 'Upcoming' : status === 1 ? 'Ongoing' : 'Completed';
+        let statusText = status === 0 ? 'Upcoming' : status === 1 ? 'Ongoing' : status === 2 ? 'Completed' : 'Completed';
         return <Tag color={color}>{statusText}</Tag>;
       },
     },
@@ -241,10 +260,10 @@ const ManageContestsPage = () => {
             <Input placeholder="Please enter the image URL" disabled={drawerTitle === 'View Contest'} />
           </Form.Item>
           <Form.Item name="startDate" label="Start Date" rules={[{ required: true, message: 'Please enter the start date' }]}>
-            <DatePicker style={{ width: '100%' }} disabledDate={disabledDate} disabled={drawerTitle === 'View Contest'} />
+            <DatePicker style={{ width: '100%' }} disabledDate={disabledStartDate} disabled={drawerTitle === 'View Contest'} />
           </Form.Item>
           <Form.Item name="endDate" label="End Date" rules={[{ required: true, message: 'Please enter the end date' }]}>
-            <DatePicker style={{ width: '100%' }} disabledDate={disabledDate} disabled={drawerTitle === 'View Contest'} />
+            <DatePicker style={{ width: '100%' }} disabledDate={disabledEndDate} disabled={drawerTitle === 'View Contest'} />
           </Form.Item>
           <Form.Item
             name="status"
@@ -254,7 +273,7 @@ const ManageContestsPage = () => {
           <Radio.Group disabled={drawerTitle === 'View Contest'}>
             <Radio value={0}>Upcoming</Radio>
             <Radio value={1}>Ongoing</Radio>
-            <Radio value={2}>Complete</Radio>
+            <Radio value={2}>Completed</Radio>
           </Radio.Group>
           </Form.Item>
           {drawerTitle !== 'View Contest' && (

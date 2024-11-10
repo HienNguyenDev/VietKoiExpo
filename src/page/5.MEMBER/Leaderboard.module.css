@@ -1,0 +1,20 @@
+.leaderboard {
+  text-align: center;
+  padding: 20px;
+}
+.leaderboard .searchBar {
+  margin-bottom: 20px;
+}
+.leaderboard .viewToggle {
+  margin-bottom: 20px;
+}
+.leaderboard .table .ant-table-thead > tr > th {
+  background: #001529;
+  color: #fff;
+}
+.leaderboard .table .ant-table-tbody > tr > td {
+  background: #f0f2f5;
+}
+.leaderboard .table .ant-table-tbody > tr:hover > td {
+  background: #e6f7ff;
+}/*# sourceMappingURL=Leaderboard.module.css.map */

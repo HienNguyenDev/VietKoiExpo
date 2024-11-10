@@ -1,73 +1,7 @@
-@font-face {
-  font-family: "UtRightMilksDemoRegular";
-  src: url("../font/ut-right-milks-font/UtRightMilksDemoRegular-JpZo7.otf") format("opentype");
-}
-@font-face {
-  font-family: "AutumnFlowerFont";
-  src: url("../font/autumn-flowers-font/AutumnFlowers-9YVZK.otf") format("opentype");
-}
-.container {
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+.loginContainer {
   width: 100vw;
   height: 100vh;
-  font-family: "UtRightMilksDemoRegular" !important;
-}
-.container .loginForm {
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.103);
-  border-radius: 30px;
-  position: relative;
-  top: 20rem;
-  left: 50rem;
-  background-color: #ffffff;
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
-}
-.container .loginForm .tittleLogin {
-  text-align: center;
-}
-.container .loginForm .tittleLogin h1 {
-  color: rgb(202, 140, 140);
-  font-size: 60px;
-  padding-left: 100px;
-  font-family: "AutumnFlowerFont";
-}
-.container .loginForm .usernameItem {
-  padding-left: 33px;
-}
-.container .loginForm .usernameItem .usernameLabel {
-  color: rgb(146, 52, 52);
-  font-size: 1rem;
-}
-.container .loginForm .passwordItem {
-  padding-left: 33px;
-}
-.container .loginForm .passwordItem .passwordLabel {
-  color: rgb(189, 133, 133);
-  font-size: 1rem;
-}
-.container .loginForm .rememberItem {
-  text-align: start;
-}
-.container .loginForm .registerItem {
-  color: red;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  25% {
-    background-position: 50% 100%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  75% {
-    background-position: 50% 0;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  background: url("../photo/koibanner.png");
+  background-position: center;
+  background-size: cover;
 }/*# sourceMappingURL=LoginPage.module.css.map */
