@@ -1,0 +1,6 @@
+@KSM.APIService_HostAddress = http://localhost:5229
+
+GET {{KSM.APIService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
