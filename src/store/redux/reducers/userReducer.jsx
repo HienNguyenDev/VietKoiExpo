@@ -39,6 +39,7 @@ const userReducer = createSlice({
             state.listUser = state.listUser.filter(user => user.userId !== action.payload);
         },
         logoutAction: (state) => {
+            state.userDetail= {}
             state.userLogin = null;
             state.userProfile = {};
             state.userRegister = {};

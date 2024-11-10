@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson, deleteCookieJson } from '../../../util/config';
-import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction } from '../../redux/reducers/userReducer';
+import { logoutAction, loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction, setProfileAction } from '../../redux/reducers/userReducer';
 import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser, removeUser, createUser } from '../../../service/userAPI';
 
 // async actions
@@ -95,6 +95,19 @@ export const fetchUserByIdActionApi = (userId) => {
             console.log('Fetched user profile:', res); 
             const action = setUserDetailAction(res.data);
             dispatch(action);
+        } catch (error) {
+            console.error("Failed to fetch user by ID:", error.response ? error.response.data : error.message);
+        }
+    };
+};
+export const fetchUserByIdAction = (userId) => {
+    console.log('Fetching userId:', userId);
+    return async (dispatch) => {
+        try {
+            const res = await getUserProfile(userId); 
+            const action = setProfileAction(res.data);
+            dispatch(action);
+            return res.data;
         } catch (error) {
             console.error("Failed to fetch user by ID:", error.response ? error.response.data : error.message);
         }

@@ -16,7 +16,9 @@ export const createNewsActionApi = (newsDetails) => {
             console.log('Create News API Response:', res.data); // Debugging log
             const action = createNewsAction(res.data.content);
             dispatch(action);
-            dispatch(fetchAllNews()); // Refetch news after creating
+            dispatch(fetchAllNews());
+            
+            return res.data; // Refetch news after creating
         } catch (error) {
             console.error("News creation failed:", error.response ? error.response.data : error.message);
             dispatch({ type: 'NEWS_CREATE_FAILURE', payload: error.response ? error.response.data : error.message });
@@ -25,8 +27,10 @@ export const createNewsActionApi = (newsDetails) => {
 };
 
 export const updateNewsActionApi = (newsId, newsDetails, navigate) => {
+    
     return async (dispatch) => {
         try {
+            console.log("newsDetailsnewsDetailsnewsDetails",newsDetails)
             const res = await updateNews(newsId, newsDetails);
             console.log('Update News API Response:', res.data); // Debugging log
             const action = updateNewsAction(res.data.content);

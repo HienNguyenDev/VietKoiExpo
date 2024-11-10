@@ -4,14 +4,14 @@ import {
   setCheckInDataAction,
   checkInKoiEntryAction,
   setError
-git fetch origin FE} from '../reducers/checkInReducer';
+} from '../reducers/checkInReducer';
 
 import { 
   getCheckInByCompIdApi,
   getCheckInDataApi,
   reviewKoiEntryApi,
   checkInKoiEntryApi  
- } from '../../../service/CheckInAPI';
+ } from '../../../service/checkInAPI';
 
 
 
