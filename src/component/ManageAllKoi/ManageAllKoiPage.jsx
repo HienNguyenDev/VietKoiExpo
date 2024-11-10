@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button, Tag, Radio, Drawer } from 'antd';
+import { Table, Button, Tag, Radio, Drawer, Row, Col, Input } from 'antd';
 import { fetchAllKoi, fetchOwnerByUserId } from '../../store/redux/action/koiRegisterAction'; // Import action từ Redux
 
 const ManageAllKoiPage = () => {
@@ -12,7 +12,7 @@ const ManageAllKoiPage = () => {
     const [userNames, setUserNames] = useState({}); // Lưu trữ tên người sở hữu theo userId
     const [visible, setVisible] = useState(false); // Trạng thái Drawer
     const [selectedUserId, setSelectedUserId] = useState(null); // ID người sở hữu được chọn
-
+    const [searchQuery, setSearchQuery] = useState(''); // State để lưu giá trị tìm kiếm chung
     // Fetch danh sách cá Koi khi trang được tải
     useEffect(() => {
         const fetchKoiData = async () => {
@@ -57,11 +57,28 @@ const ManageAllKoiPage = () => {
     
 
     // Lọc cá Koi theo varietyId
-    const filteredKoi = koiList.filter(koi => {
-        if (filterVariety === 'all') return true;
-        return koi.varietyId === filterVariety;
-    });
+    
 
+    const filteredKoi = koiList.filter(koi => {
+        const matchesStatus = filterVariety === 'all' || 
+                              (filterVariety === 'kohaku' && koi.varietyId === 'kohaku') ||
+                              (filterVariety === 'sanke' && koi.varietyId ==='sanke') ||
+                              (filterVariety === 'showa' && koi.varietyId === 'showa') ||
+                              (filterVariety === 'utsuri' && koi.varietyId === 'utsuri') ||
+                              (filterVariety === 'tancho' && koi.varietyId === 'tancho') ||
+                              (filterVariety === 'bekko' && koi.varietyId === 'bekko') ||
+                              (filterVariety === 'asagi' && koi.varietyId === 'asagi') ||
+                              (filterVariety === 'koromo' && koi.varietyId === 'koromo') ||
+                              (filterVariety === 'goromo' && koi.varietyId ==='goromo') ||
+                              (filterVariety === 'shiroUtsuri' && koi.varietyId === 'shiroUtsuri');
+                              
+                              
+                        
+        const matchesSearch = koi.koiName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              userNames[koi.userId].toLowerCase().includes(searchQuery.toLowerCase());
+    
+        return matchesStatus && matchesSearch;
+      });
     // Cột cho bảng cá Koi
     const columns = [
         {
@@ -138,7 +155,15 @@ const ManageAllKoiPage = () => {
     return (
         <div>
             <h2>Manage All Koi</h2>
-
+            <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+                <Col span={8}>
+                    <Input
+                      placeholder="Search.."
+                      onChange={(e) => setSearchQuery(e.target.value)} 
+                      style={{ width: 300 }}
+                    />
+                </Col>
+            </Row>
             {/* Radio buttons để chọn lọc Variety */}
             <Radio.Group 
                 onChange={(e) => setFilterVariety(e.target.value)} 

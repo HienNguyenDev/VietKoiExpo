@@ -17,11 +17,11 @@ const CompetitionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const checkInData = useSelector(state => state.checkInReducer.checkInData || []);
-  const registrationData = useSelector(state => state.registerKoi.regisKoiList || []);
+  const registrationData = useSelector(state => state.RegisterKoiReducer.regisKoiList || []);
   const competition = useSelector(state => state.competitionReducer.competition || {});
   const categories = useSelector(state => Array.isArray(state.competitionReducer.categories) ? state.competitionReducer.categories : []); // Ensure categories is an array
   const koiEntries = useSelector(state => state.competitionReducer.koiEntries || []);
-  const loading = useSelector(state => state.checkInReducer.loading || state.registerKoi.loading || state.competitionReducer.loading || state.scoreReducer.loading);
+  const loading = useSelector(state => state.checkInReducer.loading || state.RegisterKoiReducer.loading || state.competitionReducer.loading || state.scoreReducer.loading);
   const competitionStatus = useSelector(state => state.competitionReducer.competitionStatus || []);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const koiEntriesListScore = useSelector(state => state.scoreReducer.scores || []);

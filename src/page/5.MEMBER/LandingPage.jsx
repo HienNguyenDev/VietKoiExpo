@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Card, Row, Col, Modal, Form, Select, message } from 'antd';
+import { Typography, Button, Card, Row, Col, Modal, Form, Select, message, Input } from 'antd';
 import Countdown from 'react-countdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllContests } from '../../store/redux/action/contestAction';
@@ -7,24 +7,26 @@ import { getAllRegistrations, getKoiById } from '../../store/redux/action/koiReg
 import { CalendarOutlined, TrophyOutlined, FlagOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import styles from './LandingPage.module.scss';
-import { registerKoiForCompetitionApi } from '../../service/koiRegistAPI';
 import BackButton from '../../component/shared/button/BackButton';
+import { registerKoiForCompetitionApi } from '../../service/koiRegistAPI';
 
 const { Option } = Select;
+const { Search } = Input;
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const competitions = useSelector(state => state.contestReducer.contestList);
-  const registeredKoi = useSelector(state => state.registerKoi.koiList);
-  const registrationList = useSelector(state => state.registerKoi.registrationList); // Get registration list from Redux state
+  const registeredKoi = useSelector(state => state.RegisterKoiReducer.koiList);
+  const registrationList = useSelector(state => state.RegisterKoiReducer.registrationList); // Get registration list from Redux state
   const userId = useSelector(state => state.userReducer.userLogin.userId); // Select userId
-  const koiList = useSelector(state => state.registerKoi.koiList); // Get koiList from Redux state
+  const koiList = useSelector(state => state.RegisterKoiReducer.koiList); // Get koiList from Redux state
 
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedCompetition, setSelectedCompetition] = useState(null);
   const [mockKoiList, setMockKoiList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => { 
     const fetchData = async () => {
@@ -34,9 +36,16 @@ const LandingPage = () => {
       setLoading(false);
     };
     fetchData();
+
+    // Set interval to fetch data every 5 seconds
+    const intervalId = setInterval(fetchData, 5000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
   }, [dispatch, userId]);
 
   useEffect(() => {
+    console.log('koiList:', koiList); // Log koiList to verify data
     setMockKoiList(Array.isArray(koiList) ? koiList : []); // Ensure koiList is an array
   }, [koiList]);
 
@@ -128,13 +137,32 @@ const LandingPage = () => {
   };
 
   const isUserRegistered = (competitionId) => {
-    return registrationList.some(registration => registration.compId === competitionId && registeredKoi.some(koi => koi.koiId === registration.koiId));
+    if (!registrationList || !registeredKoi) {
+      return false; // Return false if either list is undefined
+    }
+  
+    return registrationList.some(registration => 
+      registration.compId === competitionId && 
+      registeredKoi.some(koi => koi.koiId === registration.koiId)
+    );
   };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredCompetitions = competitions.filter(competition => {
+    const status = getCompetitionStatus(competition);
+    return (
+      competition.compName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      status.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   return (
     <div className={styles.landingPage}>
        <div style={{position:'absolute',display:'inline',top:'30px',left:'30px'}}>
-       <BackButton />
+       <Button className={styles.backButton} onClick={() => navigate('/home')}>Back to Homepage</Button>
        </div>
       <div className={styles.heroSection}>
         <Typography.Title level={1}>Welcome to the Koi Fish Competition</Typography.Title>
@@ -143,13 +171,23 @@ const LandingPage = () => {
           Join us for an exciting competition showcasing the most beautiful Koi fish.
         </Typography.Paragraph>
       </div>
+      <div className={styles.searchSection}>
+        <Search
+          placeholder="Search competitions"
+          onChange={handleSearch}
+          value={searchTerm}
+          enterButton
+          className={styles.searchInput}
+        />
+      </div>
       <div className={styles.competitionsSection}>
-        <Typography.Title level={2}>Upcoming Competitions</Typography.Title>
+        <Typography.Title style={{ color: '#e162c1',
+        textShadow: '0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1'}} level={2}>Competitions</Typography.Title>
         {loading ? (
-          <Typography.Paragraph>Loading competitions...</Typography.Paragraph>
+          <Typography.Paragraph style={{color:'#ffffff'}}>Loading competitions...</Typography.Paragraph>
         ) : (
           <Row gutter={[16, 16]}>
-            {competitions.map((competition) => {
+            {filteredCompetitions.map((competition) => {
               const status = getCompetitionStatus(competition);
               const userRegistered = isUserRegistered(competition.compId);
               return (
@@ -171,10 +209,10 @@ const LandingPage = () => {
                       <Col span={18}>
                         <Row>
                           <Col span={8}>
-                            <Typography.Title style={{ color: '#ffffff' }} level={4}>{competition.compName}</Typography.Title>
+                            <Typography.Title style={{ color: '#e162c1',
+        textShadow: '0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1'}} level={4}>{competition.compName}</Typography.Title>
                             <Typography.Paragraph style={{ color: '#ffffff' }}>{competition.compDescription}</Typography.Paragraph>
                             <Typography.Paragraph style={{ color: '#ffffff' }}>Location: {competition.location}</Typography.Paragraph>
-                            <Typography.Paragraph style={{ color: '#ffffff' }}>Start Date: {new Date(competition.startDate).toLocaleDateString()}</Typography.Paragraph>
                           </Col>
                           <Col span={8}>
                             <Typography.Paragraph>
@@ -194,7 +232,8 @@ const LandingPage = () => {
                               </>
                             )}
                             {status === 'ongoing' && userRegistered && (
-                              <Button type="link" onClick={() => navigate(`/checkin/${competition.compId}`)}>
+                              <Button style={{ color: '#e162c1',
+                                textShadow: '0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1',fontWeight:'600'}} type="link" onClick={() => navigate(`/checkin/${competition.compId}`)}>
                                 Check In
                               </Button>
                             )}
@@ -202,7 +241,7 @@ const LandingPage = () => {
                               <Typography.Title style={{ color: 'red' }} level={5}>Please Register to Compete</Typography.Title>
                             )}
                             {status === 'completed' && (
-                              <Typography.Title level={5}>Competition Completed</Typography.Title>
+                              <Typography.Title level={5} style={{color:'red'}}>Competition Completed</Typography.Title>
                             )}
                           </Col>
                         </Row>

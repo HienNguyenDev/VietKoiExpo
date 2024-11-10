@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const registerKoiReducer = createSlice({
-  name: 'registerKoi',
+  name: 'RegisterKoiReducer',
   initialState,
   reducers: {
     registerKoiRequest: (state) => {

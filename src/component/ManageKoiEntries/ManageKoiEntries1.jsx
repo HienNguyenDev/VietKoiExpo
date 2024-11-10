@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button, Tag, Radio } from 'antd';
+import { Table, Button, Tag, Radio, Input, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';  // Thêm axios cho phần gọi API
 import { fetchAllContests } from '../../store/redux/action/contestAction'; 
@@ -11,7 +11,7 @@ const ManageKoiEntriesPage = () => {
   const contests = useSelector(state => state.contestReducer.contestList);
   const [filterStatus, setFilterStatus] = useState('all');
   const [loading, setLoading] = useState(false); // Để quản lý trạng thái loading
-
+  const [searchQuery, setSearchQuery] = useState(''); // State để lưu giá trị tìm kiếm chung
   useEffect(() => {
     const fetchContests = async () => {
       setLoading(true); // Bắt đầu loading
@@ -24,11 +24,15 @@ const ManageKoiEntriesPage = () => {
 
   // Lọc danh sách các cuộc thi theo trạng thái
   const filteredCompetitions = contests.filter(competition => {
-    if (filterStatus === 'all') return true;
-    if (filterStatus === 'upcoming') return competition.status === 0;
-    if (filterStatus === 'ongoing') return competition.status === 1;
-    if (filterStatus === 'completed') return competition.status === 2;
-    return true;
+    const matchesStatus = filterStatus === 'all' || 
+                          (filterStatus === 'upcoming' && competition.status === 0) ||
+                          (filterStatus === 'ongoing' && competition.status === 1) ||
+                          (filterStatus === 'completed' && competition.status === 2);
+
+    const matchesSearch = competition.compName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          competition.location.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesStatus && matchesSearch;
   });
 
   // Cột cho bảng cuộc thi
@@ -79,11 +83,8 @@ const ManageKoiEntriesPage = () => {
     },
   ];
 
-
-  console.log('Contests:', contests);
   // Điều hướng tới trang chi tiết các Koi Entries
   const handleViewKoiEntries = (compId, compName) => {
-    
     navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
   };
 
@@ -91,9 +92,19 @@ const ManageKoiEntriesPage = () => {
 
   return (
     <div>
-      <h2>Manage Koi Entries</h2>
-
+      <h1>Manage Koi Entries</h1>
+      <br></br>
       {/* Radio buttons để chọn lọc trạng thái */}
+      <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+        <Col span={8}>
+          <Input 
+            placeholder="Search by Competition Name or Location" 
+            value={searchQuery} 
+            onChange={(e) => setSearchQuery(e.target.value)} 
+            style={{ width: 300 }}
+          />
+        </Col>
+      </Row>
       <Radio.Group 
         onChange={(e) => setFilterStatus(e.target.value)} 
         value={filterStatus}

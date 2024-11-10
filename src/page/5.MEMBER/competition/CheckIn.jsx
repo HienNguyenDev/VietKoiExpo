@@ -8,8 +8,8 @@ const KoiListForCompetition = () => {
   const { competitionId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const registeredKoi = useSelector(state => state.registerKoi.koiList);
-  const registrationList = useSelector(state => state.registerKoi.registrationList);
+  const registeredKoi = useSelector(state => state.RegisterKoiReducer.koiList);
+  const registrationList = useSelector(state => state.RegisterKoiReducer.registrationList);
   const [loading, setLoading] = useState(false);
 
   const handleNext = () => {
@@ -30,8 +30,8 @@ const KoiListForCompetition = () => {
 
   return (
     <div className={styles.koiListPage}>
-      <Typography.Title level={2}>List of Koi for Competition</Typography.Title>
-      <Typography.Paragraph>
+      <Typography.Title level={2} style={{color:'#00ffcc'}} className={styles.title}>List of Koi for Competition</Typography.Title>
+      <Typography.Paragraph className={styles.paragraph}>
         Here is the list of your Koi fish that could compete in the competition.
       </Typography.Paragraph>
       <Row gutter={[16, 16]}>
@@ -39,17 +39,17 @@ const KoiListForCompetition = () => {
           const koi = registeredKoi.find(k => k.koiId === registration.koiId);
           return (
             <Col key={koi.koiId} span={8}>
-              <Card title={koi.koiName} bordered={false}>
+              <Card title={koi.koiName} bordered={false} className={styles.card}>
                 <p><strong>Age:</strong> {koi.age}</p>
                 <p><strong>Size:</strong> {koi.size} cm</p>
-                <img src={koi.imageUrl} alt={koi.koiName} style={{ width: '100%' }} />
+                <img src={koi.imageUrl} alt={koi.koiName} className={styles.koiImage} />
               </Card>
             </Col>
           );
         })}
       </Row>
       <div className={styles.nextButton}>
-        <Button type="primary" onClick={handleNext} loading={loading}>
+        <Button type="primary" onClick={handleNext} loading={loading} className={styles.button}>
           Click to Next
         </Button>
       </div>

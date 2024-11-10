@@ -35,8 +35,13 @@ export const getKoiVarietiesApi = async () => {
 
 export const updateKoiDetailApi = async (id, newDetail) => {
   try {
-    const response = await axios.put(`${API_URL}/koi/${id}`, newDetail);
-    return response.data;
+    const response = await axios({
+      url: `https://localhost:7246/api/Koifish/${id}`,
+      method: 'PUT',
+      data: newDetail,
+    });
+    
+    return response.data; 
   } catch (error) {
     throw error;
   }

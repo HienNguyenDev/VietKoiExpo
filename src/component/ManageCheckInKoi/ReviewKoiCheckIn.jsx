@@ -90,7 +90,7 @@ const ReviewKoiCheckInPage = () => {
       title: 'Koi Image',
       dataIndex: 'koiId',
       key: 'koiimageurl',
-      render: (koiId) => koiDetails[koiId]?.imageUrl || 'Loading...',
+      render: (koiId) => (<img src={koiDetails[koiId]?.imageUrl} alt="Koi  Image" style={{ width: '100px' }} />  || 'Loading...'),
     },
     {
       title: 'Koi Name',
