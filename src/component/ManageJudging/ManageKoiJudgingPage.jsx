@@ -4,6 +4,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Table, Button, Spin, Tabs, Tag, Radio } from 'antd';
 import { fetchAllContests, fetchKoiFromCompId} from '../../store/redux/action/contestAction'; // Assuming your action fetches a specific contest
 import { fetchAllScore } from '../../store/redux/action/koiEntriesAction';
+import { setTopPrizesAction } from '../../store/redux/action/resultAction';
 const { TabPane } = Tabs;
 
 
@@ -38,6 +39,19 @@ const ManageKoiJudgingPage = () => {
     }
   }, [dispatch, compId]);
 
+  const areAllKoiJudged = koiList
+    .filter(koi => filterStatus === 'all' || (filterStatus === 'judged' ? koi.status : !koi.status))
+    .every(koi => koi.status); // Check if all filtered Koi are judged
+
+  useEffect(() => {
+    if (areAllKoiJudged) {
+      setLoading(true); // Set loading to true while setting top prizes
+      dispatch(setTopPrizesAction(compId)).finally(() => setLoading(false));
+    }
+  }, [areAllKoiJudged, dispatch, compId]);
+
+  
+
   // Filter koi based on status
   const filteredKoi = koiList.filter(koi => {
     if (filterStatus === 'all') return true;
@@ -59,6 +73,7 @@ const ManageKoiJudgingPage = () => {
   });
   
   
+
   const columns = [
     {
       title: 'Koi Name',
@@ -147,7 +162,7 @@ dataIndex: 'age',
       />
 
 
-      <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
+      <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate('/referee/manage-judging')}>
         Back
       </Button>
     </div>

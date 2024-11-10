@@ -8,7 +8,7 @@ const { TabPane } = Tabs;
 
 const ManageShowJudgingPage = () => {
   const [loading, setLoading] = useState(true);
-  const [filterStatus, setFilterStatus] = useState([]);
+  const [filterStatus, setFilterStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState(''); // State để lưu giá trị tìm kiếm chung
   //const [activeTab, setActiveTab] = useState('all');
   const navigate = useNavigate();
