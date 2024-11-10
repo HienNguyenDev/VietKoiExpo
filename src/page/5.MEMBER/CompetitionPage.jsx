@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Spin, notification, Card, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchCheckInData } from '../../store/redux/action/checkInAction';
+import { fetchCheckInData } from '../../store/redux/action/CheckInAction';
 import { fetchCompetitionData, fetchCategoriesByCompId, fetchKoiEntries, fetchCheckedInKoiForCompetition } from '../../store/redux/action/competitionAction';
 import BracketList from './competition/BracketList';
 import KoiList from './competition/KoiList';

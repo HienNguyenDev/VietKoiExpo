@@ -1,52 +1,49 @@
+// src/store/redux/action/userAction.js
+
 import axios from 'axios';
 import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson, deleteCookieJson } from '../../../util/config';
-import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction } from '../../redux/reducers/userReducer';
+import { loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction, logoutAction } from '../../redux/reducers/userReducer';
 import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser, removeUser, createUser } from '../../../service/userAPI';
 
-// async actions
-export const loginActionApi = (userLogin, navigate) => {
-    return async (dispatch) => {
-        try {
-            let res;
-            if (userLogin.tokenId) {
-                // Handle Google login
-                res = await loginWithGoogle(userLogin.tokenId);
-            } else {
-                // Handle normal login
-                res = await loginUser(userLogin);
-            }
-
-            console.log('API Response:', res);
-            console.log('res.data:', res.data);
-            console.log('API Response Content:', res.data.user);
-
-            if (res && res.data && res.data.user) {
-                const action = loginAction(res.data.user);
-                dispatch(action);
-                setStoreJson(USER_LOGIN, res.data.user);
-                setCookieJson(USER_LOGIN, res.data.user, 30);
-
-                // Navigate based on role
-                if (res.data.user.roleId === 'manager') {
-                    navigate('/admin');
-                } else if (res.data.user.roleId === 'staff') {
-                    navigate('/admin');
-                } else if (res.data.user.roleId === 'judge') {
-                    navigate('/referee');
-                } else if (res.data.user.roleId === 'member') {
-                    navigate('/home');
-                }
-            }
-        } catch (error) {
-            console.error('Error in loginActionApi:', error);
+export const loginActionApi = (credentials, navigate) => {
+    return async (dispatch, getState) => {
+      try {
+        // Fetch the list of users
+        await dispatch(fetchUsersActionApi());
+        const { userReducer } = getState();
+        const user = userReducer.listUser.find(
+          (user) => user.email === credentials.email && user.password === credentials.password
+        );
+  
+        if (user) {
+          // Dispatch login action
+          dispatch(loginAction(user));
+          setStoreJson(USER_LOGIN, user);
+          setCookieJson(USER_LOGIN, user, 30);
+  
+          // Navigate based on role
+          if (user.roleId === 'manager') {
+            navigate('/admin');
+          } else if (user.roleId === 'staff') {
+            navigate('/admin');
+          } else if (user.roleId === 'judge') {
+            navigate('/referee');
+          } else if (user.roleId === 'member') {
+            navigate('/home');
+          }
+        } else {
+          throw new Error('Invalid email or password');
         }
+      } catch (error) {
+        console.error('Error in loginActionApi:', error);
+        throw error;
+      }
     };
-};
+  };
 
-export const registerActionApi = (userRegister, navigate) => {
+export const registerActionApi = (userRegister, navigate, onSuccess, onFailure) => {
     return async (dispatch) => {
         try {
-
             const res = await registerUser(userRegister);
 
             // After successful registration, dispatch action to update state
@@ -58,19 +55,19 @@ export const registerActionApi = (userRegister, navigate) => {
             setCookieJson(USER_REGISTER, res.data.content, 30);
 
             // Navigate user to the appropriate page after registration
-            if (res.data.content.roleId === 'manager') {
-                navigate('/admin');
-            } else if (res.data.content.roleId === 'user') {
-                navigate('/user');
-            } else {
-                navigate('/');
-            }
+            navigate('/login');
+
+            // Call success callback
+            onSuccess('Registration successful!');
         } catch (error) {
             // Handle error: show message or dispatch an error action
             console.error("Registration failed:", error.response ? error.response.data : error.message);
             
             // Dispatch error action or show message to user
             dispatch({ type: 'USER_REGISTER_FAILURE', payload: error.response ? error.response.data : error.message });
+
+            // Call failure callback
+            onFailure('Registration failed. Please try again. Maybe the email is already in use.');
         }
     };
 };

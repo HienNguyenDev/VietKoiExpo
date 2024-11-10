@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Radio, Input } from 'antd';
-import { fetchCheckInByCompId, checkInKoiEntry, reviewKoiEntryAction } from '../../store/redux/action/checkInAction';
+import { fetchCheckInByCompId, checkInKoiEntry, reviewKoiEntryAction } from '../../store/redux/action/CheckInAction';
 import UploadImageComponent from '../shared/UploadImage/UploadImage';
 
 const ReviewKoiCheckInPage = () => {

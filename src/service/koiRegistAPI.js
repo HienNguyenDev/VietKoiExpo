@@ -16,6 +16,7 @@ export const getKoiListOfUserID = async (userId) => {
       url: `https://localhost:7246/api/Koifish/user/${userId}`,
       method: 'GET',
     });// Chuyển đổi dữ liệu trả về thành JSON
+    return response.data;
   } catch (error) {
     throw error;
   }

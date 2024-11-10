@@ -1,33 +1,36 @@
-import React from 'react';
-import { Button, Checkbox, Col, Row } from 'antd';
+// src/page/2.LOGIN/RegisterForm.js
+
+import React, { useState } from 'react';
+import { Button, Checkbox, Col, Row, Alert } from 'antd';
 import styles from '../../asset/scss/RegisterPage.module.scss';
 import PlaceHolder from '../../component/shared/placeholder/PlaceHolder';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import CustomizeButton from '../../component/shared/button/CustomizeButton';
-import logoGoogle from '../../asset/logo/Google_Icons-09-512.webp';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { registerActionApi } from '../../store/redux/action/userAction';
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
   const frm = useFormik({
     initialValues: {
-      username: '',
       password: '',
       confirmPassword: '',
       email: '',
-      role: 'R003' // Automatically set role to R003
+      role: 'member' // Automatically set role to 'member'
     },
     onSubmit: (values) => {
       const { confirmPassword, ...dataToSend } = values; // Remove confirmPassword before sending to the API
       console.log('value', dataToSend);
-      const actionAsync = registerActionApi(dataToSend);
+      const actionAsync = registerActionApi(dataToSend, navigate, setSuccessMessage, setErrorMessage);
       dispatch(actionAsync);
     },
     validationSchema: yup.object().shape({
-      username: yup.string().required('Username is required'),
       password: yup.string().required('Password is required'),
       confirmPassword: yup.string()
         .oneOf([yup.ref('password'), null], 'Passwords must match')
@@ -42,22 +45,21 @@ const RegisterForm = () => {
         <div className={styles.tittleRegister}>
           <h1>Register</h1>
         </div>
-        {frm.errors.username && frm.touched.username && <div className={styles.error}>{frm.errors.username}</div>}
-        <div className={styles.formItem}>
-          <PlaceHolder onChange={frm.handleChange} id='username' label='Username' placeholder='Enter your username' type='text' />
-        </div>
-        {frm.errors.password && frm.touched.password && <div className={styles.error}>{frm.errors.password}</div>}
-        <div className={styles.formItem}>
-          <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
-        </div>
-        {frm.errors.confirmPassword && frm.touched.confirmPassword && <div className={styles.error}>{frm.errors.confirmPassword}</div>}
-        <div className={styles.formItem}>
-          <PlaceHolder onChange={frm.handleChange} id='confirmPassword' label='Confirm Password' placeholder='Confirm your password' type='password' />
-        </div>
-        {frm.errors.email && frm.touched.email && <div className={styles.error}>{frm.errors.email}</div>}
+        {errorMessage && <Alert message={errorMessage} type="error" showIcon />}
+        {successMessage && <Alert message={successMessage} type="success" showIcon />}
         <div className={styles.formItem}>
           <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Enter your email' type='email' />
+          {frm.errors.email && frm.touched.email && <div className={styles.error}>{frm.errors.email}</div>}
         </div>
+        <div className={styles.formItem}>
+          <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
+          {frm.errors.password && frm.touched.password && <div className={styles.error}>{frm.errors.password}</div>}
+        </div>
+        <div className={styles.formItem}>
+          <PlaceHolder onChange={frm.handleChange} id='confirmPassword' label='Confirm Password' placeholder='Confirm your password' type='password' />
+          {frm.errors.confirmPassword && frm.touched.confirmPassword && <div className={styles.error}>{frm.errors.confirmPassword}</div>}
+        </div>
+       
         <Row className={styles.actionItems}>
           <Col offset={3} span={4}>
             <CustomizeButton onClick={frm.handleSubmit} />

@@ -35,10 +35,13 @@
 
   .tittleRegister {
     text-align: center;
-
+    font-size: 2.5rem;
+    font-family: 'AutumnFlowerFont';
+    color: #00ffcc;
     h1 {
       font-size: 2.5rem;
       font-family: 'AutumnFlowerFont';
+      color: #00ffcc;
     }
   }
 
@@ -142,6 +145,6 @@
 }
 
 .haveAccountItem .link {
-  color: #ff00ff; // Neon magenta for link text
-  text-shadow: 0 0 8px #ff00ff; // Neon glow for link text
+  color: #a31da3; // Neon magenta for link text
+  text-shadow: 0 0 8px #a31da3; // Neon glow for link text
 }

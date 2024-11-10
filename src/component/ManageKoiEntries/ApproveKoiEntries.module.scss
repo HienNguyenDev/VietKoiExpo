@@ -1,137 +1,81 @@
+// src/page/ApproveKoiEntries.module.scss
+
 .container {
+  height: 100vh;
   width: 100vw;
-  margin: 0 auto;
   padding: 20px;
-  background: url(../../asset/photo/OL0CSN0.jpg) no-repeat center center fixed;
-  background-size: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
-  // Responsive adjustments
-  @media (max-width: 768px) {
-    padding: 16px;
-
-  }
-}
-
-h4 {
-  text-align: center;
-  margin-bottom: 24px;
-  color: #ffffff; // White text for heading
-}
-
-.form {
+  background-color: #000; // Black background for contrast
+  color: #fff; // White text color
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  background-color: rgba(235, 235, 235, 0.674); // Semi-transparent black background for form
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  text-align: center;
-  position: relative;
-  left: 35vw;
+  align-items: center;
 
-  .MuiFormControl-root {
-    width: 100%;
+  .title {
+    color: #ff6f61; // Pastel Coral
+    text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61, 0 0 30px #ff6f61;
+    margin-bottom: 20px;
   }
 
-  .MuiTextField-root {
-    width: 100%;
-  }
+  .backButton {
+    margin-bottom: 20px;
+    background-color: #ff6f61; // Pastel Coral
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
 
-  .MuiInputLabel-root {
-    color: #ffffff; // White text for labels
-  }
-
-  .MuiInputBase-input {
-    color: #ffffff; // White text for input
-  }
-
-  .MuiCheckbox-root {
-    margin-right: 8px;
-    color: #ff6f00; // Neon orange for checkbox
-  }
-
-  .MuiButton-root {
-    align-self: flex-end;
-    padding: 8px 16px;
-    background-color: #ff6f00; // Neon orange for button background
-    color: #ffffff; // White text for button
     &:hover {
-      background-color: #ff8c00; // Darker shade on hover
+      background-color: #40a9ff; // Blue
+      transform: translateY(-2px);
     }
-  }
-}
-
-.error {
-  color: #ff6f00; // Neon orange for error messages
-  font-size: 0.875rem;
-  margin-top: -12px;
-  margin-bottom: 8px;
-}
-
-.dialogContent {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  .MuiTypography-body1 {
-    margin-bottom: 4px;
-    color: #000000; // Ensure text within dialog is readable
-  }
-}
-
-.dialogActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-
-  .MuiButton-root {
-    padding: 6px 16px;
-    border: 1px solid #ff6f00; // Match neon orange color
-    color: #ff6f00;
-    background-color: transparent;
-    &:hover {
-      background-color: #ff6f00;
-      color: #000000;
-    }
-  }
-}
-
-/* Snackbar Styles */
-.snackbar {
-  &.MuiSnackbar-root {
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-  }
-
-  .MuiAlert-root {
-    font-size: 0.875rem;
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-  .container {
-    padding: 16px;
   }
 
   .form {
-    gap: 12px;
-  }
+    background-color: #222; // Dark background for form
+    border: 1px solid #ff6f61; // Pastel Coral border
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 400px;
 
-  .dialogContent {
-    gap: 10px;
-  }
+    .textField {
+      color: #fff; // White text color
+      .MuiInputBase-input {
+        color: #fff; // White text color
+      }
+      .MuiInputLabel-root {
+        color: #ff6f61; // Pastel Coral
+      }
+      .MuiFormHelperText-root {
+        color: #ff6f61; // Pastel Coral
+      }
+    }
 
-  .dialogActions {
-    gap: 6px;
-  }
+    .submitButton {
+      background-color: #ff6f61; // Pastel Coral
+      color: #fff;
+      &:hover {
+        background-color: #40a9ff; // Blue
+      }
+    }
 
-  .MuiButton-root {
-    padding: 6px 12px;
+    .dialogTitle {
+      color: #ff6f61; // Pastel Coral
+    }
+
+    .dialogContentText {
+      color: #fff; // White text color
+    }
+
+    .dialogButton {
+      background-color: #ff6f61; // Pastel Coral
+      color: #fff;
+      &:hover {
+        background-color: #40a9ff; // Blue
+      }
+    }
   }
 }

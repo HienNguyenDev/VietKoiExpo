@@ -24,7 +24,7 @@
   transition: background-color 0.3s, transform 0.3s;
 }
 .viewKoiEntries .backButton:hover {
-  background-color: #40a9ff;
+  background-color: #d64032;
   transform: translateY(-2px);
 }
 .viewKoiEntries .koiCard {

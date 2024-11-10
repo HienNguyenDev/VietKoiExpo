@@ -1,27 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { List, Space, Spin } from 'antd';
+import { List, Spin, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../../../asset/scss/NewsComp.module.scss'; // Adjust the path as necessary
 
-const IconText = ({ icon, text }) => (
-  <Space className={styles.iconText}>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
-
 const NewsComp = ({ theme }) => {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userMap, setUserMap] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await axios.get('https://localhost:7246/api/News');
-        setNewsData(response.data);
+        const news = response.data;
+
+        // Fetch user details for each news item
+        const userIds = [...new Set(news.map(item => item.userId))];
+        const userResponses = await Promise.all(userIds.map(id => axios.get(`https://localhost:7246/api/User/${id}`)));
+        const users = userResponses.map(res => res.data);
+
+        // Create a map of userId to userName
+        const userMap = users.reduce((acc, user) => {
+          acc[user.userId] = user.fullName;
+          return acc;
+        }, {});
+
+        setUserMap(userMap);
+        setNewsData(news);
       } catch (error) {
         console.error('Error fetching news:', error);
       } finally {
@@ -45,7 +52,7 @@ const NewsComp = ({ theme }) => {
         onChange: (page) => {
           console.log(page);
         },
-        pageSize: 3,
+        pageSize: 5,
       }}
       dataSource={newsData}
       footer={<div />}
@@ -53,18 +60,23 @@ const NewsComp = ({ theme }) => {
       renderItem={(item) => (
         <List.Item
           key={item.newsId}
-          actions={[
-            <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-            <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-          ]}
+          className={styles.newsItem} // Use the custom class for styling
           style={{ border: `1px solid ${theme.palette.primary.main}`, boxShadow: `0 0 8px ${theme.palette.primary.main}`, backgroundColor: theme.palette.background.paper }} // Apply background color to the list item
         >
-          <List.Item.Meta
-            title={<a onClick={() => navigate(`/news/${item.newsId}`)} className={styles.title} style={{ color: theme.palette.textTittle.primary }}>{item.title}</a>} // Added custom class for title
-            description={<span className={styles.description} style={{ color: theme.palette.text.secondary }} dangerouslySetInnerHTML={{ __html: item.newsDescription }} />} // Added custom class for description
-          />
-          <div className={styles.content} style={{ color: theme.palette.text.primary }} dangerouslySetInnerHTML={{ __html: item.newsDescription }} /> {/* Added custom class for content */}
+          <Row>
+            <Col span={18}>
+              <List.Item.Meta
+                title={<a onClick={() => navigate(`/news/${item.newsId}`)} className={styles.title} style={{ color: theme.palette.textTittle.primary }}>{item.title}</a>} // Added custom class for title
+                description={<span className={styles.description} style={{ color: theme.palette.text.secondary }} dangerouslySetInnerHTML={{ __html: item.newsDescription.substring(0, 100) + '...' }} />} // Added custom class for description and truncated text
+              />
+              <div className={styles.content} style={{ color: theme.palette.text.primary }}>
+                {userMap[item.userId] || 'Unknown Author'}
+              </div> {/* Display author's name */}
+            </Col>
+            <Col span={6}>
+              <img src={item.imageUrl} alt={item.title} className={styles.newsImage} /> {/* Added image */}
+            </Col>
+          </Row>
         </List.Item>
       )}
     />

@@ -12,18 +12,16 @@ const MyProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Get navigate function from react-router-dom
 
-  // Get user data from Redux store
-  const { userLogin, userProfile } = useSelector((state) => state.userReducer);
-  console.log("userLoginuserLogin",userLogin.userId)
   const [isEditing, setIsEditing] = useState(false);
   const [form] = Form.useForm();
+  const userLogin = useSelector(state => state.userReducer.userLogin);
+  const userDetails = useSelector(state => state.userReducer.userDetails);
 
-  // Load user data when component mounts
   useEffect(() => {
-    if (userLogin ) {
-      dispatch(fetchUserByIdActionApi(userLogin.userId));
+    if (!userLogin) {
+      navigate('/login'); // Redirect to login if userLogin is null
     }
-  }, [dispatch, userLogin ]);
+  }, [userLogin, navigate]);
 
   // Handle editing user information
   const handleEdit = () => {
@@ -46,13 +44,13 @@ const MyProfile = () => {
 
     // If password is provided, include it in the user details
     const userDetails = {
-      ...otherValues,
+      ...otherValues, 
       password:  userLogin?.password, // Keep the old password if not updated
       userId: userLogin?.userId, // Always include userId
     };
 
     // Dispatch API to update user information and redirect after successful update
-    dispatch(updateUserActionApi(userProfile.userId, userDetails, navigate))
+    dispatch(updateUserActionApi(userDetails.userId, userDetails, navigate))
       .then(() => {
         message.success('Profile updated successfully!');
         setIsEditing(false); // Disable editing mode
@@ -61,6 +59,10 @@ const MyProfile = () => {
         message.error('Profile update failed, please try again!');
       });
   };
+
+  if (!userLogin) {
+    return null; // Render nothing if userLogin is null
+  }
 
   return (
     <Layout style={{ minHeight: '100vh', width: '100vw' }}>
@@ -89,6 +91,7 @@ const MyProfile = () => {
         </div>
       </Header>
       <Content style={{ padding: '80px 24px', marginTop: '64px' }}>
+        
         <Card style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
           <Title level={3}>Personal Information</Title>
           <Row gutter={24} justify="center">
@@ -128,10 +131,10 @@ const MyProfile = () => {
                   <Input disabled={!isEditing} />
                 </Form.Item>
                 <Form.Item label="Role" name="roleId">
-                  <Input value={userProfile?.roleId} disabled />
+                  <Input value={userDetails?.roleId} disabled />
                 </Form.Item>
                 <Form.Item label="Status" name="status">
-                  <Input value={userProfile?.status} disabled />
+                  <Input value={userDetails?.status} disabled />
                 </Form.Item>
                 
                 <Form.Item>

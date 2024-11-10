@@ -17,7 +17,7 @@ export const loginWithGoogle = async (tokenId) => {
 
 export const registerUser = (userRegister) => {
     return axios({
-        url: 'https://localhost:7246/api/Auth/register',
+        url: 'https://localhost:7246/api/Auth/Register',
         method: 'POST',
         data: userRegister,
     });

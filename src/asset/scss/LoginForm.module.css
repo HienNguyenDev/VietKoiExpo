@@ -26,11 +26,11 @@
   height: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.loginForm .tittleLogin {
+.loginForm .titleLogin {
   text-align: center;
 }
-.loginForm .tittleLogin h1 {
-  color: rgb(202, 140, 140);
+.loginForm .titleLogin h1 {
+  color: #00ffcc;
   font-size: 2.5rem;
   font-family: "AutumnFlowerFont";
 }
@@ -80,7 +80,7 @@
     padding: 15px;
     border-radius: 20px;
   }
-  .loginForm .tittleLogin h1 {
+  .loginForm .titleLogin h1 {
     font-size: 2rem;
   }
 }
@@ -126,6 +126,16 @@
 }
 
 .error {
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
+}
+
+.emailError {
+  color: #ff0000;
+  text-shadow: 0 0 8px #ff0000;
+}
+
+.passwordError {
   color: #ff00ff;
   text-shadow: 0 0 8px #ff00ff;
 }

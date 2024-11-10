@@ -33,10 +33,14 @@
 }
 .registerForm .tittleRegister {
   text-align: center;
+  font-size: 2.5rem;
+  font-family: "AutumnFlowerFont";
+  color: #00ffcc;
 }
 .registerForm .tittleRegister h1 {
   font-size: 2.5rem;
   font-family: "AutumnFlowerFont";
+  color: #00ffcc;
 }
 .registerForm .formItem {
   margin-bottom: 16px;
@@ -127,6 +131,6 @@
 }
 
 .haveAccountItem .link {
-  color: #ff00ff;
-  text-shadow: 0 0 8px #ff00ff;
+  color: #a31da3;
+  text-shadow: 0 0 8px #a31da3;
 }/*# sourceMappingURL=RegisterPage.module.css.map */

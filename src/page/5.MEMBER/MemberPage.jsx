@@ -219,7 +219,7 @@ const MemberPage = () => {
   };
 
   // Select theme based on light or dark mode
-  const currentTheme = themeMode === 'dark' ? darkTheme : lightTheme;
+  const currentTheme = themeMode === 'dark' ?lightTheme: darkTheme  ;
 
   return (
     <ThemeProvider theme={currentTheme}>
@@ -260,7 +260,7 @@ const MemberPage = () => {
               }}
               onClick={() => handleNavigation('register-koi')} /* thêm navigation */
             >
-              REGISTER?
+              REGISTER KOI?
             </MuiButton>
 
             {/* Nút truy cập MyKoi */}
@@ -276,14 +276,7 @@ const MemberPage = () => {
             </MuiButton>
 
             {/* Switch to toggle theme */}
-            <Switch
-              checked={themeMode === 'dark'}
-              onChange={handleThemeChange}
-              checkedChildren="Dark"
-              unCheckedChildren="Light"
-              style={{ marginRight: '20px' }}
-            />
-            <AccountMenu /> {/* Custom AccountMenu component */}
+            {userLogin.userId && <AccountMenu />} {/* Render AccountMenu only if user is logged in */}
           </div>
         </Header>
 
@@ -432,37 +425,101 @@ const MemberPage = () => {
           <Row gutter={16} style={{ marginTop: '20px' }}>
             <Col span={12} style={{ display: 'flex', flexDirection: 'column' }}>
               <RankingComponent rankingData={rankingData} theme={currentTheme} style={{ flex: 1 }} />
-              <Card
-                className={styles.sponsorCard}
-                style={{
-                  backgroundColor: currentTheme.palette.background.paper,
-                  color: currentTheme.palette.text.primary,
-                  border: `2px solid ${currentTheme.palette.primary.main}`,
-                  boxShadow: `0 0 10px ${currentTheme.palette.primary.main}`,
-                  marginTop: '20px',
-                  flex: 1,
-                }}
-              >
-                <List
-                  grid={{ gutter: 16, column: 1 }}
-                  dataSource={sponsorsData}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <Card
-                        hoverable
-                        cover={<img alt={item.name} src={item.logo} />}
-                        style={{
-                          backgroundColor: currentTheme.palette.background.paper,
-                          border: `2px solid ${currentTheme.palette.primary.main}`,
-                          boxShadow: `0 0 10px ${currentTheme.palette.primary.main}`,
-                        }}
-                      >
-                        <Card.Meta title={item.name} style={{ textAlign: 'center', color: currentTheme.palette.text.primary }} />
-                      </Card>
-                    </List.Item>
-                  )}
-                />
-              </Card>
+                            <Card
+                              className={styles.sponsorCard}
+                              style={{
+                                backgroundColor: currentTheme.palette.background.paper,
+                                color: currentTheme.palette.text.primary,
+                                border: `2px solid ${currentTheme.palette.primary.main}`,
+                                boxShadow: `0 0 10px ${currentTheme.palette.primary.main}`,
+                                marginTop: '20px',
+                                flex: 1,
+                              }}
+                            >
+                              <List
+                                grid={{ gutter: 16, column: 1 }}
+                                dataSource={sponsorsData}
+                                renderItem={(item) => (
+                                  <List.Item>
+                                    <Card
+                                      hoverable
+                                      cover={<img alt={item.name} src={item.logo} />}
+                                      style={{
+                                        backgroundColor: currentTheme.palette.background.paper,
+                                        border: `2px solid ${currentTheme.palette.primary.main}`,
+                                        boxShadow: `0 0 10px ${currentTheme.palette.primary.main}`,
+                                      }}
+                                    >
+                                      <Card.Meta
+                                        title={<Typography variant="h6" style={{ color: currentTheme.palette.primary.main }}>Competition Rules and Judging Criteria</Typography>}
+                                        description={
+                                          <div style={{ color: currentTheme.palette.text.primary }}>
+                                            <Typography variant="body1" style={{ marginBottom: '10px' }}>
+                                              <strong>Competition Process:</strong>
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              1. Đăng ký cá Koi tham gia cuộc thi.
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              2. Xét duyệt đơn đăng ký.
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              3. Phân cá Koi vào các hạng thi đấu.
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              4. Check in cá Koi.
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              5. Thực hiện thi đấu.
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              6. Thông báo kết quả cuộc thi.
+                                            </Typography>
+                                            <Typography variant="body1" style={{ marginBottom: '10px' }}>
+                                              <strong>Judging Criteria:</strong>
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              1. Color and Pattern: The vibrancy and uniqueness of the Koi's colors and patterns.
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              2. Body Shape: The overall shape and symmetry of the Koi fish.
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              3. Health and Vitality: The health, movement, and vitality of the Koi fish.
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              4. Size: The size of the Koi fish relative to its age.
+                                            </Typography>
+                                            <Typography variant="body1" style={{ marginBottom: '10px' }}>
+                                              <strong>Competition Categories:</strong>
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              1. Grand Champion
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              2. Sakura Champion
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              3. Mature Champion
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              4. Adult Champion
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              5. Young Champion
+                                            </Typography>
+                                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                                              6. Baby Champion
+                                            </Typography>
+                                          </div>
+                                        }
+                                        style={{ textAlign: 'center', color: currentTheme.palette.text.primary }}
+                                      />
+                                    </Card>
+                                  </List.Item>
+                                )}
+                              />
+                            </Card>
             </Col>
             <Col
               style={{

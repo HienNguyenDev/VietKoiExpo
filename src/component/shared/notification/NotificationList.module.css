@@ -1,0 +1,23 @@
+.notificationList {
+  background-color: #141414;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.title {
+  color: #00ffcc;
+  text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc;
+  text-align: center;
+}
+
+.notificationList {
+  background-color: #141414;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.title {
+  color: #00ffcc;
+  text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc;
+  text-align: center;
+}/*# sourceMappingURL=NotificationList.module.css.map */

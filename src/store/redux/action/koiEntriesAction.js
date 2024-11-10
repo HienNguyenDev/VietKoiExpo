@@ -2,7 +2,7 @@
 
 import { KOI_ASSIGN, KOI_APPROVE, KOI_CHECKIN, KOI_REVIEW, KOI_CATEGORY } from '../../../util/config';
 import { getAllScore, getKoiOwnerApi, getAllKoiEntriesBycompId, getAllKoiEntriesByCategoryAndCompId, approveKoiEntry, rejectKoiEntry, createKoiRegistration, classifyKoiEntry, reviewKoiEntry, submitKoiScoreApi } from '../../../service/KoiEntriesAPI';
-import { registerKoiForCompetitionApi } from '../../../service/koiRegist';
+import { registerKoiForCompetitionApi } from '../../../service/koiRegistAPI';
 import {
     createKoiEntryAction,
     approveKoiEntryAction,

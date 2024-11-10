@@ -25,6 +25,8 @@ import * as yup from 'yup';
 import styles from './ApproveKoiEntries.module.scss';
 import BackButton from '../shared/button/BackButton'; // Import the BackButton component
 import UploadImageComponent from '../shared/UploadImage/UploadImage';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
 
 const ApproveKoiEntries = () => {
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ const ApproveKoiEntries = () => {
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [koiVarieties, setKoiVarieties] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchKoiVarieties = async () => {
       try {
@@ -98,7 +100,7 @@ const ApproveKoiEntries = () => {
 
   return (
     <Box className={styles.container}>
-      <BackButton /> {/* Include the BackButton component */}
+     <Button className={styles.backButton} onClick={() => navigate('/home')}>Back to Homepage</Button>
       <Typography variant="h4" gutterBottom className={styles.title}>
         Register Koi Entry
       </Typography>

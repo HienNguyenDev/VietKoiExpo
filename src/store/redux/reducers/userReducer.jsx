@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { USER_LOGIN, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson } from '../../../util/config';
+import { USER_LOGIN, getStoreJson, setCookieJson, setStoreJson, } from '../../../util/config';
 
 const initialState = {
     userLogin: getStoreJson(USER_LOGIN),
@@ -43,6 +43,7 @@ const userReducer = createSlice({
             state.userProfile = {};
             state.userRegister = {};
             state.listUser = [];
+            state.userDetail = {};
         }
     }
 });

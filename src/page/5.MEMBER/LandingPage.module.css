@@ -85,4 +85,59 @@
 .registerButton:hover {
   background-color: #40a9ff;
   transform: translateY(-2px);
+}
+
+.searchSection {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 600px;
+}
+.searchInput .ant-input {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 2px solid #00ffcc !important;
+  box-shadow: 0 0 10px #00ffcc !important;
+}
+.searchInput .ant-input::-moz-placeholder {
+  color: #fff;
+}
+.searchInput .ant-input::placeholder {
+  color: #fff;
+}
+
+.searchButton {
+  background-color: #00ffcc;
+  color: #000;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.searchButton:hover {
+  background-color: #40a9ff;
+  transform: translateY(-2px);
+}
+
+.backButton {
+  margin-bottom: 20px;
+  background-color: #ff6f61;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #e162c1;
+  border-color: #e162c1;
+  box-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.backButton:hover {
+  background-color: #ab33c3;
+  transition: background-color 0.3s, transform 0.3s;
+  transform: translateY(-2px);
 }/*# sourceMappingURL=LandingPage.module.css.map */

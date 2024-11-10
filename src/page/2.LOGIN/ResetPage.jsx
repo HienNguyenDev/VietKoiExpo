@@ -12,7 +12,8 @@ const ResetPasswordPage = () => {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post('https://localhost:7246/api/reset-password', {
+      console.log('token:', token);
+      const response = await axios.post(`https://localhost:7246/Reset-Password?token=${token}`, {
         token,
         newPassword: values.newPassword,
       });

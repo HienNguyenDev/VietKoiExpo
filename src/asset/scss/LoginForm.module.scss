@@ -28,11 +28,11 @@
   height: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-  .tittleLogin {
+  .titleLogin {
     text-align: center;
 
     h1 {
-      color: rgb(202, 140, 140);
+      color: #00ffcc;
       font-size: 2.5rem;
       font-family: 'AutumnFlowerFont';
     }
@@ -91,7 +91,7 @@
     padding: 15px;
     border-radius: 20px;
 
-    .tittleLogin h1 {
+    .titleLogin h1 {
       font-size: 2rem;
     }
   }
@@ -114,6 +114,7 @@
     background-position: 0% 50%;
   }
 }
+
 .container {
   display: flex;
   justify-content: center;
@@ -144,6 +145,16 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endCo
 .error {
   color: #ff00ff; // Neon magenta for error text
   text-shadow: 0 0 8px #ff00ff; // Neon glow for error text
+}
+
+.emailError {
+  color: #ff0000; // Red for email error text
+  text-shadow: 0 0 8px #ff0000; // Red glow for email error text
+}
+
+.passwordError {
+  color: #ff00ff; // Neon magenta for password error text
+  text-shadow: 0 0 8px #ff00ff; // Neon glow for password error text
 }
 
 .usernameItem,
