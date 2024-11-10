@@ -39,8 +39,6 @@ const MenuAccount = () => {
       };
 
       // Đếm số lượng thông báo chưa đọc
-      const unread = updatedUserProfile.notifications.filter(notif => !notif.isRead).length;
-      setUnreadCount(unread);
     }
   }, [userProfile]);
 
@@ -57,14 +55,6 @@ const MenuAccount = () => {
     navigate(`/myprofile`); // Điều hướng đến trang thông báo với đường dẫn tùy thuộc vào role
   };
 
-  // Tạo hàm để hiển thị role bên cạnh tên người dùng
-  const renderRole = (role) => {
-    if (role === 'admin') return '(Admin)';
-    if (role === 'staff') return '(Staff)';
-    if (role === 'referee') return '(Referee)';
-    return '';
-  };
-
   const menuItems = [
     {
       key: '1',
@@ -77,11 +67,6 @@ const MenuAccount = () => {
       icon: <NotificationOutlined />,
       label: 'Notifications',
       onClick: handleNotificationClick, // Handles notification clicks
-    },
-    {
-      key: '3',
-      icon: <SettingOutlined />,
-      label: 'Settings',
     },
     {
       type: 'divider', // This will act as the `Menu.Divider`

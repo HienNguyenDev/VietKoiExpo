@@ -29,11 +29,11 @@ const userReducer = createSlice({
             state.userDetail = action.payload;
         }
         ,
-        updateUserAction: (state, action) => {
-            const index = state.listUser.findIndex(user => user.userId === action.payload.userId);
-            if (index !== -1) {
-                state.listUser[index] = action.payload;
-            }
+        updateUserLoginAction: (state, action) => {
+            state.userLogin = {
+                ...state.userLogin,
+                ...action.payload
+            };
         },
         removeUserAction: (state, action) => {
             state.listUser = state.listUser.filter(user => user.userId !== action.payload);
@@ -57,7 +57,8 @@ export const {
     updateUserAction,
     removeUserAction,
     setUserDetailAction,
-    logoutAction
+    logoutAction,
+    updateUserLoginAction,
 } = userReducer.actions;
 
 export default userReducer.reducer;

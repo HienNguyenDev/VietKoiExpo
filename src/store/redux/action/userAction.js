@@ -88,8 +88,8 @@ export const fetchUserByIdActionApi = (userId) => {
     console.log('Fetching userId:', userId);
     return async (dispatch) => {
         try {
-            const res = await getUserProfile(userId);
-            console.log('Fetched user profile:', res); 
+            const res = await getUserProfile(userId);  
+            console.log('Fetched user profile:',res); 
             const action = setUserDetailAction(res.data);
             dispatch(action);
         } catch (error) {
@@ -114,9 +114,11 @@ export const fetchUserByIdAction = (userId) => {
 export const updateUserActionApi = (userId, userDetails) => {
     return async (dispatch) => {
         try {
+            console.log('Updating user:', userDetails);
             const res = await updateDetailUser(userId, userDetails);
+            console.log('Updated user:', res.data);
             const action = updateUserAction(res.data);
-            dispatch(action);
+            dispatch(action);   
         } catch (error) {
             console.error("Failed to update user:", error.response ? error.response.data : error.message);
         }

@@ -1,56 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // Import navigate from react-router-dom
+import { useNavigate } from 'react-router-dom';
 import { Layout, Input, Button, Form, Typography, Card, Row, Col, Avatar, Space, message } from 'antd';
-import { fetchUserByIdActionApi, updateUserActionApi } from '../../../../src/store/redux/action/userAction'; // Import actions
-import AccountMenu from '../../shared/AccountMenu/AccountMenu'; // Import AccountMenu
+import { fetchUserByIdActionApi, updateUserActionApi } from '../../../../src/store/redux/action/userAction';
+import AccountMenu from '../../shared/AccountMenu/AccountMenu';
+import { updateUserLoginAction } from '../../../store/redux/reducers/userReducer';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const MyProfile = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Get navigate function from react-router-dom
-
-  const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
   const [form] = Form.useForm();
-  const userLogin = useSelector(state => state.userReducer.userLogin);
-  const userDetails = useSelector(state => state.userReducer.userDetails);
+  const userLogin = useSelector((state) => state.userReducer.userLogin);
 
-  // Handle editing user information
-  const handleEdit = () => {
-    form.setFieldsValue({
-      fullName: userLogin?.fullName,
-      email: userLogin?.email,
-      phone: userLogin?.phone,
-      address: userLogin?.address,
-      password: userLogin?.password, // Ensure password is not changed
-    });
-    setIsEditing(true); // Enable editing mode
-  };
+  useEffect(() => {
+    if (userLogin) {
+      dispatch(fetchUserByIdActionApi(userLogin.userId));
+    }
+  }, [dispatch, userLogin]);
 
-  const handleCancel = () => {
-    setIsEditing(false); // Disable editing mode
-  };
+  useEffect(() => {
+    if (userLogin) {
+      form.setFieldsValue({
+        roleId: userLogin?.roleId,
+        password: userLogin?.password,
+        email: userLogin?.email,
+        fullName: userLogin?.fullName,
+        phone: userLogin?.phone,
+        address: userLogin?.address,
+        imageUrl: userLogin?.imageUrl,
+        experience: userLogin?.experience,
+        status: userLogin?.status,
+      });
+    }
+  }, [userLogin, form]);
 
   const handleSubmit = (values) => {
-    const { password, ...otherValues } = values; // Separate password
-
-    // If password is provided, include it in the user details
+    // Format the data according to API requirements
     const userDetails = {
-      ...otherValues, 
-      password:  userLogin?.password, // Keep the old password if not updated
-      userId: userLogin?.userId, // Always include userId
+      roleId: userLogin?.roleId,
+      password: values.password || userLogin?.password,
+      email: values.email,
+      fullName: values.fullName,
+      phone: values.phone,
+      address: values.address,
+      imageUrl: values.imageUrl,
+      experience: Number(values.experience) || 0,
+      status: true
     };
-
-    // Dispatch API to update user information and redirect after successful update
-    dispatch(updateUserActionApi(userDetails.userId, userDetails, navigate))
+  
+    dispatch(updateUserActionApi(userLogin.userId, userDetails))
       .then(() => {
         message.success('Profile updated successfully!');
-        setIsEditing(false); // Disable editing mode
+        // Update local state by dispatching a new action
+        dispatch(updateUserLoginAction(userDetails));
+        // Refresh user data
+        dispatch(fetchUserByIdActionApi(userLogin.userId));
       })
-      .catch(() => {
-        message.error('Profile update failed, please try again!');
+      .catch((error) => {
+        message.error('Profile update failed: ' + (error.message || 'Unknown error'));
       });
   };
 
@@ -66,7 +76,7 @@ const MyProfile = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          backgroundColor: 'dark', // Change to a valid color value
+          backgroundColor: '#333', // Adjust to a valid color
           position: 'fixed',
           width: '100%',
           zIndex: 1000,
@@ -80,12 +90,9 @@ const MyProfile = () => {
           />
           <h2 style={{ margin: 0, color: 'cyan' }}>VietKoiExpo</h2>
         </div>
-        <div>
-          <AccountMenu />
-        </div>
+        <AccountMenu />
       </Header>
       <Content style={{ padding: '80px 24px', marginTop: '64px' }}>
-        
         <Card style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
           <Title level={3}>Personal Information</Title>
           <Row gutter={24} justify="center">
@@ -102,51 +109,50 @@ const MyProfile = () => {
                 form={form}
                 onFinish={handleSubmit}
                 initialValues={{
-                  fullName: userLogin?.fullName,
+                  roleId: userLogin?.roleId,
+                  password: userLogin?.password,
                   email: userLogin?.email,
+                  fullName: userLogin?.fullName,
                   phone: userLogin?.phone,
                   address: userLogin?.address,
-                  roleId: userLogin?.roleId, // Cannot edit
-                  status: userLogin?.status, // Cannot edit
-                  password: userLogin?.password, // Retain old password if not updated
+                  imageUrl: userLogin?.imageUrl,
+                  experience: userLogin?.experience,
+                  status: userLogin?.status,
                 }}
                 layout="vertical"
               >
                 <Form.Item label="Full Name" name="fullName">
-                  <Input disabled={!isEditing} />
+                  <Input />
                 </Form.Item>
                 <Form.Item label="Email" name="email">
-                  <Input disabled={!isEditing} />
+                  <Input />
                 </Form.Item>
                 <Form.Item label="Phone Number" name="phone">
-                  <Input disabled={!isEditing} />
+                  <Input />
                 </Form.Item>
                 <Form.Item label="Address" name="address">
-                  <Input disabled={!isEditing} />
+                  <Input />
+                </Form.Item>
+                <Form.Item label="Password" name="password">
+                  <Input.Password />
+                </Form.Item>
+                <Form.Item label="Image URL" name="imageUrl">
+                  <Input />
+                </Form.Item>
+                <Form.Item label="Experience" name="experience">
+                  <Input type="number" />
                 </Form.Item>
                 <Form.Item label="Role" name="roleId">
-                  <Input value={userDetails?.roleId} disabled />
+                  <Input disabled />
                 </Form.Item>
                 <Form.Item label="Status" name="status">
-                  <Input value={userDetails?.status} disabled />
+                  <Input disabled />
                 </Form.Item>
-                
                 <Form.Item>
                   <Space>
-                    {!isEditing ? (
-                      <Button type="primary" onClick={handleEdit}>
-                        Edit
-                      </Button>
-                    ) : (
-                      <>
-                        <Button type="primary" htmlType="submit">
-                          Save
-                        </Button>
-                        <Button type="default" onClick={handleCancel}>
-                          Cancel
-                        </Button>
-                      </>
-                    )}
+                    <Button type="primary" htmlType="submit">
+                      Save
+                    </Button>
                   </Space>
                 </Form.Item>
               </Form>

@@ -184,30 +184,6 @@ const MemberPage = () => {
   });
 
 
-  const rankingData = [
-    {
-      rank: 1,
-      fishName: 'Koi Fish 1',
-      owner: 'Owner 1',
-      score: 9.8,
-      imageUrl: 'https://example.com/koi1.jpg', // Add fish image URL
-    },
-    {
-      rank: 2,
-      fishName: 'Koi Fish 2',
-      owner: 'Owner 2',
-      score: 9.5,
-      imageUrl: 'https://example.com/koi2.jpg',
-    },
-    {
-      rank: 3,
-      fishName: 'Koi Fish 3',
-      owner: 'Owner 3',
-      score: 9.3,
-      imageUrl: 'https://example.com/koi3.jpg',
-    },
-  ];
-
   const sponsorsData = [
     { logo: qc },
   ];
@@ -389,7 +365,7 @@ const MemberPage = () => {
               </Card>
             </Col>
             <Col span={12}>
-              <Card
+                         <Card
                 title={
                   <div
                     style={{
@@ -400,7 +376,7 @@ const MemberPage = () => {
                     }}
                   >
                     <Typography variant="h6" style={{ fontWeight: 'bold', color: currentTheme.palette.primary.main }}>
-                      Tham gia bình chọn
+                      Xem kết quả cuộc thi
                     </Typography>
                   </div>
                 }
@@ -412,10 +388,14 @@ const MemberPage = () => {
                 }}
               >
                 <p style={{ color: currentTheme.palette.text.primary }}>
-                  Cast your vote for the most beautiful Koi fish in the contest. Your vote can help decide the winner!
+                  Xem kết quả chi tiết của các cuộc thi, bao gồm điểm số và xếp hạng của từng con Koi!
                 </p>
-                <MuiButton variant="text" className={styles.readMore}>
-                  Vote Now?
+                <MuiButton 
+                  variant="outlined"
+                  className={styles.readMore}
+                  onClick={() => navigate('/competition-results')} // Add navigation handler
+                >
+                  Xem kết quả
                 </MuiButton>
               </Card>
             </Col>
@@ -424,7 +404,7 @@ const MemberPage = () => {
           {/* Ranking Component and News Component */}
                    <Row gutter={16} style={{ marginTop: '20px' }}>
             <Col span={12} style={{ display: 'flex', flexDirection: 'column' }}>
-              <RankingComponent rankingData={rankingData} theme={currentTheme} style={{ flex: 1 }} />
+              
               <Card
                 className={styles.sponsorCard}
                 style={{

@@ -1,7 +1,7 @@
 // src/page/ApproveKoiEntries.module.scss
 
 .container {
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   padding: 20px;
   background-color: #000; // Black background for contrast
@@ -77,5 +77,36 @@
         background-color: #40a9ff; // Blue
       }
     }
+  }
+}
+// ApproveKoiEntries.module.scss
+.textField {
+  & input, & label, & .MuiSelect-select {
+    color: white !important;
+  }
+  
+  & label.Mui-focused {
+    color: white !important;
+  }
+
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border-color: white !important;
+    }
+    &:hover fieldset {
+      border-color: white !important;
+    }
+    &.Mui-focused fieldset {
+      border-color: white !important;
+    }
+  }
+
+  & .MuiInputBase-input::placeholder {
+    color: white !important;
+    opacity: 0.7;
+  }
+
+  & .MuiSelect-icon {
+    color: white !important;
   }
 }

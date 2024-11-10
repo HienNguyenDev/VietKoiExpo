@@ -21,13 +21,12 @@ const GoogleLoginComponent = () => {
       await dispatch(loginWithGoogle(tokenId, navigate));
     } catch (error) {
       console.error('Google login error:', error);
-      setErrorMessage('Google login failed. Please try again.');
     }
   };
 
   const handleGoogleFailure = (response) => {
     console.error('Google login failure:', response);
-    setErrorMessage('Google login failed. Please try again.');
+
   };
 
   return (

@@ -194,18 +194,21 @@ const LandingPage = () => {
                 <Col key={competition.compId} span={24}>
                   <Card className={styles.competitionCard}>
                     <Row gutter={[16, 16]}>
-                      <Col span={6}>
-                        {competition.imageUrl ? (
-                          <img
-                            src={competition.imageUrl}
-                            alt={competition.compName}
-                            className={styles.competitionImage}
-                            onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/150'; }} // Fallback image
-                          />
-                        ) : (
-                          <div className={styles.placeholderImage}>No Image</div>
-                        )}
-                      </Col>
+                    <Col span={6} style={{ display: 'flex', alignItems: 'center' }}>
+  {competition.imageUrl ? (
+    <img
+      src={competition.imageUrl}
+      alt={competition.compName}
+      className={styles.competitionImage}
+      onError={(e) => { 
+        e.target.onerror = null; 
+        e.target.src = 'https://via.placeholder.com/200'; 
+      }}
+    />
+  ) : (
+    <div className={styles.placeholderImage}>No Image</div>
+  )}
+</Col>
                       <Col span={18}>
                         <Row>
                           <Col span={8}>

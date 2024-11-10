@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   padding: 20px;
   background-color: #000;
@@ -67,4 +67,31 @@
 }
 .container .form .dialogButton:hover {
   background-color: #40a9ff;
+}
+
+.textField input, .textField label, .textField .MuiSelect-select {
+  color: white !important;
+}
+.textField label.Mui-focused {
+  color: white !important;
+}
+.textField .MuiOutlinedInput-root fieldset {
+  border-color: white !important;
+}
+.textField .MuiOutlinedInput-root:hover fieldset {
+  border-color: white !important;
+}
+.textField .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: white !important;
+}
+.textField .MuiInputBase-input::-moz-placeholder {
+  color: white !important;
+  opacity: 0.7;
+}
+.textField .MuiInputBase-input::placeholder {
+  color: white !important;
+  opacity: 0.7;
+}
+.textField .MuiSelect-icon {
+  color: white !important;
 }/*# sourceMappingURL=ApproveKoiEntries.module.css.map */

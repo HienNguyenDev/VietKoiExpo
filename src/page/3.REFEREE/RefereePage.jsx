@@ -5,6 +5,7 @@ import { ReactComponent as RefereeIcon } from '../../asset/icon/geisha-svgrepo-c
 import { ReactComponent as JudgeIcon } from '../../asset/icon/sensu-fan-svgrepo-com.svg';
 import AccountMenu from '../../component/shared/AccountMenu/AccountMenu'; 
 import { dark } from '@mui/material/styles/createPalette';
+import { useSelector } from 'react-redux';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -35,6 +36,10 @@ const RefereePage = () => {
       console.error(`No item found with key: ${key}`);
     }
   };
+  const userLogin = useSelector(state => state.userReducer.userLogin);
+  if (!userLogin) {
+    return null; // Render nothing if userLogin is null
+  }
 
   return (
     <Layout style={{ minHeight: '100vh', width: '100vw' }}>

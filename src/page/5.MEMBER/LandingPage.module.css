@@ -141,4 +141,39 @@
   background-color: #ab33c3;
   transition: background-color 0.3s, transform 0.3s;
   transform: translateY(-2px);
+}
+
+.competitionImage {
+  width: 100%;
+  height: 200px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 200px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: #999;
+  margin: 10px 0;
+}
+
+.competitionCard {
+  padding: 16px;
+  margin-bottom: 16px;
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+.competitionCard .ant-card-body {
+  padding: 16px;
+}
+.competitionCard .ant-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }/*# sourceMappingURL=LandingPage.module.css.map */

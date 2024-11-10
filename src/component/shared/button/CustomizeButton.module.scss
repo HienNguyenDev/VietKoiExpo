@@ -1,0 +1,25 @@
+// CustomizeButton.module.scss
+.loginButton {
+  background: #00ffcc !important;
+  border: none !important;
+  color: #141414 !important;
+  font-weight: bold !important;
+  padding: 8px 24px !important;
+  height: auto !important;
+  font-size: 16px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 10px #00ffcc !important;
+  text-shadow: none !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background: #00ffdd !important;
+    box-shadow: 0 0 20px #00ffcc !important;
+    transform: translateY(-2px) !important;
+  }
+
+  &:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 0 5px #00ffcc !important;
+  }
+}
