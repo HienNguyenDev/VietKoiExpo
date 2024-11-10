@@ -17,12 +17,6 @@ const MyProfile = () => {
   const userLogin = useSelector(state => state.userReducer.userLogin);
   const userDetails = useSelector(state => state.userReducer.userDetails);
 
-  useEffect(() => {
-    if (!userLogin) {
-      navigate('/login'); // Redirect to login if userLogin is null
-    }
-  }, [userLogin, navigate]);
-
   // Handle editing user information
   const handleEdit = () => {
     form.setFieldsValue({
