@@ -4,7 +4,7 @@ import {
   setCheckInDataAction,
   checkInKoiEntryAction,
   setError
-} from '../reducers/checkInReducer';
+git fetch origin FE} from '../reducers/checkInReducer';
 
 import { 
   getCheckInByCompIdApi,
