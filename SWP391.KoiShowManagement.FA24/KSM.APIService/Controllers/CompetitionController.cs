@@ -253,7 +253,7 @@ namespace KSM.APIService.Controllers
                     Age = koi.Age,
                     Size = koi.Size,
                     Variety = koi.VarietyId,
-                    Status = koi.Tblscores.Any(), // Check if there are any scores associated with the Koi
+                    Status = koi.Tblscores.Any(s => s.CompId == compId), // Check if there are any scores associated with the Koi
                     ImageUrl = koi.ImageUrl
                 }).ToList();
 

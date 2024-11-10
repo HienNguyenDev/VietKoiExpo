@@ -128,16 +128,63 @@ namespace KSM.APIService.Controllers
         }
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{code}")]
-        public async Task<IActionResult> UpdateUser(Guid code,[FromBody] UserModel model)
+        public class UserUpdateModel
         {
-            if (code.Equals(model.UserId))
+            public string RoleId { get; set; }
+            public string Password { get; set; }
+            public string Email { get; set; }
+            public string FullName { get; set; }
+            public string Phone { get; set; }
+            public string Address { get; set; }
+            public string? ImageUrl { get; set; }
+            public int? Experience { get; set; }
+            public bool? Status { get; set; }
+        }
+
+        [HttpPut("{code}")]
+        public async Task<IActionResult> UpdateUser(Guid code, [FromBody] UserUpdateModel model)
+        {
+            //if (!code.Equals(model.UserId))
+            //{
+            //    return NotFound();
+            //}
+            //var updateUser = _mapper.Map<Tbluser>(model);
+            //await _userRepository.UpdateAsync(updateUser);
+            //return Ok();
+
+            var existingUser = await _userRepository.GetByIDAsync(code);
+            if (existingUser == null)
             {
                 return NotFound();
             }
-            var updateUser = _mapper.Map<Tbluser>(model);
-            await _userRepository.UpdateAsync(updateUser);
-            return Ok();
+
+            // Update only the specific fields
+            existingUser.RoleId = model.RoleId;
+            existingUser.Password = model.Password;
+            existingUser.Email = model.Email;
+            existingUser.FullName = model.FullName;
+            existingUser.Phone = model.Phone;
+            existingUser.Address = model.Address;
+            existingUser.ImageUrl = model.ImageUrl;
+            existingUser.Experience = model.Experience;
+            existingUser.Status = model.Status;
+
+            try
+            {
+                await _userRepository.UpdateAsync(existingUser);
+                return Ok(model); // Return only the fields in UserUpdateModel
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(code))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         // DELETE: api/Users/5
