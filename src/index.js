@@ -61,6 +61,7 @@ import KoiListForCompetition from './page/5.MEMBER/competition/CheckIn';
 import Dashboard from './component/shared/DashBoard/dashBoard';
 import ResetPasswordPage from './page/2.LOGIN/ResetPage';
 import PrivateRoute from './private/PrivateRoute'; // Import the PrivateRoute component
+import ResultPage from './page/5.MEMBER/ResultPage';
 
 const App = () => {
   const location = useLocation();
@@ -124,6 +125,7 @@ const App = () => {
           <Route path="/news/:newsTypeId" element={<PrivateRoute element={NewsPage} />} />
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="/dashboard/:compId" element={<PrivateRoute element={Dashboard} />} />
+          <Route path='/competition-results' element={<PrivateRoute element={ResultPage} />} />
           {/* Catch-all route to redirect to home */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

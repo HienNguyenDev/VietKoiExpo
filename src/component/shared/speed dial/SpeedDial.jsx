@@ -1,44 +1,55 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import EditIcon from '@mui/icons-material/Edit';
 import HomeIcon from '@mui/icons-material/Home';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import SaveIcon from '@mui/icons-material/Save';
-import { useTheme } from '../../../template/theme/ThemeContext'; // Import useTheme
-import CustomizedProgressBars from '../../shared/loading/CustomizeProgressBar'; // Import CustomizedProgressBars component
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CustomizedProgressBars from '../../shared/loading/CustomizeProgressBar';
 
 const ControlledOpenSpeedDialCustom = () => {
   const [open, setOpen] = React.useState(false);
-  const [isEditMode, setIsEditMode] = React.useState(false);
-  const [loading, setLoading] = React.useState(false); // Add loading state
+  const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
-  const { toggleTheme } = useTheme(); // Use the theme context
+  const userLogin = useSelector(state => state.userReducer.userLogin);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const toggleEditMode = () => {
-    setIsEditMode(!isEditMode);
+  const navigateHome = () => {
+    setLoading(true);
+    setTimeout(() => {
+      navigate('/home');
+      setLoading(false);
+    }, 1000);
     handleClose();
   };
 
-  const navigateHome = () => {
-    setLoading(true); // Set loading state to true
+  const navigateToRole = () => {
+    setLoading(true);
     setTimeout(() => {
-      navigate('/home');
-      setLoading(false); // Set loading state to false after navigation
-    }, 2000); // Simulate a delay for loading
+      switch (userLogin?.roleId) {
+        case 'manager':
+          navigate('/admin');
+          break;
+        case 'judge':
+          navigate('/judge');
+          break;
+        case 'staff':
+          navigate('/staff');
+          break;
+        default:
+          navigate('/member');
+      }
+      setLoading(false);
+    }, 1000);
     handleClose();
   };
 
   const actions = [
-    { icon: <EditIcon />, name: 'Edit Mode', onClick: toggleEditMode },
-    { icon: <SaveIcon />, name: 'Save', onClick: () => console.log('Save clicked') },
-    { icon: <Brightness4Icon />, name: 'Change Theme', onClick: toggleTheme },
     { icon: <HomeIcon />, name: 'Home', onClick: navigateHome },
+    { icon: <DashboardIcon />, name: 'Dashboard', onClick: navigateToRole },
   ];
 
   if (loading) {
@@ -51,7 +62,7 @@ const ControlledOpenSpeedDialCustom = () => {
 
   return (
     <SpeedDial
-      ariaLabel="SpeedDial controlled open example"
+      ariaLabel="Navigation SpeedDial"
       sx={{ position: 'fixed', bottom: 30, right: 40 }}
       icon={<SpeedDialIcon />}
       onClose={handleClose}

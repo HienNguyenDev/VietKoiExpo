@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Row, Col, Carousel, Card, List, Switch, Button as AntButton, Menu, Modal } from 'antd';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
-import { CssBaseline, Typography, Button as MuiButton } from '@mui/material';
+import { CssBaseline, Typography, Button as MuiButton, SpeedDial, SpeedDialIcon, SpeedDialAction } from '@mui/material';
 import AccountMenu from '../../component/shared/AccountMenu/AccountMenu';
 import styles from '../../asset/scss/MemberPage.module.scss';
 import banner1 from '../../asset/banner/banner1.webp';
@@ -15,7 +15,10 @@ import bgred from '../../asset/photo/bgred.png';
 import qc from '../../asset/photo/qc.jpg';
 import RankingComponent from './RankingComponent';
 import NewsComp from '../../component/shared/news/NewsComp';
+import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useDispatch, useSelector } from 'react-redux';
+import CustomizedProgressBars from '../../component/shared/loading/CustomizeProgressBar';
 
 const { Header, Footer, Content } = Layout;
 
@@ -196,7 +199,44 @@ const MemberPage = () => {
 
   // Select theme based on light or dark mode
   const currentTheme = themeMode === 'dark' ?lightTheme: darkTheme  ;
+  const [speedDialOpen, setSpeedDialOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const handleSpeedDialOpen = () => setSpeedDialOpen(true);
+  const handleSpeedDialClose = () => setSpeedDialOpen(false);
+
+  const navigateHome = () => {
+    setLoading(true);
+    setTimeout(() => {
+      navigate('/home');
+      setLoading(false);
+    }, 1000);
+    handleSpeedDialClose();
+  };
+
+  const navigateToRole = () => {
+    setLoading(true);
+    setTimeout(() => {
+      switch (userLogin?.roleId) {
+        case 'manager':
+          navigate('/admin');
+          break;
+        case 'judge':
+          navigate('/judge');
+          break;
+        case 'staff':
+          navigate('/staff');
+          break;
+      }
+      setLoading(false);
+    }, 1000);
+    handleSpeedDialClose();
+  };
+
+  const actions = [
+    { icon: <HomeIcon />, name: 'Home', onClick: navigateHome },
+    { icon: <DashboardIcon />, name: 'Dashboard', onClick: navigateToRole },
+  ];
   return (
     <ThemeProvider theme={currentTheme}>
       <CssBaseline /> {/* Apply default theme properties */}
@@ -393,7 +433,7 @@ const MemberPage = () => {
                 <MuiButton 
                   variant="outlined"
                   className={styles.readMore}
-                  onClick={() => navigate('/competition-results')} // Add navigation handler
+                  onClick={() => navigate('/competition-results')}
                 >
                   Xem kết quả
                 </MuiButton>
@@ -482,6 +522,35 @@ const MemberPage = () => {
               <NewsComp theme={currentTheme} style={{ height: '100%' }} />
             </Col>
           </Row>
+          {(userLogin?.roleId === 'manager' || 
+        userLogin?.roleId === 'judge' || 
+        userLogin?.roleId === 'staff') && (
+        <>
+          {loading ? (
+            <div className="loading-container">
+              <CustomizedProgressBars />
+            </div>
+          ) : (
+            <SpeedDial
+              ariaLabel="Navigation SpeedDial"
+              sx={{ position: 'fixed', bottom: 30, right: 40 }}
+              icon={<SpeedDialIcon />}
+              onClose={handleSpeedDialClose}
+              onOpen={handleSpeedDialOpen}
+              open={speedDialOpen}
+            >
+              {actions.map((action) => (
+                <SpeedDialAction
+                  key={action.name}
+                  icon={action.icon}
+                  tooltipTitle={action.name}
+                  onClick={action.onClick}
+                />
+              ))}
+            </SpeedDial>
+          )}
+        </>
+      )}
         </Content>
 
         {/* Footer */}

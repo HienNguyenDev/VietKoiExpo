@@ -13,7 +13,7 @@ const ResetPasswordPage = () => {
     setLoading(true);
     try {
       console.log('token:', token);
-      const response = await axios.post(`https://localhost:7246/Reset-Password?token=${token}`, {
+      const response = await axios.post(`https://vietkoiexpo-backend.hiennguyendev.id.vn/Reset-Password?token=${token}`, {
         token,
         newPassword: values.newPassword,
       });

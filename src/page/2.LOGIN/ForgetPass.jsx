@@ -13,7 +13,7 @@ const ForgetPass = () => {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post('https://localhost:7246/Forgot-Password', {
+      const response = await axios.post('https://vietkoiexpo-backend.hiennguyendev.id.vn/Forgot-Password', {
         email: values.email,
       });
       setLoading(false);

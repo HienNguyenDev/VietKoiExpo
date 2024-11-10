@@ -30,8 +30,6 @@ export const registerUser = (userRegister) => {
 };
 
 export const updateDetailUser = (userId, userUpdate) => {
-    console.log(' user:', userUpdate);
-    console.log('userId:', userId);
     return axios({
         url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/User/${userId}`,
         method: 'PUT',
@@ -66,7 +64,7 @@ export const createUser = (userCreate) => {
 
 export const getUserProfile = async (userId) => {
     const url = `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/User/${userId}`;
-    console.log('Fetching URL:',userId ); 
+    console.log('Fetching URL:', url); 
 
     return axios({
         url,

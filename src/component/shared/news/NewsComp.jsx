@@ -13,12 +13,12 @@ const NewsComp = ({ theme }) => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get('https://localhost:7246/api/News');
+        const response = await axios.get('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/News');
         const news = response.data;
 
         // Fetch user details for each news item
         const userIds = [...new Set(news.map(item => item.userId))];
-        const userResponses = await Promise.all(userIds.map(id => axios.get(`https://localhost:7246/api/User/${id}`)));
+        const userResponses = await Promise.all(userIds.map(id => axios.get(`https://vietkoiexpo-backend.hiennguyendev.id.vn/api/User/${id}`)));
         const users = userResponses.map(res => res.data);
 
         // Create a map of userId to userName

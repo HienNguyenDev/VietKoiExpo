@@ -59,7 +59,7 @@ const StatisticDiagram = () => {
   };
 
   return (
-    <div className='containerStatisticsDiagram' style={{ background: '#141414', padding: '20px', borderRadius: '10px' }}>
+    <div className='containerStatisticsDiagram' style={{ background: '#ffffff', padding: '20px', borderRadius: '10px' }}>
       <Line data={chartData} options={options} />
     </div>
   );

@@ -1,0 +1,65 @@
+.resultPage {
+  background: rgb(63, 94, 251);
+  background: radial-gradient(circle, rgb(63, 94, 251) 0%, rgba(253, 156, 235, 0.4850533964) 0%);
+}
+.resultPage :global .ant-layout {
+  background: transparent;
+}
+.resultPage :global .ant-layout-sider {
+  background: rgba(28, 28, 28, 0.8) !important;
+  border-right: 2px solid #00ffcc;
+  box-shadow: 0 0 10px #00ffcc;
+}
+.resultPage :global .ant-layout-sider .ant-typography {
+  color: #00ffcc !important;
+  text-shadow: 0 0 8px #00ffcc;
+}
+.resultPage :global .ant-layout-sider .ant-card {
+  background: rgba(20, 20, 20, 0.9);
+  border: 1px solid #00ffcc;
+  box-shadow: 0 0 5px #00ffcc;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+.resultPage :global .ant-layout-sider .ant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px #00ffcc;
+}
+.resultPage :global .ant-layout-sider .ant-card .ant-card-head {
+  border-bottom: 1px solid #00ffcc;
+}
+.resultPage :global .ant-layout-sider .ant-card .ant-card-head .ant-card-head-title {
+  color: #00ffcc;
+  text-shadow: 0 0 8px #00ffcc;
+}
+.resultPage :global .ant-layout-sider .ant-card .ant-card-body {
+  color: #ffffff;
+}
+.resultPage :global .ant-layout-content {
+  background: rgba(28, 28, 28, 0.8);
+}
+.resultPage :global .ant-layout-content .ant-typography {
+  color: #00ffcc !important;
+  text-shadow: 0 0 8px #00ffcc;
+}
+.resultPage :global .ant-layout-content .ant-table {
+  background: transparent;
+}
+.resultPage :global .ant-layout-content .ant-table .ant-table-thead > tr > th {
+  background: rgba(0, 255, 204, 0.1);
+  color: #00ffcc;
+  border-bottom: 2px solid #00ffcc;
+}
+.resultPage :global .ant-layout-content .ant-table .ant-table-tbody > tr > td {
+  border-bottom: 1px solid rgba(0, 255, 204, 0.3);
+  color: #ffffff;
+}
+.resultPage :global .ant-layout-content .ant-table .ant-table-tbody > tr:hover > td {
+  background: rgba(0, 255, 204, 0.1);
+}
+.resultPage :global .ant-layout-content .ant-empty .ant-empty-description {
+  color: #00ffcc;
+}
+.resultPage :global .ant-layout-content .ant-spin-dot-item {
+  background-color: #00ffcc;
+}/*# sourceMappingURL=ResultPage.module.css.map */
