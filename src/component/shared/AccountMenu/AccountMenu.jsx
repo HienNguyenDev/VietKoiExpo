@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Badge, Dropdown, Menu, Button } from 'antd';
-import { UserOutlined, SettingOutlined, LogoutOutlined,ProfileOutlined,NotificationOutlined } from '@ant-design/icons';
+import { UserOutlined, SettingOutlined, LogoutOutlined, ProfileOutlined, NotificationOutlined } from '@ant-design/icons';
 import { fetchUserByIdActionApi, logoutActionApi } from '../../../../src/store/redux/action/userAction'; // Import action
 import { useNavigate, Link } from 'react-router-dom';
-
 
 const MenuAccount = () => {
   const dispatch = useDispatch();
@@ -12,8 +11,9 @@ const MenuAccount = () => {
   
   // Lấy dữ liệu người dùng từ Redux store
   const { userLogin, userProfile } = useSelector((state) => state.userReducer);
-   // State để quản lý số lượng thông báo chưa đọc
-   const [unreadCount, setUnreadCount] = useState(0);
+  // State để quản lý số lượng thông báo chưa đọc
+  const [unreadCount, setUnreadCount] = useState(0);
+
   useEffect(() => {
     if (userLogin) {
       // Gọi API để lấy thông tin người dùng dựa trên userId
@@ -21,16 +21,14 @@ const MenuAccount = () => {
     }
   }, [dispatch, userLogin]);
 
-    // Mock data cho notifications nếu chưa có
-    const mockNotifications = [
-      { id: 1, message: "Bạn có tin nhắn mới", isRead: true, date: "2024-10-25 08:00" },
-      { id: 2, message: "Cập nhật quan trọng từ hệ thống", isRead: false, date: "2024-10-24 10:30" },
-      { id: 3, message: "Sự kiện sắp tới vào tuần tới", isRead: false, date: "2024-10-23 12:45" },
-      { id: 4, message: "Đăng ký thành công sự kiện", isRead: true, date: "2024-10-22 14:00" },
-      { id: 5, message: "Bình luận mới về bài viết của bạn", isRead: false, date: "2024-10-21 16:15" }
-    ];
-
-  
+  // Mock data cho notifications nếu chưa có
+  const mockNotifications = [
+    { id: 1, message: "Bạn có tin nhắn mới", isRead: true, date: "2024-10-25 08:00" },
+    { id: 2, message: "Cập nhật quan trọng từ hệ thống", isRead: false, date: "2024-10-24 10:30" },
+    { id: 3, message: "Sự kiện sắp tới vào tuần tới", isRead: false, date: "2024-10-23 12:45" },
+    { id: 4, message: "Đăng ký thành công sự kiện", isRead: true, date: "2024-10-22 14:00" },
+    { id: 5, message: "Bình luận mới về bài viết của bạn", isRead: false, date: "2024-10-21 16:15" }
+  ];
 
   useEffect(() => {
     if (userProfile) {
@@ -50,9 +48,11 @@ const MenuAccount = () => {
     // Gọi action logout và điều hướng tới trang đăng nhập
     dispatch(logoutActionApi(navigate));
   };
+
   const handleNotificationClick = () => {
     navigate(`/notifications`); // Điều hướng đến trang thông báo với đường dẫn tùy thuộc vào role
   };
+
   const handleMyProfileClick = () => {
     navigate(`/myprofile`); // Điều hướng đến trang thông báo với đường dẫn tùy thuộc vào role
   };
@@ -64,6 +64,7 @@ const MenuAccount = () => {
     if (role === 'referee') return '(Referee)';
     return '';
   };
+
   const menuItems = [
     {
       key: '1',
@@ -92,20 +93,10 @@ const MenuAccount = () => {
       onClick: handleSignOut, // Handles sign out action
     },
   ];
-  const menu = (
-    <div style={{ width: 300, padding: '10px 15px', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
-        <Avatar size={64} src={userProfile.avatarUrl} icon={<UserOutlined />} />
-        <div style={{ marginLeft: 15 }}>
-          <h3 style={{ margin: 0 }}>
-            {userProfile.name} {renderRole(userProfile.roleId)}  {/* UserNam*/}
-          </h3>
-          <span style={{ color: '#888' }}>{userProfile.email}</span> {/* UserMail*/}
-        </div>
-      </div>
-      
-    </div>
-  );
+
+  if (!userLogin) {
+    return null; // Render nothing if userLogin is null
+  }
 
   return (
     <Dropdown
@@ -114,8 +105,8 @@ const MenuAccount = () => {
       placement="bottomRight"
     >
       <div style={{ display: 'inline-block', position: 'relative', cursor: 'pointer' }}>
-        <Badge count={unreadCount}  offset={[-5, 5]}>
-        <Avatar
+        <Badge count={unreadCount} offset={[-5, 5]}>
+          <Avatar
             size="large"
             src={userProfile.avatarUrl} //Chú ý avatarUrl
             icon={<UserOutlined />}

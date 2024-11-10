@@ -56,7 +56,7 @@ const NewsComp = ({ theme }) => {
       }}
       dataSource={newsData}
       footer={<div />}
-      style={{ backgroundColor: theme.palette.background.paper }} // Apply background color to the list container
+      style={{ backgroundColor: theme.palette.background.paper,borderRadius:'30px' }} // Apply background color to the list container
       renderItem={(item) => (
         <List.Item
           key={item.newsId}

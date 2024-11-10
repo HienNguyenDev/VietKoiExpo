@@ -3,8 +3,6 @@ import {
   getCategoriesByCompIdApi,
   getKoiEntriesByCompIdApi,
   checkCompetitionStatusApi,
-  fetchBracketsAPI,
-  updateKoiScoreAPI,
   sendNotificationAPI,
   getCheckedInKoiForCompetition,
   getAllCheckInData,
@@ -90,32 +88,17 @@ export const fetchCheckedInKoiForCompetition = (compId) => async (dispatch) => {
 };
 
 
-export const fetchBrackets = (compId) => async (dispatch) => {
-  try {
-    const data = await fetchBracketsAPI(compId);
-    dispatch(fetchBracketsSuccess(data));
-  } catch (error) {
-    dispatch(fetchBracketsFailure(error.message));
-  }
-};
 
-export const updateKoiScore = (compId, koiId, score) => async (dispatch) => {
-  try {
-    const data = await updateKoiScoreAPI(compId, koiId, score);
-    dispatch(updateKoiScoreSuccess(data));
-  } catch (error) {
-    dispatch(updateKoiScoreFailure(error.message));
-  }
-};
+// export const updateKoiScore = (compId, koiId, score) => async (dispatch) => {
+//   try {
+//     const data = await updateKoiScoreAPI(compId, koiId, score);
+//     dispatch(updateKoiScoreSuccess(data));
+//   } catch (error) {
+//     dispatch(updateKoiScoreFailure(error.message));
+//   }
+// };
 
-export const sendNotification = (compId, message) => async (dispatch) => {
-  try {
-    const data = await sendNotificationAPI(compId, message);
-    dispatch(sendNotificationSuccess(data));
-  } catch (error) {
-    dispatch(sendNotificationFailure(error.message));
-  }
-};
+
 
 export const filterKoiEntriesByCompId = (compId) => async (dispatch) => {
 

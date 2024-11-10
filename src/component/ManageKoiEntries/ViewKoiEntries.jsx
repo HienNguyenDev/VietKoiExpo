@@ -15,7 +15,13 @@ const ViewKoiEntries = () => {
   useEffect(() => {
     const fetchKoiEntries = async () => {
       try {
-        const response = await axios.get(`https://localhost:7246/api/Koifish/user/${userId}`);
+        const response = await axios.get(`https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/user/${userId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        );
         setLocalKoi(response.data);
       } catch (error) {
         console.error('Error fetching Koi entries:', error);

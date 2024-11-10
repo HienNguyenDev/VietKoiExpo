@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Spin, notification, Card, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchCheckInData } from '../../store/redux/action/CheckInAction';
+import { fetchCheckInData } from '../../store/redux/action/checkInAction';
 import { fetchCompetitionData, fetchCategoriesByCompId, fetchKoiEntries, fetchCheckedInKoiForCompetition } from '../../store/redux/action/competitionAction';
 import BracketList from './competition/BracketList';
 import KoiList from './competition/KoiList';
@@ -17,11 +17,11 @@ const CompetitionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const checkInData = useSelector(state => state.checkInReducer.checkInData || []);
-  const registrationData = useSelector(state => state.registerKoi.regisKoiList || []);
+  const registrationData = useSelector(state => state.RegisterKoiReducer.regisKoiList || []);
   const competition = useSelector(state => state.competitionReducer.competition || {});
   const categories = useSelector(state => Array.isArray(state.competitionReducer.categories) ? state.competitionReducer.categories : []); // Ensure categories is an array
   const koiEntries = useSelector(state => state.competitionReducer.koiEntries || []);
-  const loading = useSelector(state => state.checkInReducer.loading || state.registerKoi.loading || state.competitionReducer.loading || state.scoreReducer.loading);
+  const loading = useSelector(state => state.checkInReducer.loading || state.RegisterKoiReducer.loading || state.competitionReducer.loading || state.scoreReducer.loading);
   const competitionStatus = useSelector(state => state.competitionReducer.competitionStatus || []);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const koiEntriesListScore = useSelector(state => state.scoreReducer.scores || []);

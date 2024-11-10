@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://localhost:7246/api/CheckIn'; // Replace with your actual base URL
+const BASE_URL = 'https://vietkoiexpo-backend.hiennguyendev.id.vn/api/CheckIn'; // Replace with your actual base URL
 
 
 export const checkInKoiEntryApi = (entryId,checkinData) => {
@@ -10,13 +10,19 @@ export const checkInKoiEntryApi = (entryId,checkinData) => {
         url: `${BASE_URL}/byRegistrationId/${entryId}`,
         method: 'PUT',
         data: checkinData,
+        headers: {
+            'Content-Type': 'application/json',
+        }
     });
 };
 
 export const reviewKoiEntryApi = (koiId) => {
     return axios({
-        url: `https://localhost:7246/api/Koifish/${koiId}`,
+        url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/${koiId}`,
         method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
     });
 };
 
@@ -25,12 +31,18 @@ export const getCheckInByCompIdApi = (compId) => {
     return axios({
         url: `${BASE_URL}/competition/${compId}`,
         method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
     });
 };
 export const getCheckInDataApi = () => {
     return axios({
         url: `${BASE_URL}`,
         method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
     });
 };
 

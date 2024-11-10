@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button, Tag, Radio } from 'antd';
+import { Table, Button } from 'antd';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { fetchAllResultByCompCompId, reviewKoiEntryAction } from '../../../store/redux/action/resultAction';
+import styles from './Dashboard.module.scss';
 
 const Dashboard = () => {
   const { compId } = useParams();
@@ -12,7 +13,6 @@ const Dashboard = () => {
   const { compName } = location.state || {};
   const [koiDetails, setKoiDetails] = useState({}); // State để lưu chi tiết cá Koi
   const compResult = useSelector(state => state.resultReducer.compResultList);
-  const [filterStatus, setFilterStatus] = useState('all');
   const [loading, setLoading] = useState(false); // Để quản lý trạng thái loading
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const Dashboard = () => {
       title: 'Koi Image',
       dataIndex: 'koiId',
       key: 'koiimageurl',
-      render: (koiId) => koiDetails[koiId]?.imageUrl ? <img src={koiDetails[koiId].imageUrl} alt={koiDetails[koiId].koiName} style={{ width: '100px' }} /> : 'Loading...',
+      render: (koiId) => koiDetails[koiId]?.imageUrl ? <img src={koiDetails[koiId].imageUrl} alt={koiDetails[koiId].koiName} className={styles.koiImage} /> : 'Loading...',
     },
     {
       title: 'Koi Name',
@@ -74,16 +74,17 @@ const Dashboard = () => {
   ];
 
   return (
-    <div>
-      <h2>{compName}!!</h2>
+    <div className={styles.dashboard}>
+      <h2 className={styles.title}>{compName}</h2>
       <Table
         columns={columns}
         dataSource={compResult}
         rowKey="resultId"
         pagination={{ pageSize: 5 }}
         loading={loading}
+        className={styles.table}
       />
-      <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
+      <Button type="default" className={styles.backButton} onClick={() => navigate(-1)}>
         Back
       </Button>
     </div>

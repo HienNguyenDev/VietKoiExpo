@@ -1,0 +1,52 @@
+.dashboard {
+  background-color: #141414; // Dark background
+  padding: 20px;
+  min-height: 100vh;
+  width: 100vw;
+  color: #ffffff; // White text
+}
+
+.title {
+  color: #ff6f61; // Neon orange text
+  text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61, 0 0 30px #ff6f61; // Neon glow effect
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.table {
+  .ant-table {
+    background-color: #1c1c1c; // Dark table background
+    border: 2px solid #00ffcc; // Neon cyan border
+    box-shadow: 0 0 10px #00ffcc; // Neon glow effect
+  }
+
+  .ant-table-thead > tr > th {
+    background-color: #1c1c1c; // Dark header background
+    color: #ffffff; // White text
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff; // Neon glow effect
+  }
+
+  .ant-table-tbody > tr > td {
+    background-color: #1c1c1c; // Dark row background
+    color: #ffffff; // White text
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff; // Neon glow effect
+  }
+}
+
+.koiImage {
+  width: 100px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffcc; // Neon glow effect
+}
+
+.backButton {
+  background-color: #00ffcc; // Neon cyan background
+  border: none;
+  color: #141414; // Dark text
+  box-shadow: 0 0 10px #00ffcc; // Neon glow effect
+  &:hover {
+    background-color: #00e6b8; // Slightly darker neon cyan on hover
+    box-shadow: 0 0 20px #00ffcc; // Intense neon glow on hover
+  }
+  margin-top: 20px;
+}

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const API_URL = 'https://localhost:7246/api/Koifish';
+const API_URL = 'https://vietkoiexpo-backend.hiennguyendev.id.vn/api';
 
 export const registerKoiApi = async (koiData) => {
-  return await axios.post(API_URL, koiData, {
+  return await axios.post('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish', koiData, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -13,8 +13,11 @@ export const registerKoiApi = async (koiData) => {
 export const getKoiListOfUserID = async (userId) => {
   try {
     const response = await axios({
-      url: `https://localhost:7246/api/Koifish/user/${userId}`,
+      url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/user/${userId}`,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });// Chuyển đổi dữ liệu trả về thành JSON
     return response.data;
   } catch (error) {
@@ -25,8 +28,11 @@ export const getKoiListOfUserID = async (userId) => {
 export const getKoiVarietiesApi = async () => {
   try {
     const response = await axios({
-      url: `https://localhost:7246/api/Variety`,
+      url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Variety`,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     return response.data; // Chuyển đổi dữ liệu trả về thành JSON
   } catch (error) {
@@ -36,7 +42,12 @@ export const getKoiVarietiesApi = async () => {
 
 export const updateKoiDetailApi = async (id, newDetail) => {
   try {
-    const response = await axios.put(`${API_URL}/koi/${id}`, newDetail);
+    const response = await axios.put(`${API_URL}/koi/${id}`, newDetail,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     return response.data;
   } catch (error) {
     throw error;
@@ -45,30 +56,42 @@ export const updateKoiDetailApi = async (id, newDetail) => {
 
 export const getAllKoiApi = () => {
   return axios({
-      url: `https://localhost:7246/api/Koifish`,
+      url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish`,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
   });
 };
 
 export const getOwnerByKoiIdApi = (koiId) => {
   return axios({
-      url: `https://localhost:7246/api/Koifish/${koiId}/user`,
+      url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/${koiId}/user`,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
   });
 };
 
 export const getOwnerDetailApi = async (userId) => {
   return axios({
-    url: `https://localhost:7246/api/User/${userId}`,
+    url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/User/${userId}`,
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 
 export const getKoiByIdApi = async (id) => {
   try {
     const response = await axios({
-      url: `https://localhost:7246/api/Koifish/user/${id}`,
+      url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/user/${id}`,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     return response.data;
   } catch (error) {
@@ -80,8 +103,11 @@ export const getKoiByIdApi = async (id) => {
 export const getRegistrationByRegisID = async(regisID) => {
   try {
     const response = await axios({
-      url: `https://localhost:7246/api/Registration/${regisID}`,
+      url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Registration/${regisID}`,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     return response.data;
   } catch (error) {
@@ -95,9 +121,12 @@ export const registerKoiForCompetitionApi = async (koiId, compId,status) => {
   console.log('registerKoiForCompetitionApi called with:', { koiId, compId }); // Debug input parameters
   try {
     const response = await axios({
-      url: `https://localhost:7246/api/Registration`,
+      url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Registration`,
       method: 'POST',
       data: { koiId, compId,status },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     console.log('registerKoiForCompetitionApi response:', response.data); // Debug response
     return response.data;
@@ -110,8 +139,11 @@ export const registerKoiForCompetitionApi = async (koiId, compId,status) => {
 export const getAllRegisteredKoiForCompetitionApi = async()=>{
   try {
     const response = await axios({
-      url: `https://localhost:7246/api/Registration`,
+      url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Registration`,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     return response.data;
   } catch (error) {
@@ -120,15 +152,23 @@ export const getAllRegisteredKoiForCompetitionApi = async()=>{
 } 
 
 export const getAllRegistrationsApi = async () => {
-  const response = await axios.get('https://localhost:7246/api/Registration');
+  const response = await axios.get('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Registration',
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   return response.data;
 };
 
 export const getListRegisteredKoiByCompId = async (compId) => {
   try {
     const response = await axios({
-      url: `https://localhost:7246/api/Registration/competition/${compId}`,
+      url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Registration/competition/${compId}`,
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     return response.data;
   } catch (error) {

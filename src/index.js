@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/configStore';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -124,6 +124,8 @@ const App = () => {
           <Route path="/news/:newsTypeId" element={<PrivateRoute element={NewsPage} />} />
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="/dashboard/:compId" element={<PrivateRoute element={Dashboard} />} />
+          {/* Catch-all route to redirect to home */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         </div>
       </CSSTransition>

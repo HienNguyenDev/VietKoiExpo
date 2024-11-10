@@ -1,8 +1,14 @@
 import axios from 'axios';
 
+const BASE_URL = 'https://vietkoiexpo-backend.hiennguyendev.id.vn/api';
+
 export const getCompetitionDataApi = async (compId) => {
   try {
-    const response = await axios.get(`https://localhost:7246/api/Competition/${compId}`);
+    const response = await axios.get(`${BASE_URL}/Competition/${compId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -11,7 +17,11 @@ export const getCompetitionDataApi = async (compId) => {
 
 export const getCategoriesByCompIdApi = async (compId) => {
   try {
-    const response = await axios.get(`https://localhost:7246/api/Competition/CompetitonCategories/${compId}`);
+    const response = await axios.get(`${BASE_URL}/Competition/CompetitonCategories/${compId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -20,7 +30,11 @@ export const getCategoriesByCompIdApi = async (compId) => {
 
 export const getKoiEntriesByCompIdApi = async (compId, categoryId) => {
   try {
-    const response = await axios.get(`https://localhost:7246/api/Competition/CompetitonCategoriesFish/${compId}?comID=${categoryId}`);
+    const response = await axios.get(`${BASE_URL}/Competition/CompetitonCategoriesFish/${compId}?comID=${categoryId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -29,21 +43,34 @@ export const getKoiEntriesByCompIdApi = async (compId, categoryId) => {
 
 export const checkCompetitionStatusApi = async (compId) => {
   try {
-    const response = await axios.get(`hhttps://localhost:7246/api/CheckIn/competition/${compId}`);
+    const response = await axios.get(`${BASE_URL}/CheckIn/competition/${compId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
+
 export const getCheckedInKoiForCompetition = async (compId) => {
   try {
     // Fetch check-in data
     console.log('getCheckedInKoiForCompetition called with:', compId); // Debug input parameters
-    const checkInResponse = await axios.get(`https://localhost:7246/api/CheckIn`);
+    const checkInResponse = await axios.get(`${BASE_URL}/CheckIn`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     const checkInData = checkInResponse.data;
 
     // Fetch registration data
-    const registrationResponse = await axios.get(`https://localhost:7246/api/Registration/GetAllRegistByCompId/${compId}`);
+    const registrationResponse = await axios.get(`${BASE_URL}/Registration/GetAllRegistByCompId/${compId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     console.log('getCheckedInKoiForCompetition registrationResponse:', registrationResponse.data); // Debug registration data
     const registrationData = registrationResponse.data;
 
@@ -58,26 +85,40 @@ export const getCheckedInKoiForCompetition = async (compId) => {
     throw error;
   }
 };
+
 export const getAllCheckInData = async () => {
   try {
-    const response = await axios.get(`https://localhost:7246/api/CheckIn`);
+    const response = await axios.get(`${BASE_URL}/CheckIn`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const getFishFromRegistrationApi = async (regisID) => {
   try {
-    const response = await axios.get(`https://localhost:7246/api/Registration/${regisID}`);
+    const response = await axios.get(`${BASE_URL}/Registration/${regisID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
+
 export const getKoiFishByIdApi = async (koiId) => {
   try {
-    const response = await axios.get(`https://localhost:7246/api/Koifish/${koiId}`);
+    const response = await axios.get(`${BASE_URL}/Koifish/${koiId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -86,34 +127,11 @@ export const getKoiFishByIdApi = async (koiId) => {
 
 export const getAllRegisteredKoiForCompetitionAPIbyCompId = async (compId) => {
   try {
-    const response = await axios.get(`https://localhost:7246/api/Registration/GetAllRegistByCompId/${compId}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const fetchBracketsAPI = async (compId) => {
-  try {
-    const response = await axios.get(`https://api.example.com/competitions/${compId}/brackets`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const updateKoiScoreAPI = async (compId, koiId, score) => {
-  try {
-    const response = await axios.post(`https://api.example.com/competitions/${compId}/koi/${koiId}/score`, { score });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const sendNotificationAPI = async (compId, message) => {
-  try {
-    const response = await axios.post(`https://api.example.com/competitions/${compId}/notifications`, { message });
+    const response = await axios.get(`${BASE_URL}/Registration/GetAllRegistByCompId/${compId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -121,11 +139,14 @@ export const sendNotificationAPI = async (compId, message) => {
 };
 
 export const filterKoiEntriesByCompIdAPI = async (compId) => {
-  try{
-    const response = await axios.get(`https://localhost:7246/api/Competition/KoiFish/${compId}`);
+  try {
+    const response = await axios.get(`${BASE_URL}/Competition/KoiFish/${compId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
-  }
-  catch(error){
+  } catch (error) {
     throw error;
   }
-}
+};

@@ -22,6 +22,7 @@ import AccountMenu from '../../component/shared/AccountMenu/AccountMenu'; // You
 import { dark, light } from '@mui/material/styles/createPalette';
 
 import NotificationPage from '../../component/shared/notification/NotificationPage';
+import { useSelector } from 'react-redux';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -94,6 +95,7 @@ const breadcrumbItems = flattenedItems.map((item) => (
 ));
 
 const AdminPage = () => {
+
   const [collapsed, setCollapsed] = useState(false);
   // State để quản lý hiển thị thông báo
   const [showNotifications, setShowNotifications] = useState(false); 
@@ -115,7 +117,10 @@ const AdminPage = () => {
   const handleShowNotifications = () => {
     setShowNotifications(true); // Hiển thị thông báo khi người dùng chọn Notifications
   };
-
+  const userLogin = useSelector(state => state.userReducer.userLogin);
+  if (!userLogin) {
+    return null; // Render nothing if userLogin is null
+  }
 
   return (
     <Layout style={{ minHeight: '100vh', width: '100vw' }}>
