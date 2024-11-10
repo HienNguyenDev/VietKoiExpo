@@ -1,34 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button, Tag, Radio } from 'antd';
+import { Table, Button, Tag, Radio, Input, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';  // Thêm axios cho phần gọi API
 import { fetchAllContests } from '../../store/redux/action/contestAction'; 
+
 const ManageKoiCheckInPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
   const contests = useSelector(state => state.contestReducer.contestList);
   const [filterStatus, setFilterStatus] = useState('all');
-  const [loading, setLoading] = useState(false); // Để quản lý trạng thái loading
+  const [loading, setLoading] = useState(false); 
+  const [searchQuery, setSearchQuery] = useState(''); // State để lưu giá trị tìm kiếm chung
 
   useEffect(() => {
     const fetchContests = async () => {
-      setLoading(true); // Bắt đầu loading
-      await dispatch(fetchAllContests()); // Fetch contests
-      setLoading(false); // Kết thúc loading
+      setLoading(true);
+      await dispatch(fetchAllContests());
+      setLoading(false);
     };
 
     fetchContests();
   }, [dispatch]);
 
-  // Lọc danh sách các cuộc thi theo trạng thái
+  // Lọc danh sách các cuộc thi theo trạng thái và tìm kiếm
   const filteredCompetitions = contests.filter(competition => {
-    if (filterStatus === 'all') return true;
-    if (filterStatus === 'upcoming') return competition.status === 0;
-    if (filterStatus === 'ongoing') return competition.status === 1;
-    if (filterStatus === 'completed') return competition.status === 2;
-    return true;
+    const matchesStatus = filterStatus === 'all' || 
+                          (filterStatus === 'upcoming' && competition.status === 0) ||
+                          (filterStatus === 'ongoing' && competition.status === 1) ||
+                          (filterStatus === 'completed' && competition.status === 2);
+
+    const matchesSearch = competition.compName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          competition.location.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesStatus && matchesSearch;
   });
 
   // Cột cho bảng cuộc thi
@@ -73,25 +79,31 @@ const ManageKoiCheckInPage = () => {
       key: 'action',
       render: (_, record) => (
         record.status === 0 ? (
-          <Button type="primary" onClick={() => handleViewKoiCheckIn(record.compId, record.compName)}>View Koi Entries</Button>
+          <Button type="primary" onClick={() => handleViewKoiCheckIn(record.compId, record.compName)}>View CheckIn List</Button>
         ) : null
       ),
     },
   ];
 
-
-  console.log('Contests:', contests);
-  // Điều hướng tới trang chi tiết các Koi Entries
   const handleViewKoiCheckIn = (compId, compName) => {
-    
     navigate(`/admin/manage-koi-checkin/review-koi-checkin/${compName}`, { state: { compId, compName } });
   };
 
-  
-
   return (
     <div>
-      <h2>Manage Check In </h2>
+      <h1>Manage Check In </h1>
+      <br></br>
+      {/* Thanh tìm kiếm chung */}
+      <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+        <Col span={8}>
+          <Input 
+            placeholder="Search by Competition Name or Location" 
+            value={searchQuery} 
+            onChange={(e) => setSearchQuery(e.target.value)} 
+            style={{ width: 300 }}
+          />
+        </Col>
+      </Row>
 
       {/* Radio buttons để chọn lọc trạng thái */}
       <Radio.Group 
@@ -110,7 +122,7 @@ const ManageKoiCheckInPage = () => {
         dataSource={filteredCompetitions}
         rowKey="compId"
         pagination={{ pageSize: 5 }}
-        loading={loading} // Hiển thị trạng thái loading nếu cần
+        loading={loading}
       />
     </div>
   );

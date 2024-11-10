@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Table, Button, Tabs, Spin, Radio, Tag } from 'antd';
+import { Table, Button, Tabs, Spin, Radio, Tag, Input, Row, Col } from 'antd';
 import { fetchAllContests } from '../../store/redux/action/contestAction'; // Assuming your action fetches contests
 const { TabPane } = Tabs;
 
@@ -9,6 +9,7 @@ const { TabPane } = Tabs;
 const ManageShowJudgingPage = () => {
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(''); // State để lưu giá trị tìm kiếm chung
   //const [activeTab, setActiveTab] = useState('all');
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,11 +32,15 @@ const ManageShowJudgingPage = () => {
 
   // Lọc danh sách các cuộc thi theo trạng thái
   const filteredCompetitions = contests.filter(competition => {
-    if (filterStatus === 'all') return true;
-    if (filterStatus === 'upcoming') return competition.status === 0;
-    if (filterStatus === 'ongoing') return competition.status === 1;
-    if (filterStatus === 'completed') return competition.status === 2;
-    return true;
+    const matchesStatus = filterStatus === 'all' || 
+                          (filterStatus === 'upcoming' && competition.status === 0) ||
+                          (filterStatus === 'ongoing' && competition.status === 1) ||
+                          (filterStatus === 'completed' && competition.status === 2);
+
+    const matchesSearch = competition.compName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          competition.location.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesStatus && matchesSearch;
   });
 
   const columns = [
@@ -87,7 +92,19 @@ const ManageShowJudgingPage = () => {
 
   return (
     <div>
-      <h2>Judging Shows</h2>
+      <h1>Judging Shows</h1>
+      <br></br>
+       {/* Thanh tìm kiếm chung */}
+       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+        <Col span={8}>
+          <Input 
+            placeholder="Search by Competition Name or Location" 
+            value={searchQuery} 
+            onChange={(e) => setSearchQuery(e.target.value)} 
+            style={{ width: 300 }}
+          />
+        </Col>
+      </Row>
       <Radio.Group 
         onChange={(e) => setFilterStatus(e.target.value)} 
         value={filterStatus}

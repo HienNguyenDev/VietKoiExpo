@@ -15,10 +15,10 @@ export const registerKoi = (koiData) => async (dispatch) => {
   }
 };
 
-export const updateKoiDetail = (id, newDetail) => {
+export const updateKoiDetail = (id,  updateKoiDetail) => {
   return async (dispatch) => {
-    try {
-      const data = await updateKoiDetailApi(id, newDetail);
+    try { 
+      const data = await updateKoiDetailApi(id,  updateKoiDetail);
       dispatch(updateDetailOfRegisterKoi({ id, ...data }));
     } catch (error) {
       console.error('Failed to update koi detail:', error);

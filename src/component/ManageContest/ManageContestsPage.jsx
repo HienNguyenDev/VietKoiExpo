@@ -18,14 +18,14 @@ const ManageContestsPage = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [form] = Form.useForm();
   const [categories, setCategories] = useState([]);
-  
+  const [searchTerm, setSearchTerm] = useState('');
+
   const navigate = useNavigate();
-  
   const [checkedCategories, setCheckedCategories] = useState([]);
   const dispatch = useDispatch();
   const contestsData = useSelector(state => state.contestReducer.contestList);
   const categoriesList = useSelector(state => state.contestReducer.categoriesList);
-  
+
   useEffect(() => {
     dispatch(fetchAllContests());
   }, [dispatch]);
@@ -33,7 +33,7 @@ const ManageContestsPage = () => {
   useEffect(() => {
     if (selectedContest) {
       const compId = selectedContest.compId;
-  
+
       if (!categories[compId]) {
         dispatch(fetchCategoriesByCompId(compId)).then(res => {
           const categoryIds = res && res.data ? res.data.map(category => category.categoryId) : [];
@@ -47,7 +47,7 @@ const ManageContestsPage = () => {
       }
     }
   }, [dispatch, selectedContest, categories]);
-  
+
   useEffect(() => {
     console.log('Updated categories:', categories);
   }, [categories]);
@@ -77,18 +77,21 @@ const ManageContestsPage = () => {
   }, [checkedCategories]);
 
   const filteredCompetitions = contestsData.filter(competition => {
-    if (filterStatus === 'all') return true;
-    if (filterStatus === 'upcoming') return competition.status === 0;
-    if (filterStatus === 'ongoing') return competition.status === 1;
-    if (filterStatus === 'completed') return competition.status === 2;
-    return true;
+    const matchesSearchTerm = competition.compName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                              competition.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'all' ||
+      (filterStatus === 'upcoming' && competition.status === 0) ||
+      (filterStatus === 'ongoing' && competition.status === 1) ||
+      (filterStatus === 'completed' && competition.status === 2);
+
+    return matchesSearchTerm && matchesStatus;
   });
 
   const showDrawer = async (title, contest = null) => {
     setDrawerTitle(title);
     setSelectedContest(contest);
     setDrawerVisible(true);
-  
+
     if (contest) {
       dispatch(fetchContestDetails(contest.compId));
       form.setFieldsValue({
@@ -190,7 +193,7 @@ const ManageContestsPage = () => {
       key: 'status',
       render: (status) => {
         let color = status === 0 ? 'green' : status === 1 ? 'blue' : 'red';
-        let statusText = status === 0 ? 'Upcoming' : status === 1 ? 'Ongoing' : status === 2 ? 'Completed' : 'Completed';
+        let statusText = status === 0 ? 'Upcoming' : status === 1 ? 'Ongoing' : 'Completed';
         return <Tag color={color}>{statusText}</Tag>;
       },
     },
@@ -213,6 +216,14 @@ const ManageContestsPage = () => {
         Create Contest
       </Button>
       <br/>
+      <div style={{ marginBottom: 16 }}>
+        <Input 
+          placeholder="Search by Name or Location" 
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ width: 300 }}
+        />
+      </div>
       <Radio.Group 
         onChange={(e) => setFilterStatus(e.target.value)} 
         value={filterStatus}

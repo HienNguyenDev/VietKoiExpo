@@ -7,44 +7,41 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import styles from '../../asset/scss/ManageNewsUpdatesPage.module.scss';
 import { fetchAllNews, createNewsActionApi, updateNewsActionApi, removeNewsActionApi, fetchNewsDetails } from '../../store/redux/action/NewsAction';
-import { fetchUsersActionApi, fetchUserByIdAction } from '../../store/redux/action/userAction';
 import moment from 'moment';
 import UploadImageComponent from '../../component/shared/UploadImage/UploadImage';
-
 const { confirm } = Modal;
 const { Option } = Select;
+const { Search } = Input;
 
 const ManageNewsUpdatesPage = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('');
   const [selectedNews, setSelectedNews] = useState(null);
-  const [quillValue, setQuillValue] = useState(''); // State for ReactQuill value
-  const [imageUrl, setImageUrl] = useState(''); // State for Image URL
+  const [quillValue, setQuillValue] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [searchValue, setSearchValue] = useState(''); // State for search value
+
   const [form] = Form.useForm();
-  const quillRef = useRef(null); // Ref for ReactQuill instance
+  const quillRef = useRef(null);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const newsData = useSelector(state => state.newsReducer.newsList);
-  const userProfile = useSelector(state => state.userReducer.userProfile);
-  const userLogin = useSelector(state => state.userReducer.userLogin); // Get logged-in user information
 
   useEffect(() => {
     dispatch(fetchAllNews());
-    dispatch(fetchUsersActionApi());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (drawerVisible && drawerTitle === 'Create News') {
-      form.resetFields();
-      form.setFieldsValue({
-        userFullName: userLogin?.fullName || '', // Set logged-in user directly
-        newsDate: moment(),
-      });
-      setQuillValue('');
-      setImageUrl('');
-    }
-  }, [drawerVisible, drawerTitle, form, userLogin]);
+  const handleSearch = (value) => {
+    setSearchValue(value.toLowerCase());
+  };
+
+  const filteredNewsData = newsData.filter(news =>
+    !searchValue ||
+    (news.title && news.title.toLowerCase().includes(searchValue)) ||
+    (news.newsTypeId && news.newsTypeId.toLowerCase().includes(searchValue)) ||
+    (news.newsDescription && news.newsDescription.toLowerCase().includes(searchValue))
+  );
 
   const showDrawer = async (title, news = null) => {
     setDrawerTitle(title);
@@ -52,10 +49,8 @@ const ManageNewsUpdatesPage = () => {
     setDrawerVisible(true);
 
     if (news) {
-      const userFullName = await dispatch(fetchUserByIdAction(news.userId)).then(res => res.fullName).catch(() => '');
       form.setFieldsValue({
         ...news,
-        userFullName,
         newsDate: moment(news.newsDate, 'YYYY-MM-DD'),
       });
       await dispatch(fetchNewsDetails(news.newsId));
@@ -114,10 +109,8 @@ const ManageNewsUpdatesPage = () => {
         newsDate: values.newsDate.format('YYYY-MM-DD'),
         newsDescription: quillValue,
         imageUrl,
-        userId: userLogin?.userId
       };
       if (drawerTitle === 'Create News') {
-        values.userFullName = userLogin?.fullName;
         dispatch(createNewsActionApi(formattedValues))
           .then(response => {
             console.log('Create News Response:', response);
@@ -141,17 +134,39 @@ const ManageNewsUpdatesPage = () => {
   };
 
   const columns = [
-    { 
-      title: 'Title', 
-      dataIndex: 'title', 
+    {
+      title: 'Image',
+      dataIndex: 'imageUrl',
+      key: 'imageUrl',
+      render: (imageUrl) => (
+        imageUrl ? <img src={imageUrl} alt="news-thumbnail" style={{ width: '100px' }} /> : 'No Image'
+      )
+    },
+    {
+      title: 'Title',
+      dataIndex: 'title',
       key: 'title',
       render: (_, record) => {
         const descriptionSnippet = record.newsDescription ? (record.newsDescription.match(/<h1>(.*?)<\/h1>/)?.[1] || '').substring(0, 30) + '...' : '';
         return `${record.newsTypeId} - ${descriptionSnippet}`;
       }
     },
-    { title: 'Date', dataIndex: 'newsDate', key: 'newsDate' },
-    { title: 'Status', dataIndex: 'status', key: 'status', render: status => (status ? 'Active' : 'Inactive') },
+    {
+      title: 'Type',
+      dataIndex: 'newsTypeId',
+      key: 'newsTypeId',
+    },
+    {
+      title: 'Date',
+      dataIndex: 'newsDate',
+      key: 'newsDate',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: status => (status ? 'Active' : 'Inactive')
+    },
     {
       title: 'Actions',
       key: 'actions',
@@ -167,10 +182,17 @@ const ManageNewsUpdatesPage = () => {
 
   return (
     <div className={styles.manageNewsUpdatesPage}>
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginBottom: 16 }}>
-        Create News
-      </Button>
-      <Table dataSource={newsData} columns={columns} rowKey="newsId" />
+      <div style={{ display: 'flex', marginBottom: 16 }}>
+        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginRight: 16 }}>
+          Create News
+        </Button>
+        <Input
+          placeholder="Search by title or type"
+          onChange={(e) => handleSearch(e.target.value)}
+          style={{ width: 300 }}
+        />
+      </div>
+      <Table dataSource={filteredNewsData} columns={columns} rowKey="newsId" />
       <Drawer
         title={drawerTitle}
         width={640}
@@ -187,7 +209,7 @@ const ManageNewsUpdatesPage = () => {
               <Option value="updates">Updates</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="userFullName" label="User">
+          <Form.Item name="userFullName" label="Author">
             <Input value={form.getFieldValue('userFullName')} disabled />
           </Form.Item>
           <Form.Item name="newsDate" label="Date" initialValue={moment()} rules={[{ required: true, message: 'Please enter the date' }]}>
@@ -234,5 +256,3 @@ const ManageNewsUpdatesPage = () => {
 };
 
 export default ManageNewsUpdatesPage;
-
-
