@@ -1,0 +1,201 @@
+$white: #ffffff;
+$black: #252525;
+$primary1: #ff6d1f;
+$primary2: #60badb;
+$btnColor: #ff4f5a;
+
+@mixin main-font {
+  font-family: 'Poppins', sans-serif;
+}
+
+@mixin second-font {
+  font-family: "Poppins", sans-serif;
+}
+
+@mixin hero_btn($col1, $col2, $pad1, $pad2, $bRadius) {
+  display: inline-block;
+  padding: $pad1 $pad2;
+  background-color: $col1;
+  color: $col2;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+  border-radius: $bRadius;
+
+  &:hover {
+    background-color: transparent;
+    border-color: $col1;
+    color: $col1;
+  }
+}
+
+@mixin upperBold {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+body {
+  @include main-font();
+  color: #0c0c0c;
+  background-color: #ffffff;
+}
+
+.layout_padding {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+.layout_padding2 {
+  padding: 45px 0;
+}
+
+.layout_padding2-top {
+  padding-top: 45px;
+  padding-bottom: 45px;
+}
+
+.layout_padding2-bottom {
+  padding-bottom: 45px;
+}
+
+.layout_padding-top {
+  padding-top: 90px;
+}
+
+.layout_padding-bottom {
+  padding-bottom: 90px;
+}
+
+.heading_container {
+  display: flex;
+
+  h2 {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+/* slider section */
+.slider_section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .row {
+    align-items: center;
+
+    &>div {
+      position: unset;
+    }
+  }
+
+  .detail-box {
+    h1 {
+      color: $white;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    p {
+      color: $white;
+      margin-top: 15px;
+    }
+
+    .btn-box {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 45px -5px 0 -5px;
+
+      a {
+        text-align: center;
+        width: 165px;
+        font-size: 15px;
+        margin: 5px;
+      }
+
+      .btn-1 {
+        @include hero_btn($btnColor, $white, 10px, 0, 0);
+      }
+
+      .btn-2 {
+        @include hero_btn($white, $black, 10px, 0, 0);
+      }
+    }
+  }
+
+  .img-container {
+    .img-box {
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  #carouselExampleIndicators {
+    position: unset;
+    width: 100%;
+  }
+
+  .carousel_btn-container {
+    width: 120px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    left: 8.5%;
+    z-index: 999;
+    transform: translateY(50%);
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      position: relative;
+      width: 55px;
+      height: 55px;
+      border: none;
+      border-radius: 100%;
+      opacity: 1;
+      background-repeat: no-repeat;
+      background-size: 14px;
+      background-position: center;
+      background-color: $primary1;
+      margin: 2px;
+
+      &:hover {
+        background-color: $btnColor;
+      }
+    }
+
+    .carousel-control-prev {
+      background-image: url(../images/prev.png);
+    }
+
+    .carousel-control-next {
+      background-image: url(../images/next.png);
+    }
+  }
+
+  ol.carousel-indicators {
+    margin: 0;
+    width: 75px;
+    bottom: 45px;
+    left: initial;
+    right: 25px;
+
+    li {
+      border-radius: 100%;
+      text-indent: 0px;
+      text-align: center;
+      line-height: 55px;
+      color: $white;
+      background-color: transparent;
+      opacity: 1;
+      display: none;
+
+      &.active {
+        display: block;
+      }
+    }
+  }
+}
+
+/* end slider section */

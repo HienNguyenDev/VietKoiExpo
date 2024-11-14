@@ -1,0 +1,41 @@
+.navbar-collapse {
+  transform: translateX(100vw);
+  opacity: 0;
+  transition: all 0.3s ease-in;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-collapse.lg_nav-toggle {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.custom_menu-btn button {
+  margin-top: 12px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+.custom_menu-btn button span {
+  display: block;
+  width: 34px;
+  height: 4px;
+  background-color: #fff;
+  margin: 7px 0;
+  transition: all 0.3s;
+  border-radius: 10px;
+}
+.custom_menu-btn button .s-2 {
+  transition: all 0.1s;
+  width: 17px;
+  margin-left: auto;
+}
+.custom_menu-btn.menu_btn-style button .s-1 {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+.custom_menu-btn.menu_btn-style button .s-2 {
+  transform: translateX(100px);
+}
+.custom_menu-btn.menu_btn-style button .s-3 {
+  transform: rotate(-45deg) translate(8px, -8px);
+}/*# sourceMappingURL=Header.css.map */

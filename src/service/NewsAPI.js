@@ -26,7 +26,7 @@ export const updateNews = (newsId, newsData) => {
 
 export const getNews = (newsId) => {
     return axios({
-        url: `${BASE_URL}/News/${newsId}`,
+        url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/News/${newsId}`,
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export const getNews = (newsId) => {
 
 export const getAllNews = () => {
     return axios({
-        url: `${BASE_URL}/News`,
+        url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/News`,
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

@@ -62,6 +62,7 @@ import Dashboard from './component/shared/DashBoard/dashBoard';
 import ResetPasswordPage from './page/2.LOGIN/ResetPage';
 import PrivateRoute from './private/PrivateRoute'; // Import the PrivateRoute component
 import ResultPage from './page/5.MEMBER/ResultPage';
+import MainPage from './template/theme/MainPage';
 
 const App = () => {
   const location = useLocation();
@@ -71,8 +72,8 @@ const App = () => {
       <CSSTransition key={location.key} nodeRef={nodeRef} classNames="fade" timeout={700}>
         <div ref={nodeRef}>
         <Routes location={location}>
-          <Route path="/" element={<MemberPage />} />
-          <Route path="home" element={<MemberPage />} />
+          <Route path="/" element={<MainPage />} />
+          <Route path="home" element={<MainPage />} />
           <Route path="home/register-koi" element={<ApproveKoiEntries />} />
           <Route path="view-contest" element={<ViewContests />} />
           <Route path="view-koi" element={<ReviewKoiEntries />} />
@@ -127,6 +128,7 @@ const App = () => {
           <Route path="/dashboard/:compId" element={<PrivateRoute element={Dashboard} />} />
           <Route path='/competition-results' element={<PrivateRoute element={ResultPage} />} />
           {/* Catch-all route to redirect to home */}
+          <Route path="slider" element={<MainPage/>}></Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         </div>
