@@ -1,77 +1,65 @@
-@font-face {
-  font-family: 'UtRightMilksDemoRegular';
-  src: url('../../asset/font/ut-right-milks-font/UtRightMilksDemoRegular-JpZo7.otf') format('opentype');
-}
+/* Define colors */
+$white: #ffffff;
+$primary1: #ff6d1f;
+$primary2: #60badb;
+$btnColor: #ff4f5a;
 
-@font-face {
-  font-family: 'AutumnFlowerFont';
-  src: url('../../asset/font/autumn-flowers-font/AutumnFlowers-9YVZK.otf') format('opentype');
-}
+/* Define custom fonts */
 
+/* Container styling */
 .container {
-  font-family: 'UtRightMilksDemoRegular' !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url('../../asset/photo/koibanner.png') no-repeat center center;
-  background-size: cover; // Adjusted to cover the entire container
   height: 100vh;
   padding: 20px;
+  background: url('../../asset/photo/1046552_OL0CSR0.jpg') center/cover no-repeat;
+  width: 100vw;
 }
 
+/* Forget password form styling */
 .forgetPassForm {
   padding: 20px;
   border: 1px solid rgba(255, 255, 255, 0.103);
   border-radius: 30px;
   display: flex;
   flex-direction: column;
-  max-width: 450px;
+  max-width: 650px;
   width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background: rgb(63,94,251);
-  background: -moz-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
-  background: -webkit-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
-  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fd9ceb",GradientType=1);
+  height: max-content;
+  background-color: #2a5d70;
+  padding: 45px 65px 35px 65px;
+  position: relative;
+  border: 1px solid #2a5d70;
+  box-shadow: 0px 0px 20px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  text-align: center;
+}
 
-  .titleForgetPass {
-    text-align: center;
-    font-family: 'UtRightMilksDemoRegular';
-    h1 {
-      color: #00ffcc; // Neon cyan for title
-      font-size: 2.5rem;
-      font-family: 'AutumnFlowerFont';
-      text-shadow: 0 0 8px #00ffcc; // Neon glow for text
-    }
-  }
+/* Title styling */
+.titleForgetPass h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #ff6d1f;
+}
 
-  .emailItem {
-    margin-bottom: 16px;
+/* Form item styling */
+.formItem {
+  margin-bottom: 16px;
 
-    .emailLabel {
-      color: #00ffcc; // Neon cyan for label
-      font-size: 1rem;
-    }
-  }
-
-  .submitButton {
-    background-color: #00ffcc; // Neon cyan for button background
-    border: none;
-    box-shadow: 0 0 10px #00ffcc; // Neon glow for button
-    color: #141414; // Dark text for contrast
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-
-    &:hover {
-      background-color: #40a9ff; // Blue
-      transform: translateY(-2px);
-    }
+  .emailLabel {
+    color: rgb(146, 52, 52);
+    font-size: 1rem;
   }
 }
 
+/* Submit button styling */
+.submitButton {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* Media Query for Responsive Design */
 @media (max-width: 768px) {
   .container {
     padding: 10px;

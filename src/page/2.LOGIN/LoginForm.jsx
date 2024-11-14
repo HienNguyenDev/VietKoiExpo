@@ -45,20 +45,20 @@ const LoginForm = () => {
     <div className={styles.container}>
       <form onSubmit={frm.handleSubmit} autoComplete="off" className={styles.loginForm}>
         <div className={styles.titleLogin}>
-          <h1>Login</h1>
+          <h1>Đăng nhập </h1>
         </div>
         {errorMessage && <Alert message={errorMessage} type="error" showIcon />}
         {successMessage && <Alert message={successMessage} type="success" showIcon />}
         {frm.errors.email && frm.touched.email && <div  className={styles.error}>{frm.errors.email}</div>}
         <div className={styles.userItem}>
-          <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Enter your email' type='text' />
+          <PlaceHolder onChange={frm.handleChange} id='email' label='Email' placeholder='Nhập tài khoản email của bạn' type='text' />
         </div>
         {frm.errors.password && frm.touched.password && <div className={styles.error}>{frm.errors.password}</div>}
         <div className={styles.passwordItem}>
-          <PlaceHolder onChange={frm.handleChange} id='password' label='Password' placeholder='Enter your password' type='password' />
+          <PlaceHolder onChange={frm.handleChange} id='password' label='Mật khẩu' placeholder='Nhập mật khẩu của bạn' type='password' />
         </div>
         <Row>
-          <Col span={14}>
+          <Col span={14} offset={3}>
             <div className={styles.registerItem}>
               <Link to='/register' className={styles.link}>Chưa có tài khoản?</Link>
             </div>
@@ -66,18 +66,18 @@ const LoginForm = () => {
               <Link to='/forget-password' className={styles.link}>Quên mật khẩu?</Link>
             </div>
           </Col>
-          <Col span={10}>
+          <Col span={10} offset={12}>
             <div>
               <CustomizeButton onClick={frm.handleSubmit} />
             </div>
           </Col>
         </Row>
-        <div className={styles.loginWithGoogleItem}>
+        {/* <div className={styles.loginWithGoogleItem}>
           <GoogleLoginComponent />
-        </div>
+        </div> */}
         <div style={{marginTop:'50px'}}>
           {/* Back to homepage */}
-          <Link  to='/home' className={styles.link}>Back to Homepage</Link>
+          <Link  to='/home' className={styles.link}>Trở về trang chính</Link>
         </div>
       </form>
     </div>

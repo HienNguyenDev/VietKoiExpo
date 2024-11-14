@@ -1,10 +1,10 @@
 :root {
     --bg: rgb(41, 39, 43);
-    --white: rgb(211, 146, 243);
-    --text-tittle:  #FFEF06;
+    --white: #fff;
+    --text-tittle:  #fff;
     --primary: rgb(50, 206, 154);
-    --placeholder: rgb(211, 146, 243);
-    --neon-yl:  #FFEF06;
+    --placeholder: #fff;
+    --neon-yl:  #FFEF06; // This can be removed if not used elsewhere
   }
   
   * {
@@ -21,42 +21,35 @@
     background-color: var(--bg);
   }
   
-  
-  .containerPH{
+  .containerPH {
     .wrapper {
-      position: relative; // BEGIN: Added position relative
-       // BEGIN: Added border
-      padding: 10px; // BEGIN: Added padding
-      width: min(325px,80vw);
+      position: relative;
+      padding: 10px;
+      width: min(325px, 80vw);
       display: grid;
       align-items: center;
     
       & > * {
         grid-column: 1;
         grid-row: 1;
-        font: 1.1rem futura,helvetica,sans-serif;
-      
+        font: 1.1rem futura, helvetica, sans-serif;
       }
     
       & input {
-        border: none; // BEGIN: Removed border
-        outline: none; // BEGIN: Removed outline
+        border: none;
+        outline: none;
         position: relative;
         border: 1.5px solid var(--white);
         border-radius: 0.25rem;
-        outline: none;
         background-color: transparent;
-        color: var(--neon-yl);
-        text-shadow: 0 0 8px var(--neon-yl); 
-        
+        color: var(--text-tittle); // Updated to use text-tittle color
         padding: 1rem;
         z-index: 0;
         transition: border-color 0.5s;
         
         &::placeholder {
           color: var(--placeholder);
-          text-shadow: 0 0 8px var(--placeholder);
-          opacity: 1; // Ensure the placeholder is fully opaque
+          opacity: 1;
         }
 
         &:focus { border-color: var(--primary); }
@@ -80,25 +73,13 @@
     
     label { 
       z-index: 1;
-      position: absolute; // BEGIN: Added position absolute
-      top: -18px; // BEGIN: Added top
-      left: 10px; // BEGIN: Added left
-      padding: 0 0px; // BEGIN: Added padding
+      position: absolute;
+      top: -18px;
+      left: 10px;
+      padding: 0 0px;
       border-radius: 7px;
       width: max-content;
-      color: var(--neon-yl); // Neon cyan color
-      text-shadow: 0 0 8px var(--neon-yl); 
+      color: var(--text-tittle); // Updated to use text-tittle color
       font-weight: 700;
-      // &::after {
-      //   z-index: 1;
-      //   content: "";
-      //   position: absolute;
-      //   bottom: 12.5px; // Position it over the border
-      //   left: 0;
-      //   right: 0;
-      //   height: 1.5px; // Make it the same height as the border
-      //   background: transparent; // Make it the same color as the label's background
-      // }
     }
   }
-  

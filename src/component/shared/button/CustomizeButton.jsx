@@ -10,7 +10,7 @@ const CustomizeButton = ({ onClick }) => {
       onClick={onClick}
       className={styles.loginButton}
     >
-      Login
+      Đăng nhập
     </Button>
   );
 };

@@ -1,3 +1,10 @@
+/* Define colors */
+$white: #ffffff;
+$primary1: #ff6d1f;
+$primary2: #60badb;
+$btnColor: #ff4f5a;
+
+/* Define custom fonts */
 @font-face {
   font-family: 'UtRightMilksDemoRegular';
   src: url('../font/ut-right-milks-font/UtRightMilksDemoRegular-JpZo7.otf') format('opentype');
@@ -8,64 +15,89 @@
   src: url('../font/autumn-flowers-font/AutumnFlowers-9YVZK.otf') format('opentype');
 }
 
+/* Container styling */
 .container {
-  font-family: 'UtRightMilksDemoRegular' !important;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   padding: 20px;
-  background:url('../photo/koibanner.png');
-    background-position: center;
-    background-size: cover;
-    width: 100vw;
-    height: 100vh;
+  background: url('../photo/1046552_OL0CSR0.jpg') center/cover no-repeat;
+  width: 100vw;
 }
 
+/* Register form styling */
 .registerForm {
   padding: 20px;
   border: 1px solid rgba(255, 255, 255, 0.103);
   border-radius: 30px;
   display: flex;
   flex-direction: column;
-  max-width: 450px;
+  max-width: 650px;
   width: 100%;
   height: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #2a5d70;
+  height: max-content;
+  width: 600px;
+  padding: 45px 65px 35px 65px;
+  position: relative;
+  border: 1px solid #2a5d70;
+  box-shadow: 0px 0px 20px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  text-align: center;
+  // background: rgb(63,94,251);
+  // background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.485) 100%);
+  // filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb", endColorstr="#fd9ceb", GradientType=1);
+}
 
-  .tittleRegister {
-    text-align: center;
-    font-size: 2.5rem;
-    font-family: 'AutumnFlowerFont';
-    color: #00ffcc;
-    h1 {
-      font-size: 2.5rem;
-      font-family: 'AutumnFlowerFont';
-      color: #00ffcc;
-    }
-  }
+/* Title styling */
+.tittleRegister h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #ff6d1f;
+}
 
-  .formItem {
-    margin-bottom: 16px;
+/* Form item styling */
+.formItem {
+  margin-bottom: 16px;
+  margin-left: 60px;
 
-    .formLabel {
-      color: rgb(146, 52, 52);
-      font-size: 1rem;
-    }
-  }
-
-  .actionItems {
-    width: 100%;
-    margin-bottom: 16px;
-  }
-
-  .haveAccountItem {
-    text-align: start;
-    color: red;
-    margin-bottom: 16px;
+  .formLabel {
+    color: rgb(146, 52, 52);
+    font-size: 1rem;
   }
 }
 
+/* Action items styling */
+.actionItems {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* Error message styling */
+.error {
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
+}
+
+/* Checkbox styling */
+.checkbox {
+  font-family: 'futura, helvetica, sans-serif';
+  color: #00ffcc;
+}
+
+/* Have account item styling */
+.haveAccountItem {
+  text-align: start;
+  color: #ff6d1f;
+  margin-bottom: 16px;
+
+  .link {
+    color: #ff6d1f;
+  }
+}
+
+/* Media Query for Responsive Design */
 @media (max-width: 768px) {
   .container {
     padding: 10px;
@@ -81,6 +113,7 @@
   }
 }
 
+/* Keyframes for gradient animation */
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -97,54 +130,4 @@
   100% {
     background-position: 0% 50%;
   }
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; // Dark background for neon contrast
-}
-
-.registerForm {
-  // Dark card background
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #00ffcc; // Neon cyan glow effect
-  width: 100%;
-  max-width: 400px;
-  background: rgb(63,94,251);
-  background: -moz-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
-  background: -webkit-radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
-  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(253,156,235,0.4850533963585434) 0%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fd9ceb",GradientType=1);
-}
-
-.tittleRegister h1 {
-  color: #00ffcc; // Neon cyan for title
-  text-align: center;
-  text-shadow: 0 0 8px #00ffcc; // Neon glow for text
-}
-
-.error {
-  color: #ff00ff; // Neon magenta for error text
-  text-shadow: 0 0 8px #ff00ff; // Neon glow for error text
-}
-
-.formItem {
-  margin-bottom: 20px;
-}
-
-.actionItems {
-  margin-bottom: 20px;
-}
-
-.checkbox {
-  font-family: 'futura, helvetica, sans-serif';
-  color: #00ffcc; // Neon cyan for checkbox text
-}
-
-.haveAccountItem .link {
-  color: #a31da3; // Neon magenta for link text
-  text-shadow: 0 0 8px #a31da3; // Neon glow for link text
 }

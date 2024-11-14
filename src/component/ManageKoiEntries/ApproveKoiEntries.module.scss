@@ -1,24 +1,24 @@
-// src/page/ApproveKoiEntries.module.scss
-
+// ApproveKoiEntries.module.scss
 .container {
   min-height: 100vh;
   width: 100vw;
   padding: 20px;
-  background-color: #000; // Black background for contrast
-  color: #fff; // White text color
+  background: linear-gradient(to right, #60badb 75%, #ff6d1f 25%); // Gradient background
+  color: #000; // Black text color
   display: flex;
   flex-direction: column;
   align-items: center;
 
   .title {
-    color: #ff6f61; // Pastel Coral
-    text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61, 0 0 30px #ff6f61;
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: bold;
     margin-bottom: 20px;
   }
 
   .backButton {
     margin-bottom: 20px;
-    background-color: #ff6f61; // Pastel Coral
+    background-color: #ff6d1f; // New color
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -27,86 +27,84 @@
     transition: background-color 0.3s, transform 0.3s;
 
     &:hover {
-      background-color: #40a9ff; // Blue
+      background-color: #60badb; // New color
       transform: translateY(-2px);
     }
   }
 
   .form {
-    background-color: #222; // Dark background for form
-    border: 1px solid #ff6f61; // Pastel Coral border
+    background-color: #f0f0f0; // Light background for form
     border-radius: 10px;
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: #000; // Black text color
     padding: 20px;
     width: 400px;
 
     .textField {
-      color: #fff; // White text color
+      color: #000; // Black text color
       .MuiInputBase-input {
-        color: #fff; // White text color
+        color: #000; // Black text color
       }
       .MuiInputLabel-root {
-        color: #ff6f61; // Pastel Coral
+        color: #ff6d1f; // New color
       }
       .MuiFormHelperText-root {
-        color: #ff6f61; // Pastel Coral
+        color: #ff6d1f; // New color
       }
     }
 
     .submitButton {
-      background-color: #ff6f61; // Pastel Coral
+      background-color: #ff6d1f; // New color
       color: #fff;
       &:hover {
-        background-color: #40a9ff; // Blue
+        background-color: #60badb; // New color
       }
     }
 
     .dialogTitle {
-      color: #ff6f61; // Pastel Coral
+      color: #ff6d1f; // New color
     }
 
     .dialogContentText {
-      color: #fff; // White text color
+      color: #000; // Black text color
     }
 
     .dialogButton {
-      background-color: #ff6f61; // Pastel Coral
+      background-color: #ff6d1f; // New color
       color: #fff;
       &:hover {
-        background-color: #40a9ff; // Blue
+        background-color: #60badb; // New color
       }
     }
   }
 }
-// ApproveKoiEntries.module.scss
+
 .textField {
   & input, & label, & .MuiSelect-select {
-    color: white !important;
+    color: black !important;
   }
   
   & label.Mui-focused {
-    color: white !important;
+    color: black !important;
   }
 
   & .MuiOutlinedInput-root {
     & fieldset {
-      border-color: white !important;
+      border-color: black !important;
     }
     &:hover fieldset {
-      border-color: white !important;
+      border-color: black !important;
     }
     &.Mui-focused fieldset {
-      border-color: white !important;
+      border-color: black !important;
     }
   }
 
   & .MuiInputBase-input::placeholder {
-    color: white !important;
+    color: black !important;
     opacity: 0.7;
   }
 
   & .MuiSelect-icon {
-    color: white !important;
+    color: black !important;
   }
 }

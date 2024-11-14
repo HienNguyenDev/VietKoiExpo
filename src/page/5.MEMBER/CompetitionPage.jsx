@@ -77,11 +77,11 @@ const CompetitionPage = () => {
     const allJudged = koiEntriesListScore.every(koi => koi.status === true);
     if (allJudged && !notificationShown) {
       notification.success({
-        message: 'Competition Completed',
-        description: 'The competition has ended. You can now view the dashboard or ranking.',
+        message: 'Cuộc thi đã hoàn thành',
+        description: 'Cuộc thi đã kết thúc. Bạn có thể xem bảng điều khiển hoặc xếp hạng.',
         btn: (
           <Button type="primary" onClick={() => navigate(`/dashboard/${compId}`, { state: { compId, compName: competition.compName } })}>
-            Go to Dashboard
+            Đi đến Bảng điều khiển
           </Button>
         ),
         onClose: () => setNotificationShown(true),
@@ -92,11 +92,11 @@ const CompetitionPage = () => {
   useEffect(() => {
     if (competitionStatus === 'completed' && !notificationShown) {
       notification.success({
-        message: 'Competition Completed',
-        description: 'The competition has ended. You can now view the dashboard or ranking.',
+        message: 'Cuộc thi đã hoàn thành',
+        description: 'Cuộc thi đã kết thúc. Bạn có thể xem bảng điều khiển hoặc xếp hạng.',
         btn: (
           <Button type="primary" onClick={() => navigate(`/dashboard/${compId}`, { state: { compId, compName: competition.compName } })}>
-            Go to Dashboard
+            Đi đến Bảng điều khiển
           </Button>
         ),
         onClose: () => setNotificationShown(true),
@@ -115,22 +115,22 @@ const CompetitionPage = () => {
       <Card className={styles.competitionCard}>
         <Title style={{color:'#ffffff'}} level={2}>{competition.compName}</Title>
         <Paragraph style={{color:'#ffffff'}}>{competition.compDescription}</Paragraph>
-        <Paragraph style={{color:'#ffffff'}}><strong>Location:</strong> {competition.location}</Paragraph>
-        <Paragraph style={{color:'#ffffff'}}><strong>Start Date:</strong> {new Date(competition.startDate).toLocaleDateString()}</Paragraph>
-        <Paragraph style={{color:'#ffffff'}}><strong>End Date:</strong> {new Date(competition.endDate).toLocaleDateString()}</Paragraph>
-        {/* <div className={styles.registerButton}>Register</div> */}
+        <Paragraph style={{color:'#ffffff'}}><strong>Địa điểm:</strong> {competition.location}</Paragraph>
+        <Paragraph style={{color:'#ffffff'}}><strong>Ngày bắt đầu:</strong> {new Date(competition.startDate).toLocaleDateString()}</Paragraph>
+        <Paragraph style={{color:'#ffffff'}}><strong>Ngày kết thúc:</strong> {new Date(competition.endDate).toLocaleDateString()}</Paragraph>
+        {/* <div className={styles.registerButton}>Đăng ký</div> */}
       </Card>
       <div className={styles.content}>
         <Card className={styles.bracketCard}>
-          <Title style={{color:'#ffffff'}} level={4}>Categories</Title>
+          <Title style={{color:'#ffffff'}} level={4}>Danh mục</Title>
           <BracketList brackets={categories} onSelectBracket={setSelectedCategory} />
         </Card>
         <Card className={styles.koiEntriesCard}>
-          <Title style={{color:'#ffffff'}} level={4}>Koi Entries</Title>
+          <Title style={{color:'#ffffff'}} level={4}>Danh sách Koi</Title>
           {selectedCategory ? (
             <KoiList koiEntries={koiEntries} />
           ) : (
-            <Paragraph style={{color:'#ffffff'}}>Please select a category to view koi entries.</Paragraph>
+            <Paragraph style={{color:'#ffffff'}}>Vui lòng chọn một danh mục để xem danh sách Koi.</Paragraph>
           )}
         </Card>
       </div>

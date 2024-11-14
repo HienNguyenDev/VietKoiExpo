@@ -100,9 +100,9 @@ const ApproveKoiEntries = () => {
 
   return (
     <Box className={styles.container}>
-     <Button className={styles.backButton} onClick={() => navigate('/home')}>Back to Homepage</Button>
+     <Button className={styles.backButton} onClick={() => navigate('/home')}>Quay về trang chủ</Button>
       <Typography variant="h4" gutterBottom className={styles.title}>
-        Register Koi Entry
+      Đăng kí form cá Koi
       </Typography>
       <Box component="form" className={styles.form} onSubmit={formik.handleSubmit}>
         <FormControl fullWidth margin="normal">
@@ -113,7 +113,7 @@ const ApproveKoiEntries = () => {
             name="varietyId"
             value={formik.values.varietyId}
             onChange={formik.handleChange}
-            label="Variety ID"
+            label="Loại cá"
             className={styles.textField}
           >
             {koiVarieties.map(variety => (
@@ -132,7 +132,7 @@ const ApproveKoiEntries = () => {
           margin="normal"
           id="koiName"
           name="koiName"
-          label="Koi Name"
+          label="Tên của Koi"
           value={formik.values.koiName}
           onChange={formik.handleChange}
           error={formik.touched.koiName && Boolean(formik.errors.koiName)}
@@ -145,7 +145,7 @@ const ApproveKoiEntries = () => {
           margin="normal"
           id="size"
           name="size"
-          label="Size (cm)"
+          label="Kích thước (cm)"
           type="number"
           value={formik.values.size}
           onChange={formik.handleChange}
@@ -154,21 +154,30 @@ const ApproveKoiEntries = () => {
           className={styles.textField}
         />
 
-        <TextField
-          fullWidth
-          margin="normal"
-          id="age"
-          name="age"
-          label="Age (years)"
-          type="number"
-          value={formik.values.age}
-          onChange={formik.handleChange}
-          error={formik.touched.age && Boolean(formik.errors.age)}
-          helperText={formik.touched.age && formik.errors.age}
-          className={styles.textField}
-        />
-
+<TextField
+  fullWidth
+  margin="normal"
+  id="dob"
+  name="dob"
+  label="Ngày sinh"
+  type="date"
+  value={formik.values.dob}
+  onChange={formik.handleChange}
+  error={formik.touched.dob && Boolean(formik.errors.dob)}
+  helperText={formik.touched.dob && formik.errors.dob}
+  className={styles.textField}
+  InputLabelProps={{
+    shrink: true,
+  }}
+/>
+        <p>Ảnh cá Koi</p>
         <UploadImageComponent
+          onSuccess={handleImageUploadSuccess}
+          defaultUrl={formik.values.imageUrl}
+        />
+        {/* upload certificate */}
+        <p>Ảnh chứng chỉ</p>  
+                <UploadImageComponent
           onSuccess={handleImageUploadSuccess}
           defaultUrl={formik.values.imageUrl}
         />

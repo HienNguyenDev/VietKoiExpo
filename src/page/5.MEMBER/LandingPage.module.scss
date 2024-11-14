@@ -1,200 +1,198 @@
   .landingPage {
-    background-color: #000; // Black background for contrast
-    color: #fff; // White text colorwi
-    width: 100vw;
-    .heroSection {
-      text-align: center;
-      padding: 20px;
-      background-color: #111; // Slightly lighter black for contrast
-  
-      h1 {
-        color: #e162c1; // Pink
-        text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+      background-color: #ffffff; // White background for contrast
+      color: #000000; // Black text color
+      width: 100vw;
+      .heroSection {
+        text-align: center;
+        padding: 20px;
+        background-color: #60badb; // Updated background color
+
+        h1 {
+          color: #fff;
+          font-weight: 800;
+          // Updated color
+
+        }
+
+        p {
+          color: #60badb; // Updated color
+          text-shadow: 0 0 10px #60badb, 0 0 20px #60badb, 0 0 30px #60badb;
+        }
+
+        img {
+          border: 2px solid #ff6d1f; // Updated color
+          border-radius: 10px;
+        }
       }
-  
-      p {
-        color: #40a9ff; // Blue
-        text-shadow: 0 0 10px #40a9ff, 0 0 20px #40a9ff, 0 0 30px #40a9ff;
+
+      .competitionsSection {
+        padding: 20px;
+
+        .competitionCard {
+          background-color: #60badb; // Updated background color for cards
+          border: 1px solid #ff6d1f; // Updated color
+          border-radius: 10px;
+          color: #fff;
+
+          .ant-card-body {
+            padding: 10px;
+          }
+
+          .ant-card-meta-title {
+            color: #ff6d1f; // Updated color
+            text-shadow: 0 0 10px #ff6d1f, 0 0 20px #ff6d1f, 0 0 30px #ff6d1f;
+          }
+
+          .ant-card-meta-description {
+            color: #60badb; // Updated color
+            text-shadow: 0 0 10px #60badb, 0 0 20px #60badb, 0 0 30px #60badb;
+          }
+
+          .ant-btn-link {
+            color: #ff6d1f; // Updated color
+            text-shadow: 0 0 10px #ff6d1f, 0 0 20px #ff6d1f, 0 0 30px #ff6d1f;
+          }
+        }
+
+        .countdown {
+          color: #ff6d1f; // Updated color
+          text-shadow: 0 0 10px #ff6d1f, 0 0 20px #ff6d1f, 0 0 30px #ff6d1f;
+        }
+
+        .keyDatesList {
+          li {
+            color: #0f1f25; // Updated color
+          }
+        }
       }
-  
-      img {
-        border: 2px solid #e162c1; // Pink border
-        border-radius: 10px;
-      }
-    }
-  
-    .competitionsSection {
-      padding: 20px;
-  
-      .competitionCard {
-        background-color: #222; // Dark background for cards
-        border: 1px solid #e162c1; // Pink border
-        border-radius: 10px;
+
+      .ant-modal-content {
+        background-color: #60badb; // Updated background color
         color: #fff;
-  
-        .ant-card-body {
-          padding: 10px;
+
+        .ant-modal-header {
+          background-color: #60badb; // Updated background color for header
+          border-bottom: 1px solid #ff6d1f; // Updated color
         }
-  
-        .ant-card-meta-title {
-          color: #e162c1; // Pink
-          text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+
+        .ant-modal-title {
+          color: #ff6d1f; // Updated color
+          text-shadow: 0 0 10px #ff6d1f, 0 0 20px #ff6d1f, 0 0 30px #ff6d1f;
         }
-  
-        .ant-card-meta-description {
-          color: #40a9ff; // Blue
-          text-shadow: 0 0 10px #40a9ff, 0 0 20px #40a9ff, 0 0 30px #40a9ff;
+
+        .ant-modal-footer {
+          border-top: 1px solid #ff6d1f; // Updated color
         }
-  
-        .ant-btn-link {
-          color: #e162c1; // Pink
-          text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
-        }
-      }
-  
-      .countdown {
-        color: #e162c1; // Pink
-        text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
-      }
-  
-      .keyDatesList {
-        li {
-          color: #40a9ff; // Blue
-          text-shadow: 0 0 10px #40a9ff, 0 0 20px #40a9ff, 0 0 30px #40a9ff;
+
+        .ant-btn-primary {
+          background-color: #ff6d1f; // Updated color
+          border-color: #ff6d1f;
+          color: #000;
+          text-shadow: 0 0 10px #ff6d1f, 0 0 20px #ff6d1f, 0 0 30px #ff6d1f;
         }
       }
     }
-  
-    .ant-modal-content {
-      background-color: #111; // Slightly lighter black for contrast
+
+    .registerButton {
+      display: inline-block;
+      background-color: #ff6d1f; // Updated color
+      color: #ffffff;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+
+      &:hover {
+        background-color: #60badb; // Updated color
+        transform: translateY(-2px);
+      }
+    }
+
+    .searchSection {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .searchInput {
+      width: 100%;
+      max-width: 600px;
+      .ant-input {
+        background-color: #60badb !important; // Updated background color
+        color: #fff !important; // White text
+        border: 2px solid #ff6d1f !important; // Updated color
+        box-shadow: 0 0 10px #ff6d1f !important; // Updated glow effect
+      }
+      .ant-input::placeholder {
+        color: #fff; // White placeholder text
+      }
+    }
+
+    .searchButton {
+      background-color: #ff6d1f; // Updated color
+      color: #000;
+      border-radius: 4px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+
+      &:hover {
+        background-color: #60badb; // Updated color
+        transform: translateY(-2px);
+      }
+    }
+
+    .backButton {
+      margin-bottom: 20px;
+      background-color: #ff4f5a; // Updated color
       color: #fff;
-  
-      .ant-modal-header {
-        background-color: #222; // Dark background for header
-        border-bottom: 1px solid #e162c1; // Pink border
-      }
-  
-      .ant-modal-title {
-        color: #e162c1; // Pink
-        text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
-      }
-  
-      .ant-modal-footer {
-        border-top: 1px solid #e162c1; // Pink border
-      }
-  
-      .ant-btn-primary {
-        background-color: #e162c1; // Pink
-        border-color: #e162c1;
-        color: #000;
-        text-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: #ff6d1f; // Updated color
+      border-color: #ff6d1f;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+
+      &:hover { // Blue
+        transition: background-color 0.3s, transform 0.3s;
+        transform: translateY(-2px);
       }
     }
-  }
-  
-  .registerButton {
-    display: inline-block;
-    background-color: #e162c1; // Pink
-    color: #ffffff;
-    border-radius: 4px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-  
-    &:hover {
-      background-color: #40a9ff; // Blue
-      transform: translateY(-2px);
+
+    .competitionImage {
+      width: 100%;
+      height: 200px; // Fixed height
+      object-fit: cover; // Maintain aspect ratio
+      border-radius: 8px;
+      margin: 10px 0;
     }
-  }
 
-  
-.searchSection {
-  margin: 20px 0;
-  display: flex;
-  justify-content: center;
-}
+    .placeholderImage {
+      width: 100%;
+      height: 200px;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      color: #999;
+      margin: 10px 0;
+    }
 
-.searchInput {
-  width: 100%;
-  max-width: 600px;
-  .ant-input {
-    background-color: #000 !important; // Black background
-    color: #fff !important; // White text
-    border: 2px solid #00ffcc !important; // Neon border
-    box-shadow: 0 0 10px #00ffcc !important; // Neon glow effect
-  }
-  .ant-input::placeholder {
-    color: #fff; // White placeholder text
-  }
-}
+    .competitionCard {
+      // Update card styles to accommodate image
+      padding: 16px;
+      margin-bottom: 16px;
+      background: rgba(25, 179, 245, 0.641) !important;
 
-.searchButton {
-  background-color: #00ffcc; // Neon
-  color: #000;
-  border-radius: 4px;
-  margin-left: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+      .ant-card-body {
+        padding: 16px;
+      }
 
-  &:hover {
-    background-color: #40a9ff; // Blue
-    transform: translateY(-2px);
-  }
-}
-
-.backButton {
-  margin-bottom: 20px;
-  background-color: #ff6f61; // Pastel Coral
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #e162c1;
-  border-color: #e162c1;
-  box-shadow: 0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-
-  &:hover {
-    background-color: #ab33c3; // Blue
-    transition: background-color 0.3s, transform 0.3s;
-    transform: translateY(-2px);
-  }
-}
-// LandingPage.module.scss
-.competitionImage {
-  width: 100%;
-  height: 200px; // Fixed height
-  object-fit: cover; // Maintain aspect ratio
-  border-radius: 8px;
-  margin: 10px 0;
-}
-
-.placeholderImage {
-  width: 100%;
-  height: 200px;
-  background-color: #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  color: #999;
-  margin: 10px 0;
-}
-
-.competitionCard {
-  // Update card styles to accommodate image
-  padding: 16px;
-  margin-bottom: 16px;
-  background: rgba(0, 0, 0, 0.6) !important;
-  
-  .ant-card-body {
-    padding: 16px;
-  }
-  
-  .ant-col {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-}
+      .ant-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }

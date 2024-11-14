@@ -11,7 +11,7 @@ import {
   getCheckInDataApi,
   reviewKoiEntryApi,
   checkInKoiEntryApi  
- } from '../../../service/CheckInAPI';
+ } from '../../../service/checkInAPI';
 
 
 

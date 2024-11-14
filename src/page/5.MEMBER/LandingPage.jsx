@@ -56,7 +56,7 @@ const LandingPage = () => {
 
   const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
-      return <span>Competition has started</span>;
+      return <span>Cuộc thi đã được diễn ra </span>;
     } else {
       return (
         <div className={styles.countdown}>
@@ -162,16 +162,16 @@ const LandingPage = () => {
   return (
     <div className={styles.landingPage}>
        <div style={{position:'absolute',display:'inline',top:'30px',left:'30px'}}>
-       <Button className={styles.backButton} onClick={() => navigate('/home')}>Back to Homepage</Button>
+       <Button className={styles.backButton} onClick={() => navigate('/home')}>Quay về trang chủ</Button>
        </div>
       <div className={styles.heroSection}>
-        <Typography.Title level={1}>Welcome to the Koi Fish Competition</Typography.Title>
+        <Typography.Title level={1}>Danh sách các cuộc thi </Typography.Title>
         <img className="giphy-gif-img giphy-img-loaded" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjJwbWl3b2szazdoOGp3dGN4emliMTFuZ3NuYzFvMDk3ZjE3ejR0ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KAI3j7HLC93Lq/giphy.gif" alt="high life fish GIF" />
         <Typography.Paragraph>
           Join us for an exciting competition showcasing the most beautiful Koi fish.
         </Typography.Paragraph>
       </div>
-      <div className={styles.searchSection}>
+      {/* <div className={styles.searchSection}>
         <Search
           placeholder="Search competitions"
           onChange={handleSearch}
@@ -179,10 +179,9 @@ const LandingPage = () => {
           enterButton
           className={styles.searchInput}
         />
-      </div>
-      <div className={styles.competitionsSection}>
-        <Typography.Title style={{ color: '#e162c1',
-        textShadow: '0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1'}} level={2}>Competitions</Typography.Title>
+      </div> */}
+      <div style={{background:'#ffffff'}} className={styles.competitionsSection}>
+        <Typography.Title style={{ fontWeight:'700'}} level={2}>Competitions</Typography.Title>
         {loading ? (
           <Typography.Paragraph style={{color:'#ffffff'}}>Loading competitions...</Typography.Paragraph>
         ) : (
@@ -212,25 +211,24 @@ const LandingPage = () => {
                       <Col span={18}>
                         <Row>
                           <Col span={8}>
-                            <Typography.Title style={{ color: '#e162c1',
-        textShadow: '0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1'}} level={4}>{competition.compName}</Typography.Title>
+                            <Typography.Title style={{color:'#fff',fontWeight:'600'}} level={4}>{competition.compName}</Typography.Title>
                             <Typography.Paragraph style={{ color: '#ffffff' }}>{competition.compDescription}</Typography.Paragraph>
                             <Typography.Paragraph style={{ color: '#ffffff' }}>Location: {competition.location}</Typography.Paragraph>
                           </Col>
                           <Col span={8}>
                             <Typography.Paragraph>
-                             <h1 style={{fontSize:'30px',color:'#ffffff'}}>Key Dates</h1>
+                             <h1 style={{fontSize:'30px',color:'#ffffff'}}>Lịch trình</h1>
                               <ul className={styles.keyDatesList}>
-                                <li><CalendarOutlined /> Registration: {new Date(competition.startDate).toLocaleDateString()}</li>
-                                <li><TrophyOutlined /> Competition Start: {new Date(competition.startDate).toLocaleDateString()}</li>
-                                <li><FlagOutlined /> Finals: {new Date(competition.endDate).toLocaleDateString()}</li>
+                                <li><CalendarOutlined /> Ngày tiến hành đăng kí: {new Date(competition.startDate).toLocaleDateString()}</li>
+                                <li><TrophyOutlined /> Ngày bắt đầu: {new Date(competition.startDate).toLocaleDateString()}</li>
+                                <li><FlagOutlined /> Ngày kết thúc: {new Date(competition.endDate).toLocaleDateString()}</li>
                               </ul>
                             </Typography.Paragraph>
                           </Col>
                           <Col span={8}>
                             {status === 'upcoming' && (
                               <>
-                                <Typography.Title level={5}>Starts In:</Typography.Title>
+                                <Typography.Title level={5}>Bắt đầu diễn ra trong</Typography.Title>
                                 <Countdown date={new Date(competition.startDate)} renderer={countdownRenderer} />
                               </>
                             )}
@@ -241,10 +239,10 @@ const LandingPage = () => {
                               </Button>
                             )}
                             {status === 'ongoing' && !userRegistered && (
-                              <Typography.Title style={{ color: 'red' }} level={5}>Please Register to Compete</Typography.Title>
+                              <Typography.Title style={{ color: 'red' }} level={5}>Đăng kí để tham gia thi đấu</Typography.Title>
                             )}
                             {status === 'completed' && (
-                              <Typography.Title level={5} style={{color:'red'}}>Competition Completed</Typography.Title>
+                              <Typography.Title level={5} style={{color:'red'}}>Cuộc thi hoàn thành </Typography.Title>
                             )}
                           </Col>
                         </Row>
@@ -253,7 +251,7 @@ const LandingPage = () => {
                           type="link"
                           onClick={() => showModal(competition)}
                         >
-                          Register
+                         Đăng kí?
                         </Button>
                       </Col>
                     </Row>

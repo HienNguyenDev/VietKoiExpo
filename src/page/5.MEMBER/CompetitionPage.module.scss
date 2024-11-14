@@ -1,22 +1,22 @@
 .competitionPage {
   width: 100vw;
   padding: 20px;
-  background-color: #000; // Black background for contrast
-  color: #fff; // White text color
+  background-color: #2a5d70; // Updated background color
+  color: #ffffff; // White text color
   display: flex;
   flex-direction: column;
 
   .competitionCard {
     margin-bottom: 20px;
     padding: 20px;
-    background-color: #222; // Dark background for cards
-    border: 1px solid #e162c1; // Pink border
+    background-color: #60badb; // Updated background color for cards
+    border: 1px solid #ff6d1f; // Updated border color
     border-radius: 10px;
-    color: #fff;
+    color: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     .ant-typography {
-      color: #fff; // White text color
+      color: #ffffff; // White text color
     }
   }
 
@@ -30,10 +30,10 @@
   .bracketCard {
     flex: 1;
     padding: 20px;
-    background-color: #222; // Dark background for cards
-    border: 1px solid #e162c1; // Pink border
+    background-color: #60badb; // Updated background color for cards
+    border: 1px solid #ff6d1f; // Updated border color
     border-radius: 10px;
-    color: #fff;
+    color: #ffffff;
     overflow-y: auto;
     transition: transform 0.3s, box-shadow 0.3s;
 
@@ -43,17 +43,17 @@
     }
 
     .ant-typography {
-      color: #fff; // White text color
+      color: #ffffff; // White text color
     }
   }
 
   .koiEntriesCard {
     flex: 3;
     padding: 20px;
-    background-color: #222; // Dark background for cards
-    border: 1px solid #e162c1; // Pink border
+    background-color: #60badb; // Updated background color for cards
+    border: 1px solid #ff6d1f; // Updated border color
     border-radius: 10px;
-    color: #fff;
+    color: #ffffff;
     overflow-y: auto;
     transition: transform 0.3s, box-shadow 0.3s;
 
@@ -63,7 +63,7 @@
     }
 
     .ant-typography {
-      color: #fff; // White text color
+      color: #ffffff; // White text color
     }
   }
 
@@ -83,7 +83,7 @@
   .registerButton {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #e162c1; // Pink
+    background-color: #ff4f5a; // Updated button color
     color: #ffffff;
     border-radius: 4px;
     text-align: center;
