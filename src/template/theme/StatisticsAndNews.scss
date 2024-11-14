@@ -1,0 +1,110 @@
+// src/components/StatisticsAndNews/StatisticsAndNews.scss
+// src/components/Slider/Slider.scss
+$white: #ffffff;
+$black: #252525;
+$primary1: #ff6d1f;
+$primary2: #60badb;
+$btnColor: #ff4f5a;
+
+@mixin main-font {
+  font-family: 'Poppins', sans-serif;
+
+}
+
+@mixin second-font {
+  font-family: "Poppins", sans-serif;
+}
+
+@mixin hero_btn($col1, $col2, $pad1, $pad2, $bRadius) {
+  display: inline-block;
+  padding: $pad1 $pad2;
+  background-color: $col1;
+  color: $col2;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+  border-radius: $bRadius;
+
+  &:hover {
+    background-color: transparent;
+    border-color: $col1;
+    color: $col1;
+  }
+}
+
+@mixin upperBold {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+body {
+  @include main-font();
+  color: #0c0c0c;
+  background-color: #ffffff;
+}
+
+.client_section {
+  .carousel {
+    position: relative;
+  }
+
+  .carousel-inner {
+    overflow: hidden;
+  }
+
+  .carousel-item {
+    display: none;
+    transition: transform 0.6s ease-in-out;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  .detail-box {
+    text-align: center;
+    margin: 25px 35px;
+    padding: 45px 65px 35px 65px;
+    box-shadow: 0px 0px 20px 0 rgba(0, 0, 0, 0.2);
+
+    h4 {
+      font-weight: bold;
+    }
+
+    p {
+      margin-top: 15px;
+      margin-bottom: 25px;
+    }
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    width: 65px;
+    height: 65px;
+    border: none;
+    border-radius: 100%;
+    opacity: 1;
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: center;
+    background-color: $primary2;
+    margin: 2px;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    &:hover {
+      background-color: $btnColor;
+    }
+  }
+
+  .carousel-control-prev {
+    left: -85px;
+    background-image: url('../../asset/images/prev-angle.png');
+  }
+
+  .carousel-control-next {
+    right: -85px;
+    background-image: url('../../asset/images/next-angle.png');
+  }
+}

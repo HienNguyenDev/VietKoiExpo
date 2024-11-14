@@ -72,9 +72,6 @@ const LoginForm = () => {
             </div>
           </Col>
         </Row>
-        <div className={styles.loginWithGoogleItem}>
-          <GoogleLoginComponent />
-        </div>
         <div style={{marginTop:'50px'}}>
           {/* Back to homepage */}
           <Link  to='/home' className={styles.link}>Back to Homepage</Link>

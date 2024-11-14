@@ -33,7 +33,7 @@ const ResultPage = () => {
         
         // Fetch koi details
         const koiPromises = koiIds.map(id => 
-          axios.get(`hhttps://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koi/${id}`)
+          axios.get(`https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/${id}`)
         );
         const koiResponses = await Promise.all(koiPromises);
         const koiData = {};
@@ -70,7 +70,7 @@ const ResultPage = () => {
       title: 'Koi Name',
       dataIndex: 'koiId',
       key: 'koiName',
-      render: (koiId) => koiDetails[koiId]?.koiName || 'N/A'
+      render: (koiId) => koiDetails[koiId]?.koiId || 'N/A'
     },
     {
       title: 'Owner',
