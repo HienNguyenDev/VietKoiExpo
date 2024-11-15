@@ -32,7 +32,7 @@ export const createContestActionApi = (contestDetails) => {
     };
 };
 
-export const updateContestActionApi = (contestId, contestDetails, navigate) => {
+export const updateContestActionApi = (contestId, contestDetails) => {
     return async (dispatch) => {
         try {
             const res = await updateContest(contestId, contestDetails);
@@ -41,7 +41,6 @@ export const updateContestActionApi = (contestId, contestDetails, navigate) => {
             console.log('Dispatching action:', action); // Debugging log
             dispatch(action);
             dispatch(fetchAllContests()).then(() => {
-                navigate('/admin/manage-contests'); // Navigate to the desired URL after state update
             });
         } catch (error) {
             console.error("Contest update failed:", error.response ? error.response.data : error.message);

@@ -68,15 +68,15 @@ const ForgetPass = () => {
         <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '50px' }}>
           <div className={styles.forgetPassForm}>
             <div className={styles.titleForgetPass}>
-              <Typography.Title className={styles.titleForgetPass} level={2}><h1>Forget Password</h1></Typography.Title>
+              <Typography.Title className={styles.titleForgetPass} level={2}><h1>Quên mật khẩu?</h1></Typography.Title>
             </div>
             <Form layout="vertical" onFinish={handleSubmit}>
               <Form.Item
                 label={<Typography.Text className={styles.emailLabel}>Email</Typography.Text>}
                 name="email"
-                rules={[{ required: true, message: 'Please enter your email!' }, { type: 'email', message: 'Please enter a valid email!' }]}
+                rules={[{ required: true, message: 'Hãy nhập email của bạn!' }, { type: 'email', message: 'Hãy nhập email hợp lệ!' }]}
               >
-                <Input placeholder="Enter your email" />
+                <Input placeholder="Nhập email của bạn" />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit" loading={loading} className={styles.submitButton}>

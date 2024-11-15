@@ -74,9 +74,10 @@
     label { 
       z-index: 1;
       position: absolute;
-      top: -18px;
+      top: -12px;
       left: 10px;
       padding: 0 0px;
+      background-color: #2a5d70;
       border-radius: 7px;
       width: max-content;
       color: var(--text-tittle); // Updated to use text-tittle color
