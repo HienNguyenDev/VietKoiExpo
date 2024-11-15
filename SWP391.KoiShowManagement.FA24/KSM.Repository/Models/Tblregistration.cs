@@ -15,6 +15,8 @@ public partial class Tblregistration
 
     public int? Status { get; set; }
 
+    public string ImageUrl { get; set; }
+
     public virtual Tblcompetition Comp { get; set; }
 
     public virtual TblkoiFish Koi { get; set; }

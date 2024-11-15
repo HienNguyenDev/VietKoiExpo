@@ -11,11 +11,15 @@ public partial class Tblcategory
 
     public string CategoryName { get; set; }
 
-    public int? Size { get; set; }
+    public int? MinSize { get; set; }
 
-    public int? Age { get; set; }
+    public int? MinAge { get; set; }
 
     public string CategoryDescription { get; set; }
+
+    public int? MaxSize { get; set; }
+
+    public int? MaxAge { get; set; }
 
     public virtual ICollection<TblcompetitionCategory> TblcompetitionCategories { get; set; } = new List<TblcompetitionCategory>();
 }
