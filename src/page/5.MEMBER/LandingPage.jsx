@@ -150,6 +150,9 @@ const LandingPage = () => {
     if (statusCom === 2) {
       return 'completed';
     }
+    if (statusCom === 3) {
+      return 'inactive';
+    }
   };
 
   const isUserRegistered = (competitionId) => {
@@ -170,8 +173,9 @@ const LandingPage = () => {
   const filteredCompetitions = competitions.filter(competition => {
     const status = getCompetitionStatus(competition);
     return (
-      competition.compName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      status.toLowerCase().includes(searchTerm.toLowerCase())
+      status !== 'inactive' &&
+      (competition.compName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      status.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   });
 
@@ -321,10 +325,6 @@ const LandingPage = () => {
         <Button type="primary" htmlType="submit">Đăng ký</Button>
       </Form>
     </Modal>
-
-
-
-
     </div>
   );
 };
