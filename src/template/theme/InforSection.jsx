@@ -22,10 +22,10 @@ const InfoSection = () => {
                   <h5>Useful Link</h5>
                   <ul>
                     <li>
-                      <a href="about.html">Quản lí cá Koi</a>
+                      <a href="home/view-koiview-koi">Quản lí cá Koi</a>
                     </li>
                     <li>
-                      <a href="work.html">Đăng kí cá Koi</a>
+                      <a href="assignKoi">Đăng kí cá Koi</a>
                     </li>
                     <li>
                       <a href="category.html">Thông báo</a>

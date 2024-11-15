@@ -14,8 +14,8 @@ const Header = () => {
     <header className="header_section" style={{background:'#60badb'}}>
       <div className="container-fluid">
         <nav className="navbar navbar-expand-lg custom_nav-container">
-          <a className="navbar-brand" href="index.html">
-            <img src="images/logo.png" alt="" />
+          <a className="navbar-brand" href="home">
+            <img src="https://imgur.com/V1zXtZN.jpg" alt=""  style={{ height: '40px', width:'50px', marginRight: '8px' }}/>
             <span>VietKoiExpo</span>
           </a>
           
@@ -36,10 +36,10 @@ const Header = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="about.html">Quản lí cá Koi</a>
+                <a className="nav-link" href="home/view-koiview-koi">Quản lí cá Koi</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="work.html">Đăng kí cá Koi?</a>
+                <a className="nav-link" href="assignKoi">Đăng kí cá Koi?</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="category.html">Thông báo</a>
@@ -47,7 +47,7 @@ const Header = () => {
             </ul>
             
             <div className="user_option">
-              <a href="#">
+              <a href="login">
                 <span>Login</span>
               </a>
               <form className="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">

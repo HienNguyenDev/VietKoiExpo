@@ -1,81 +1,87 @@
 // src/components/Slider/Slider.jsx
 import React, { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllContests } from '../../store/redux/action/contestAction';
+import { Container, Col, Row } from 'react-bootstrap';
 import './Slider.scss';
-import photo1 from '../../asset/banner/banner1.webp';
-import photo2 from '../../asset/banner/banner2.webp';
-import photo3 from '../../asset/banner/banner3.webp';
-import { Col, Row } from 'antd';
-
-const sliderData = [
-  {
-    id: 1,
-    title: 'Cuộc Thi\nCá Koi Tháng 131\nNăm 2024',
-    description: 'Với phần thưởng vô cùng hấp dẫn cùng với đó là thể lệ thi đấu hấp dẫn nhất',
-    image: photo1
-  },
-  {
-    id: 2,
-    title: 'Cuộc Thi\nCá Koi Tháng 11\nNăm 2024',
-    description: 'Với phần thưởng vô cùng hấp dẫn cùng với đó là thể lệ thi đấu hấp dẫn nhất',
-    image: photo2
-  },
-  {
-    id: 3,
-    title: 'Cuộc Thi\nCá Koi Tháng 11\nNăm 2024',
-    description: 'Với phần thưởng vô cùng hấp dẫn cùng với đó là thể lệ thi đấu hấp dẫn nhất',
-    image: photo3
-  }
-];
 
 const Slider = () => {
+  const dispatch = useDispatch();
+  const contestList = useSelector(state => state.contestReducer.contestList);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    // Gọi action để lấy danh sách cuộc thi khi component được render
+    dispatch(fetchAllContests());
+  }, [dispatch]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((current) => 
-        current === sliderData.length - 1 ? 0 : current + 1
+        contestList.length > 0 ? (current === contestList.length - 1 ? 0 : current + 1) : 0
       );
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [contestList]);
+
+  // Convert contestList to match the format you need
+  const formattedContestList = contestList.map((contest, index) => ({
+    id: index + 1,
+    title: contest.compName || '',
+    description: contest.compDescription || '',
+    image: contest.imageUrl || 'default_image_url_here'
+  }));
 
   return (
     <section className="slider_section">
       <div id="carouselExampleIndicators" className="carousel slide">
-
         <div className="carousel-inner">
-          {sliderData.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`carousel-item ${activeIndex === index ? 'active' : ''}`}
-            >
+          {formattedContestList.length > 0 ? (
+            formattedContestList.map((contest, index) => (
+              <div
+                key={contest.id}
+                className={`carousel-item ${activeIndex === index ? 'active' : ''}`}
+              >
+                <Container>
+                  <Row className="align-items-center">
+                    <Col xs={12} md={6} className="detail-box-container">
+                      <div className="detail-box">
+                        <h1>{contest.title}</h1>
+                        <p>{contest.description}</p>
+                        <div className="btn-box">
+                          <a href="/competition/landing" className="btn-1">
+                            Đăng kí tham gia ngay?
+                          </a>
+                          <a href="" className="btn-2">
+                            Xem chi tiết hơn?
+                          </a>
+                        </div>
+                      </div>
+                    </Col>
+                    <Col xs={12} md={6} className="img-container">
+                      <div className="img-box" style={{ height: '100%', overflow: 'hidden' }}>
+                      <img src={contest.image} alt={contest.title} style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
+                      </div>
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+            ))
+          ) : (
+            <div className="carousel-item active">
               <Container>
                 <Row>
-                  <Col span={8} offset={1}>
+                  <Col>
                     <div className="detail-box">
-                      <h1>{slide.title}</h1>
-                      <p>{slide.description}</p>
-                      <div className="btn-box">
-                        <a href="" className="btn-1">
-                          Đăng kí tham gia ngay?
-                        </a>
-                        <a href="" className="btn-2">
-                          Xem chi tiết hơn?
-                        </a>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col span={14} offset={1} className="img-container">
-                    <div className="img-box">
-                      <img src={slide.image} alt="" />
+                      <h1>Không có cuộc thi nào để hiển thị</h1>
+                      <p>Vui lòng thử lại sau.</p>
                     </div>
                   </Col>
                 </Row>
               </Container>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </section>
