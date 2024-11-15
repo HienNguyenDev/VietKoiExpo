@@ -1,8 +1,10 @@
 // src/components/StatisticsAndNews/StatisticsAndNews.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Carousel } from 'react-bootstrap';
 import './Slider.scss';
 import './StatisticsAndNews.scss';
+import { fetchAllNews } from '../../store/redux/action/NewsAction'; 
 // Import images
 import f1 from '../../asset/images/f1.png';
 import f2 from '../../asset/images/f2.png';
@@ -16,63 +18,46 @@ const statisticsData = [
     id: 'One',
     img: f1,
     number: '50+',
-    title: 'Thí sinh tham gia'
+    title: 'Thí sinh tham gia',
   },
   {
     id: 'Two',
     img: f2,
     number: '70+',
-    title: 'Con cá Koi thi đấu'
+    title: 'Con cá Koi thi đấu',
   },
   {
     id: 'Three',
     img: f3,
     number: '10+ tỉnh thành',
-    title: 'Tổ chức trên toàn quốc'
+    title: 'Tổ chức trên toàn quốc',
   },
   {
     id: 'Four',
     img: f4,
     number: '98%',
-    title: 'Hài lòng với cuộc thi'
-  }
+    title: 'Hài lòng với cuộc thi',
+  },
 ];
 
-const testimonialData = [
-    {
-      id: 1,
-      name: 'Cuộc lội ngược dòng ngoạn mục của cá Koi',
-      content: 'Trải qua nhiều vòng thi đấu và tranh đua với rất nhiều đối thủ khó nhằn'
-    },
-    {
-      id: 2,
-      name: 'Chiến thắng áp đảo',
-      content: 'Trải qua nhiều vòng thi đấu và tranh đua với rất nhiều đối thủ khó nhằn'
-    },
-    {
-      id: 3,
-      name: 'Không nằm ngoài dự đoán',
-      content: 'Trải qua nhiều vòng thi đấu và tranh đua với rất nhiều đối thủ khó nhằn'
-    }
-  ];
-  
-
-
 const StatisticsAndNews = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-  
-    const handlePrev = () => {
-      setActiveIndex(current => 
-        current === 0 ? testimonialData.length - 1 : current - 1
-      );
-    };
-  
-    const handleNext = () => {
-      setActiveIndex(current => 
-        current === testimonialData.length - 1 ? 0 : current + 1
-      );
-    };
+  const dispatch = useDispatch();
+  const newsList = useSelector((state) => state.newsReducer.newsList); // Get the news list from the Redux store
+  const [activeIndex, setActiveIndex] = useState(0);
   const [activeTab, setActiveTab] = useState('One');
+
+  useEffect(() => {
+    // Dispatch action to fetch news when component mounts
+    dispatch(fetchAllNews());
+  }, [dispatch]);
+
+  const handlePrev = () => {
+    setActiveIndex((current) => (current === 0 ? newsList.length - 1 : current - 1));
+  };
+
+  const handleNext = () => {
+    setActiveIndex((current) => (current === newsList.length - 1 ? 0 : current + 1));
+  };
 
   return (
     <>
@@ -124,47 +109,47 @@ const StatisticsAndNews = () => {
       </section>
 
       <section className="client_section layout_padding">
-      <Container>
-        <Row>
-          <Col lg={9} md={10} className="mx-auto">
-            <div className="heading_container">
-              <h2>Tin tức</h2>
-            </div>
-            <div id="carouselExampleControls" className="carousel slide">
-              <div className="carousel-inner">
-                {testimonialData.map((testimonial, index) => (
-                  <div 
-                    key={testimonial.id}
-                    className={`carousel-item ${index === activeIndex ? 'active' : ''}`}
-                  >
-                    <div className="detail-box">
-                      <h4>{testimonial.name}</h4>
-                      <p>{testimonial.content}</p>
-                      <img src={quoteImg} alt="" />
-                    </div>
-                  </div>
-                ))}
+        <Container>
+          <Row>
+            <Col lg={9} md={10} className="mx-auto">
+              <div className="heading_container">
+                <h2>Tin tức</h2>
               </div>
-              
-              <a 
-                className="carousel-control-prev" 
-                role="button"
-                onClick={handlePrev}
-              >
-                <span className="sr-only"></span>
-              </a>
-              <a 
-                className="carousel-control-next" 
-                role="button"
-                onClick={handleNext}
-              >
-                <span className="sr-only"></span>
-              </a>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    </section>
+              <div id="carouselExampleControls" className="carousel slide">
+                <div className="carousel-inner">
+                  {newsList.map((newsItem, index) => (
+                    <div
+                      key={newsItem.id}
+                      className={`carousel-item ${index === activeIndex ? 'active' : ''}`}
+                    >
+                      <div className="detail-box">
+                        <h4>{(newsItem.newsDescription.match(/<(h[1-6])>(.*?)<\/\1>/)?.[2] || '').substring(0, 40) + '...'}</h4>
+                        <p>{newsItem.newsDescription.replace(/<[^>]*>/g, '')}</p>
+                        <img src={newsItem.imageUrl} alt="NewsImage" style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <a
+                  className="carousel-control-prev"
+                  role="button"
+                  onClick={handlePrev}
+                >
+                  <span className="sr-only"></span>
+                </a>
+                <a
+                  className="carousel-control-next"
+                  role="button"
+                  onClick={handleNext}
+                >
+                  <span className="sr-only"></span>
+                </a>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
     </>
   );
 };
