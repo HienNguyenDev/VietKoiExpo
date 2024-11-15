@@ -92,7 +92,8 @@ const ManageContestsPage = () => {
     const matchesStatus = filterStatus === 'all' ||
       (filterStatus === 'upcoming' && competition.status === 0) ||
       (filterStatus === 'ongoing' && competition.status === 1) ||
-      (filterStatus === 'completed' && competition.status === 2);
+      (filterStatus === 'completed' && competition.status === 2) ||
+      (filterStatus === 'deleted' && competition.status === 3);
 
     return matchesSearchTerm && matchesStatus;
   });
@@ -202,8 +203,8 @@ const ManageContestsPage = () => {
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
-        let color = status === 0 ? 'green' : status === 1 ? 'blue' : 'red';
-        let statusText = status === 0 ? 'Sắp Diễn Ra' : status === 1 ? 'Đang Diễn Ra' : 'Đã Hoàn Thành';
+        let color = status === 0 ? 'green' : status === 1 ? 'blue' : status === 2 ? 'red' : 'gray';
+        let statusText = status === 0 ? 'Sắp Diễn Ra' : status === 1 ? 'Đang Diễn Ra' : status === 2 ? 'Đã Hoàn Thành' : 'Đã Xóa';
         return <Tag color={color}>{statusText}</Tag>;
       },
     },
@@ -213,8 +214,8 @@ const ManageContestsPage = () => {
       render: (text, record) => (
         <span>
           <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.compId)}>Xem</Button>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.compId)}>Cập Nhật</Button>
-          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.compId)}>Xóa</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.compId)} disabled={record.status === 3}>Cập Nhật</Button>
+          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.compId)} disabled={record.status === 3}>Xóa</Button>
         </span>
       ),
     },
@@ -242,6 +243,7 @@ const ManageContestsPage = () => {
         <Radio.Button value="upcoming">Sắp Diễn Ra</Radio.Button>
         <Radio.Button value="ongoing">Đang Diễn Ra</Radio.Button>
         <Radio.Button value="completed">Đã Hoàn Thành</Radio.Button>
+        <Radio.Button value="deleted">Đã Xóa</Radio.Button>
       </Radio.Group>
 
       <Table dataSource={filteredCompetitions} columns={columns}  rowKey="compId" />
@@ -252,7 +254,7 @@ const ManageContestsPage = () => {
         visible={drawerVisible}
       >
         <Form layout="vertical" form={form}>
-          <Form.Item name="categoryId" label="Chọn thể loại" rules={[{ required: true, message: 'Hãy chọn ít nhất hai!' }]}>
+          <Form.Item name="categoryId" label="Chọn thể loại" rules={[{ required: true, message: 'Hãy chọn ít nhất hai!' }]}>            
             <Checkbox.Group>
               <Row>
                 {allCategories.map((category, index) => (
@@ -260,7 +262,7 @@ const ManageContestsPage = () => {
                     <Checkbox
                       value={category.name}
                       checked={checkedCategories.includes(category.name)} 
-                      disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'}
+                      disabled={(drawerTitle === 'Xem Chi Tiết Cuộc Thi' )}
                     >
                       {category.name}
                     </Checkbox>
@@ -269,13 +271,13 @@ const ManageContestsPage = () => {
               </Row>
             </Checkbox.Group>
           </Form.Item>
-          <Form.Item name="compName" label="Tên Cuộc Thi" rules={[{ required: true, message: 'Hãy nhập tên cuộc thi' }]}>
+          <Form.Item name="compName" label="Tên Cuộc Thi" rules={[{ required: true, message: 'Hãy nhập tên cuộc thi' }]}>            
             <Input placeholder="Hãy nhập tên cuộc thi" disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
-          <Form.Item name="compDescription" label="Mô Tả" rules={[{ required: true, message: 'Hãy nhập mô tả' }]}>
+          <Form.Item name="compDescription" label="Mô Tả" rules={[{ required: true, message: 'Hãy nhập mô tả' }]}>            
             <Input placeholder="Hãy nhập mô tả" disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
-          <Form.Item name="location" label="Địa Điểm" rules={[{ required: true, message: 'Hãy nhập địa điểm' }]}>
+          <Form.Item name="location" label="Địa Điểm" rules={[{ required: true, message: 'Hãy nhập địa điểm' }]}>            
             <Input placeholder="Hãy nhập địa điểm" disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
           <Form.Item name="imageUrl" label="Hình Ảnh">
@@ -288,10 +290,10 @@ const ManageContestsPage = () => {
               <img src={form.getFieldValue('imageUrl')} alt="Cuộc Thi" style={{ width: '100px', marginTop: '10px' }} />
             )}
           </Form.Item>
-          <Form.Item name="startDate" label="Ngày Bắt Đầu" rules={[{ required: true, message: 'Hãy nhập ngày bắt đầu' }]}>
+          <Form.Item name="startDate" label="Ngày Bắt Đầu" rules={[{ required: true, message: 'Hãy nhập ngày bắt đầu' }]}>            
             <DatePicker style={{ width: '100%' }} disabledDate={disabledStartDate} disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
-          <Form.Item name="endDate" label="Ngày Kết Thúc" rules={[{ required: true, message: 'Hãy nhập ngày kết thúc' }]}>
+          <Form.Item name="endDate" label="Ngày Kết Thúc" rules={[{ required: true, message: 'Hãy nhập ngày kết thúc' }]}>            
             <DatePicker style={{ width: '100%' }} disabledDate={disabledEndDate} disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
           {drawerTitle !== 'Tạo Cuộc Thi' && (
@@ -301,10 +303,11 @@ const ManageContestsPage = () => {
               rules={[{ required: true, message: 'Hãy chọn trạng thái' }]}
             >
               <Radio.Group
-                disabled={koiList.length > 0 && selectedContest && selectedContest.status === 1}>
-                <Radio value={0} disabled={koiList.length > 0 && selectedContest && selectedContest.status !== 0}>Sắp Diễn Ra</Radio>
+                disabled={koiList.length > 0 || selectedContest && selectedContest.status === 1 || drawerTitle === 'Xem Chi Tiết Cuộc Thi'}>
+                <Radio value={0} disabled={koiList.length > 0 && selectedContest && selectedContest.status !== 0 || drawerTitle === 'Xem Chi Tiết Cuộc Thi'}>Sắp Diễn Ra</Radio>
                 <Radio value={1}>Đang Diễn Ra</Radio>
-                <Radio value={2} disabled={koiList.length > 0 && selectedContest && selectedContest.status === 1}>Đã Hoàn Thành</Radio>
+                <Radio value={2} disabled={koiList.length > 0 && selectedContest && selectedContest.status === 1 || drawerTitle === 'Xem Chi Tiết Cuộc Thi'}>Đã Hoàn Thành</Radio>
+                
               </Radio.Group>
             </Form.Item>
           )}

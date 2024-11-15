@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Radio, Input } from 'antd';
 import { fetchCheckInByCompId, checkInKoiEntry, reviewKoiEntryAction } from '../../store/redux/action/checkInAction';
 import UploadImageComponent from '../shared/UploadImage/UploadImage';
+import { Box } from '@mui/material';
 
 const ReviewKoiCheckInPage = () => {
   const location = useLocation();
@@ -165,7 +166,7 @@ const ReviewKoiCheckInPage = () => {
               Reject
             </Button>
           </>
-        ) : null
+        ) : <Box type="default" >ChekcIn</Box>
       ),
     },
   ];
