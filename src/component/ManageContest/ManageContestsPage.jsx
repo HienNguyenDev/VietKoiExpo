@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Table, Button, Drawer, Form, Input, Modal, DatePicker, Checkbox, Row, Col, Radio, Tag } from 'antd';
 import { PlusOutlined, EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import styles from '../../asset/scss/ManageContestsPage.module.scss';
-import { fetchAllContests, createContestActionApi, updateContestActionApi, removeContestActionApi, fetchContestDetails, fetchCategoriesByCompId } from '../../store/redux/action/contestAction';
+import { fetchAllContests, createContestActionApi, updateContestActionApi, removeContestActionApi, fetchContestDetails, fetchCategoriesByCompId, fetchKoiFromCompId } from '../../store/redux/action/contestAction';
 import moment from 'moment';
 import UploadImageComponent from '../../component/shared/UploadImage/UploadImage';
 
@@ -22,6 +22,7 @@ const ManageContestsPage = () => {
 
   const navigate = useNavigate();
   const [checkedCategories, setCheckedCategories] = useState([]);
+  const [koiList, setKoiList] = useState([]);
   const dispatch = useDispatch();
   const contestsData = useSelector(state => state.contestReducer.contestList);
   const categoriesList = useSelector(state => state.contestReducer.categoriesList);
@@ -42,14 +43,23 @@ const ManageContestsPage = () => {
             [compId]: categoryIds,
           }));
         }).catch(error => {
-          console.error('Failed to fetch categories:', error);
+          console.error('Không thể lấy danh sách thể loại:', error);
         });
       }
+
+      // Lấy danh sách cá Koi cho cuộc thi đã chọn
+      dispatch(fetchKoiFromCompId(compId)).then(res => {
+        if (res && res.data) {
+          setKoiList(res.data);
+        }
+      }).catch(error => {
+        console.error('Không thể lấy danh sách cá Koi:', error);
+      });
     }
   }, [dispatch, selectedContest, categories]);
 
   useEffect(() => {
-    console.log('Updated categories:', categories);
+    console.log('Danh sách thể loại đã cập nhật:', categories);
   }, [categories]);
 
   const allCategories = [
@@ -67,13 +77,13 @@ const ManageContestsPage = () => {
 
   useEffect(() => {
     if (selectedContest && categories[selectedContest.compId]) {
-      console.log('Selected Categories:', categories[selectedContest.compId]);
+      console.log('Thể loại đã chọn:', categories[selectedContest.compId]);
       setCheckedCategories(categories[selectedContest.compId]);
     }
   }, [selectedContest, categories]);
 
   useEffect(() => {
-    console.log('Checked Categories:', checkedCategories);
+    console.log('Thể loại được chọn:', checkedCategories);
   }, [checkedCategories]);
 
   const filteredCompetitions = contestsData.filter(competition => {
@@ -112,26 +122,26 @@ const ManageContestsPage = () => {
   };
 
   const handleCreate = () => {
-    showDrawer('Create Contest');
+    showDrawer('Tạo Cuộc Thi');
   };
 
   const handleUpdate = (id) => {
     const contest = contestsData.find(contest => contest.compId === id);
     if (contest) {
-      showDrawer('Update Contest', contest);
+      showDrawer('Cập Nhật Cuộc Thi', contest);
     }
   };
 
   const handleView = (id) => {
     const contest = contestsData.find(contest => contest.compId === id);
     if (contest) {
-      showDrawer('View Contest', contest);
+      showDrawer('Xem Chi Tiết Cuộc Thi', contest);
     }
   };
 
   const handleDelete = (id) => {
     confirm({
-      title: 'Are you sure you want to delete this contest?',
+      title: 'Bạn có chắc chắn muốn xóa cuộc thi này không?',
       onOk() {
         dispatch(removeContestActionApi(id));
       },
@@ -144,19 +154,19 @@ const ManageContestsPage = () => {
         ...values,
         startDate: values.startDate.format('YYYY-MM-DD'),
         endDate: values.endDate.format('YYYY-MM-DD'),
-        status: values.status,
+        status: drawerTitle === 'Tạo Cuộc Thi' ? 0 : values.status,
         tblcompetitionCategories: values.categoryId.map(categoryId => ({ categoryId })),
       };
-      console.log('Submitting values:', formattedValues);
-      if (drawerTitle === 'Create Contest') {
+      console.log('Giá trị đang gửi:', formattedValues);
+      if (drawerTitle === 'Tạo Cuộc Thi') {
         dispatch(createContestActionApi(formattedValues));
-      } else if (drawerTitle === 'Update Contest' && selectedContest) {
+      } else if (drawerTitle === 'Cập Nhật Cuộc Thi' && selectedContest) {
         dispatch(updateContestActionApi(selectedContest.compId, formattedValues, navigate));
       }
       closeDrawer();
       navigate('/admin/manage-contests');
     }).catch(errorInfo => {
-      console.error('Validation Failed:', errorInfo);
+      console.error('Xác thực thất bại:', errorInfo);
     });
   };
 
@@ -179,32 +189,32 @@ const ManageContestsPage = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(updateContestStatus, 60000); // Check every minute
+    const interval = setInterval(updateContestStatus, 60000); // Kiểm tra mỗi phút
     return () => clearInterval(interval);
   }, [contestsData, dispatch]);
 
   const columns = [
-    { title: 'Name', dataIndex: 'compName', key: 'compName' },
-    { title: 'Start Date', dataIndex: 'startDate', key: 'startDate' },
-    { title: 'End Date', dataIndex: 'endDate', key: 'endDate' },
-    { title: 'Location', dataIndex: 'location', key: 'location' },
-    { title: 'Status',
+    { title: 'Tên Cuộc Thi', dataIndex: 'compName', key: 'compName' },
+    { title: 'Ngày Bắt Đầu', dataIndex: 'startDate', key: 'startDate' },
+    { title: 'Ngày Kết Thúc', dataIndex: 'endDate', key: 'endDate' },
+    { title: 'Địa Điểm', dataIndex: 'location', key: 'location' },
+    { title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
         let color = status === 0 ? 'green' : status === 1 ? 'blue' : 'red';
-        let statusText = status === 0 ? 'Upcoming' : status === 1 ? 'Ongoing' : 'Completed';
+        let statusText = status === 0 ? 'Sắp Diễn Ra' : status === 1 ? 'Đang Diễn Ra' : 'Đã Hoàn Thành';
         return <Tag color={color}>{statusText}</Tag>;
       },
     },
     {
-      title: 'Actions',
+      title: 'Hành Động',
       key: 'actions',
       render: (text, record) => (
         <span>
-          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.compId)}>View</Button>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.compId)}>Update</Button>
-          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.compId)}>Delete</Button>
+          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.compId)}>Xem</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.compId)}>Cập Nhật</Button>
+          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.compId)}>Xóa</Button>
         </span>
       ),
     },
@@ -213,12 +223,12 @@ const ManageContestsPage = () => {
   return (
     <div className={styles.manageContestsPage}>
       <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginBottom: 16 }}>
-        Create Contest
+        Tạo Cuộc Thi
       </Button>
       <br/>
       <div style={{ marginBottom: 16 }}>
         <Input 
-          placeholder="Search by Name or Location" 
+          placeholder="Tìm kiếm theo Tên hoặc Địa điểm" 
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{ width: 300 }}
@@ -228,10 +238,10 @@ const ManageContestsPage = () => {
         onChange={(e) => setFilterStatus(e.target.value)} 
         value={filterStatus}
         style={{ marginBottom: 16 }}>
-        <Radio.Button value="all">All</Radio.Button>
-        <Radio.Button value="upcoming">Upcoming</Radio.Button>
-        <Radio.Button value="ongoing">Ongoing</Radio.Button>
-        <Radio.Button value="completed">Completed</Radio.Button>
+        <Radio.Button value="all">Tất Cả</Radio.Button>
+        <Radio.Button value="upcoming">Sắp Diễn Ra</Radio.Button>
+        <Radio.Button value="ongoing">Đang Diễn Ra</Radio.Button>
+        <Radio.Button value="completed">Đã Hoàn Thành</Radio.Button>
       </Radio.Group>
 
       <Table dataSource={filteredCompetitions} columns={columns}  rowKey="compId" />
@@ -242,7 +252,7 @@ const ManageContestsPage = () => {
         visible={drawerVisible}
       >
         <Form layout="vertical" form={form}>
-          <Form.Item name="categoryId" label="Select category" rules={[{ required: true, message: 'Choose at least two!' }]}>
+          <Form.Item name="categoryId" label="Chọn thể loại" rules={[{ required: true, message: 'Hãy chọn ít nhất hai!' }]}>
             <Checkbox.Group>
               <Row>
                 {allCategories.map((category, index) => (
@@ -250,7 +260,7 @@ const ManageContestsPage = () => {
                     <Checkbox
                       value={category.name}
                       checked={checkedCategories.includes(category.name)} 
-                      disabled={drawerTitle === 'View Contest'}
+                      disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'}
                     >
                       {category.name}
                     </Checkbox>
@@ -259,46 +269,49 @@ const ManageContestsPage = () => {
               </Row>
             </Checkbox.Group>
           </Form.Item>
-          <Form.Item name="compName" label="Name" rules={[{ required: true, message: 'Please enter the name' }]}>
-            <Input placeholder="Please enter the name" disabled={drawerTitle === 'View Contest'} />
+          <Form.Item name="compName" label="Tên Cuộc Thi" rules={[{ required: true, message: 'Hãy nhập tên cuộc thi' }]}>
+            <Input placeholder="Hãy nhập tên cuộc thi" disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
-          <Form.Item name="compDescription" label="Description" rules={[{ required: true, message: 'Please enter the description' }]}>
-            <Input placeholder="Please enter the description" disabled={drawerTitle === 'View Contest'} />
+          <Form.Item name="compDescription" label="Mô Tả" rules={[{ required: true, message: 'Hãy nhập mô tả' }]}>
+            <Input placeholder="Hãy nhập mô tả" disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
-          <Form.Item name="location" label="Location" rules={[{ required: true, message: 'Please enter the location' }]}>
-            <Input placeholder="Please enter the location" disabled={drawerTitle === 'View Contest'} />
+          <Form.Item name="location" label="Địa Điểm" rules={[{ required: true, message: 'Hãy nhập địa điểm' }]}>
+            <Input placeholder="Hãy nhập địa điểm" disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
-          <Form.Item name="imageUrl" label="Image">
-            {drawerTitle !== 'View Contest' ? (
+          <Form.Item name="imageUrl" label="Hình Ảnh">
+            {drawerTitle !== 'Xem Chi Tiết Cuộc Thi' ? (
               <UploadImageComponent 
                 onSuccess={(url) => form.setFieldsValue({ imageUrl: url })}
                 defaultUrl={form.getFieldValue('imageUrl')}
               />
             ) : (
-              <img src={form.getFieldValue('imageUrl')} alt="Contest" style={{ width: '100px', marginTop: '10px' }} />
+              <img src={form.getFieldValue('imageUrl')} alt="Cuộc Thi" style={{ width: '100px', marginTop: '10px' }} />
             )}
           </Form.Item>
-          <Form.Item name="startDate" label="Start Date" rules={[{ required: true, message: 'Please enter the start date' }]}>
-            <DatePicker style={{ width: '100%' }} disabledDate={disabledStartDate} disabled={drawerTitle === 'View Contest'} />
+          <Form.Item name="startDate" label="Ngày Bắt Đầu" rules={[{ required: true, message: 'Hãy nhập ngày bắt đầu' }]}>
+            <DatePicker style={{ width: '100%' }} disabledDate={disabledStartDate} disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
-          <Form.Item name="endDate" label="End Date" rules={[{ required: true, message: 'Please enter the end date' }]}>
-            <DatePicker style={{ width: '100%' }} disabledDate={disabledEndDate} disabled={drawerTitle === 'View Contest'} />
+          <Form.Item name="endDate" label="Ngày Kết Thúc" rules={[{ required: true, message: 'Hãy nhập ngày kết thúc' }]}>
+            <DatePicker style={{ width: '100%' }} disabledDate={disabledEndDate} disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>
-          <Form.Item
-            name="status"
-            label="Status"
-            rules={[{ required: true, message: 'Please select the status' }]}
-          > 
-          <Radio.Group disabled={drawerTitle === 'View Contest'}>
-            <Radio value={0}>Upcoming</Radio>
-            <Radio value={1}>Ongoing</Radio>
-            <Radio value={2}>Completed</Radio>
-          </Radio.Group>
-          </Form.Item>
-          {drawerTitle !== 'View Contest' && (
+          {drawerTitle !== 'Tạo Cuộc Thi' && (
+            <Form.Item
+              name="status"
+              label="Trạng Thái"
+              rules={[{ required: true, message: 'Hãy chọn trạng thái' }]}
+            >
+              <Radio.Group
+                disabled={koiList.length > 0 && selectedContest && selectedContest.status === 1}>
+                <Radio value={0} disabled={koiList.length > 0 && selectedContest && selectedContest.status !== 0}>Sắp Diễn Ra</Radio>
+                <Radio value={1}>Đang Diễn Ra</Radio>
+                <Radio value={2} disabled={koiList.length > 0 && selectedContest && selectedContest.status === 1}>Đã Hoàn Thành</Radio>
+              </Radio.Group>
+            </Form.Item>
+          )}
+          {drawerTitle !== 'Xem Chi Tiết Cuộc Thi' && (
             <Form.Item>
               <Button type="primary" onClick={handleSubmit}>
-                Submit
+                Gửi
               </Button>
             </Form.Item>
           )}
