@@ -29,16 +29,16 @@ export const registerUser = (userRegister) => {
     });
 };
 
-export const updateDetailUser = (userId, userUpdate) => {
-    return axios({
-        url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/User/${userId}`,
-        method: 'PUT',
-        data: userUpdate,
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
-};
+    export const updateDetailUser = (userId, userUpdate) => {
+        return axios({
+            url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/User/${userId}`,
+            method: 'PUT',
+            data: userUpdate,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+    };
 export const removeUser = (userId, userDelete   ) => {
     return axios({
         url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/User/${userId}`,

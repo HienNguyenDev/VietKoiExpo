@@ -35,6 +35,15 @@ const userReducer = createSlice({
                 ...action.payload
             };
         },
+        updateUserAction: (state, action) => {
+            state.userDetail = action.payload; // Update user detail state
+            const updatedUserIndex = state.listUser.findIndex(user => user.userId === action.payload.userId);
+            if (updatedUserIndex !== -1) {
+                state.listUser[updatedUserIndex] = { ...state.listUser[updatedUserIndex], ...action.payload };
+            }
+        }
+        
+        ,
         removeUserAction: (state, action) => {
             state.listUser = state.listUser.filter(user => user.userId !== action.payload);
         },

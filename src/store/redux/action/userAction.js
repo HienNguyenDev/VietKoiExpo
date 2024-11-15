@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { USER_LOGIN, USER_REGISTER, getStoreJson, setCookieJson, setStoreJson, removeStoreJson, removeCookieJson, deleteCookieJson } from '../../../util/config';
-import { logoutAction, loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction, setProfileAction } from '../../redux/reducers/userReducer';
+import { logoutAction, loginAction, registerAction, updateUserAction, removeUserAction, setUserAction, setUserDetailAction, setProfileAction, updateUserLoginAction } from '../../redux/reducers/userReducer';
 import { getAllUser, getUserProfile, loginUser, loginWithGoogle, registerUser, updateDetailUser, removeUser, createUser } from '../../../service/userAPI';
 
 export const loginActionApi = (credentials, navigate) => {
@@ -89,7 +89,7 @@ export const fetchUserByIdActionApi = (userId) => {
     return async (dispatch) => {
         try {
             const res = await getUserProfile(userId);  
-            console.log('Fetched user profile:',res); 
+            console.log('Fetched user profile:',res.data); 
             const action = setUserDetailAction(res.data);
             dispatch(action);
         } catch (error) {
@@ -112,13 +112,23 @@ export const fetchUserByIdAction = (userId) => {
 };
 
 export const updateUserActionApi = (userId, userDetails) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         try {
             console.log('Updating user:', userDetails);
             const res = await updateDetailUser(userId, userDetails);
             console.log('Updated user:', res.data);
+
+            // Dispatch action to update user details in state
             const action = updateUserAction(res.data);
-            dispatch(action);   
+            dispatch(action);
+
+            // Get the current `userLogin` state
+            const { userReducer } = getState();
+
+            // If the updated user is the currently logged-in user, update `userLogin`
+            if (userReducer.userLogin && userReducer.userLogin.userId === userId) {
+                dispatch(updateUserLoginAction(res.data));
+            }
         } catch (error) {
             console.error("Failed to update user:", error.response ? error.response.data : error.message);
         }

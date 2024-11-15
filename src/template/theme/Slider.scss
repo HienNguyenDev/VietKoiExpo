@@ -880,3 +880,15 @@ a:focus {
     background-image: url('../../asset/images/next-angle.png');
   }
 }
+
+.slider_section {
+  .carousel-inner {
+    .carousel-item {
+      transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+      opacity: 0;
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+}

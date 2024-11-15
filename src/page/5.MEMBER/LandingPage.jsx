@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Card, Row, Col, Modal, Form, Select, message, Input } from 'antd';
+import { Typography, Button, Card, Row, Col, Modal, Form, Select, message, Input, Tag,Tooltip } from 'antd';
 import Countdown from 'react-countdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllContests } from '../../store/redux/action/contestAction';
@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import styles from './LandingPage.module.scss';
 import BackButton from '../../component/shared/button/BackButton';
 import { registerKoiForCompetitionApi } from '../../service/koiRegistAPI';
+import contestReducer from '../../store/redux/reducers/contestReducer';
+import axios from 'axios';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -19,20 +21,33 @@ const LandingPage = () => {
   const competitions = useSelector(state => state.contestReducer.contestList);
   const registeredKoi = useSelector(state => state.RegisterKoiReducer.koiList);
   const registrationList = useSelector(state => state.RegisterKoiReducer.registrationList); // Get registration list from Redux state
+  console.log(contestReducer.contestList);
   const userId = useSelector(state => state.userReducer.userLogin.userId); // Select userId
   const koiList = useSelector(state => state.RegisterKoiReducer.koiList); // Get koiList from Redux state
-
+  
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedCompetition, setSelectedCompetition] = useState(null);
   const [mockKoiList, setMockKoiList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategories = async (compId) => {
+    try {
+      const response = await axios.get(`https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Competition/CompetitonCategories/${compId}`);
+      setCategories(response.data); // Cập nhật danh mục vào state
+    } catch (error) {
+      message.error('Không thể lấy danh mục cuộc thi');
+      console.error('Error fetching categories:', error);
+    }
+  };
 
   useEffect(() => { 
     const fetchData = async () => {
       await dispatch(fetchAllContests());
       await dispatch(getAllRegistrations());
       await dispatch(getKoiById(userId));
+
       setLoading(false);
     };
     fetchData();
@@ -66,26 +81,27 @@ const LandingPage = () => {
     }
   };
 
-  const showModal = (competition) => {
+  const showModal = async (competition) => {
     const status = getCompetitionStatus(competition);
     if (status === 'ongoing') {
       Modal.warning({
         title: 'Competition Ongoing',
-        content: 'The competition is currently ongoing. Registration is not allowed.',
+        content: 'Cuộc thi hiện tại đang diễn ra. Không thể đăng ký.',
       });
       return;
     }
     if (status === 'completed') {
       Modal.warning({
         title: 'Competition Completed',
-        content: 'The competition has ended. Please select another competition.',
+        content: 'Cuộc thi đã kết thúc. Vui lòng chọn cuộc thi khác.',
       });
       return;
     }
     setSelectedCompetition(competition);
+    await fetchCategories(competition.compId); // Gọi hàm lấy danh mục khi mở modal
     setIsModalVisible(true);
   };
-
+  
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -181,7 +197,7 @@ const LandingPage = () => {
         />
       </div> */}
       <div style={{background:'#ffffff'}} className={styles.competitionsSection}>
-        <Typography.Title style={{ fontWeight:'700'}} level={2}>Competitions</Typography.Title>
+        <Typography.Title style={{ fontWeight:'700'}} level={2}>Các cuộc thi </Typography.Title>
         {loading ? (
           <Typography.Paragraph style={{color:'#ffffff'}}>Loading competitions...</Typography.Paragraph>
         ) : (
@@ -262,38 +278,53 @@ const LandingPage = () => {
           </Row>
         )}
       </div>
-      <Modal
-        title="Register for Competition"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <Form layout="vertical" onFinish={handleFormSubmit}>
-          <Form.Item
-            name="koiIds"
-            label="Select Your Koi"
-            rules={[{ required: true, message: 'Please select at least one Koi' }]}
-          >
-            <Select
-              mode="multiple"
-              placeholder="Select your Koi for the competition"
-              allowClear
-            >
-              {availableKoiList.map((koi) => (
-                <Option key={koi.koiId} value={koi.koiId}>
-                  {koi.koiName}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" >
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+
+
+
+
+    <Modal
+      title={`Đăng ký cho cuộc thi ${selectedCompetition?.compName}`}
+      visible={isModalVisible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      footer={null}
+      width={800}
+    >
+      <Form onFinish={handleFormSubmit}>
+        <Form.Item label="Chọn Koi" name="koiIds" rules={[{ required: true, message: 'Vui lòng chọn ít nhất một Koi' }]}>
+          <Select mode="multiple" placeholder="Chọn Koi" optionLabelProp="label">
+            {availableKoiList.map((koi) => (
+              <Option key={koi.koiId} value={koi.koiId} label={koi.koiName}>
+                {koi.koiName}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <Form.Item label="Danh Mục Cuộc Thi">
+          <div>
+            {categories.length > 0 ? (
+              categories.map((category) => (
+                <Tooltip key={category.categoryId} title={category.categoryDescription}>
+                  <Tag>{category.categoryName}</Tag>
+                </Tooltip>
+              ))
+            ) : (
+              <span>Không có danh mục</span>
+            )}
+          </div>
+          <Typography.Paragraph style={{ marginTop: 10, color: '#888' }}>
+        Bấm vào từng danh mục để xem chi tiết
+      </Typography.Paragraph>
+        </Form.Item>
+
+        <Button type="primary" htmlType="submit">Đăng ký</Button>
+      </Form>
+    </Modal>
+
+
+
+
     </div>
   );
 };

@@ -38,7 +38,6 @@ const MyProfile = () => {
   }, [userLogin, form]);
 
   const handleSubmit = (values) => {
-    // Format the data according to API requirements
     const userDetails = {
       roleId: userLogin?.roleId,
       password: values.password || userLogin?.password,
@@ -54,15 +53,18 @@ const MyProfile = () => {
     dispatch(updateUserActionApi(userLogin.userId, userDetails))
       .then(() => {
         message.success('Profile updated successfully!');
-        // Update local state by dispatching a new action
+  
+        // Dispatch action to update userLogin in the Redux store
         dispatch(updateUserLoginAction(userDetails));
-        // Refresh user data
-        dispatch(fetchUserByIdActionApi(userLogin.userId));
+  
+        // Refresh the user data to ensure any updates are fully reflected
+        return dispatch(fetchUserByIdActionApi(userLogin.userId));
       })
       .catch((error) => {
         message.error('Profile update failed: ' + (error.message || 'Unknown error'));
       });
   };
+  
 
   if (!userLogin) {
     return null; // Render nothing if userLogin is null

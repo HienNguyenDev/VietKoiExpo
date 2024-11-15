@@ -1,0 +1,98 @@
+.landingPage {
+    background-color: #ffffff;
+    color: #000000;
+    width: 100vw;
+  
+    .heroSection {
+      text-align: center;
+      padding: 20px;
+      background-color: #60badb;
+  
+      h1 {
+        color: #fff;
+        font-weight: 800;
+      }
+  
+      p {
+        color: #60badb;
+        text-shadow: 0 0 10px #60badb, 0 0 20px #60badb, 0 0 30px #60badb;
+      }
+  
+      img {
+        border: 2px solid #ff6d1f;
+        border-radius: 10px;
+      }
+    }
+  
+    .competitionsSection {
+      padding: 20px;
+  
+      .competitionCard {
+        background-color: #60badb;
+        border-radius: 15px;
+        color: #fff;
+        transition: background-color 0.3s, transform 0.3s;
+  
+        &:hover {
+          background-color: #ff6d1f;
+          transform: translateY(-2px);
+        }
+  
+        .ant-card-body {
+          padding: 10px;
+        }
+  
+        .ant-card-meta-title {
+          color: #ff6d1f;
+          text-shadow: 0 0 10px #ff6d1f, 0 0 20px #ff6d1f, 0 0 30px #ff6d1f;
+        }
+  
+        .ant-card-meta-description {
+          color: #60badb;
+          text-shadow: 0 0 10px #60badb, 0 0 20px #60badb, 0 0 30px #60badb;
+        }
+  
+        .ant-btn-link {
+          color: #ff6d1f;
+          text-shadow: 0 0 10px #ff6d1f, 0 0 20px #ff6d1f, 0 0 30px #ff6d1f;
+        }
+      }
+  
+      .keyDatesList {
+        li {
+          color: #0f1f25;
+        }
+      }
+    }
+  
+    .registerButton {
+      display: inline-block;
+      background-color: #ff6d1f;
+      color: #ffffff;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+  
+      &:hover {
+        background-color: #60badb;
+        transform: translateY(-2px);
+      }
+    }
+  
+    .backButton {
+      background-color: #ff6d1f;
+      border: none;
+      color: #ffffff;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+  
+      &:hover {
+        background-color: #60badb;
+      }
+    }
+  }
+  

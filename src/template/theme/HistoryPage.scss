@@ -1,0 +1,72 @@
+// HistoryPage.scss
+
+// Define color variables
+$primary-color: #3498db;      // Example primary color for headings
+$secondary-color: #2ecc71;    // Example color for table headers
+$background-color: #f5f5f5;   // Background color for the page
+$text-color: #333;            // Text color for general text
+$table-border-color: #ddd;    // Border color for the table
+
+.history-page {
+    background-color: $background-color;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: $text-color;
+
+    h1 {
+        color: $primary-color;
+        font-size: 2em;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    section {
+        margin-bottom: 30px;
+
+        h2 {
+            color: $secondary-color;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+    }
+
+    .koi-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid $table-border-color;
+        }
+
+        th {
+            background-color: $primary-color;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            color: $text-color;
+
+            &:nth-child(4) {
+                font-weight: bold;
+                color: $secondary-color;
+            }
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    }
+}

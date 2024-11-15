@@ -63,6 +63,8 @@ import ResetPasswordPage from './page/2.LOGIN/ResetPage';
 import PrivateRoute from './private/PrivateRoute'; // Import the PrivateRoute component
 import ResultPage from './page/5.MEMBER/ResultPage';
 import MainPage from './template/theme/MainPage';
+import HistoryComp from './template/theme/HistoryComp';
+import ListCompetitionComp from './page/5.MEMBER/ListCompetitionComp';
 
 const App = () => {
   const location = useLocation();
@@ -127,6 +129,8 @@ const App = () => {
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="/dashboard/:compId" element={<Dashboard/>} />
           <Route path='/competition-results' element={<ResultPage/>} />
+          <Route path='view-all-contest' element={<ListCompetitionComp/>}/>
+          <Route path='history' element={<HistoryComp/>}></Route>
           {/* Catch-all route to redirect to home */}
           <Route path="slider" element={<MainPage/>}></Route>
           <Route path="*" element={<Navigate to="/" />} />

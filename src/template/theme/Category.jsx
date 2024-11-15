@@ -21,13 +21,14 @@ const Category = () => {
           </div>
           <div className="category_container">
             <div className="box" 
-                 onClick={() => handleRedirect('/danh-sach-cuoc-thi')} 
+                 onClick={() => handleRedirect('/view-all-contest')} 
                  style={{ cursor: 'pointer' }}>
               <div className="img-box">
                 <img src={logo1} alt="" />
               </div>
               <div className="detail-box">
                 <h5>Danh sách cuộc thi</h5>
+               
               </div>
             </div>
             <div className="box" 
