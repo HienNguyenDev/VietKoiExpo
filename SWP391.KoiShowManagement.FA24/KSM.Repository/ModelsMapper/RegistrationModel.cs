@@ -13,5 +13,7 @@ namespace KSM.Repository.ModelsMapper
         public Guid? CompId { get; set; }
 
         public int? Status { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }

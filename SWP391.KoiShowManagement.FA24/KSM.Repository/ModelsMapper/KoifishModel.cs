@@ -16,6 +16,8 @@ namespace KSM.Repository.ModelsMapper
 
         public int? Size { get; set; }
 
+        public DateOnly? BirthDate { get; set; }
+
         public int? Age { get; set; }
 
         public string ImageUrl { get; set; }
