@@ -151,6 +151,7 @@ const ManageContestsPage = () => {
       if (drawerTitle === 'Create Contest') {
         dispatch(createContestActionApi(formattedValues));
       } else if (drawerTitle === 'Update Contest' && selectedContest) {
+        console.log('Updating contest:', selectedContest);
         dispatch(updateContestActionApi(selectedContest.compId, formattedValues, navigate));
       }
       closeDrawer();

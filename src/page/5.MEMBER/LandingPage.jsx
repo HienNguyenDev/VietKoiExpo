@@ -217,11 +217,11 @@ const LandingPage = () => {
                           </Col>
                           <Col span={8}>
                             <Typography.Paragraph>
-                             <h1 style={{fontSize:'30px',color:'#ffffff'}}>Lịch trình</h1>
-                              <ul className={styles.keyDatesList}>
-                                <li><CalendarOutlined /> Ngày tiến hành đăng kí: {new Date(competition.startDate).toLocaleDateString()}</li>
-                                <li><TrophyOutlined /> Ngày bắt đầu: {new Date(competition.startDate).toLocaleDateString()}</li>
-                                <li><FlagOutlined /> Ngày kết thúc: {new Date(competition.endDate).toLocaleDateString()}</li>
+                             <h1 style={{fontSize:'30px',color:'#ffffff',fontWeight:"600"}}>Lịch trình</h1>
+                              <ul  className={styles.keyDatesList}>
+                                <li style={{color:'#ffffff'}} ><CalendarOutlined /> Ngày tiến hành đăng kí: {new Date(competition.startDate).toLocaleDateString()}</li>
+                                <li style={{color:'#ffffff'}}><TrophyOutlined /> Ngày bắt đầu: {new Date(competition.startDate).toLocaleDateString()}</li>
+                                <li style={{color:'#ffffff'}}><FlagOutlined /> Ngày kết thúc: {new Date(competition.endDate).toLocaleDateString()}</li>
                               </ul>
                             </Typography.Paragraph>
                           </Col>
