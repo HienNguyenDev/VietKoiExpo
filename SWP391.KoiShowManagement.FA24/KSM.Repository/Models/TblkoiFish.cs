@@ -23,6 +23,8 @@ public partial class TblkoiFish
 
     public string ImageUrl { get; set; }
 
+    public string CertificateImageUrl { get; set; }
+
     public bool? Status { get; set; }
 
     public virtual ICollection<TblcompetitionCategory> TblcompetitionCategories { get; set; } = new List<TblcompetitionCategory>();

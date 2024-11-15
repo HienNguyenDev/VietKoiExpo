@@ -22,6 +22,8 @@ namespace KSM.Repository.ModelsMapper
 
         public string ImageUrl { get; set; }
 
+        public string CertificateImageUrl { get; set; }
+
         public bool? Status { get; set; }
     }
 }
