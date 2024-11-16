@@ -7,6 +7,7 @@ using KSM.Repository.Repositories.UserRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KSM.APIService.Controllers
 {
@@ -68,43 +69,157 @@ namespace KSM.APIService.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddNewFish(KoifishModel model)
+        public class FishModelCreate
         {
+            //public Guid CompId { get; set; }
+
+            public string VarietyId { get; set; }
+
+            public Guid? UserId { get; set; }
+
+            public string KoiName { get; set; }
+
+            public int? Size { get; set; }
+
+            public string? BirthDate { get; set; }
+
+            public int? Age { get; set; }
+
+            public string ImageUrl { get; set; }
+
+            public string CertificateImageUrl { get; set; }
+
+            public bool? Status { get; set; }
+        }
+
+        private bool IsValidDateFormat(string date, string format)
+        {
+            return DateTime.TryParseExact(date, format,
+                                          System.Globalization.CultureInfo.InvariantCulture,
+                                          System.Globalization.DateTimeStyles.None,
+                                          out _);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewFish(FishModelCreate model)
+        {
+            if (!IsValidDateFormat(model.BirthDate, "yyyy-mm-dd"))
+            {
+                ModelState.AddModelError("BirthDate", "Date must be in the format yyyy-mm-dd.");
+                return BadRequest(ModelState);
+            }
+
+
+            var createdFish = new TblkoiFish()
+            {
+                KoiId = Guid.NewGuid(),
+                VarietyId = model.VarietyId,
+                UserId = model.UserId,
+                KoiName = model.KoiName,
+                Size = model.Size,
+                BirthDate = string.IsNullOrEmpty(model.BirthDate) ? (DateOnly?)null : DateOnly.Parse(model.BirthDate),
+                Age = model.Age,
+                ImageUrl = model.ImageUrl,
+                CertificateImageUrl = model.CertificateImageUrl,
+                
+                Status = model.Status,
+            };
             try
             {
-                var newFish = _mapper.Map<TblkoiFish>(model);
-                newFish.KoiId = Guid.NewGuid();
-                await _koiFishRepo.CreateAsync(newFish);
-                Guid newFishID = newFish.KoiId;
-                var koiFish = await _koiFishRepo.GetByIDAsync(newFishID);
-                //var koiFishModel = _mapper.Map<KoifishModel>(koiFish);
-                return koiFish == null ? NotFound() : Ok(koiFish);
+
+                await _koiFishRepo.CreateAsync(createdFish);
+
             }
-            catch (Exception ex)
+            catch (DbUpdateConcurrencyException ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
+            return Ok(createdFish);
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> AddNewFish(KoifishModel model)
+        //{
+        //    try
+        //    {
+        //        var newFish = _mapper.Map<TblkoiFish>(model);
+        //        newFish.KoiId = Guid.NewGuid();
+        //        await _koiFishRepo.CreateAsync(newFish);
+        //        Guid newFishID = newFish.KoiId;
+        //        var koiFish = await _koiFishRepo.GetByIDAsync(newFishID);
+        //        //var koiFishModel = _mapper.Map<KoifishModel>(koiFish);
+        //        return koiFish == null ? NotFound() : Ok(koiFish);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFish(Guid id, [FromBody] KoifishModel model)
+        public async Task<IActionResult> UpdateFish(Guid id, [FromBody] FishModelCreate model)
         {
-            var koiFish = await _koiFishRepo.GetByIDAsync(id);
-            if (koiFish == null)
+            if (!IsValidDateFormat(model.BirthDate, "yyyy-mm-dd"))
             {
-                return NotFound();
+                ModelState.AddModelError("BirthDate", "Date must be in the format yyyy-mm-dd.");
+                return BadRequest(ModelState);
             }
 
-            // Update the koiFish fields from the model
-            _mapper.Map(model, koiFish);
+            try
+            {
+                // Fetch the existing news from the database
+                var existingFish = await _koiFishRepo.GetByIDAsync(id);
+                if (existingFish == null)
+                {
+                    return NotFound("Fish not found.");
+                }
 
-            // Set the KoiId explicitly from the route id
-            koiFish.KoiId = id;
+                // Update the existing news with new values
+                existingFish.KoiId = id;
+                existingFish.VarietyId = model.VarietyId;
+                existingFish.UserId = model.UserId;
+                existingFish.KoiName = model.KoiName;
+                existingFish.Size = model.Size;
+                existingFish.BirthDate = string.IsNullOrEmpty(model.BirthDate) ? (DateOnly?)null : DateOnly.Parse(model.BirthDate);
+                existingFish.Age = model.Age;
+                existingFish.ImageUrl = model.ImageUrl;
+                existingFish.CertificateImageUrl = model.CertificateImageUrl;
+                existingFish.Status = model.Status;
 
-            await _koiFishRepo.UpdateAsync(koiFish);
-            return Ok();
+
+
+                // Save the updated news
+                await _koiFishRepo.UpdateAsync(existingFish);
+                return Ok(existingFish);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // Log exception details for debugging (optional)
+                return BadRequest(ex.Message);
+            }
         }
+
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateFish(Guid id, [FromBody] KoifishModel model)
+        //{
+        //    var koiFish = await _koiFishRepo.GetByIDAsync(id);
+        //    if (koiFish == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    // Update the koiFish fields from the model
+        //    _mapper.Map(model, koiFish);
+
+        //    // Set the KoiId explicitly from the route id
+        //    koiFish.KoiId = id;
+
+        //    await _koiFishRepo.UpdateAsync(koiFish);
+        //    return Ok();
+        //}
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFish([FromRoute] Guid id)
