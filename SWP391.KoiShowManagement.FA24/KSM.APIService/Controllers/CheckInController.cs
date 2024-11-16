@@ -139,6 +139,25 @@ namespace KSM.APIService.Controllers
             return result ? Ok(checkIn) : BadRequest();
         }
 
+        [HttpGet("competition/{compId}/koi-with-checkin-status")]
+        public async Task<IActionResult> GetKoiWithCheckInStatusByCompId(Guid compId)
+        {
+            try
+            {
+                var result = await _checkInRepo.GetKoiWithCheckInStatusByCompIdAsync(compId);
 
+                if (!result.Any())
+                {
+                    return NotFound("No Koi fish found with the given competition ID and registration status.");
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                // Log the error here if necessary
+                return BadRequest("An error occurred while fetching data.");
+            }
+        }
     }
 }

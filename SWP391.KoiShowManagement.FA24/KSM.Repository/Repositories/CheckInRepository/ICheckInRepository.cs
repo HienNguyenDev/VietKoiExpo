@@ -13,5 +13,6 @@ namespace KSM.Repository.Repositories.CheckInRepository
         Task<TblcheckIn?> GetByRegistrationIdAsync(Guid registrationId);
         Task<TblcheckIn?> GetCheckInWithKoiImageAsync(Guid checkInId);
         Task<IEnumerable<object>> GetCheckInsByCompIdAsync(Guid compId);
+        Task<IEnumerable<object>> GetKoiWithCheckInStatusByCompIdAsync(Guid compId);
     }
 }

@@ -63,6 +63,21 @@ namespace KSM.Repository.Repositories.CheckInRepository
                 .ToListAsync();
         }
 
-
+        public async Task<IEnumerable<object>> GetKoiWithCheckInStatusByCompIdAsync(Guid compId)
+        {
+            return await DbSet
+                .Include(c => c.Registration)
+                .ThenInclude(r => r.Koi)
+                .Where(c => c.Registration.CompId == compId && c.Registration.Status == 1)
+                .Select(c => new
+                {
+                    KoiId = c.Registration.Koi.KoiId,
+                    KoiName = c.Registration.Koi.KoiName,
+                    CheckInStatus = c.Status,
+                    KoiImageUrl = c.Registration.Koi.ImageUrl,
+                    Description = c.Description
+                })
+                .ToListAsync();
+        }
     }
 }
