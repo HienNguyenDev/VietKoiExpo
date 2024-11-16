@@ -80,37 +80,47 @@ const CompetitionPage = () => {
 
   // Display notification if all koi are judged or competition is completed
   useEffect(() => {
-    // Kiểm tra xem cuộc thi đã hoàn thành chưa và hiển thị thông báo
-    if (competitionStatus === 'completed' && competition.compId === compId && !notificationShown) {
-      notification.success({
-        message: 'Cuộc thi đã hoàn thành',
-        description: 'Cuộc thi đã kết thúc. Bạn có thể xem bảng điều khiển hoặc xếp hạng.',
-        btn: (
-          <Button type="primary" onClick={() => navigate(`/dashboard/${compId}`, { state: { compId, compName: competition.compName } })}>
-            Đi đến Bảng điều khiển
-          </Button>
-        ),
-        onClose: () => setNotificationShown(true), // Set notificationShown to true after closing the notification
-      });
-    }
+    const interval = setInterval(() => {
+      // Fetch the koi status from your API
+      dispatch(fetchCheckedInKoiForCompetition(compId)); // Assuming this action fetches the koi fish data
   
-    // Kiểm tra xem tất cả các Koi đã được chấm điểm chưa và hiển thị thông báo
-    const allJudged = koiEntriesListScore.every(koi => koi.status === true); // Check if all Koi have status true (judged)
+    }, 3000); // Check every 3 seconds
+    
+    return () => clearInterval(interval);
+  }, [dispatch, compId]);
+  
+  // Check if all Koi are judged
+  useEffect(() => {
+    // Check if all Koi have status true (judged) based on koiStatus from Redux
+    const allJudged = koiStatus.every(koi => koi.status === true);
+    console.log('All Koi judged:', allJudged);
+  
     if (allJudged && !notificationShown) {
       notification.success({
         message: 'Cuộc thi đã hoàn thành',
         description: 'Cuộc thi đã kết thúc. Bạn có thể xem bảng điều khiển hoặc xếp hạng.',
         btn: (
-          <Button type="primary" onClick={() => navigate(`/dashboard/${compId}`, { state: { compId, compName: competition.compName } })}>
+          <Button
+            type="primary"
+            onClick={() => navigate(`/dashboard/${compId}`, { state: { compId, compName: competition.compName } })}
+          >
             Đi đến Bảng điều khiển
           </Button>
         ),
         onClose: () => setNotificationShown(true), // Set notificationShown to true after closing the notification
       });
+    } else if (!allJudged && !notificationShown) {
+      // Show a "Competition is still being judged" notification if there is at least one koi not judged
+      notification.info({
+        message: 'Cuộc thi đang được chấm điểm',
+        description: 'Cuộc thi vẫn đang được chấm điểm. Vui lòng đợi cho đến khi hoàn tất.',
+        onClose: () => setNotificationShown(false), // Keep the notification open until all Koi are judged
+      });
     }
-  }, [competitionStatus, koiEntriesListScore, notificationShown, navigate, compId, competition.compName]);
+;
 
-
+  }, [koiStatus, notificationShown, navigate, compId, competition.compName]);
+  
   // Loading state
   if (loading) {
     return <Spin size="large" />;
