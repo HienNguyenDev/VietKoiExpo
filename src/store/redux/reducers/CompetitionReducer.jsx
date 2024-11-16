@@ -4,9 +4,10 @@ const initialState = {
   competition: {},
   categories: [],
   koiEntries: [],
+  koiStatus: [],  // Dữ liệu về trạng thái các cá
   loading: false,
   error: null,
-  competitionStatus: '',
+  competitionStatus: '',  // Trạng thái của cuộc thi (e.g., 'completed')
 };
 
 const competitionSlice = createSlice({
@@ -40,6 +41,17 @@ const competitionSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    // Action mới để cập nhật trạng thái của các cá
+    fetchKoiStatusSuccess: (state, action) => {
+      state.koiStatus = action.payload;  // Lưu trữ trạng thái cá vào state
+      state.loading = false;
+      state.error = null;
+    },
+    fetchKoiStatusFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    // Kiểm tra xem cuộc thi đã hoàn thành hay chưa
     checkCompetitionStatusSuccess: (state, action) => {
       state.competitionStatus = action.payload;
       state.loading = false;
@@ -88,6 +100,8 @@ export const {
   fetchCategoriesFailure,
   fetchKoiEntriesSuccess,
   fetchKoiEntriesFailure,
+  fetchKoiStatusSuccess,  // Action mới
+  fetchKoiStatusFailure,  // Action mới
   checkCompetitionStatusSuccess,
   checkCompetitionStatusFailure,
   fetchBracketsSuccess,

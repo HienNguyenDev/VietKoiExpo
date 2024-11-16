@@ -150,3 +150,16 @@ export const filterKoiEntriesByCompIdAPI = async (compId) => {
     throw error;
   }
 };
+
+export const fetchKoiStatusAPI = async (compId) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/Competition/KoiFish/${compId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

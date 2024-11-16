@@ -4,6 +4,8 @@ import { Table, Button } from 'antd';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { fetchAllResultByCompCompId, reviewKoiEntryAction } from '../../../store/redux/action/resultAction';
 import styles from './Dashboard.module.scss';
+import Header from '../../../template/theme/Header';
+import InfoSection from '../../../template/theme/InforSection';
 
 const Dashboard = () => {
   const { compId } = useParams();
@@ -74,7 +76,9 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className={styles.dashboard}>
+    <div>
+      <Header/>
+      <div className={styles.dashboard}>
       <h2 className={styles.title}>{compName}</h2>
       <Table
         columns={columns}
@@ -87,6 +91,8 @@ const Dashboard = () => {
       <Button type="default" className={styles.backButton} onClick={() => navigate(-1)}>
         Back
       </Button>
+      <InfoSection/>
+    </div>
     </div>
   );
 };

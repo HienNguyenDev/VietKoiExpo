@@ -4,6 +4,8 @@ import { Layout, Table, List, Typography, Card, Spin, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import styles from './ResultPage.module.scss';
+import Header from '../../template/theme/Header';
+import InfoSection from '../../template/theme/InforSection';
 const { Content, Sider } = Layout;
 const { Title } = Typography;
 
@@ -100,6 +102,8 @@ const ResultPage = () => {
     : [];
 
   return (
+   <div>
+    <Header />
     <Layout className={styles.resultPage} style={{ width:'100vw',minHeight: '100vh' }}>
       <Sider width={300} theme="light" style={{ padding: '20px' }}>
         <Title level={4}>Competitions</Title>
@@ -144,6 +148,8 @@ const ResultPage = () => {
         )}
       </Content>
     </Layout>
+    <InfoSection/>
+   </div>
   );
 };
 
