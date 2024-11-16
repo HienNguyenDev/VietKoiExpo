@@ -43,5 +43,10 @@ namespace KSM.Repository.Repositories.RegistrationRepository
             return await DbSet.Where(f => f.CompId == compId).ToListAsync();
         }
 
+        public async Task<IEnumerable<Tblregistration>> GetAllByCompIdAndGotRejectedAsync(Guid compId)
+        {
+            return await DbSet.Where(f => f.CompId == compId && f.Status == 2).ToListAsync();
+        }
+
     }
 }

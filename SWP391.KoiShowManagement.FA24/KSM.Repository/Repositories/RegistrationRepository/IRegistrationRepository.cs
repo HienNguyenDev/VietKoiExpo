@@ -14,5 +14,7 @@ namespace KSM.Repository.Repositories.RegistrationRepository
         Task<Guid> GetCompIDByRegistIdAsync(Guid registId);
 
         Task<IEnumerable<Tblregistration>> GetAllByCompIdAsync(Guid compId);
+
+        Task<IEnumerable<Tblregistration>> GetAllByCompIdAndGotRejectedAsync(Guid compId);
     }
 }
