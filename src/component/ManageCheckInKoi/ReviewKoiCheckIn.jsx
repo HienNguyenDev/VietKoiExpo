@@ -26,6 +26,16 @@ const ReviewKoiCheckInPage = () => {
   }, [dispatch, compId]);
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      if (compId) {
+        dispatch(fetchCheckInByCompId(compId));
+      }
+    }, 5000); // Làm mới mỗi 60 giây
+    return () => clearInterval(interval);
+  }, [dispatch, compId]);
+
+  console.log("fetchCheckInByCompId", koiCheckIn);
+  useEffect(() => {
     if (Array.isArray(koiCheckIn)) {
       koiCheckIn.forEach(entry => {
         if (!koiDetails[entry.koiId]) {
@@ -66,17 +76,28 @@ const ReviewKoiCheckInPage = () => {
     const description = descriptionMap[checkInId] || '';
     const imageUrl = imageMap[checkInId] || 'https://defaultimageurl.com/placeholder.jpg';
 
+    if (!description || !imageUrl) {
+      alert('Ảnh và mô tả là bắt buộc nhập');
+      return;
+    }
+
     const checkInData = {
       status: 1,
       imageUrl,
       description,
     };
-    dispatch(checkInKoiEntry(entryId, checkInData, compId, compName, navigate));
+    dispatch(checkInKoiEntry(entryId, checkInData));
+    //navigate(`/admin/manage-koi-checkin/review-koi-checkin/${compName}`, { state: { compId, compName } });
   };
 
   const handleReject = (entryId, checkInId) => {
     const description = descriptionMap[checkInId] || '';
     const imageUrl = imageMap[checkInId] || 'https://defaultimageurl.com/placeholder.jpg';
+
+    if (!description || !imageUrl) {
+      alert('Ảnh và mô tả là bắt buộc nhập');
+      return;
+    }
 
     const checkInData = {
       status: 2,
@@ -84,23 +105,24 @@ const ReviewKoiCheckInPage = () => {
       description,
     };
     dispatch(checkInKoiEntry(entryId, checkInData, compId, compName, navigate));
+    navigate(`/admin/manage-koi-checkin/review-koi-checkin/${compName}`, { state: { compId, compName } });
   };
 
   const columns = [
     {
-      title: 'Koi Image',
+      title: 'Hình Ảnh Cá Koi',
       dataIndex: 'koiId',
       key: 'koiimageurl',
-      render: (koiId) => (<img src={koiDetails[koiId]?.imageUrl} alt="Koi  Image" style={{ width: '100px' }} />  || 'Loading...'),
+      render: (koiId) => (<img src={koiDetails[koiId]?.imageUrl} alt="Hình Ảnh Cá Koi" style={{ width: '100px' }} />  || 'Đang tải...'),
     },
     {
-      title: 'Koi Name',
+      title: 'Tên Cá Koi',
       dataIndex: 'koiId',
       key: 'koiName',
-      render: (koiId) => koiDetails[koiId]?.koiName || 'Loading...',
+      render: (koiId) => koiDetails[koiId]?.koiName || 'Đang tải...',
     },
     {
-      title: 'CheckIn Image',
+      title: 'Hình Ảnh CheckIn',
       dataIndex: 'checkInId',
       key: 'checkinimageurl',
       render: (checkInId, record) => (
@@ -110,12 +132,12 @@ const ReviewKoiCheckInPage = () => {
             defaultUrl={imageMap[checkInId]}
           />
         ) : (
-          <img src={imageMap[checkInId]} alt="CheckIn Image" style={{ width: '100px' }} />
+          <img src={imageMap[checkInId]} alt="Hình Ảnh CheckIn" style={{ width: '100px' }} />
         )
       ),
     },
     {
-      title: 'CheckIn Description',
+      title: 'Mô Tả CheckIn',
       dataIndex: 'checkInId',
       key: 'description',
       render: (checkInId, record) => (
@@ -123,7 +145,7 @@ const ReviewKoiCheckInPage = () => {
           <Input
             value={descriptionMap[checkInId]}
             onChange={(e) => handleDescriptionChange(checkInId, e.target.value)}
-            placeholder="Enter description"
+            placeholder="Nhập mô tả"
           />
         ) : (
           record.description || 'N/A'
@@ -131,30 +153,30 @@ const ReviewKoiCheckInPage = () => {
       ),
     },
     {
-      title: 'Variety',
+      title: 'Loại',
       dataIndex: 'koiId',
       key: 'variety',
-      render: (koiId) => koiDetails[koiId]?.varietyId || 'Loading...',
+      render: (koiId) => koiDetails[koiId]?.varietyId || 'Đang tải...',
     },
     {
-      title: 'Status',
+      title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
         let color = 'green';
-        let statusText = 'CheckIn';
+        let statusText = 'Đã CheckIn';
         if (status === 0) {
           color = 'volcano';
-          statusText = 'Pending';
+          statusText = 'Chờ Duyệt';
         } else if (status === 2) {
           color = 'red';
-          statusText = 'Rejected';
+          statusText = 'Bị Từ Chối';
         }
         return <Tag color={color}>{statusText}</Tag>;
       },
     },
     {
-      title: 'Action',
+      title: 'Hành Động',
       key: 'action',
       render: (_, record) => (
         record.status === 0 ? (
@@ -163,26 +185,26 @@ const ReviewKoiCheckInPage = () => {
               Check In
             </Button>
             <Button type="default" onClick={() => handleReject(record.registrationId, record.checkInId)}>
-              Reject
+              Từ Chối
             </Button>
           </>
-        ) : <Box type="default" >ChekcIn</Box>
+        ) : <Box type="default" >Đã CheckIn</Box>
       ),
     },
   ];
 
   return (
     <div>
-      <h2>Review Koi CheckIn for {compName}</h2>
+      <h2>Review Koi CheckIn cho {compName}</h2>
       <Radio.Group
         onChange={(e) => setFilterStatus(e.target.value)}
         value={filterStatus}
         style={{ marginBottom: 16 }}
       >
-        <Radio.Button value="all">All</Radio.Button>
-        <Radio.Button value="pending">Pending</Radio.Button>
-        <Radio.Button value="checkin">CheckIn</Radio.Button>
-        <Radio.Button value="rejected">Rejected</Radio.Button>
+        <Radio.Button value="all">Tất cả</Radio.Button>
+        <Radio.Button value="pending">Chờ Duyệt</Radio.Button>
+        <Radio.Button value="checkin">Đã CheckIn</Radio.Button>
+        <Radio.Button value="rejected">Bị Từ Chối</Radio.Button>
       </Radio.Group>
       <Table
         columns={columns}
@@ -191,7 +213,7 @@ const ReviewKoiCheckInPage = () => {
         pagination={{ pageSize: 5 }}
       />
       <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
-        Back
+        Quay Lại
       </Button>
     </div>
   );

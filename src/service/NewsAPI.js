@@ -15,7 +15,7 @@ export const createNews = (newsData) => {
 
 export const updateNews = (newsId, newsData) => {
     return axios({
-        url: `${BASE_URL}/News/${newsId}`,
+        url: `${BASE_URL}News/${newsId}`,
         method: 'PUT',
         data: newsData,
         headers: {

@@ -14,6 +14,15 @@ import {
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
+  NotificationOutlined,
+  SettingOutlined,
+  AuditOutlined,
+  BarChartOutlined,
+  TrophyOutlined,
+  FlagOutlined,
+  SmileOutlined,
+  SolutionOutlined,
+  RocketOutlined,
 } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import ContentAdminHomePage from './content/ContentAdminHomePage';
@@ -37,37 +46,18 @@ function getItem(label, key, icon, children, navigator) {
 }
 
 const items = [
-  // Gộp tất cả các mục con vào một getItem chính
-  // getItem('Home', '1', <PieChartOutlined />, undefined, '/admin'),
- // getItem('Task Management', '2', <DesktopOutlined />, undefined, 'manage-task'),
-  getItem('Manage Contests', 'sub1', <KoiIcon />,undefined, 'manage-contests'),
-  // Nhóm 2: Manage Users
-  getItem('Manage Users', 'sub2', <KoiIcon />, undefined, 'manage-users'),
-  getItem('Manage Koi Entries', 'sub3', <KoiIcon />, undefined, 'manage-koi-entries'),
-  getItem('Check In Koi', 'sub4', <KoiIcon />, undefined, 'manage-koi-checkin'),
-  getItem('Manage All Koi', 'sub5', <KoiIcon />, undefined, 'manage-all-koi'),
-  // //// Nhóm 3: Manage Judging Process
-  // getItem('Manage Judging Process', 'sub4', <TorriJapanIcon />, [
-  //   getItem('Assign Judges to Contests', '61', undefined, undefined, 'assign-judges-to-contest'),
-  //   getItem('Manage Scoring Process', '62', undefined, undefined, 'manage-scoring-process'),
-  //   getItem('Finalize Contest Results', '63', undefined, undefined, 'finalize-contest-results'),
-  // ]),
-  //  // Nhóm 4: Manage Predictions
-  // getItem('Manage Predictions', 'sub5', <GeishaIcon />, undefined, 'manage-predict'),
-  // // Nhóm 5: Manage News and Updates
-  getItem('Manage News and Updates', 'sub6', <KoiIcon />,undefined, 'manage-news'),
-  // Nhóm 6: Reports and Analytics
-  getItem('Reports and Analytics', 'sub7', <KoiIcon />, [
-    getItem('View Contest Reports', '91', undefined, undefined, 'view-contest-reports'),
+  getItem('Quản lý Cuộc thi', 'sub1', <TrophyOutlined />, undefined, 'manage-contests'),
+  getItem('Quản lý Người dùng', 'sub2', <UserOutlined />, undefined, 'manage-users'),
+  getItem('Quản lý Nhập koi', 'sub3', <KoiIcon />, undefined, 'manage-koi-entries'),
+  getItem('Check In Koi', 'sub4', <FlagOutlined />, undefined, 'manage-koi-checkin'),
+  getItem('Quản lý Tất cả Koi', 'sub5', <MountIcon />, undefined, 'manage-all-koi'),
+  getItem('Quản lý Tin tức và Cập nhật', 'sub6', <PaperLanternIcon />, undefined, 'manage-news'),
+  getItem('Báo cáo và Phân tích', 'sub7', <BarChartOutlined />, [
+    getItem('Xem Báo cáo Cuộc thi', '91', <FileOutlined />, undefined, 'view-contest-reports'),
   ]),
-  // Nhóm 7: System Settings
-
-
-    getItem('Manage Judging Criteria', '102', <KoiIcon />, undefined, 'manage-judging-criteria'),
-
-   // Nhóm 8: Task allocation
-  getItem('Task allocation', 'sub9', <KoiIcon />, [
-    getItem('Assign Task', '111', undefined, undefined, 'manage-task-allocation'),
+  getItem('Quản lý Tiêu chí Chấm thi', '102', <SettingOutlined />, undefined, 'manage-judging-criteria'),
+  getItem('Phân công nhiệm vụ', 'sub9', <DarumaIcon />, [
+    getItem('Phân công Nhiệm vụ', '111', <SensuFanIcon />, undefined, 'manage-task-allocation'),
   ]),
 ];
 
@@ -107,13 +97,13 @@ const AdminPage = () => {
     if (item && item.navigator) {
       navigate(item.navigator);
     } else {
-      console.error(`No item found with key: ${key} or navigator property is not set`);
+      console.error(`Không tìm thấy mục có khóa: ${key} hoặc thuộc tính định hướng chưa được thiết lập`);
     }
   };
 
-  // Hàm xử lý khi người dùng nhấp vào mục Notifications trong AccountMenu
+  // Hàm xử lý khi người dùng nhấp vào mục Thông báo trong AccountMenu
   const handleShowNotifications = () => {
-    setShowNotifications(true); // Hiển thị thông báo khi người dùng chọn Notifications
+    setShowNotifications(true); // Hiển thị thông báo khi người dùng chọn Thông báo
   };
   const userLogin = useSelector(state => state.userReducer.userLogin);
   if (!userLogin) {

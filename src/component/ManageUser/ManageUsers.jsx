@@ -39,11 +39,20 @@ const ManageUsersPage = () => {
     }
   }, [usersData]);
 
+  // Add interval to periodically refresh the users data
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(fetchUsersActionApi());
+    }, 30000); // Refresh every 30 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, [dispatch]);
+
   const roleMapping = {
-    manager: 'Manager',
-    staff: 'Staff',
-    judge: 'Judge',
-    member: 'Member',
+    manager: 'Quản lý',
+    staff: 'Nhân viên',
+    judge: 'Giám khảo',
+    member: 'Thành viên',
   };
   const fileter = Array.isArray(usersData) ? usersData.filter(user => user.status === true) : [];
   const handleSearch = (value) => {
@@ -62,9 +71,6 @@ const ManageUsersPage = () => {
                           (user.address && user.address.toLowerCase().includes(searchValue)) 
     return matchesStatus && matchesSearch;
   }): [];
-
-
-
 
   const showDrawer = (title, user = null) => {
     setDrawerTitle(title);
@@ -100,21 +106,21 @@ const ManageUsersPage = () => {
   };
 
   const handleCreate = () => {
-    showDrawer('Create User');
+    showDrawer('Thêm người dùng');
   };
 
   const handleUpdate = (id) => {
     const user = usersData.find(user => user.userId === id);
     if (user) {
       dispatch(fetchUserByIdActionApi(user.userId));
-      showDrawer('Update User', user);
+      showDrawer('Cập nhật người dùng', user);
     }
   };
 
   const handleView = async (id) => {
     try {
       dispatch(fetchUserByIdActionApi(id));
-      showDrawer('View User', { userId: id });
+      showDrawer('Xem thông tin người dùng', { userId: id });
     } catch (error) {
       console.error('Failed to fetch user details:', error);
     }
@@ -122,7 +128,7 @@ const ManageUsersPage = () => {
 
   const handleDelete = (id) => {
     confirm({
-      title: 'Are you sure you want to delete this user?',
+      title: 'Bạn có chắc chắn muốn xóa người dùng này không?',
       onOk() {
         dispatch(removeUserActionApi(id));
       },
@@ -136,34 +142,34 @@ const ManageUsersPage = () => {
         status: true, // Assuming status is always true for simplicity
       };
       console.log('Submitting values:', formattedValues); // Debugging log
-      if (drawerTitle === 'Create User') {
+      if (drawerTitle === 'Thêm người dùng') {
         dispatch(createUsersActionApi(formattedValues))
           .then(() => {
             notification.success({
-              message: 'Success',
-              description: 'User created successfully',
+              message: 'Thành công',
+              description: 'Thêm người dùng thành công',
             });
             dispatch(fetchUsersActionApi()); // Fetch updated list of users
           })
           .catch(() => {
             notification.error({
-              message: 'Error',
-              description: 'Failed to create user',
+              message: 'Lỗi',
+              description: 'Thêm người dùng thất bại',
             });
           });
-      } else if (drawerTitle === 'Update User' && selectedUser) {
+      } else if (drawerTitle === 'Cập nhật người dùng' && selectedUser) {
         dispatch(updateUserActionApi(selectedUser.userId, formattedValues))
           .then(() => {
             notification.success({
-              message: 'Success',
-              description: 'User updated successfully',
+              message: 'Thành công',
+              description: 'Cập nhật người dùng thành công',
             });
             dispatch(fetchUsersActionApi()); // Fetch updated list of users
           })
           .catch(() => {
             notification.error({
-              message: 'Error',
-              description: 'Failed to update user',
+              message: 'Lỗi',
+              description: 'Cập nhật người dùng thất bại',
             });
           });
       }
@@ -174,20 +180,20 @@ const ManageUsersPage = () => {
   };
 
   const columns = [
-    { title: 'Name', dataIndex: 'fullName', key: 'fullName' },
+    { title: 'Họ và tên', dataIndex: 'fullName', key: 'fullName' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Role', dataIndex: 'roleId', key: 'roleId', render: roleId => roleMapping[roleId] },
-    { title: 'Phone', dataIndex: 'phone', key: 'phone' },
-    { title: 'Address', dataIndex: 'address', key: 'address' },
-    { title: 'Status', dataIndex: 'status', key: 'status', render: status => (status ? 'Active' : 'Inactive') },
+    { title: 'Vai trò', dataIndex: 'roleId', key: 'roleId', render: roleId => roleMapping[roleId] },
+    { title: 'Số điện thoại', dataIndex: 'phone', key: 'phone' },
+    { title: 'Địa chỉ', dataIndex: 'address', key: 'address' },
+    { title: 'Trạng thái', dataIndex: 'status', key: 'status', render: status => (status ? 'Hoạt động' : 'Không hoạt động') },
     {
-      title: 'Actions',
+      title: 'Thao tác',
       key: 'actions',
       render: (text, record) => (
         <span>
-          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.userId)}>View</Button>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.userId)}>Update</Button>
-          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.userId)}>Delete</Button>
+          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.userId)}>Xem</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.userId)}>Cập nhật</Button>
+          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.userId)}>Xóa</Button>
         </span>
       ),
     },
@@ -197,12 +203,12 @@ const ManageUsersPage = () => {
     <div className={styles.manageUsersPage}>
       
       <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginBottom: 16 }}>
-        Create User
+        Thêm người dùng
       </Button>
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
         <Col span={8}>
           <Input
-            placeholder="Search"
+            placeholder="Tìm kiếm"
             onChange={(e) => handleSearch(e.target.value)}
             style={{ width: 300 }}
           />
@@ -213,11 +219,11 @@ const ManageUsersPage = () => {
         onChange={(e) => setFilterRole(e.target.value)} 
         value={filterRole}
         style={{ marginBottom: 16 }}>
-        <Radio.Button value="all">All</Radio.Button>
-        <Radio.Button value="manager">Manager</Radio.Button>
-        <Radio.Button value="member">Member</Radio.Button>
-        <Radio.Button value="staff">Staff</Radio.Button>
-        <Radio.Button value="judge">Judge</Radio.Button>
+        <Radio.Button value="all">Tất cả</Radio.Button>
+        <Radio.Button value="manager">Quản lý</Radio.Button>
+        <Radio.Button value="member">Thành viên</Radio.Button>
+        <Radio.Button value="staff">Nhân viên</Radio.Button>
+        <Radio.Button value="judge">Giám khảo</Radio.Button>
       </Radio.Group>
       <Table 
         dataSource={filteredusersData} 
@@ -236,39 +242,39 @@ const ManageUsersPage = () => {
         }}
       >
         <Form layout="vertical" form={form}>
-          <Form.Item name="fullName" label="Full Name" rules={[{ required: true, message: 'Please enter the full name' }]}>
-            <Input placeholder="Please enter the full name" disabled={drawerTitle === 'View User'} />
+          <Form.Item name="fullName" label="Họ và tên" rules={[{ required: true, message: 'Vui lòng nhập họ và tên' }]}>
+            <Input placeholder="Vui lòng nhập họ và tên" disabled={drawerTitle === 'Xem thông tin người dùng'} />
           </Form.Item>
-          <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Please enter the email' }]}>
-            <Input placeholder="Please enter the email" disabled={drawerTitle === 'View User'} />
+          <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Vui lòng nhập email' }]}>
+            <Input placeholder="Vui lòng nhập email" disabled={drawerTitle === 'Xem thông tin người dùng'} />
           </Form.Item>
-          <Form.Item name="password" label="Password" rules={[{ required: true, message: 'Please enter the password' }]}>
-            <Input.Password placeholder="Please enter the password" disabled={drawerTitle === 'View User'} />
+          <Form.Item name="password" label="Mật khẩu" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}>
+            <Input.Password placeholder="Vui lòng nhập mật khẩu" disabled={drawerTitle === 'Xem thông tin người dùng'} />
           </Form.Item>
-          <Form.Item name="roleId" label="Role" rules={[{ required: true, message: 'Please select the role' }]}>
-            <Select placeholder="Please select the role" disabled={drawerTitle === 'View User'}>
-              <Option value="manager">Manager</Option>
-              <Option value="staff">Staff</Option>
-              <Option value="judge">Judge</Option>
-              <Option value="member">Member</Option>
+          <Form.Item name="roleId" label="Vai trò" rules={[{ required: true, message: 'Vui lòng chọn vai trò' }]}>
+            <Select placeholder="Vui lòng chọn vai trò" disabled={drawerTitle === 'Xem thông tin người dùng'}>
+              <Option value="manager">Quản lý</Option>
+              <Option value="staff">Nhân viên</Option>
+              <Option value="judge">Giám khảo</Option>
+              <Option value="member">Thành viên</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="address" label="Address" rules={[{ required: true, message: 'Please enter the address' }]}>
-            <Input placeholder="Please enter the address" disabled={drawerTitle === 'View User'} />
+          <Form.Item name="address" label="Địa chỉ" rules={[{ required: true, message: 'Vui lòng nhập địa chỉ' }]}>
+            <Input placeholder="Vui lòng nhập địa chỉ" disabled={drawerTitle === 'Xem thông tin người dùng'} />
           </Form.Item>
-          <Form.Item name="phone" label="Phone" rules={[{ required: true, message: 'Please enter the phone number' }]}>
-            <Input placeholder="Please enter the phone number" disabled={drawerTitle === 'View User'} />
+          <Form.Item name="phone" label="Số điện thoại" rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}>
+            <Input placeholder="Vui lòng nhập số điện thoại" disabled={drawerTitle === 'Xem thông tin người dùng'} />
           </Form.Item>
-          <Form.Item name="imageUrl" label="Image URL" rules={[{ required: true, message: 'Please enter the image URL' }]}>
-            <Input placeholder="Please enter the image URL" disabled={drawerTitle === 'View User'} />
+          <Form.Item name="imageUrl" label="URL hình ảnh" rules={[{ required: true, message: 'Vui lòng nhập URL hình ảnh' }]}>
+            <Input placeholder="Vui lòng nhập URL hình ảnh" disabled={drawerTitle === 'Xem thông tin người dùng'} />
           </Form.Item>
-          <Form.Item name="experience" label="Experience" rules={[{ required: true, message: 'Please enter the experience' }]}>
-            <Input type="number" placeholder="Please enter the experience" disabled={drawerTitle === 'View User'} />
+          <Form.Item name="experience" label="Kinh nghiệm" rules={[{ required: true, message: 'Vui lòng nhập kinh nghiệm' }]}>
+            <Input type="number" placeholder="Vui lòng nhập kinh nghiệm" disabled={drawerTitle === 'Xem thông tin người dùng'} />
           </Form.Item>
-          {drawerTitle !== 'View User' && (
+          {drawerTitle !== 'Xem thông tin người dùng' && (
             <Form.Item>
               <Button type="primary" onClick={handleSubmit}>
-                Submit
+                Gửi
               </Button>
             </Form.Item>
           )}

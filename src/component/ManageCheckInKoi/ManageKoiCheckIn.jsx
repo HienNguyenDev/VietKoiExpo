@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Table, Button, Tag, Radio, Input, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';  // Thêm axios cho phần gọi API
-import { fetchAllContests } from '../../store/redux/action/contestAction'; 
+import { fetchAllContests } from '../../store/redux/action/contestAction';
 
 const ManageKoiCheckInPage = () => {
   const navigate = useNavigate();
@@ -22,6 +22,14 @@ const ManageKoiCheckInPage = () => {
     };
 
     fetchContests();
+
+    // Thêm interval để gọi lại fetchContests mỗi 30 giây
+    const interval = setInterval(() => {
+      fetchContests();
+    }, 5000);
+
+    // Dọn dẹp interval khi component unmount
+    return () => clearInterval(interval);
   }, [dispatch]);
 
   // Lọc danh sách các cuộc thi theo trạng thái và tìm kiếm
@@ -40,46 +48,46 @@ const ManageKoiCheckInPage = () => {
   // Cột cho bảng cuộc thi
   const columns = [
     {
-      title: 'Competition Name',
+      title: 'Tên Cuộc Thi',
       dataIndex: 'compName',
       key: 'compName',
     },
     {
-      title: 'Description',
+      title: 'Mô Tả',
       dataIndex: 'compDescription',
       key: 'compDescription',
     },
     {
-      title: 'Location',
+      title: 'Địa Điểm',
       dataIndex: 'location',
       key: 'location',
     },
     {
-      title: 'Start Date',
+      title: 'Ngày Bắt Đầu',
       dataIndex: 'startDate',
       key: 'startDate',
     },
     {
-      title: 'End Date',
+      title: 'Ngày Kết Thúc',
       dataIndex: 'endDate',
       key: 'endDate',
     },
     {
-      title: 'Status',
+      title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
         let color = status === 0 ? 'green' : status === 1 ? 'blue' : 'red';
-        let statusText = status === 0 ? 'Upcoming' : status === 1 ? 'Ongoing' : 'Completed';
+        let statusText = status === 0 ? 'Sắp Diễn Ra' : status === 1 ? 'Đang Diễn Ra' : 'Đã Hoàn Thành';
         return <Tag color={color}>{statusText}</Tag>;
       },
     },
     {
-      title: 'Action',
+      title: 'Hành Động',
       key: 'action',
       render: (_, record) => (
         record.status === 0 ? (
-          <Button type="primary" onClick={() => handleViewKoiCheckIn(record.compId, record.compName)}>View CheckIn List</Button>
+          <Button type="primary" onClick={() => handleViewKoiCheckIn(record.compId, record.compName)}>Xem Danh Sách Check-In</Button>
         ) : null
       ),
     },
@@ -91,13 +99,13 @@ const ManageKoiCheckInPage = () => {
 
   return (
     <div>
-      <h1>Manage Check In </h1>
+      <h1>Quản Lý Check In</h1>
       <br></br>
       {/* Thanh tìm kiếm chung */}
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
         <Col span={8}>
           <Input 
-            placeholder="Search by Competition Name or Location" 
+            placeholder="Tìm kiếm theo Tên Cuộc Thi hoặc Địa Điểm" 
             value={searchQuery} 
             onChange={(e) => setSearchQuery(e.target.value)} 
             style={{ width: 300 }}
@@ -110,10 +118,10 @@ const ManageKoiCheckInPage = () => {
         onChange={(e) => setFilterStatus(e.target.value)} 
         value={filterStatus}
         style={{ marginBottom: 16 }}>
-        <Radio.Button value="all">All</Radio.Button>
-        <Radio.Button value="upcoming">Upcoming</Radio.Button>
-        <Radio.Button value="ongoing">Ongoing</Radio.Button>
-        <Radio.Button value="completed">Completed</Radio.Button>
+        <Radio.Button value="all">Tất Cả</Radio.Button>
+        <Radio.Button value="upcoming">Sắp Diễn Ra</Radio.Button>
+        <Radio.Button value="ongoing">Đang Diễn Ra</Radio.Button>
+        <Radio.Button value="completed">Đã Hoàn Thành</Radio.Button>
       </Radio.Group>
 
       {/* Table hiển thị các cuộc thi đã lọc */}

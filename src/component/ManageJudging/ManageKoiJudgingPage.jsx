@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Table, Button, Spin, Tabs, Tag, Radio } from 'antd';
-import { fetchAllContests, fetchKoiFromCompId} from '../../store/redux/action/contestAction'; // Assuming your action fetches a specific contest
+import { fetchAllContests, fetchKoiFromCompId} from '../../store/redux/action/contestAction'; // Giả sử hành động của bạn lấy một cuộc thi cụ thể
 import { fetchAllScore } from '../../store/redux/action/koiEntriesAction';
 import { setTopPrizesAction } from '../../store/redux/action/resultAction';
+import { Box } from '@mui/system';
 const { TabPane } = Tabs;
 
 
@@ -17,13 +18,12 @@ const ManageKoiJudgingPage = () => {
   const navigate = useNavigate();
   
 
-
   const scores = useSelector(state => state.koiEntriesReducer.scoretList);
   useEffect(() => {
     const fetchScore = async () => {
-      setLoading(true); // Bắt đầu loading
-      await dispatch(fetchAllScore()); // Fetch score 
-      setLoading(false); // Kết thúc loading
+      setLoading(true); // Bắt đầu tải
+      await dispatch(fetchAllScore()); // Lấy điểm số
+      setLoading(false); // Kết thúc tải
     };
     
     fetchScore();
@@ -39,20 +39,28 @@ const ManageKoiJudgingPage = () => {
     }
   }, [dispatch, compId]);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (compId) {
+        dispatch(fetchKoiFromCompId(compId));
+      }
+    }, 5000); // Làm mới danh sách cá koi mỗi 60 giây
+
+    return () => clearInterval(intervalId); // Dọn dẹp interval khi thành phần unmount
+  }, [dispatch, compId]);
+
   const areAllKoiJudged = koiList
     .filter(koi => filterStatus === 'all' || (filterStatus === 'judged' ? koi.status : !koi.status))
-    .every(koi => koi.status); // Check if all filtered Koi are judged
+    .every(koi => koi.status); // Kiểm tra nếu tất cả cá Koi đã được đánh giá
 
   useEffect(() => {
     if (areAllKoiJudged) {
-      setLoading(true); // Set loading to true while setting top prizes
+      setLoading(true); // Đặt loading thành true trong khi đang thiết lập giải thưởng
       dispatch(setTopPrizesAction(compId)).finally(() => setLoading(false));
     }
   }, [areAllKoiJudged, dispatch, compId]);
 
-  
-
-  // Filter koi based on status
+  // Lọc cá koi dựa trên trạng thái
   const filteredKoi = koiList.filter(koi => {
     if (filterStatus === 'all') return true;
     if (filterStatus === 'unjudged') return !koi.status;
@@ -65,94 +73,90 @@ const ManageKoiJudgingPage = () => {
     
       return {
       ...koi,
-      scoreShape: matchedScore?.scoreShape ?? 'None',
-      scoreColor: matchedScore?.scoreColor ?? 'None',
-      scorePattern: matchedScore?.scorePattern ?? 'None',
-      totalScore: matchedScore?.totalScore ?? 'None',
+      scoreShape: matchedScore?.scoreShape ?? 'Không có',
+      scoreColor: matchedScore?.scoreColor ?? 'Không có',
+      scorePattern: matchedScore?.scorePattern ?? 'Không có',
+      totalScore: matchedScore?.totalScore ?? 'Không có',
     };
   });
   
-  
-
   const columns = [
     {
-      title: 'Koi Name',
+      title: 'Tên cá Koi',
       dataIndex: 'koiName',
       key: 'koiName',
     },
     {
-      title: 'Age',
-dataIndex: 'age',
+      title: 'Tuổi',
+      dataIndex: 'age',
       key: 'age',
     },
     {
-      title: 'Size (cm)',
+      title: 'Kích thước (cm)',
       dataIndex: 'size',
       key: 'size',
     },
     {
-      title: 'Shape Score',
+      title: 'Điểm hình dáng',
       dataIndex: 'scoreShape',
       key: 'scoreShape',
       
     },
     {
-      title: 'Color Score',
+      title: 'Điểm màu sắc',
       dataIndex: 'scoreColor',
       key: 'scoreColor',
       
     },
     {
-      title: 'Pattern Score',
+      title: 'Điểm hoa văn',
       dataIndex: 'scorePattern',
       key: 'scorePattern',
     },
     {
-      title: 'Total Score',
+      title: 'Tổng điểm',
       dataIndex: 'totalScore',
       key: 'totalScore',
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
         let color = status ? 'green' : 'red';
-        let statusText = status ? 'Graded' : 'Pending';
+        let statusText = status ? 'Đã chấm' : 'Đang chờ';
         return <Tag color={color}>{statusText}</Tag>;
       },
     },
     {
-      title: 'Action',
+      title: 'Hành động',
       key: 'action',
       render: (_, record) => (
-        record.status ? (
-          <Button type="  danger" onClick={() => handleJudgeClick(record.koiId, record.koiName)}>ReJudge</Button>
-        ) : (
-          <Button type="primary" onClick={() => handleJudgeClick(record.koiId, record.koiName)}>Judge</Button>
+        record.status ? <Box type="default" >Đã Chấm</Box> : (
+          <Button type="primary" onClick={() => handleJudgeClick(record.koiId, record.koiName, record.imageUrl)}>Chấm điểm</Button>
         )
       ),
     },
   ];
   
-  const handleJudgeClick = (koiId, koiName) => {
-      navigate(`/referee/manage-judging/scoring/${koiId}`, { state: { koiId, koiName, compId } });
+  const handleJudgeClick = (koiId, koiName, imageUrl) => {
+      navigate(`/referee/manage-judging/scoring/${koiId}`, { state: { koiId, koiName, compId, imageUrl } });
   };
 
   return (
     <div>
-      <h2>Manage Koi Judging in {compName} </h2>
+      <h2>Quản lý chấm điểm cá Koi trong {compName} </h2>
       <Radio.Group
         onChange={(e) => setFilterStatus(e.target.value)}
         value={filterStatus}
         style={{ marginBottom: 16 }}
       >
-        <Radio.Button value="all">All</Radio.Button>
-        <Radio.Button value="unjudged">Unjudged</Radio.Button>
-        <Radio.Button value="judged">Judged</Radio.Button>
+        <Radio.Button value="all">Tất cả</Radio.Button>
+        <Radio.Button value="unjudged">Chưa chấm</Radio.Button>
+        <Radio.Button value="judged">Đã chấm</Radio.Button>
       </Radio.Group>
 
-      {/* Table component with pagination and loading */}
+      {/* Bảng hiển thị với phân trang và tải dữ liệu */}
       <Table
         columns={columns}
         dataSource={filteredKoi}
@@ -163,7 +167,7 @@ dataIndex: 'age',
 
 
       <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate('/referee/manage-judging')}>
-        Back
+        Quay lại
       </Button>
     </div>
   );

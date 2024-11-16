@@ -75,6 +75,7 @@ const ApproveKoiEntries = () => {
 
   const handleConfirm = async () => {
     setOpen(false);
+    console.log("userIduserIduserId",userId)
     if (!userId) {
       setErrorMessage('User information is missing. Please log in again.');
       return;
@@ -84,7 +85,8 @@ const ApproveKoiEntries = () => {
       userId
     };
 
-    try {
+    try { 
+      console.log("registerkoi")
       await dispatch(registerKoi(dataToSend));
       formik.resetForm();
       alert('Registration successful. Awaiting approval.');
@@ -106,7 +108,7 @@ const ApproveKoiEntries = () => {
       </Typography>
       <Box component="form" className={styles.form} onSubmit={formik.handleSubmit}>
         <FormControl fullWidth margin="normal">
-          <InputLabel id="varietyId-label" className={styles.textField}>Variety ID</InputLabel>
+          <InputLabel id="varietyId-label" className={styles.textField}>Giống cá</InputLabel>
           <Select
             labelId="varietyId-label"
             id="varietyId"
