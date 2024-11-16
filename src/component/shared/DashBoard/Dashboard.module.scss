@@ -1,52 +1,54 @@
 .dashboard {
-  background-color: #141414; // Dark background
-  padding: 20px;
-  min-height: 100vh;
+  background-color: #ffffff; // Light background
+  color: #000000; // Black text
   width: 100vw;
-  color: #ffffff; // White text
-}
+  min-height: 100vh;
+  padding: 20px;
 
-.title {
-  color: #ff6f61; // Neon orange text
-  text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61, 0 0 30px #ff6f61; // Neon glow effect
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.table {
-  .ant-table {
-    background-color: #1c1c1c; // Dark table background
-    border: 2px solid #00ffcc; // Neon cyan border
-    box-shadow: 0 0 10px #00ffcc; // Neon glow effect
+  .title {
+    color: #60badb; // Blue
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
   }
 
-  .ant-table-thead > tr > th {
-    background-color: #1c1c1c; // Dark header background
-    color: #ffffff; // White text
-    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff; // Neon glow effect
+  .table {
+    .ant-table {
+      background-color: #ffffff; // White table background
+      border: 2px solid #60badb; // Blue border
+      box-shadow: 0 0 10px #60badb; // Glow effect
+
+      .ant-table-thead > tr > th {
+        background-color: #ffffff;
+        color: #000000;
+        text-shadow: 0 0 5px #60badb;
+      }
+
+      .ant-table-tbody > tr > td {
+        background-color: #ffffff;
+        color: #000000;
+      }
+    }
   }
 
-  .ant-table-tbody > tr > td {
-    background-color: #1c1c1c; // Dark row background
-    color: #ffffff; // White text
-    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff; // Neon glow effect
+  .koiImage {
+    width: 100px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #60badb; // Glow effect
   }
-}
 
-.koiImage {
-  width: 100px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #00ffcc; // Neon glow effect
-}
+  .backButton {
+    background-color: #60badb; // Blue background
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
-.backButton {
-  background-color: #00ffcc; // Neon cyan background
-  border: none;
-  color: #141414; // Dark text
-  box-shadow: 0 0 10px #00ffcc; // Neon glow effect
-  &:hover {
-    background-color: #00e6b8; // Slightly darker neon cyan on hover
-    box-shadow: 0 0 20px #00ffcc; // Intense neon glow on hover
+    &:hover {
+      background-color: #ff6d1f; // Orange on hover
+    }
   }
-  margin-top: 20px;
 }

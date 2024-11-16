@@ -8,7 +8,8 @@ import {
   getAllCheckInData,
   getFishFromRegistrationApi,
   getKoiFishByIdApi,
-  filterKoiEntriesByCompIdAPI
+  filterKoiEntriesByCompIdAPI,
+  fetchKoiStatusAPI
 } from '../../../service/CompetitionAPI';
 import {
   fetchCompetitionDataSuccess,
@@ -24,7 +25,9 @@ import {
   updateKoiScoreSuccess,
   updateKoiScoreFailure,
   sendNotificationSuccess,
-  sendNotificationFailure
+  sendNotificationFailure,
+  fetchKoiStatusSuccess,
+  fetchKoiStatusFailure
 } from '../reducers/CompetitionReducer';
 
 export const fetchCompetitionData = (compId) => async (dispatch) => {
@@ -109,3 +112,16 @@ export const filterKoiEntriesByCompId = (compId) => async (dispatch) => {
 
 }
 
+
+
+
+
+export const fetchKoiStatus = (compId) => async (dispatch) => {
+  try {
+    const data = await fetchKoiStatusAPI(compId);
+    console.log("fetchKoiStatusAPI data: ", data);
+    dispatch(fetchKoiStatusSuccess(data));
+  } catch (error) {
+    dispatch(fetchKoiStatusFailure(error.message));
+  }
+}
