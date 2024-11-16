@@ -164,6 +164,13 @@ namespace KSM.APIService.Controllers
             return Ok(regist);
         }
 
+        [HttpGet("GetAllFishThatRejectedRegistByCompId/{compId}")]
+        public async Task<IActionResult> GetAllFishThatRejectedRegistByCompId(Guid compId)
+        {
+            var regist = await _registRepo.GetAllFishByCompIdAndStatusAsync(compId);
+            return Ok(regist);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewRegistration(RegistrationModel model)
         {

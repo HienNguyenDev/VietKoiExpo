@@ -48,5 +48,14 @@ namespace KSM.Repository.Repositories.RegistrationRepository
             return await DbSet.Where(f => f.CompId == compId && f.Status == 2).ToListAsync();
         }
 
+        public async Task<IEnumerable<TblkoiFish>> GetAllFishByCompIdAndStatusAsync(Guid compId)
+        {
+            // Assuming you have a DbContext instance named _context
+            return await _context.Set<Tblregistration>()
+                .Where(r => r.CompId == compId && r.Status == 2)
+                .Select(r => r.Koi)
+                .ToListAsync();
+        }
+
     }
 }
