@@ -299,7 +299,46 @@ namespace KSM.APIService.Controllers
 
         }
 
+        [HttpGet("CompetitionKoiStatus")]
+        public async Task<IActionResult> GetCompetitionKoiStatus(Guid compId, Guid userId)
+        {
+            try
+            {
+                // Lấy tất cả kết quả của cuộc thi
+                var results = await _resultRepo.GetAllAsync();
+                var koiFish = await _koiFishRepository.GetAllAsync();
+                var scores = await _scoreRepo.GetAllAsync();
 
+                // Lọc các con cá tham gia cuộc thi
+                var competitionResults = results
+                    .Where(r => r.CompId == compId)
+                    .Join(koiFish,
+                        r => r.KoiId,
+                        k => k.KoiId,
+                        (r, k) => new
+                        {
+                            KoiId = k.KoiId,
+                            KoiName = k.KoiName,
+                            r.CompId
+                        });
+
+                // Lấy danh sách cá và trạng thái ScoreStatus
+                var koiWithStatus = competitionResults
+                    .Select(koi => new
+                    {
+                        koi.KoiId,
+                        koi.KoiName,
+                        ScoreStatus = scores.Any(s => s.KoiId == koi.KoiId && s.CompId == koi.CompId && s.UserId == userId) ? 1 : 0
+                    })
+                    .ToList();
+
+                return Ok(koiWithStatus);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 
 }
