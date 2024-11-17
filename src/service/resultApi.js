@@ -35,7 +35,7 @@ export const getAllResultApi = () => {
 
 export const setTopPrizesApi = (compId) => {
     return axios({
-        url: `https://localhost:7246/api/Score/assignTopPrizes/${compId}`,
+        url: `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Score/assignTopPrizes/${compId}`,
         method: 'PUT',
     });
 };

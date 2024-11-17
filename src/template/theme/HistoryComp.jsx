@@ -26,6 +26,19 @@ const HistoryComp = () => {
         }
     };
 
+    // Function to fetch check-in data by compId
+    const fetchCheckInDataByCompId = async (compId) => {
+        try {
+            const response = await axios.get(
+                `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/CheckIn/competition/${compId}`
+            );
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching check-in data:", error);
+            return [];
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -41,26 +54,29 @@ const HistoryComp = () => {
                 const registrationResponse = await axios.get(
                     'https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Registration'
                 );
-                const checkInResponse = await axios.get(
-                    'https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Checkin'
-                );
                 const resultResponse = await axios.get(
                     'https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Result'
                 );
 
                 setRegistrationData(registrationResponse.data);
-                setCheckInData(checkInResponse.data);
                 setResultData(resultResponse.data);
 
-                // Fetch competition names for registrations
+                // Fetch competition names and check-in data for each competition
+                const competitionResponse = await axios.get(
+                    'https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Competition'
+                );
                 const compNames = {};
-                for (let reg of registrationResponse.data) {
-                    if (reg.compId && !compNames[reg.compId]) {
-                        const compName = await fetchCompetitionName(reg.compId);
-                        compNames[reg.compId] = compName;
+                const allCheckInData = [];
+                for (let comp of competitionResponse.data) {
+                    if (comp.compId && !compNames[comp.compId]) {
+                        const compName = await fetchCompetitionName(comp.compId);
+                        compNames[comp.compId] = compName;
                     }
+                    const checkInData = await fetchCheckInDataByCompId(comp.compId);
+                    allCheckInData.push(...checkInData);
                 }
                 setCompetitionNames(compNames);
+                setCheckInData(allCheckInData);
             } catch (error) {
                 message.error('Lỗi khi tải dữ liệu, vui lòng thử lại!');
                 console.error(error);
@@ -168,7 +184,6 @@ const HistoryComp = () => {
             <table className="koi-table">
                 <thead>
                     <tr>
-                        
                         <th>Tên Cá Koi</th>
                         <th>Cuộc Thi</th>
                         <th>Kết Quả</th>
@@ -181,12 +196,9 @@ const HistoryComp = () => {
                         return (
                             koi && (
                                 <tr key={result.koiId}>
-                                  
                                     <td>{koi.koiName}</td>
                                     <td>{competitionName}</td>
-                                    <td>
-                                       {result.resultScore}
-                                    </td>
+                                    <td>{result.resultScore}</td>
                                 </tr>
                             )
                         );
@@ -228,7 +240,6 @@ const HistoryComp = () => {
 };
 
 export default HistoryComp;
-
 
 // https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/user/{userId}(dùng để gọi ra list cá mà userLogin đã đăng kí)
 /*

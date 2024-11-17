@@ -54,6 +54,7 @@ const ManageKoiJudgingPage = () => {
     .every(koi => koi.status); // Kiểm tra nếu tất cả cá Koi đã được đánh giá
 
   useEffect(() => {
+    console.log("areAllKoiJudged",areAllKoiJudged);
     if (areAllKoiJudged) {
       setLoading(true); // Đặt loading thành true trong khi đang thiết lập giải thưởng
       dispatch(setTopPrizesAction(compId)).finally(() => setLoading(false));
