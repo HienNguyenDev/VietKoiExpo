@@ -150,7 +150,7 @@ namespace KSM.APIService.Controllers
                 // Update the existing news with new values
                 //existingNews.NewsId = new Guid();
                 existingNews.NewsTypeId = news.NewsTypeId;
-                existingNews.UserId = new Guid();
+                existingNews.UserId = news.UserId;
                 existingNews.NewsDate = string.IsNullOrEmpty(news.NewsDate) ? (DateOnly?)null : DateOnly.Parse(news.NewsDate);
                 existingNews.Status = news.Status;
                 existingNews.NewsDescription = news.NewsDescription;
