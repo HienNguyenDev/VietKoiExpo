@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Table, Button, Spin, Tabs, Tag, Radio } from 'antd';
-import { fetchAllContests, fetchKoiFromCompId} from '../../store/redux/action/contestAction'; // Giả sử hành động của bạn lấy một cuộc thi cụ thể
+import { fetchAllContests, fetchKoiFromCompId,updateContestCompleteActionApi} from '../../store/redux/action/contestAction'; // Giả sử hành động của bạn lấy một cuộc thi cụ thể
 import { fetchAllScore } from '../../store/redux/action/koiEntriesAction';
 import { setTopPrizesAction } from '../../store/redux/action/resultAction';
 import { Box } from '@mui/system';
@@ -58,6 +58,7 @@ const ManageKoiJudgingPage = () => {
     if (areAllKoiJudged) {
       setLoading(true); // Đặt loading thành true trong khi đang thiết lập giải thưởng
       dispatch(setTopPrizesAction(compId)).finally(() => setLoading(false));
+      dispatch(updateContestCompleteActionApi(compId)).finally(() => setLoading(false));
     }
   }, [areAllKoiJudged, dispatch, compId]);
 

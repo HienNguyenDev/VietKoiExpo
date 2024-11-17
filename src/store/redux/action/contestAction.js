@@ -10,7 +10,7 @@ import {
     setCategoriesListByContestAction,
     setKoiListByContestAction
 } from '../reducers/contestReducer';
-import { createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId, assignKoiToContest,  getKoiListbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
+import {updateContestComplete,updateContestOnGoing, createContest, updateContest, getContest, getAllContest, removeContest, getCategoriesbyCompId, assignKoiToContest,  getKoiListbyCompId } from '../../../service/ContestAPI'; // replace with your actual API methods
 
 // async actions
 export const createContestActionApi = (contestDetails) => {
@@ -36,12 +36,34 @@ export const updateContestActionApi = (contestId, contestDetails) => {
     return async (dispatch) => {
         try {
             const res = await updateContest(contestId, contestDetails);
-            console.log('API Response:', res.data); // Debugging log
+            console.log('  API updateContestActionApi contestDetails:', contestDetails); // Debugging log
             const action = updateContestAction(res.data.content);
             console.log('Dispatching action:', action); // Debugging log
             dispatch(action);
             dispatch(fetchAllContests()).then(() => {
             });
+        } catch (error) {
+            console.error("Contest update failed:", error.response ? error.response.data : error.message);
+            dispatch({ type: 'CONTEST_UPDATE_FAILURE', payload: error.response ? error.response.data : error.message });
+        }
+    };
+};
+export const updateContestOnGoingActionApi = (contestId) => {
+    return async (dispatch) => {
+        try {
+            const res = await updateContestOnGoing(contestId);
+            console.log(' API updateContestOnGoing updateContestOnGoing:', res.data); // Debugging log
+        } catch (error) {
+            console.error("Contest update failed:", error.response ? error.response.data : error.message);
+            dispatch({ type: 'CONTEST_UPDATE_FAILURE', payload: error.response ? error.response.data : error.message });
+        }
+    };
+};
+export const updateContestCompleteActionApi = (contestId) => {
+    return async (dispatch) => {
+        try {
+            const res = await updateContestComplete(contestId);
+            console.log(' API updateContestComplete updateContestComplete:', res.data); // Debugging log
         } catch (error) {
             console.error("Contest update failed:", error.response ? error.response.data : error.message);
             dispatch({ type: 'CONTEST_UPDATE_FAILURE', payload: error.response ? error.response.data : error.message });
