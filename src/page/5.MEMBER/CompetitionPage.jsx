@@ -73,11 +73,10 @@ const CompetitionPage = () => {
     const interval = setInterval(() => {
       dispatch(fetchCheckedInKoiForCompetition(compId));
       dispatch(fetchScores(compId));
-
-    }, 5000); // Check competition status every 5 seconds
+    }, 5000);
+    
     return () => clearInterval(interval);
   }, [dispatch, compId]);
-
   // Display notification if all koi are judged or competition is completed
   useEffect(() => {
     const interval = setInterval(() => {
@@ -91,32 +90,45 @@ const CompetitionPage = () => {
   
   // Check if all Koi are judged
   useEffect(() => {
-    // Check if all Koi have status true (judged) based on koiStatus from Redux
+    // Only process if we have koiStatus data
+    if (koiStatus.length === 0) return;
+
     const allJudged = koiStatus.every(koi => koi.status === true);
     console.log('All Koi judged:', allJudged);
-  
+
+    // Clear any existing notifications first
+    notification.destroy();
+
     if (allJudged && !notificationShown) {
       notification.success({
+        key: 'competition-status', // Add a unique key
         message: 'Cuộc thi đã hoàn thành',
         description: 'Cuộc thi đã kết thúc. Bạn có thể xem bảng điều khiển hoặc xếp hạng.',
+        duration: 0, // Make it persist until user closes
         btn: (
           <Button
-            type="primary"
-            onClick={() => navigate(`/dashboard/${compId}`, { state: { compId, compName: competition.compName } })}
-          >
-            Đi đến Bảng điều khiển
-          </Button>
-        ),
-        onClose: () => setNotificationShown(true), // Set notificationShown to true after closing the notification
-      });
-    } else if (!allJudged && !notificationShown) {
-      // Show a "Competition is still being judged" notification if there is at least one koi not judged
-      notification.info({
-        message: 'Cuộc thi đang được chấm điểm',
-        description: 'Cuộc thi vẫn đang được chấm điểm. Vui lòng đợi cho đến khi hoàn tất.',
-        onClose: () => setNotificationShown(false), // Keep the notification open until all Koi are judged
-      });
-    }
+          type="primary"
+          onClick={() => {
+            notification.destroy('competition-status');
+            setNotificationShown(true);
+            navigate(`/dashboard/${compId}`, { 
+              state: { compId, compName: competition.compName } 
+            });
+          }}
+        >
+          Đi đến Bảng điều khiển
+        </Button>
+      ),
+      onClose: () => setNotificationShown(true),
+    });
+  } else if (!allJudged && !notificationShown) {
+    notification.info({
+      key: 'competition-status', // Same key for replacing
+      message: 'Cuộc thi đang được chấm điểm',
+      description: 'Cuộc thi vẫn đang được chấm điểm. Vui lòng đợi cho đến khi hoàn tất.',
+      duration: 3, // Auto close after 3 seconds
+    });
+  }
 ;
 
   }, [koiStatus, notificationShown, navigate, compId, competition.compName]);

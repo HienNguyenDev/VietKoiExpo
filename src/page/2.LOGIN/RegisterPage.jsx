@@ -16,7 +16,18 @@ const RegisterForm = () => {
   const [successMessage, setSuccessMessage] = useState('');
 
    // Update the validation schema in RegisterForm.jsx
-   const frm = useFormik({ initialValues: { password: '', confirmPassword: '', email: '', role: 'member', fullName: '', phone: '', address: '', imageUrl: '', experience: 0, status: true }, onSubmit: (values) => { const { confirmPassword, ...dataToSend } = values; console.log('value', dataToSend); const actionAsync = registerActionApi(dataToSend, navigate, setSuccessMessage, setErrorMessage); dispatch(actionAsync); }, validationSchema: yup.object().shape({ password: yup.string() .required('Mật khẩu là bắt buộc') .min(8, 'Mật khẩu phải có ít nhất 8 ký tự') .matches( /^(?=.[A-Z])(?=.[0-9])(?=.[!@#$%^&])/, 'Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một số và một ký tự đặc biệt' ), confirmPassword: yup.string() .oneOf([yup.ref('password'), null], 'Mật khẩu không khớp') .required('Xác nhận mật khẩu là bắt buộc'), email: yup.string().email('Email không hợp lệ').required('Email là bắt buộc'), fullName: yup.string().required('Họ và tên là bắt buộc'), phone: yup.string().required('Số điện thoại là bắt buộc'), address: yup.string().required('Địa chỉ là bắt buộc'), imageUrl: yup.string().url('URL không hợp lệ').required('URL hình ảnh là bắt buộc'), experience: yup.number().required('Kinh nghiệm là bắt buộc').min(0, 'Kinh nghiệm không thể là số âm'), status: yup.boolean().required('Trạng thái là bắt buộc') }) });
+   const frm = useFormik({ initialValues: { password: '', confirmPassword: '', email: '', role: 'member', fullName: '', phone: '', address: '', imageUrl: '', experience: 0, status: true }, onSubmit: (values) => { const { confirmPassword, ...dataToSend } = values; console.log('value', dataToSend); const actionAsync = registerActionApi(dataToSend, navigate, setSuccessMessage, setErrorMessage); dispatch(actionAsync); }, validationSchema: yup.object().shape({   password: yup
+    .string()
+    .required('Mật khẩu là bắt buộc')
+    .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
+    .matches(
+      /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/,
+      'Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một số và một ký tự đặc biệt'
+    ),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Mật khẩu không khớp')
+    .required('Xác nhận mật khẩu là bắt buộc'), email: yup.string().email('Email không hợp lệ').required('Email là bắt buộc'), fullName: yup.string().required('Họ và tên là bắt buộc'), phone: yup.string().required('Số điện thoại là bắt buộc'), address: yup.string().required('Địa chỉ là bắt buộc'), imageUrl: yup.string().url('URL không hợp lệ').required('URL hình ảnh là bắt buộc'), experience: yup.number().required('Kinh nghiệm là bắt buộc').min(0, 'Kinh nghiệm không thể là số âm'), status: yup.boolean().required('Trạng thái là bắt buộc') }) });
 
   return (
       <div className={styles.container}>

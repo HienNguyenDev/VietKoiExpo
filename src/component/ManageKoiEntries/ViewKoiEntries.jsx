@@ -134,10 +134,10 @@ const ViewKoiEntries = () => {
         
         <Row gutter={[24, 24]} justify="center">
           {localKoi.map(koi => (
-            <Col key={koi.koiId} xs={24} sm={12} md={8} lg={6}>
+            <Col style={{marginRight:'70px'}} span={6} key={koi.koiId} xs={24} sm={12} md={8} lg={6}>
               <Card
                 hoverable
-                style={{ borderRadius: '10px', overflow: 'hidden' }}
+                style={{ width:'300px',borderRadius: '10px', overflow: 'hidden' }}
                 cover={
                   <Image
                     alt={koi.koiName}

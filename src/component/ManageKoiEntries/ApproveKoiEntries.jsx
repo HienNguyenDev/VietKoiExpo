@@ -1,4 +1,3 @@
-// ApproveKoiEntries.js
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -35,6 +34,7 @@ const ApproveKoiEntries = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [koiVarieties, setKoiVarieties] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchKoiVarieties = async () => {
       try {
@@ -51,24 +51,59 @@ const ApproveKoiEntries = () => {
     fetchKoiVarieties();
   }, []);
 
+  const calculateAge = (birthDate) => {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    
+    // Calculate months for partial year
+    const months = monthDiff < 0 ? 12 + monthDiff : monthDiff;
+    const partialYear = months / 12;
+    
+    // Round based on 0.5 threshold
+    return partialYear >= 0.5 ? Math.ceil(age) : Math.floor(age);
+  };
+
   const formik = useFormik({
     initialValues: {
       varietyId: '',
       koiName: '',
       size: '',
-      age: '',
+      birthDate: '',
       imageUrl: '',
+      certificateImageUrl: '',
       status: true
     },
     validationSchema: yup.object({
-      varietyId: yup.string().required('Variety ID is required'),
-      koiName: yup.string().required('Koi name is required'),
-      size: yup.number().typeError('Size must be a number').required('Size is required').min(0, 'Size cannot be negative'),
-      age: yup.number().typeError('Age must be a number').required('Age is required').min(0, 'Age cannot be negative'),
-      imageUrl: yup.string().url('Enter a valid URL').required('Image URL is required'),
-      status: yup.boolean().required('Status is required')
+      varietyId: yup.string().required('Loại cá Koi là bắt buộc'),
+      koiName: yup.string().required('Tên cá Koi là bắt buộc'),
+      size: yup.number()
+        .typeError('Kích thước phải là số')
+        .required('Kích thước là bắt buộc')
+        .min(0, 'Kích thước không thể âm'),
+      birthDate: yup.date()
+        .required('Ngày sinh là bắt buộc')
+        .max(new Date(), 'Ngày sinh không thể trong tương lai'),
+      imageUrl: yup.string()
+        .url('URL không hợp lệ')
+        .required('Ảnh cá Koi là bắt buộc'),
+      certificateImageUrl: yup.string()
+        .url('URL không hợp lệ')
+        .required('Ảnh chứng chỉ là bắt buộc'),
+      status: yup.boolean().required('Trạng thái là bắt buộc')
     }),
-    onSubmit: () => {
+    onSubmit: (values) => {
+      const age = calculateAge(values.birthDate);
+      const dataToSend = {
+        ...values,
+        userId,
+        age
+      };
       setOpen(true);
     }
   });
@@ -81,7 +116,8 @@ const ApproveKoiEntries = () => {
     }
     const dataToSend = {
       ...formik.values,
-      userId
+      userId,
+      age: calculateAge(formik.values.birthDate)
     };
 
     try {
@@ -94,15 +130,19 @@ const ApproveKoiEntries = () => {
     }
   };
 
-  const handleImageUploadSuccess = (url) => {
+  const handleKoiImageUpload = (url) => {
     formik.setFieldValue('imageUrl', url);
+  };
+
+  const handleCertificateImageUpload = (url) => {
+    formik.setFieldValue('certificateImageUrl', url);
   };
 
   return (
     <Box className={styles.container}>
-     <Button className={styles.backButton} onClick={() => navigate('/home')}>Quay về trang chủ</Button>
+      <Button className={styles.backButton} onClick={() => navigate('/home')}>Quay về trang chủ</Button>
       <Typography variant="h4" gutterBottom className={styles.title}>
-      Đăng kí form cá Koi
+        Đăng kí form cá Koi
       </Typography>
       <Box component="form" className={styles.form} onSubmit={formik.handleSubmit}>
         <FormControl fullWidth margin="normal">
@@ -154,32 +194,33 @@ const ApproveKoiEntries = () => {
           className={styles.textField}
         />
 
-<TextField
-  fullWidth
-  margin="normal"
-  id="dob"
-  name="dob"
-  label="Ngày sinh"
-  type="date"
-  value={formik.values.dob}
-  onChange={formik.handleChange}
-  error={formik.touched.dob && Boolean(formik.errors.dob)}
-  helperText={formik.touched.dob && formik.errors.dob}
-  className={styles.textField}
-  InputLabelProps={{
-    shrink: true,
-  }}
-/>
+        <TextField
+          fullWidth
+          margin="normal"
+          id="birthDate"
+          name="birthDate"
+          label="Ngày sinh"
+          type="date"
+          value={formik.values.birthDate}
+          onChange={formik.handleChange}
+          error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
+          helperText={formik.touched.birthDate && formik.errors.birthDate}
+          className={styles.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
         <p>Ảnh cá Koi</p>
         <UploadImageComponent
-          onSuccess={handleImageUploadSuccess}
+          onSuccess={handleKoiImageUpload}
           defaultUrl={formik.values.imageUrl}
         />
-        {/* upload certificate */}
-        <p>Ảnh chứng chỉ</p>  
-                <UploadImageComponent
-          onSuccess={handleImageUploadSuccess}
-          defaultUrl={formik.values.imageUrl}
+
+        <p>Ảnh chứng chỉ</p>
+        <UploadImageComponent
+          onSuccess={handleCertificateImageUpload}
+          defaultUrl={formik.values.certificateImageUrl}
         />
 
         <FormControlLabel
@@ -219,8 +260,10 @@ const ApproveKoiEntries = () => {
           <Typography variant="body1" style={{ color: '#000000' }}><strong>Variety ID:</strong> {formik.values.varietyId}</Typography>
           <Typography variant="body1" style={{ color: '#000000' }}><strong>Koi Name:</strong> {formik.values.koiName}</Typography>
           <Typography variant="body1" style={{ color: '#000000' }}><strong>Size:</strong> {formik.values.size} cm</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>Age:</strong> {formik.values.age} years</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Age:</strong> {calculateAge(formik.values.birthDate)} years</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Birth Date:</strong> {new Date(formik.values.birthDate).toLocaleDateString()}</Typography>
           <Typography variant="body1" style={{ color: '#000000' }}><strong>Image URL:</strong> {formik.values.imageUrl || 'No Image Provided'}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Certificate Image URL:</strong> {formik.values.certificateImageUrl || 'No Image Provided'}</Typography>
           <Typography variant="body1" style={{ color: '#000000' }}><strong>Status:</strong> {formik.values.status ? 'Active' : 'Inactive'}</Typography>
         </DialogContent>
         <DialogActions>

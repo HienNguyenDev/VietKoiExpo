@@ -1,36 +1,44 @@
 // src/components/Header/Header.jsx
-
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.scss';
 import MenuAccount from '../../component/shared/AccountMenu/AccountMenu';
 import HistoryComp from './HistoryComp';
+import { Button, Modal } from 'antd';
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [showHistory, setShowHistory] = useState(false); // State to control HistoryComp visibility
+  const [showHistory, setShowHistory] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const userLogin = useSelector((state) => state.userReducer.userLogin);
+  const navigate = useNavigate();
 
   const handleNavToggle = (e) => {
     e.preventDefault();
     setIsNavOpen(!isNavOpen);
   };
-
-  const toggleHistory = (e) => {
+  const handleProtectedRoute = (e, path) => {
     e.preventDefault();
-    setShowHistory(!showHistory); // Toggle showHistory state
+    if (!userLogin) {
+      setIsModalVisible(true);
+      return;
+    }
+    if (path === 'history') {
+      setShowHistory(!showHistory);
+    } else {
+      navigate(path);
+    }
   };
-
   return (
     <>
       <header className="header_section" style={{background:'#60badb'}}>
         <div className="container-fluid">
           <nav className="navbar navbar-expand-lg custom_nav-container">
-            <a className="navbar-brand" href="home">
+            <Link className="navbar-brand" to="/">
               <img src="https://imgur.com/V1zXtZN.jpg" alt="" style={{ height: '40px', width:'50px', marginRight: '8px' }}/>
               <span>VietKoiExpo</span>
-            </a>
+            </Link>
             
             <button 
               className="navbar-toggler" 
@@ -44,18 +52,24 @@ const Header = () => {
                  id="navbarSupportedContent">
               <ul className="navbar-nav">
                 <li className="nav-item active">
-                  <a className="nav-link" href="index.html">
+                  <Link className="nav-link" to="/">
                     Home <span className="sr-only">(current)</span>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, 'home/view-koi')}>
+                    Quản lí cá Koi
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="home/view-koi">Quản lí cá Koi</a>
+                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, 'assignKoi')}>
+                    Đăng kí cá Koi?
+                  </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="assignKoi">Đăng kí cá Koi?</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={toggleHistory}>Lịch sử</a> {/* Updated link */}
+                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, 'history')}>
+                    Lịch sử
+                  </a>
                 </li>
               </ul>
               
@@ -80,8 +94,29 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Conditionally render HistoryComp based on showHistory state */}
-      {showHistory && <HistoryComp />}
+      {showHistory && userLogin && <HistoryComp />}
+      
+      <Modal
+        title="Login Required"
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={[
+          <Button
+            key="login"
+            variant="contained"
+            color="primary"
+            style={{ color: '#000' }}
+            onClick={() => {
+              setIsModalVisible(false);
+              navigate('/login');
+            }}
+          >
+            Go to Login
+          </Button>
+        ]}
+      >
+        <p>You need to log in to access this feature.</p>
+      </Modal>
     </>
   );
 };
