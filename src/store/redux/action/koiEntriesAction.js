@@ -132,7 +132,7 @@ export const fetchAllScore = () => {
     return async (dispatch) => {
         try {
             const res = await getAllScore();
-            console.log("aaaaaaaaaa",res.data);
+            console.log("getAllScore",res.data);
             dispatch(setScoreListAction(res.data)); // Assuming res.data is the array of contests
         } catch (error) {
             console.error("Failed to getAllScore", error.response ? error.response.data : error.message);

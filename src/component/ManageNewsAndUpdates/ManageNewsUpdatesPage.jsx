@@ -30,6 +30,12 @@ const ManageNewsUpdatesPage = () => {
 
   useEffect(() => {
     dispatch(fetchAllNews());
+
+    const interval = setInterval(() => {
+      dispatch(fetchAllNews());
+    }, 5000); // Fetch news every 60 seconds
+
+    return () => clearInterval(interval);
   }, [dispatch]);
 
   const handleSearch = (value) => {
@@ -69,33 +75,33 @@ const ManageNewsUpdatesPage = () => {
   };
 
   const handleCreate = () => {
-    showDrawer('Create News');
+    showDrawer('Tạo Tin Tức');
   };
 
   const handleUpdate = (id) => {
     const news = newsData.find(news => news.newsId === id);
     if (news) {
-      showDrawer('Update News', news);
+      showDrawer('Cập Nhật Tin Tức', news);
     }
   };
 
   const handleView = (id) => {
     const news = newsData.find(news => news.newsId === id);
     if (news) {
-      showDrawer('View News', news);
+      showDrawer('Xem Tin Tức', news);
     }
   };
 
   const handleDelete = (id) => {
     confirm({
-      title: 'Are you sure you want to delete this news?',
+      title: 'Bạn có chắc chắn muốn xóa tin tức này không?',
       onOk() {
         dispatch(removeNewsActionApi(id))
           .then(response => {
-            console.log('Delete News Response:', response);
+            console.log('Xóa Tin Tức Thành Công:', response);
           })
           .catch(error => {
-            console.error('Delete News Error:', error);
+            console.error('Lỗi Xóa Tin Tức:', error);
           });
       },
     });
@@ -110,40 +116,40 @@ const ManageNewsUpdatesPage = () => {
         newsDescription: quillValue,
         imageUrl,
       };
-      if (drawerTitle === 'Create News') {
+      if (drawerTitle === 'Tạo Tin Tức') {
         dispatch(createNewsActionApi(formattedValues))
           .then(response => {
-            console.log('Create News Response:', response);
+            console.log('Tạo Tin Tức Thành Công:', response);
           })
           .catch(error => {
-            console.error('Create News Error:', error);
+            console.error('Lỗi Tạo Tin Tức:', error);
           });
-      } else if (drawerTitle === 'Update News' && selectedNews) {
+      } else if (drawerTitle === 'Cập Nhật Tin Tức' && selectedNews) {
         dispatch(updateNewsActionApi(selectedNews.newsId, { ...formattedValues, userId: selectedNews.userId }, navigate))
           .then(response => {
-            console.log('Update News Response:', response);
+            console.log('Cập Nhật Tin Tức Thành Công:', response);
           })
           .catch(error => {
-            console.error('Update News Error:', error);
+            console.error('Lỗi Cập Nhật Tin Tức:', error);
           });
       }
       closeDrawer();
     }).catch(errorInfo => {
-      console.error('Validation Failed:', errorInfo);
+      console.error('Xác Minh Thất Bại:', errorInfo);
     });
   };
 
   const columns = [
     {
-      title: 'Image',
+      title: 'Hình Ảnh',
       dataIndex: 'imageUrl',
       key: 'imageUrl',
       render: (imageUrl) => (
-        imageUrl ? <img src={imageUrl} alt="news-thumbnail" style={{ width: '100px' }} /> : 'No Image'
+        imageUrl ? <img src={imageUrl} alt="news-thumbnail" style={{ width: '100px' }} /> : 'Không Có Hình'
       )
     },
     {
-      title: 'Title',
+      title: 'Tiêu Đề',
       dataIndex: 'title',
       key: 'title',
       render: (_, record) => {
@@ -152,29 +158,29 @@ const ManageNewsUpdatesPage = () => {
       }
     },
     {
-      title: 'Type',
+      title: 'Loại',
       dataIndex: 'newsTypeId',
       key: 'newsTypeId',
     },
     {
-      title: 'Date',
+      title: 'Ngày',
       dataIndex: 'newsDate',
       key: 'newsDate',
     },
     {
-      title: 'Status',
+      title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
-      render: status => (status ? 'Active' : 'Inactive')
+      render: status => (status ? 'Hoạt Động' : 'Không Hoạt Động')
     },
     {
-      title: 'Actions',
+      title: 'Hành Động',
       key: 'actions',
       render: (text, record) => (
         <span>
-          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.newsId)}>View</Button>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.newsId)}>Update</Button>
-          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.newsId)}>Delete</Button>
+          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.newsId)}>Xem</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.newsId)}>Cập Nhật</Button>
+          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.newsId)}>Xóa</Button>
         </span>
       ),
     },
@@ -184,10 +190,10 @@ const ManageNewsUpdatesPage = () => {
     <div className={styles.manageNewsUpdatesPage}>
       <div style={{ display: 'flex', marginBottom: 16 }}>
         <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginRight: 16 }}>
-          Create News
+          Tạo Tin Tức
         </Button>
         <Input
-          placeholder="Search by title or type"
+          placeholder="Tìm kiếm theo tiêu đề hoặc loại"
           onChange={(e) => handleSearch(e.target.value)}
           style={{ width: 300 }}
         />
@@ -201,36 +207,42 @@ const ManageNewsUpdatesPage = () => {
         destroyOnClose
       >
         <Form layout="vertical" form={form}>
-          <Form.Item name="newsTypeId" label="News Type" rules={[{ required: true, message: 'Please select the news type' }]}>
-            <Select id="newsTypeId" placeholder="Select news type" disabled={drawerTitle === 'View News'}>
-              <Option value="competition">Competition</Option>
-              <Option value="general">General</Option>
-              <Option value="others">Others</Option>
-              <Option value="updates">Updates</Option>
+          <Form.Item name="newsTypeId" label="Loại Tin Tức" rules={[{ required: true, message: 'Vui lòng chọn loại tin tức' }]}>
+            <Select id="newsTypeId" placeholder="Chọn loại tin tức" disabled={drawerTitle === 'Xem Tin Tức'}>
+              <Option value="competition">Cuộc Thi</Option>
+              <Option value="general">Chung</Option>
+              <Option value="others">Khác</Option>
+              <Option value="updates">Cập Nhật</Option>
             </Select>
           </Form.Item>
-          <Form.Item name="userFullName" label="Author">
+          <Form.Item name="userFullName" label="Tác Giả">
             <Input value={form.getFieldValue('userFullName')} disabled />
           </Form.Item>
-          <Form.Item name="newsDate" label="Date" initialValue={moment()} rules={[{ required: true, message: 'Please enter the date' }]}>
-            <DatePicker id="newsDate" style={{ width: '100%' }} disabled={drawerTitle === 'View News'} format="YYYY-MM-DD" />
+          <Form.Item name="newsDate" label="Ngày" initialValue={moment()} rules={[{ required: true, message: 'Vui lòng nhập ngày' }]}>
+            <DatePicker
+              id="newsDate"
+              style={{ width: '100%' }}
+              disabled={drawerTitle === 'Xem Tin Tức'}
+              format="YYYY-MM-DD"
+              disabledDate={(current) => current && current < moment().startOf('day')}
+            />
           </Form.Item>
-          <Form.Item name="status" label="Status" valuePropName="checked">
-            <Switch id="status" disabled={drawerTitle === 'View News'} />
+          <Form.Item name="status" label="Trạng Thái" valuePropName="checked">
+            <Switch id="status" disabled={drawerTitle === 'Xem Tin Tức'} />
           </Form.Item>
-          <Form.Item name="newsDescription" label="Description" rules={[{ required: true, message: 'Please enter the description' }]}>
+          <Form.Item name="newsDescription" label="Mô Tả" rules={[{ required: true, message: 'Vui lòng nhập mô tả' }]}>
             <ReactQuill
               ref={quillRef}
               id="newsDescription"
               theme="snow"
               value={quillValue}
               onChange={setQuillValue}
-              readOnly={drawerTitle === 'View News'}
-              placeholder="Please enter the description"
+              readOnly={drawerTitle === 'Xem Tin Tức'}
+              placeholder="Vui lòng nhập mô tả"
             />
           </Form.Item>
-          <Form.Item name="imageUrl" label="Image">
-            {drawerTitle !== 'View News' ? (
+          <Form.Item name="imageUrl" label="Hình Ảnh">
+            {drawerTitle !== 'Xem Tin Tức' ? (
               <UploadImageComponent
                 onSuccess={(url) => {
                   setImageUrl(url);
@@ -239,13 +251,13 @@ const ManageNewsUpdatesPage = () => {
                 defaultUrl={imageUrl}
               />
             ) : (
-              <img src={imageUrl} alt="News" style={{ width: '100px', marginTop: '10px' }} />
+              <img src={imageUrl} alt="Tin Tức" style={{ width: '100px', marginTop: '10px' }} />
             )}
           </Form.Item>
-          {drawerTitle !== 'View News' && (
+          {drawerTitle !== 'Xem Tin Tức' && (
             <Form.Item>
               <Button type="primary" onClick={handleSubmit}>
-                Submit
+                Gửi
               </Button>
             </Form.Item>
           )}

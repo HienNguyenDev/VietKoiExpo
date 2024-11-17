@@ -7,12 +7,13 @@ const ManageAllKoiPage = () => {
     const dispatch = useDispatch();
     const koiList = useSelector(state => state.RegisterKoiReducer.koiList); // Lấy danh sách cá Koi từ Redux
     const ownerDetails = useSelector(state => state.RegisterKoiReducer.ownerDetail); // Lấy thông tin người sở hữu từ Redux
-    const [filterVariety, setFilterVariety] = useState('all'); // Filter theo loại cá
+    const [filterVariety, setFilterVariety] = useState('all'); // Bộ lọc theo loại cá
     const [loading, setLoading] = useState(false); // Trạng thái loading
     const [userNames, setUserNames] = useState({}); // Lưu trữ tên người sở hữu theo userId
     const [visible, setVisible] = useState(false); // Trạng thái Drawer
     const [selectedUserId, setSelectedUserId] = useState(null); // ID người sở hữu được chọn
     const [searchQuery, setSearchQuery] = useState(''); // State để lưu giá trị tìm kiếm chung
+    
     // Fetch danh sách cá Koi khi trang được tải
     useEffect(() => {
         const fetchKoiData = async () => {
@@ -21,6 +22,12 @@ const ManageAllKoiPage = () => {
             setLoading(false);
         };
         fetchKoiData();
+        
+        // Thêm interval để tự động fetch dữ liệu
+        const intervalId = setInterval(fetchKoiData, 5000); // Fetch lại dữ liệu mỗi 60 giây
+        
+        // Cleanup interval khi component bị unmount
+        return () => clearInterval(intervalId);
     }, [dispatch]);
 
     useEffect(() => {
@@ -37,28 +44,22 @@ const ManageAllKoiPage = () => {
                         } else {
                             setUserNames(prev => ({
                                 ...prev,
-                                [koi.userId]: "none", // Nếu không có owner, hiển thị "none"
+                                [koi.userId]: "không có", // Nếu không có owner, hiển thị "không có"
                             }));
                         }
                     });
                 } else if (koi.userId === null) {
-                    // Nếu userId là null, hiển thị "none"
+                    // Nếu userId là null, hiển thị "không có"
                     setUserNames(prev => ({
                         ...prev,
-                        [koi.userId]: "none",
+                        [koi.userId]: "không có",
                     }));
                 }
             });
         }
     }, [dispatch, koiList]); // Chỉ phụ thuộc vào dispatch và koiList
     
-    
-    
-    
-
     // Lọc cá Koi theo varietyId
-    
-
     const filteredKoi = koiList.filter(koi => {
         const matchesStatus = filterVariety === 'all' || 
                               (filterVariety === 'kohaku' && koi.varietyId === 'kohaku') ||
@@ -72,8 +73,6 @@ const ManageAllKoiPage = () => {
                               (filterVariety === 'goromo' && koi.varietyId ==='goromo') ||
                               (filterVariety === 'shiroUtsuri' && koi.varietyId === 'shiroUtsuri');
                               
-                              
-                        
         const matchesSearch = koi.koiName.toLowerCase().includes(searchQuery.toLowerCase()) ||
                               userNames[koi.userId].toLowerCase().includes(searchQuery.toLowerCase());
     
@@ -82,28 +81,28 @@ const ManageAllKoiPage = () => {
     // Cột cho bảng cá Koi
     const columns = [
         {
-            title: 'Koi Image',
+            title: 'Hình Ảnh Cá Koi',
             dataIndex: 'imageUrl',
             key: 'imageUrl',
             render: (imageUrl) => <img src={imageUrl} alt="Koi" width={50} />
         },
         {
-            title: 'Koi Name',
+            title: 'Tên Cá Koi',
             dataIndex: 'koiName',
             key: 'koiName',
         },
         {
-            title: 'Size',
+            title: 'Kích Thước',
             dataIndex: 'size',
             key: 'size',
         },
         {
-            title: 'Age',
+            title: 'Tuổi',
             dataIndex: 'age',
             key: 'age',
         },
         {
-            title: 'Variety',
+            title: 'Loại',
             dataIndex: 'varietyId',
             key: 'varietyId',
             render: (varietyId) => {
@@ -119,16 +118,16 @@ const ManageAllKoiPage = () => {
                     goromo: 'Goromo',
                     shiroUtsuri: 'Shiro Utsuri',
                 };
-                return varietyNames[varietyId] || 'Unknown';
+                return varietyNames[varietyId] || 'Không rõ';
             }
         },
         {
-            title: 'Owner',
+            title: 'Người Sở Hữu',
             dataIndex: 'userId',
             key: 'userId',
             render: (userId) => {
-                // Nếu userId là null hoặc chưa có thông tin, hiển thị "none"
-                const userName = userNames[userId] || 'none';
+                // Nếu userId là null hoặc chưa có thông tin, hiển thị "không có"
+                const userName = userNames[userId] || 'không có';
                 return <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleViewUserDetails(userId)}>{userName}</span>;
             }
         },
@@ -150,26 +149,24 @@ const ManageAllKoiPage = () => {
         setSelectedUserId(null); // Đặt lại ID người sở hữu khi đóng Drawer
     };
 
- 
-
     return (
         <div>
-            <h2>Manage All Koi</h2>
+            <h2>Quản Lý Tất Cả Cá Koi</h2>
             <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
                 <Col span={8}>
                     <Input
-                      placeholder="Search.."
+                      placeholder="Tìm kiếm..."
                       onChange={(e) => setSearchQuery(e.target.value)} 
                       style={{ width: 300 }}
                     />
                 </Col>
             </Row>
-            {/* Radio buttons để chọn lọc Variety */}
+            {/* Radio buttons để chọn lọc loại cá */}
             <Radio.Group 
                 onChange={(e) => setFilterVariety(e.target.value)} 
                 value={filterVariety}
                 style={{ marginBottom: 16 }}>
-                <Radio.Button value="all">All</Radio.Button>
+                <Radio.Button value="all">Tất Cả</Radio.Button>
                 <Radio.Button value="kohaku">Kohaku</Radio.Button>
                 <Radio.Button value="sanke">Sanke</Radio.Button>
                 <Radio.Button value="showa">Showa</Radio.Button>
@@ -193,20 +190,20 @@ const ManageAllKoiPage = () => {
 
             {/* Drawer hiển thị chi tiết người sở hữu cá Koi */}
             <Drawer
-                title="User Details"
+                title="Thông Tin Người Sở Hữu"
                 width={400}
                 onClose={onClose}
                 visible={visible}
             >
                 {ownerDetails ? (
                     <div>
-                        <p><strong>Full Name:</strong> {ownerDetails.fullName}</p>
+                        <p><strong>Họ Tên:</strong> {ownerDetails.fullName}</p>
                         <p><strong>Email:</strong> {ownerDetails.email}</p>
-                        <p><strong>Phone:</strong> {ownerDetails.phone}</p>
-                        <p><strong>Address:</strong> {ownerDetails.address}</p>
+                        <p><strong>Số Điện Thoại:</strong> {ownerDetails.phone}</p>
+                        <p><strong>Địa Chỉ:</strong> {ownerDetails.address}</p>
                     </div>
                 ) : (
-                    <p>Loading user details...</p>
+                    <p>Đang tải thông tin người sở hữu...</p>
                 )}
             </Drawer>
         </div>

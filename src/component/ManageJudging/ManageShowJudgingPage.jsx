@@ -2,28 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Table, Button, Tabs, Spin, Radio, Tag, Input, Row, Col } from 'antd';
-import { fetchAllContests } from '../../store/redux/action/contestAction'; // Assuming your action fetches contests
+import { fetchAllContests } from '../../store/redux/action/contestAction'; // Giả sử action của bạn fetch các cuộc thi
 const { TabPane } = Tabs;
-
 
 const ManageShowJudgingPage = () => {
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState(''); // State để lưu giá trị tìm kiếm chung
-  //const [activeTab, setActiveTab] = useState('all');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
   const contests = useSelector(state => state.contestReducer.contestList);
+
   useEffect(() => {
-    // Try to fetch data from the API
+    // Hàm để fetch dữ liệu từ API
     const fetchData = async () => {
       setLoading(true); // Bắt đầu loading
-      await dispatch(fetchAllContests()); // Fetch contests
+      await dispatch(fetchAllContests()); // Fetch các cuộc thi
       setLoading(false); // Kết thúc loading
     };
 
     fetchData();
+
+    // Đặt interval để fetch dữ liệu mỗi 10 giây
+    const intervalId = setInterval(fetchData, 5000);
+
+    // Dọn dẹp interval khi component unmount
+    return () => clearInterval(intervalId);
   }, [dispatch]);
 
   const handleViewKoiEntries = (compId, compName) => {
@@ -45,46 +50,46 @@ const ManageShowJudgingPage = () => {
 
   const columns = [
     {
-      title: 'Competition Name',
+      title: 'Tên Cuộc Thi',
       dataIndex: 'compName',
       key: 'compName',
     },
     {
-      title: 'Description',
+      title: 'Mô Tả',
       dataIndex: 'compDescription',
       key: 'compDescription',
     },
     {
-      title: 'Location',
+      title: 'Địa Điểm',
       dataIndex: 'location',
       key: 'location',
     },
     {
-      title: 'Start Date',
+      title: 'Ngày Bắt Đầu',
       dataIndex: 'startDate',
       key: 'startDate',
     },
     {
-      title: 'End Date',
+      title: 'Ngày Kết Thúc',
       dataIndex: 'endDate',
       key: 'endDate',
     },
     {
-      title: 'Status',
+      title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
         let color = status === 0 ? 'green' : status === 1 ? 'blue' : 'red';
-        let statusText = status === 0 ? 'Upcoming' : status === 1 ? 'Ongoing' : 'Completed';
+        let statusText = status === 0 ? 'Sắp Diễn Ra' : status === 1 ? 'Đang Diễn Ra' : 'Đã Hoàn Thành';
         return <Tag color={color}>{statusText}</Tag>;
       },
     },
     {
-      title: 'Action',
+      title: 'Hành Động',
       key: 'action',
       render: (_, record) => (
         record.status === 1 ? (
-          <Button type="primary" onClick={() => handleViewKoiEntries(record.compId, record.compName)}>View Koi Entries</Button>
+          <Button type="primary" onClick={() => handleViewKoiEntries(record.compId, record.compName)}>Xem Các Bài Thi Koi</Button>
         ) : null
       ),
     },
@@ -92,13 +97,13 @@ const ManageShowJudgingPage = () => {
 
   return (
     <div>
-      <h1>Judging Shows</h1>
+      <h1>Chấm Thi Các Cuộc Thi</h1>
       <br></br>
        {/* Thanh tìm kiếm chung */}
        <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
         <Col span={8}>
           <Input 
-            placeholder="Search by Competition Name or Location" 
+            placeholder="Tìm kiếm theo Tên Cuộc Thi hoặc Địa Điểm" 
             value={searchQuery} 
             onChange={(e) => setSearchQuery(e.target.value)} 
             style={{ width: 300 }}
@@ -109,13 +114,13 @@ const ManageShowJudgingPage = () => {
         onChange={(e) => setFilterStatus(e.target.value)} 
         value={filterStatus}
         style={{ marginBottom: 16 }}>
-        <Radio.Button value="all">All</Radio.Button>
-        <Radio.Button value="upcoming">Upcoming</Radio.Button>
-        <Radio.Button value="ongoing">Ongoing</Radio.Button>
-        <Radio.Button value="completed">Completed</Radio.Button>
+        <Radio.Button value="all">Tất Cả</Radio.Button>
+        <Radio.Button value="upcoming">Sắp Diễn Ra</Radio.Button>
+        <Radio.Button value="ongoing">Đang Diễn Ra</Radio.Button>
+        <Radio.Button value="completed">Đã Hoàn Thành</Radio.Button>
       </Radio.Group>
 
-      {/* Table hiển thị các cuộc thi đã lọc */}
+      {/* Bảng hiển thị các cuộc thi đã lọc */}
       <Table
         columns={columns}
         dataSource={filteredCompetitions}

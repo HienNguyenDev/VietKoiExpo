@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Radio } from 'antd';
 import { fetchAllKoiEntriesApi, approveKoiEntryApi, rejectKoiEntryApi, reviewKoiEntryAction, classifyKoiEntryApi } from '../../store/redux/action/koiEntriesAction';
+import { Box } from '@mui/system';
 
 const ReviewKoiEntriesPage = () => {
   const location = useLocation();
@@ -25,7 +26,6 @@ const ReviewKoiEntriesPage = () => {
     // Lấy chi tiết từng cá Koi
     koiEntries.forEach(entry => {
       if (!koiDetails[entry.koiId]) {
-        
         dispatch(reviewKoiEntryAction(entry.koiId)).then(detail => {
           setKoiDetails(prevDetails => ({
             ...prevDetails,
@@ -35,6 +35,17 @@ const ReviewKoiEntriesPage = () => {
       }
     });
   }, [dispatch, koiEntries, koiDetails]);
+
+  useEffect(() => {
+    // Set interval để cập nhật danh sách cá Koi mỗi 30 giây
+    const interval = setInterval(() => {
+      if (compId) {
+        dispatch(fetchAllKoiEntriesApi(compId));
+      }
+    }, 5000);
+
+    return () => clearInterval(interval); // Xóa interval khi component unmount
+  }, [dispatch, compId]);
 
   // Lọc danh sách các đơn đăng ký theo trạng thái
   const filteredKoiEntries = koiEntries.filter(entry => {
@@ -48,37 +59,37 @@ const ReviewKoiEntriesPage = () => {
   // Cột cho bảng đơn đăng ký cá Koi
   const columns = [
     {
-      title: 'Koi Name',
+      title: 'Tên Cá Koi',
       dataIndex: 'koiId',
       key: 'koiName',
-      render: (koiId) => koiDetails[koiId]?.koiName || 'Loading...',
+      render: (koiId) => koiDetails[koiId]?.koiName || 'Đang tải...',
     },
     {
-      title: 'Image',
+      title: 'Hình Ảnh',
       dataIndex: 'koiId',
       key: 'image',
-      render: (koiId) => koiDetails[koiId]?.imageUrl || 'Loading...',
+      render: (koiId) => (<img src={koiDetails[koiId]?.imageUrl} alt="Hình Cá Koi" style={{ width: '100px' }} />  || 'Đang tải...'),
     },
     {
-      title: 'Age',
+      title: 'Tuổi',
       dataIndex: 'koiId',
       key: 'age',
-      render: (koiId) => koiDetails[koiId]?.age || 'Loading...',
+      render: (koiId) => koiDetails[koiId]?.age || 'Đang tải...',
     },
     {
-      title: 'Size (cm)',
+      title: 'Kích Thước (cm)',
       dataIndex: 'koiId',
       key: 'size',
-      render: (koiId) => koiDetails[koiId]?.size || 'Loading...',
+      render: (koiId) => koiDetails[koiId]?.size || 'Đang tải...',
     },
     {
-      title: 'Variety',
+      title: 'Loại',
       dataIndex: 'koiId',
       key: 'variety',
-      render: (koiId) => koiDetails[koiId]?.varietyId || 'Loading...',
+      render: (koiId) => koiDetails[koiId]?.varietyId || 'Đang tải...',
     },
     {
-      title: 'Status',
+      title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
@@ -86,65 +97,62 @@ const ReviewKoiEntriesPage = () => {
         let statusText;
         if (status === 0) {
           color = 'volcano';
-          statusText = 'Pending';
+          statusText = 'Chờ duyệt';
         } else if (status === 1) {
           color = 'green';
-          statusText = 'Approved';
+          statusText = 'Đã duyệt';
         } else {
           color = 'red';
-          statusText = 'Rejected';
+          statusText = 'Bị từ chối';
         }
         return <Tag color={color}>{statusText}</Tag>;
       },
     },
     {
-      title: 'Action',
+      title: 'Hành Động',
       key: 'action',
       render: (_, record) => (
         record.status === 0 ? (
           <>
-            <Button type="primary" onClick={() => handleApprove(record.registrationId)}>Approve</Button>
-            <Button type="default" onClick={() => handleReject(record.registrationId)}>Reject</Button>
+            <Button type="primary" onClick={() => handleApprove(record.registrationId)}>Duyệt</Button>
+            <Button type="default" onClick={() => handleReject(record.registrationId)}>Từ chối</Button>
           </>
         ) : record.status === 2 ? (
-          <Button type="primary" onClick={() => handleReApprove(record.registrationId)}>ReApprove</Button>
-        ) : (
-          <Button type="danger" onClick={() => handleRevertToPending(record.registrationId)}>Revert to Pending</Button>
-        )
+          <Button type="primary" onClick={() => handleReApprove(record.registrationId)}>Duyệt lại</Button>
+        ) : <Box type="primary" >Đã duyệt</Box>  
       ),
     },
   ];
   // Hàm xử lý phê duyệt đơn đăng ký và phân loại vô hạng mục thi
   const handleApprove = (entryId) => {
 
-    if(dispatch(approveKoiEntryApi(entryId,compId, compName, navigate))){
-      navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`);
+    if(dispatch(approveKoiEntryApi(entryId))){
+      navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
     } // Gọi action để phê duyệt
-    console.log('classifyKoiEntryApi',entryId);
-    dispatch(classifyKoiEntryApi(entryId));// Gọi action để phân vô hạng mục
+    
+   /// dispatch(classifyKoiEntryApi(entryId));// Gọi action để phân vô hạng mục
   };
 
   // Hàm xử lý từ chối đơn đăng ký
   const handleReject = (entryId) => {
-    dispatch(rejectKoiEntryApi(entryId, compId, compName, navigate)); // Gọi action để từ chối
+    if(dispatch(rejectKoiEntryApi(entryId, compId, compName, navigate))){ // Gọi action để từ chối
+    navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
+  }
   };
 
-  // Hàm xử lý chuyển trạng thái từ Bị từ chối sang Chờ duyệt (ReApprove)
+  // Hàm xử lý chuyển trạng thái từ Bị từ chối sang Chờ duyệt (Duyệt lại)
   const handleReApprove = (entryId) => {
     if(dispatch(approveKoiEntryApi(entryId, compId, compName, navigate))){
       navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
-    }// Gọi action để ReApprove
+    }// Gọi action để Duyệt lại
     
   };
 
-  // Hàm xử lý chuyển trạng thái từ Đã duyệt về Chờ duyệt
-  const handleRevertToPending = (entryId) => {
-    dispatch(rejectKoiEntryApi(entryId, compId, compName, navigate)); // Chuyển trạng thái về Chờ duyệt (0)
-  };
+  
 
   return (
     <div>
-      <h2>Review Koi Entries for {compName}</h2>
+      <h2>Đánh Giá Đơn Đăng Ký Cá Koi cho {compName}</h2>
 
       {/* Bộ lọc trạng thái */}
       <Radio.Group
@@ -152,10 +160,10 @@ const ReviewKoiEntriesPage = () => {
         value={filterStatus}
         style={{ marginBottom: 16 }}
       >
-        <Radio.Button value="all">All</Radio.Button>
-        <Radio.Button value="pending">Pending</Radio.Button>
-        <Radio.Button value="approved">Approved</Radio.Button>
-        <Radio.Button value="rejected">Rejected</Radio.Button>
+        <Radio.Button value="all">Tất cả</Radio.Button>
+        <Radio.Button value="pending">Chờ duyệt</Radio.Button>
+        <Radio.Button value="approved">Đã duyệt</Radio.Button>
+        <Radio.Button value="rejected">Bị từ chối</Radio.Button>
       </Radio.Group>
 
       {/* Bảng hiển thị danh sách cá Koi */}
@@ -166,7 +174,7 @@ const ReviewKoiEntriesPage = () => {
         pagination={{ pageSize: 5 }}
       />
       <Button type="default" style={{ marginTop: 20 }} onClick={() => navigate(-1)}>
-        Back
+        Quay lại
       </Button>
     </div>
     

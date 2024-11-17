@@ -52,19 +52,16 @@ export const reviewKoiEntryAction = (koiId) => {
 };
 
 // Approve Koi check in
-export const checkInKoiEntry = (entryId,checkinData, compId, compName, navigate) => {
+export const checkInKoiEntry = (entryId,checkinData) => {
   return async (dispatch) => {
       try {
+          console.log("BBBBBBBBB",checkinData)
           await checkInKoiEntryApi(entryId,checkinData);
           console.log("checkInKoiEntry !!",checkinData);
           const action = checkInKoiEntryAction(entryId,checkinData);
+          console.log("checkInKoiEntryAction CCCCCCCCCCCc!!");
           dispatch(action);
           console.log("checkInKoiEntry successful!!");
-          dispatch(fetchCheckInByCompId(compId)).then(() => {
-              
-              navigate(`/admin/manage-koi-checkin/review-koi-checkin/${compName}`, { state: { compId, compName } });
-               // Navigate to the desired URL after state update
-          });
       } catch (error) {
           console.error("Failed checkInKoiEntry:", error.response ? error.response.data : error.message);
       }

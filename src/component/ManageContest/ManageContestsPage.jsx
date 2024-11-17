@@ -7,6 +7,7 @@ import { PlusOutlined, EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-de
 import styles from '../../asset/scss/ManageContestsPage.module.scss';
 import { fetchAllContests, createContestActionApi, updateContestActionApi, removeContestActionApi, fetchContestDetails, fetchCategoriesByCompId, fetchKoiFromCompId } from '../../store/redux/action/contestAction';
 import moment from 'moment';
+
 import UploadImageComponent from '../../component/shared/UploadImage/UploadImage';
 
 const { confirm } = Modal;
@@ -190,7 +191,7 @@ const ManageContestsPage = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(updateContestStatus, 60000); // Kiểm tra mỗi phút
+    const interval = setInterval(updateContestStatus, 5000); // Kiểm tra mỗi phút
     return () => clearInterval(interval);
   }, [contestsData, dispatch]);
 
