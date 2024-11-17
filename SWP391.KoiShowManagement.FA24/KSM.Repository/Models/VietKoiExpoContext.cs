@@ -88,7 +88,7 @@ public partial class VietKoiExpoContext : DbContext
                 .HasColumnName("CheckInID");
             entity.Property(e => e.Description).HasMaxLength(100);
             entity.Property(e => e.ImageUrl)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.RegistrationId).HasColumnName("RegistrationID");
 

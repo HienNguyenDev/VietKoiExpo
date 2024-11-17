@@ -299,44 +299,66 @@ namespace KSM.APIService.Controllers
 
         }
 
-        [HttpGet("CompetitionKoiStatus")]
-        public async Task<IActionResult> GetCompetitionKoiStatus(Guid compId, Guid userId)
+        //[HttpGet("CompetitionKoiStatus")]
+        //public async Task<IActionResult> GetCompetitionKoiStatus(Guid compId, Guid userId)
+        //{
+        //    try
+        //    {
+        //        // Lấy tất cả kết quả của cuộc thi
+        //        var results = await _resultRepo.GetAllAsync();
+        //        var koiFish = await _koiFishRepository.GetAllAsync();
+        //        var scores = await _scoreRepo.GetAllAsync();
+
+        //        // Lọc các con cá tham gia cuộc thi
+        //        var competitionResults = results
+        //            .Where(r => r.CompId == compId)
+        //            .Join(koiFish,
+        //                r => r.KoiId,
+        //                k => k.KoiId,
+        //                (r, k) => new
+        //                {
+        //                    KoiId = k.KoiId,
+        //                    KoiName = k.KoiName,
+        //                    r.CompId
+        //                });
+
+        //        // Lấy danh sách cá và trạng thái ScoreStatus
+        //        var koiWithStatus = competitionResults
+        //            .Select(koi => new
+        //            {
+        //                koi.KoiId,
+        //                koi.KoiName,
+        //                ScoreStatus = scores.Any(s => s.KoiId == koi.KoiId && s.CompId == koi.CompId && s.UserId == userId) ? 1 : 0
+        //            })
+        //            .ToList();
+
+        //        return Ok(koiWithStatus);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new { message = ex.Message });
+        //    }
+        //}
+
+        [HttpGet("CheckedInFishWithScoreStatus")]
+        public async Task<IActionResult> GetCheckedInFishWithScoreStatus(Guid compId, Guid userId)
         {
             try
             {
-                // Lấy tất cả kết quả của cuộc thi
-                var results = await _resultRepo.GetAllAsync();
-                var koiFish = await _koiFishRepository.GetAllAsync();
-                var scores = await _scoreRepo.GetAllAsync();
+                // Lấy danh sách cá đã check-in kèm ScoreStatus
+                var checkedInFish = await _koiFishRepository.GetCheckedInKoiWithScoreStatus(compId, userId);
 
-                // Lọc các con cá tham gia cuộc thi
-                var competitionResults = results
-                    .Where(r => r.CompId == compId)
-                    .Join(koiFish,
-                        r => r.KoiId,
-                        k => k.KoiId,
-                        (r, k) => new
-                        {
-                            KoiId = k.KoiId,
-                            KoiName = k.KoiName,
-                            r.CompId
-                        });
+                // Kiểm tra nếu không có dữ liệu
+                if (checkedInFish == null || !checkedInFish.Any())
+                {
+                    return NotFound($"No fish checked in for competition with ID {compId}.");
+                }
 
-                // Lấy danh sách cá và trạng thái ScoreStatus
-                var koiWithStatus = competitionResults
-                    .Select(koi => new
-                    {
-                        koi.KoiId,
-                        koi.KoiName,
-                        ScoreStatus = scores.Any(s => s.KoiId == koi.KoiId && s.CompId == koi.CompId && s.UserId == userId) ? 1 : 0
-                    })
-                    .ToList();
-
-                return Ok(koiWithStatus);
+                return Ok(checkedInFish);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest($"An error occurred: {ex.Message}");
             }
         }
     }
