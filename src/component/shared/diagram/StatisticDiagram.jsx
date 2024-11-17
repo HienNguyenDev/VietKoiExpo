@@ -22,7 +22,7 @@ const StatisticDiagram = () => {
   useEffect(() => {
     const fetchCompetitions = async () => {
       try {
-        const response = await axios.get('https://localhost:7246/api/Competition');
+        const response = await axios.get('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Competition');
         const competitions = response.data;
 
         // Process data to count the number of competitions organized each month

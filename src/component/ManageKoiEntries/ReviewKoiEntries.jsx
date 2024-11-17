@@ -118,7 +118,7 @@ const ReviewKoiEntriesPage = () => {
             <Button type="default" onClick={() => handleReject(record.registrationId)}>Từ chối</Button>
           </>
         ) : record.status === 2 ? (
-          <Button type="primary" onClick={() => handleReApprove(record.registrationId)}>Duyệt lại</Button>
+          <Box type="primary" >Đã từ chối</Box>  
         ) : <Box type="primary" >Đã duyệt</Box>  
       ),
     },
@@ -140,15 +140,6 @@ const ReviewKoiEntriesPage = () => {
   }
   };
 
-  // Hàm xử lý chuyển trạng thái từ Bị từ chối sang Chờ duyệt (Duyệt lại)
-  const handleReApprove = (entryId) => {
-    if(dispatch(approveKoiEntryApi(entryId, compId, compName, navigate))){
-      navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
-    }// Gọi action để Duyệt lại
-    
-  };
-
-  
 
   return (
     <div>

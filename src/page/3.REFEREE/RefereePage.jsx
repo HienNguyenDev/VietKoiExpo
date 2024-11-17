@@ -20,8 +20,8 @@ function getItem(label, key, icon, children, navigator) {
 }
 
 const items = [
-  getItem('Judging Task', '1', <JudgeIcon />, undefined, 'manage-judging'),
-  getItem('Judging Reports', '2', <RefereeIcon />, undefined, 'manage-reports'),
+  getItem('Chấm điểm', '1', <JudgeIcon />, undefined, 'manage-judging'),
+  //getItem('Judging Reports', '2', <RefereeIcon />, undefined, 'manage-reports'),
 ];
 
 const RefereePage = () => {

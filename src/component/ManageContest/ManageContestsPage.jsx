@@ -191,7 +191,7 @@ const ManageContestsPage = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(updateContestStatus, 5000); // Kiểm tra mỗi phút
+    const interval = setInterval(updateContestStatus, 120000); // Kiểm tra mỗi phút
     return () => clearInterval(interval);
   }, [contestsData, dispatch]);
 
