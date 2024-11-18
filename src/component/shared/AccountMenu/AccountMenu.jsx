@@ -63,12 +63,6 @@ const MenuAccount = () => {
       onClick: handleMyProfileClick, 
     },
     {
-      key: '2',
-      icon: <NotificationOutlined />,
-      label: 'Notifications',
-      onClick: handleNotificationClick, // Handles notification clicks
-    },
-    {
       type: 'divider', // This will act as the `Menu.Divider`
     },
     {

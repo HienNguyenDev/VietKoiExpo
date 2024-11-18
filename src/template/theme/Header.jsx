@@ -53,7 +53,7 @@ const Header = () => {
               <ul className="navbar-nav">
                 <li className="nav-item active">
                   <Link className="nav-link" to="/">
-                    Home <span className="sr-only">(current)</span>
+                    Home
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -62,12 +62,12 @@ const Header = () => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, 'assignKoi')}>
+                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, '/assignKoi')}>
                     Đăng kí cá Koi?
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, 'history')}>
+                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, '/history')}>
                     Lịch sử
                   </a>
                 </li>
@@ -75,9 +75,6 @@ const Header = () => {
               
               <div className="user_option">
                 {userLogin ? <MenuAccount/> : <Link to="/login">Login</Link>}
-                <form className="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
-                  <button className="btn my-2 my-sm-0 nav_search-btn" type="submit" />
-                </form>
               </div>
             </div>
 

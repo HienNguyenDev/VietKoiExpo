@@ -142,7 +142,7 @@ const ApproveKoiEntries = () => {
 
   return (
     <Box className={styles.container}>
-      <Button className={styles.backButton} onClick={() => navigate('/home')}>Quay về trang chủ</Button>
+      <Button className={styles.backButton} onClick={() => navigate('/')}>Quay về trang chủ</Button>
       <Typography variant="h4" gutterBottom className={styles.title}>
         Đăng kí form cá Koi
       </Typography>

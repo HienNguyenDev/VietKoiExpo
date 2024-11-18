@@ -7,6 +7,8 @@ import { fetchAllContests } from '../../store/redux/action/contestAction';
 import Countdown from 'react-countdown';
 import axios from 'axios';
 import styles from './ListCompetitionComp.module.scss'; // Assuming the styles are stored in a separate file
+import Header from '../../template/theme/Header';
+import InfoSection from '../../template/theme/InforSection';
 
 const ListCompetitionComp = () => {
   const dispatch = useDispatch();
@@ -61,9 +63,7 @@ const ListCompetitionComp = () => {
 
   return (
     <div className={styles.landingPage}>
-      <div style={{ position: 'absolute', display: 'inline', top: '30px', left: '30px' }}>
-        <Button className={styles.backButton} onClick={() => navigate('/home')}>Quay về trang chủ</Button>
-      </div>
+      <Header/>
       <div className={styles.heroSection}>
         <Typography.Title level={1}>Danh sách các cuộc thi</Typography.Title>
         <img className="giphy-gif-img giphy-img-loaded" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjJwbWl3b2szazdoOGp3dGN4emliMTFuZ3NuYzFvMDk3ZjE3ejR0ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KAI3j7HLC93Lq/giphy.gif" alt="high life fish GIF" />
@@ -93,7 +93,7 @@ const ListCompetitionComp = () => {
                       <Col span={6} style={{ display: 'flex', alignItems: 'center' }}>
                         {competition.imageUrl ? (
                           <img
-                            style={{ width: '300px', height: '300px' }}
+                            style={{ width: '100%', height: '200px',objectFit: 'cover' }}
                             src={competition.imageUrl}
                             alt={competition.compName}
                             className={styles.competitionImage}
@@ -165,6 +165,7 @@ const ListCompetitionComp = () => {
           </Row>
         )}
       </div>
+      <InfoSection/>
     </div>
   );
 };

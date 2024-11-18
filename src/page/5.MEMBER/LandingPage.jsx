@@ -11,6 +11,8 @@ import BackButton from '../../component/shared/button/BackButton';
 import { registerKoiForCompetitionApi } from '../../service/koiRegistAPI';
 import contestReducer from '../../store/redux/reducers/contestReducer';
 import axios from 'axios';
+import Header from '../../template/theme/Header';
+import InfoSection from '../../template/theme/InforSection';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -181,17 +183,15 @@ const LandingPage = () => {
 
   return (
     <div className={styles.landingPage}>
-       <div style={{position:'absolute',display:'inline',top:'30px',left:'30px'}}>
-       <Button className={styles.backButton} onClick={() => navigate('/home')}>Quay về trang chủ</Button>
-       </div>
+       <Header/>
       <div className={styles.heroSection}>
         <Typography.Title level={1}>Danh sách các cuộc thi </Typography.Title>
         <img className="giphy-gif-img giphy-img-loaded" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjJwbWl3b2szazdoOGp3dGN4emliMTFuZ3NuYzFvMDk3ZjE3ejR0ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KAI3j7HLC93Lq/giphy.gif" alt="high life fish GIF" />
         <Typography.Paragraph>
-          Join us for an exciting competition showcasing the most beautiful Koi fish.
+         Danh sách các cuộc thi hiện đã, đang và sắp diễn ra. Hãy tham gia ngay!
         </Typography.Paragraph>
       </div>
-      {/* <div className={styles.searchSection}>
+      <div className={styles.searchSection}>
         <Search
           placeholder="Search competitions"
           onChange={handleSearch}
@@ -199,7 +199,7 @@ const LandingPage = () => {
           enterButton
           className={styles.searchInput}
         />
-      </div> */}
+      </div>
       <div style={{background:'#ffffff'}} className={styles.competitionsSection}>
         <Typography.Title style={{ fontWeight:'700'}} level={2}>Các cuộc thi </Typography.Title>
         {loading ? (
@@ -325,6 +325,7 @@ const LandingPage = () => {
         <Button type="primary" htmlType="submit">Đăng ký</Button>
       </Form>
     </Modal>
+    <InfoSection/>
     </div>
   );
 };

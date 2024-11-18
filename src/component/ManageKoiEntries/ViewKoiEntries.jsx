@@ -127,7 +127,7 @@ const ViewKoiEntries = () => {
       </Header>
 
       <Content style={{ padding: '80px 24px', marginTop: '64px', maxWidth: '1200px', margin: 'auto' }}> {/* Account for fixed header height */}
-        <Button style={{ marginBottom: '20px' }} onClick={() => navigate('/home')} type="primary">
+        <Button style={{ marginBottom: '20px' }} onClick={() => navigate('/')} type="primary">
           Back to Homepage
         </Button>
         <Title level={2}>View Koi Entries</Title>
