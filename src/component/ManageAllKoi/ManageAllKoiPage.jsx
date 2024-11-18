@@ -24,7 +24,7 @@ const ManageAllKoiPage = () => {
         fetchKoiData();
         
         // Thêm interval để tự động fetch dữ liệu
-        const intervalId = setInterval(fetchKoiData, 5000); // Fetch lại dữ liệu mỗi 60 giây
+        const intervalId = setInterval(fetchKoiData, 60000); // Fetch lại dữ liệu mỗi 60 giây
         
         // Cleanup interval khi component bị unmount
         return () => clearInterval(intervalId);

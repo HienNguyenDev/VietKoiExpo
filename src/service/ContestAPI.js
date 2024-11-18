@@ -24,6 +24,25 @@ export const updateContest = (contestId, contestDetails) => {
     });
 };
 
+export const updateContestOnGoing = (contestId) => {
+    return axios({
+        url: `${BASE_URL}/OnGoing/${contestId}`,
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+};
+export const updateContestComplete = (contestId) => {
+    return axios({
+        url: `${BASE_URL}/Complete/${contestId}`,
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+};
+
 export const removeContest = (contestId) => {
     return axios({
         url: `${BASE_URL}/${contestId}`,

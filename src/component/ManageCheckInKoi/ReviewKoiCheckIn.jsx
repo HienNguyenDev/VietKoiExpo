@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Radio, Input } from 'antd';
 import { fetchCheckInByCompId, checkInKoiEntry, reviewKoiEntryAction } from '../../store/redux/action/checkInAction';
 import UploadImageComponent from '../shared/UploadImage/UploadImage';
+import { updateContestOnGoingActionApi } from '../../store/redux/action/contestAction';
 import { Box } from '@mui/material';
 
 const ReviewKoiCheckInPage = () => {
@@ -30,7 +31,7 @@ const ReviewKoiCheckInPage = () => {
       if (compId) {
         dispatch(fetchCheckInByCompId(compId));
       }
-    }, 5000); // Làm mới mỗi 60 giây
+    }, 60000); // Làm mới mỗi 60 giây
     return () => clearInterval(interval);
   }, [dispatch, compId]);
 
@@ -86,8 +87,17 @@ const ReviewKoiCheckInPage = () => {
       imageUrl,
       description,
     };
-    dispatch(checkInKoiEntry(entryId, checkInData));
-    //navigate(`/admin/manage-koi-checkin/review-koi-checkin/${compName}`, { state: { compId, compName } });
+    dispatch(checkInKoiEntry(entryId, checkInData)).then(() => {
+      if (compId) {
+        dispatch(fetchCheckInByCompId(compId)).then(() => {
+          // Kiểm tra nếu tất cả cá Koi có trạng thái khác pending (status !== 0)
+          const allProcessed = koiCheckIn.every(entry => entry.status !== 0);
+          if (allProcessed) {
+            dispatch(updateContestOnGoingActionApi(compId));
+          }
+        });
+      }
+    });
   };
 
   const handleReject = (entryId, checkInId) => {
@@ -104,7 +114,17 @@ const ReviewKoiCheckInPage = () => {
       imageUrl,
       description,
     };
-    dispatch(checkInKoiEntry(entryId, checkInData, compId, compName, navigate));
+    dispatch(checkInKoiEntry(entryId, checkInData)).then(() => {
+      if (compId) {
+        dispatch(fetchCheckInByCompId(compId)).then(() => {
+          // Kiểm tra nếu tất cả cá Koi có trạng thái khác pending (status !== 0)
+          const allProcessed = koiCheckIn.every(entry => entry.status !== 0);
+          if (allProcessed) {
+            dispatch(updateContestOnGoingActionApi(compId));
+          }
+        });
+      }
+    });
     navigate(`/admin/manage-koi-checkin/review-koi-checkin/${compName}`, { state: { compId, compName } });
   };
 

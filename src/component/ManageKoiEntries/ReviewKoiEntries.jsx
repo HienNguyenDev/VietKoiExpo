@@ -42,7 +42,7 @@ const ReviewKoiEntriesPage = () => {
       if (compId) {
         dispatch(fetchAllKoiEntriesApi(compId));
       }
-    }, 5000);
+    }, 60000);
 
     return () => clearInterval(interval); // Xóa interval khi component unmount
   }, [dispatch, compId]);
@@ -126,7 +126,7 @@ const ReviewKoiEntriesPage = () => {
   // Hàm xử lý phê duyệt đơn đăng ký và phân loại vô hạng mục thi
   const handleApprove = (entryId) => {
 
-    if(dispatch(approveKoiEntryApi(entryId))){
+    if(dispatch(approveKoiEntryApi(entryId, compId, compName, navigate))){
       navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
     } // Gọi action để phê duyệt
     
