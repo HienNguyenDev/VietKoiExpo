@@ -2,7 +2,7 @@ import { fetchScoresSuccess, fetchScoresFailure, fetchListKoiandStatusScoresSucc
 
 export const fetchScores = (compId) => async (dispatch) => {
   try {
-    const response = await fetch(`https://localhost:7246/api/Competition/KoiFish/${compId}`);
+    const response = await fetch(`https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Competition/KoiFish/${compId}`);
     const data = await response.json();
     dispatch(fetchScoresSuccess(data));
   } catch (error) {

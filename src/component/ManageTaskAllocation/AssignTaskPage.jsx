@@ -96,7 +96,7 @@ const AssignTaskPage = () => {
         await dispatch(fetchUsersActionApi());
       }
 
-      const response = await axios.get('https://localhost:7246/api/Task');
+      const response = await axios.get('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Task');
       const tasks = response.data.filter(task => task.compId === compId);
 
       const participants = tasks.map(task => {
@@ -137,7 +137,7 @@ const AssignTaskPage = () => {
       };
       console.log('Submitting values:', formattedValues); // Debugging log
       // Gửi dữ liệu lên server
-      await axios.post('https://localhost:7246/api/Task', formattedValues);
+      await axios.post('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Task', formattedValues);
       setIsModalVisible(false);
       form.resetFields();
     } catch (error) {

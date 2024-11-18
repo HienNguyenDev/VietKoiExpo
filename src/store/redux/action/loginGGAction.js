@@ -7,7 +7,7 @@ export const loginWithGoogle = (tokenId, navigate) => {
   return async (dispatch) => {
     try {
       console.log('Sending tokenId to backend:', tokenId);
-      const response = await axios.post('https://localhost:7246/api/Auth/Google-Validation', { tokenId });
+      const response = await axios.post('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Auth/Google-Validation', { tokenId });
       const { data } = response;
       console.log('Received JWT from backend:', data);
 
