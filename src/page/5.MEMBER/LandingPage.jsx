@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Card, Row, Col, Modal, Form, Select, message, Input, Tag,Tooltip } from 'antd';
+import { Typography, Button, Card, Row, Col, Modal, Form, Select, message, Input, Tag, Tooltip } from 'antd';
 import Countdown from 'react-countdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllContests } from '../../store/redux/action/contestAction';
@@ -255,7 +255,7 @@ const LandingPage = () => {
                             {status === 'ongoing' && userRegistered && (
                               <Button style={{ color: '#e162c1',
                                 textShadow: '0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1',fontWeight:'600'}} type="link" onClick={() => navigate(`/checkin/${competition.compId}`)}>
-                                Check In
+                                Theo dõi cuộc thi
                               </Button>
                             )}
                             {status === 'ongoing' && !userRegistered && (
