@@ -5,7 +5,7 @@ import { Layout, Input, Button, Form, Typography, Card, Row, Col, Avatar, Space,
 import { fetchUserByIdActionApi, updateUserActionApi } from '../../../../src/store/redux/action/userAction';
 import AccountMenu from '../../shared/AccountMenu/AccountMenu';
 import { updateUserLoginAction } from '../../../store/redux/reducers/userReducer';
-
+import UploadImageComponent from '../UploadImage/UploadImage';
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
@@ -52,7 +52,7 @@ const MyProfile = () => {
   
     dispatch(updateUserActionApi(userLogin.userId, userDetails))
       .then(() => {
-        message.success('Profile updated successfully!');
+        message.success('Cập nhật thông tin cá nhân thành công!');
   
         // Dispatch action to update userLogin in the Redux store
         dispatch(updateUserLoginAction(userDetails));
@@ -61,7 +61,7 @@ const MyProfile = () => {
         return dispatch(fetchUserByIdActionApi(userLogin.userId));
       })
       .catch((error) => {
-        message.error('Profile update failed: ' + (error.message || 'Unknown error'));
+        message.error('Cập nhật thông tin thất bại: ' + (error.message || 'Lỗi không xác định'));
       });
   };
   
@@ -92,11 +92,11 @@ const MyProfile = () => {
           />
           <h2 style={{ margin: 0, color: 'cyan' }}>VietKoiExpo</h2>
         </div>
-        <AccountMenu />
+        <AccountMenu userAvatar={<Avatar src={userLogin?.imageUrl || 'https://via.placeholder.com/80'} size={40} />} />
       </Header>
       <Content style={{ padding: '80px 24px', marginTop: '64px' }}>
         <Card style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
-          <Title level={3}>Personal Information</Title>
+          <Title level={3}>Thông Tin Cá Nhân</Title>
           <Row gutter={24} justify="center">
             <Col span={24} style={{ textAlign: 'center', marginBottom: 24 }}>
               <Avatar
@@ -123,37 +123,43 @@ const MyProfile = () => {
                 }}
                 layout="vertical"
               >
-                <Form.Item label="Full Name" name="fullName">
+                <Form.Item label="Họ và tên" name="fullName">
                   <Input />
                 </Form.Item>
                 <Form.Item label="Email" name="email">
                   <Input />
                 </Form.Item>
-                <Form.Item label="Phone Number" name="phone">
+                <Form.Item label="Số điện thoại" name="phone">
                   <Input />
                 </Form.Item>
-                <Form.Item label="Address" name="address">
+                <Form.Item label="Địa chỉ" name="address">
                   <Input />
                 </Form.Item>
-                <Form.Item label="Password" name="password">
+                <Form.Item label="Mật khẩu" name="password">
                   <Input.Password />
                 </Form.Item>
-                <Form.Item label="Image URL" name="imageUrl">
-                  <Input />
+                <Form.Item label="Ảnh Đại Diện" name="imageUrl">
+                  <UploadImageComponent
+                    onSuccess={(url) => form.setFieldsValue({ imageUrl: url })}
+                    defaultUrl={userLogin?.imageUrl || 'https://via.placeholder.com/80'}
+                  />
                 </Form.Item>
-                <Form.Item label="Experience" name="experience">
+                <Form.Item label="Kinh nghiệm" name="experience">
                   <Input type="number" />
                 </Form.Item>
-                <Form.Item label="Role" name="roleId">
+                <Form.Item label="Vai trò" name="roleId">
                   <Input disabled />
                 </Form.Item>
-                <Form.Item label="Status" name="status">
+                <Form.Item label="Trạng thái" name="status">
                   <Input disabled />
                 </Form.Item>
                 <Form.Item>
                   <Space>
+                    <Button type="default" onClick={() => navigate(-1)}>
+                      Quay lại
+                    </Button>
                     <Button type="primary" htmlType="submit">
-                      Save
+                      Lưu
                     </Button>
                   </Space>
                 </Form.Item>

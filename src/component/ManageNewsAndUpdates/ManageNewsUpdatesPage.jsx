@@ -20,7 +20,8 @@ const ManageNewsUpdatesPage = () => {
   const [quillValue, setQuillValue] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [searchValue, setSearchValue] = useState(''); // State for search value
-
+  const userLogin = useSelector(state => state.userReducer.userLogin);
+  const userId =userLogin.userId;
   const [form] = Form.useForm();
   const quillRef = useRef(null);
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const ManageNewsUpdatesPage = () => {
 
     const interval = setInterval(() => {
       dispatch(fetchAllNews());
-    }, 5000); // Fetch news every 60 seconds
+    }, 30000); // Fetch news every 60 seconds
 
     return () => clearInterval(interval);
   }, [dispatch]);
@@ -48,6 +49,21 @@ const ManageNewsUpdatesPage = () => {
     (news.newsTypeId && news.newsTypeId.toLowerCase().includes(searchValue)) ||
     (news.newsDescription && news.newsDescription.toLowerCase().includes(searchValue))
   );
+
+  const getNewsTypeInVietnamese = (newsTypeId) => {
+    switch (newsTypeId) {
+      case 'competition':
+        return 'Cuộc Thi';
+      case 'general':
+        return 'Chung';
+      case 'others':
+        return 'Khác';
+      case 'updates':
+        return 'Cập Nhật';
+      default:
+        return newsTypeId;
+    }
+  };
 
   const showDrawer = async (title, news = null) => {
     setDrawerTitle(title);
@@ -99,6 +115,7 @@ const ManageNewsUpdatesPage = () => {
         dispatch(removeNewsActionApi(id))
           .then(response => {
             console.log('Xóa Tin Tức Thành Công:', response);
+            dispatch((fetchAllNews()));
           })
           .catch(error => {
             console.error('Lỗi Xóa Tin Tức:', error);
@@ -117,17 +134,20 @@ const ManageNewsUpdatesPage = () => {
         imageUrl,
       };
       if (drawerTitle === 'Tạo Tin Tức') {
-        dispatch(createNewsActionApi(formattedValues))
+        dispatch(createNewsActionApi({ ...formattedValues, userId }))
           .then(response => {
             console.log('Tạo Tin Tức Thành Công:', response);
+            dispatch((fetchAllNews()));
           })
           .catch(error => {
             console.error('Lỗi Tạo Tin Tức:', error);
           });
       } else if (drawerTitle === 'Cập Nhật Tin Tức' && selectedNews) {
-        dispatch(updateNewsActionApi(selectedNews.newsId, { ...formattedValues, userId: selectedNews.userId }, navigate))
+      
+        dispatch(updateNewsActionApi(selectedNews.newsId, { ...formattedValues, userId: selectedNews.userId }))
           .then(response => {
             console.log('Cập Nhật Tin Tức Thành Công:', response);
+            dispatch((fetchAllNews()));
           })
           .catch(error => {
             console.error('Lỗi Cập Nhật Tin Tức:', error);
@@ -154,13 +174,14 @@ const ManageNewsUpdatesPage = () => {
       key: 'title',
       render: (_, record) => {
         const descriptionSnippet = record.newsDescription ? (record.newsDescription.match(/<h1>(.*?)<\/h1>/)?.[1] || '').substring(0, 30) + '...' : '';
-        return `${record.newsTypeId} - ${descriptionSnippet}`;
+        return `${getNewsTypeInVietnamese(record.newsTypeId)} - ${descriptionSnippet}`;
       }
     },
     {
       title: 'Loại',
       dataIndex: 'newsTypeId',
       key: 'newsTypeId',
+      render: (newsTypeId) => getNewsTypeInVietnamese(newsTypeId)
     },
     {
       title: 'Ngày',

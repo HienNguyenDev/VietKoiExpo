@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://localhost:7246/api'; // Replace with your actual base URL
+const BASE_URL = 'https://vietkoiexpo-backend.hiennguyendev.id.vn/api'; // Replace with your actual base URL
 
 // Send notification to user
 export const sendNotificationAPI = async (userId, message) => {

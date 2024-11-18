@@ -77,7 +77,7 @@ const MenuAccount = () => {
     return null; // Render nothing if userLogin is null
   }
 
-  return (
+  return (   
     <Dropdown
       menu={{ items: menuItems }} // new syntax with antd menu items
       trigger={['click']}
@@ -87,7 +87,7 @@ const MenuAccount = () => {
         <Badge count={unreadCount} offset={[-5, 5]}>
           <Avatar
             size="large"
-            src={userProfile.avatarUrl} //Chú ý avatarUrl
+            src={userProfile.imageUrl} //Chú ý avatarUrl
             icon={<UserOutlined />}
             style={{
               borderRadius: '50%', 

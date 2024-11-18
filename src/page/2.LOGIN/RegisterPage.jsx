@@ -8,8 +8,15 @@ import CustomizeButton from '../../component/shared/button/CustomizeButton';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { registerActionApi } from '../../store/redux/action/userAction';
+import UploadImageComponent from '../../component/shared/UploadImage/UploadImage';
+import { Box } from '@mui/system';
 
 const RegisterForm = () => {
+  const handleImageUploadSuccess = (url) => {
+    console.log('Image uploaded successfully:', url);
+    frm.setFieldValue('imageUrl', url);
+  };
+  const defaultImageUrl = '';
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
@@ -70,7 +77,8 @@ const RegisterForm = () => {
             {frm.errors.address && frm.touched.address && <div className={styles.error}>{frm.errors.address}</div>}
           </div>
           <div className={styles.formItem}>
-            <PlaceHolder onChange={frm.handleChange} id='imageUrl' label='URL hình ảnh' placeholder='Nhập URL hình ảnh của bạn' type='text' />
+            <Box id='imageUrl' placeholder='Nhập URL hình ảnh của bạn' type='text' />
+            <UploadImageComponent onChange={(imageUrl) => frm.setFieldValue('imageUrl', imageUrl)} label='URL hình ảnh' onSuccess={(url) => handleImageUploadSuccess(url)} defaultUrl={defaultImageUrl} />
             {frm.errors.imageUrl && frm.touched.imageUrl && <div className={styles.error}>{frm.errors.imageUrl}</div>}
           </div>
           <div className={styles.formItem}>
