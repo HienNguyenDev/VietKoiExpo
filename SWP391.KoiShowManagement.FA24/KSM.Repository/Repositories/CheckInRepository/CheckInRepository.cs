@@ -58,6 +58,7 @@ namespace KSM.Repository.Repositories.CheckInRepository
                     RegistrationId = c.Registration.RegistrationId, // Added RegistrationId
                     KoiId = c.Registration.Koi.KoiId,
                     KoiImageUrl = c.Registration.Koi.ImageUrl,
+                    CertificateImageUrl = c.Registration.Koi.CertificateImageUrl,
                     Description = c.Description,
                 })
                 .ToListAsync();
@@ -75,6 +76,7 @@ namespace KSM.Repository.Repositories.CheckInRepository
                     KoiName = c.Registration.Koi.KoiName,
                     CheckInStatus = c.Status,
                     KoiImageUrl = c.Registration.Koi.ImageUrl,
+                    CertificateImageUrl = c.Registration.Koi.CertificateImageUrl,
                     Description = c.Description
                 })
                 .ToListAsync();
