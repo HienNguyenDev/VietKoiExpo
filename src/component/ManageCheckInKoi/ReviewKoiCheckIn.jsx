@@ -89,13 +89,15 @@ const ReviewKoiCheckInPage = () => {
     };
     dispatch(checkInKoiEntry(entryId, checkInData)).then(() => {
       if (compId) {
-        dispatch(fetchCheckInByCompId(compId)).then(() => {
+        dispatch(fetchCheckInByCompId(compId))
+        /* .then(() => {
           // Kiểm tra nếu tất cả cá Koi có trạng thái khác pending (status !== 0)
           const allProcessed = koiCheckIn.every(entry => entry.status !== 0);
           if (allProcessed) {
             dispatch(updateContestOnGoingActionApi(compId));
           }
-        });
+        }) */
+       ;  
       }
     });
   };
@@ -116,13 +118,14 @@ const ReviewKoiCheckInPage = () => {
     };
     dispatch(checkInKoiEntry(entryId, checkInData)).then(() => {
       if (compId) {
-        dispatch(fetchCheckInByCompId(compId)).then(() => {
+        dispatch(fetchCheckInByCompId(compId))
+        /* .then(() => {
           // Kiểm tra nếu tất cả cá Koi có trạng thái khác pending (status !== 0)
           const allProcessed = koiCheckIn.every(entry => entry.status !== 0);
           if (allProcessed) {
             dispatch(updateContestOnGoingActionApi(compId));
           }
-        });
+        }) */;
       }
     });
     navigate(`/admin/manage-koi-checkin/review-koi-checkin/${compName}`, { state: { compId, compName } });
@@ -134,6 +137,12 @@ const ReviewKoiCheckInPage = () => {
       dataIndex: 'koiId',
       key: 'koiimageurl',
       render: (koiId) => (<img src={koiDetails[koiId]?.imageUrl} alt="Hình Ảnh Cá Koi" style={{ width: '100px' }} />  || 'Đang tải...'),
+    },
+    {
+      title: 'Hình Ảnh Chứng Nhận',
+      dataIndex: 'koiId',
+      key: 'certificateImageUrl',
+      render: (koiId) => (<img src={koiDetails[koiId]?.certificateImageUrl} alt="Hình Ảnh Chứng Nhận" style={{ width: '100px' }} />  || 'Đang tải...'),
     },
     {
       title: 'Tên Cá Koi',

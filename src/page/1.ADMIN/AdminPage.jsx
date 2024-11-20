@@ -56,9 +56,9 @@ const items = [
     getItem('Xem Báo cáo Cuộc thi', '91', <FileOutlined />, undefined, 'view-contest-reports'),
   ]),
   getItem('Quản lý Tiêu chí Chấm thi', '102', <SettingOutlined />, undefined, 'manage-judging-criteria'),
-  getItem('Phân công nhiệm vụ', 'sub9', <DarumaIcon />, [
-    getItem('Phân công Nhiệm vụ', '111', <SensuFanIcon />, undefined, 'manage-task-allocation'),
-  ]),
+ // getItem('Phân công nhiệm vụ', 'sub9', <DarumaIcon />, [
+   // getItem('Phân công Nhiệm vụ', '111', <SensuFanIcon />, undefined, 'manage-task-allocation'),
+ // ]),
 ];
 
 // Function to flatten the nested menu items for easier access

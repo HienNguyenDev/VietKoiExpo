@@ -4,6 +4,7 @@ import { Avatar, Button, Col, Radio, Drawer, List, Row, Typography, Modal, Form,
 import { EditOutlined, DeleteOutlined, UserSwitchOutlined, ExclamationCircleOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from '../../asset/scss/ManageUsersPage.module.scss';
 import { fetchUserByIdActionApi, fetchUsersActionApi, removeUserActionApi, updateUserActionApi, createUsersActionApi } from '../../store/redux/action/userAction';
+import UploadImageComponent from '../shared/UploadImage/UploadImage';
 
 const { Title, Paragraph } = Typography;
 const { confirm } = Modal;
@@ -265,8 +266,11 @@ const ManageUsersPage = () => {
           <Form.Item name="phone" label="Số điện thoại" rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}>
             <Input placeholder="Vui lòng nhập số điện thoại" disabled={drawerTitle === 'Xem thông tin người dùng'} />
           </Form.Item>
-          <Form.Item name="imageUrl" label="URL hình ảnh" rules={[{ required: true, message: 'Vui lòng nhập URL hình ảnh' }]}>
-            <Input placeholder="Vui lòng nhập URL hình ảnh" disabled={drawerTitle === 'Xem thông tin người dùng'} />
+          <Form.Item name="imageUrl" label="Hình ảnh" rules={[{ required: true, message: 'Vui lòng tải lên hình ảnh' }]}>
+          <UploadImageComponent 
+              onSuccess={(url) => form.setFieldsValue({ imageUrl: url })} 
+              defaultUrl={userDetailData.imageUrl} 
+            />
           </Form.Item>
           <Form.Item name="experience" label="Kinh nghiệm" rules={[{ required: true, message: 'Vui lòng nhập kinh nghiệm' }]}>
             <Input type="number" placeholder="Vui lòng nhập kinh nghiệm" disabled={drawerTitle === 'Xem thông tin người dùng'} />

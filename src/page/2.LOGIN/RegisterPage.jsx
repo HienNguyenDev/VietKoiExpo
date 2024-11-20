@@ -77,9 +77,10 @@ const RegisterForm = () => {
             {frm.errors.address && frm.touched.address && <div className={styles.error}>{frm.errors.address}</div>}
           </div>
           <div className={styles.formItem}>
-            <Box id='imageUrl' placeholder='Nhập URL hình ảnh của bạn' type='text' />
+            <Col offset={1} span={8}>
             <UploadImageComponent onChange={(imageUrl) => frm.setFieldValue('imageUrl', imageUrl)} label='URL hình ảnh' onSuccess={(url) => handleImageUploadSuccess(url)} defaultUrl={defaultImageUrl} />
             {frm.errors.imageUrl && frm.touched.imageUrl && <div className={styles.error}>{frm.errors.imageUrl}</div>}
+            </Col>
           </div>
           <div className={styles.formItem}>
             <PlaceHolder onChange={frm.handleChange} id='experience' label='Kinh nghiệm' placeholder='Nhập kinh nghiệm của bạn' type='number' />
