@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Table, Button, Tag, Radio } from 'antd';
+import { Table, Button, Tag, Radio, message } from 'antd';
 import { fetchAllKoiEntriesApi, approveKoiEntryApi, rejectKoiEntryApi, reviewKoiEntryAction, classifyKoiEntryApi } from '../../store/redux/action/koiEntriesAction';
 import { Box } from '@mui/system';
 
@@ -124,22 +124,34 @@ const ReviewKoiEntriesPage = () => {
     },
   ];
   // Hàm xử lý phê duyệt đơn đăng ký và phân loại vô hạng mục thi
-  const handleApprove = (entryId) => {
-
-    if(dispatch(approveKoiEntryApi(entryId, compId, compName, navigate))){
-      navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
-    } // Gọi action để phê duyệt
-    
-   /// dispatch(classifyKoiEntryApi(entryId));// Gọi action để phân vô hạng mục
+  const handleApprove = async (entryId) => {
+    try {
+      await dispatch(approveKoiEntryApi(entryId));
+      //message.success('Duyệt thành công!');
+      await dispatch(classifyKoiEntryApi(entryId)).then(() => {
+        dispatch(fetchAllKoiEntriesApi(compId)); // Phân loại cá Koi sau khi phê duyệt và load lại thông tin
+        message.success('Duyệt thành công!');
+      });
+    } catch (error) {
+      if (error.response && error.response.data === 'Your Fish specified category does not exist for this competition.') {
+        message.error('Duyệt thất bại!');
+        message.error('Hạng mục cá của bạn không tồn tại cho cuộc thi này.');
+      } else {
+        message.error('Có lỗi xảy ra khi phân loại cá Koi: ' + (error.response ? error.response.data : error.message));
+      }
+      dispatch(fetchAllKoiEntriesApi(compId));
+    }
   };
 
   // Hàm xử lý từ chối đơn đăng ký
   const handleReject = (entryId) => {
-    if(dispatch(rejectKoiEntryApi(entryId, compId, compName, navigate))){ // Gọi action để từ chối
-    navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
-  }
+    dispatch(rejectKoiEntryApi(entryId)).then(() => {
+      message.success('Từ chối thành công!');
+      dispatch(fetchAllKoiEntriesApi(compId)); // Load lại thông tin cá Koi sau khi từ chối
+    }).catch((error) => {
+      message.error('Có lỗi xảy ra khi từ chối cá Koi: ' + (error.response ? error.response.data : error.message));
+    });
   };
-
 
   return (
     <div>

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Table, Button, Tag, Radio, Input } from 'antd';
+import { Table, Button, Tag, Radio, Input, message } from 'antd';
 import { fetchCheckInByCompId, checkInKoiEntry, reviewKoiEntryAction } from '../../store/redux/action/checkInAction';
 import UploadImageComponent from '../shared/UploadImage/UploadImage';
 import { updateContestOnGoingActionApi } from '../../store/redux/action/contestAction';
@@ -89,16 +89,11 @@ const ReviewKoiCheckInPage = () => {
     };
     dispatch(checkInKoiEntry(entryId, checkInData)).then(() => {
       if (compId) {
-        dispatch(fetchCheckInByCompId(compId))
-        /* .then(() => {
-          // Kiểm tra nếu tất cả cá Koi có trạng thái khác pending (status !== 0)
-          const allProcessed = koiCheckIn.every(entry => entry.status !== 0);
-          if (allProcessed) {
-            dispatch(updateContestOnGoingActionApi(compId));
-          }
-        }) */
-       ;  
+        dispatch(fetchCheckInByCompId(compId));  
       }
+      message.success('Checkin thành công!');
+    }).catch(() => {
+      message.error('Có lỗi xảy ra khi checkin!');
     });
   };
 
@@ -118,17 +113,12 @@ const ReviewKoiCheckInPage = () => {
     };
     dispatch(checkInKoiEntry(entryId, checkInData)).then(() => {
       if (compId) {
-        dispatch(fetchCheckInByCompId(compId))
-        /* .then(() => {
-          // Kiểm tra nếu tất cả cá Koi có trạng thái khác pending (status !== 0)
-          const allProcessed = koiCheckIn.every(entry => entry.status !== 0);
-          if (allProcessed) {
-            dispatch(updateContestOnGoingActionApi(compId));
-          }
-        }) */;
+        dispatch(fetchCheckInByCompId(compId));
       }
+      message.success('Từ chối thành công!');
+    }).catch(() => {
+      message.error('Có lỗi xảy ra khi từ chối!');
     });
-    navigate(`/admin/manage-koi-checkin/review-koi-checkin/${compName}`, { state: { compId, compName } });
   };
 
   const columns = [

@@ -39,10 +39,7 @@ export const approveKoiEntryApi = (entryId, compId, compName, navigate) => {
             await approveKoiEntry(entryId);
             const action = approveKoiEntryAction(entryId);
             dispatch(action);
-            dispatch(fetchAllKoiEntriesApi(compId)).then(() => {
-                navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
-                dispatch(classifyKoiEntryApi(entryId));// Gọi action để phân vô hạng mục // Navigate to the desired URL after state update
-            });
+            
         } catch (error) {
             console.error("Failed to approve Koi entry:", error.response ? error.response.data : error.message);
         }
@@ -55,13 +52,10 @@ export const rejectKoiEntryApi = (entryId, compId, compName, navigate) => {
             await rejectKoiEntry(entryId);
             const action = rejectKoiEntryAction(entryId);
             dispatch(action);
-            dispatch(fetchAllKoiEntriesApi(compId)).then(() => {
-                
-                navigate(`/admin/manage-koi-entries/review-koi-entries/${compName}`, { state: { compId, compName } });
-                 // Navigate to the desired URL after state update
-            });
+           
         } catch (error) {
             console.error("Failed to reject Koi entry:", error.response ? error.response.data : error.message);
+            
         }
     };
 };
@@ -80,16 +74,7 @@ export const classifyKoiEntryApi = (registrationID) => {
             console.log("Classification successful!!");
         } catch (error) {
             console.error("Failed to classify Koi entry:", error.response ? error.response.data : error.message);
-             // Check for the specific error message
-            //  if (error.message === "Your Fish specified category does not exist for this competition.") {
-            //     try {
-            //         await rejectKoiEntry(registrationID); // Perform the rejection
-            //         const action = rejectKoiEntryAction(registrationID); // Create the action for rejection
-            //         dispatch(action); // Dispatch the rejection action
-            //     } catch (rejectError) {
-            //         console.error("Failed to reject Koi entry:", rejectError.message);
-            //     }
-            // }
+            throw error
         }
     };
 };
@@ -116,13 +101,6 @@ export const submitScoreAction = (compId,userId,scoreData,status,navigate, compN
 
             // Dispatch the action with the response data
             dispatch(submitKoiScoreAction({ compId, userId, scoreData, data: res.data }));
-
-            console.log("Submit score successful:", res.data);
-            dispatch(fetchAllScore(compId)).then(() => {
-              
-                navigate(`/referee/manage-judging/comp/${compName}`, { state: { compId, compName } });
-               // Navigate to the desired URL after state update
-          });
         } catch (error) {
             console.error("Failed to submit Koi score entry:", error.response ? error.response.data : error.message);
         }

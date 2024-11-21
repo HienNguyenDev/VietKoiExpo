@@ -78,7 +78,7 @@ const ManageKoiJudgingPage = () => {
       scoreShape: matchedScore?.scoreShape ?? 'Không có',
       scoreColor: matchedScore?.scoreColor ?? 'Không có',
       scorePattern: matchedScore?.scorePattern ?? 'Không có',
-      totalScore: matchedScore?.totalScore ?? 'Không có',
+      totalScore: matchedScore?.totalScore ? parseFloat(matchedScore.totalScore.toFixed(2)) : 'Không có',
     };
   });
   
@@ -141,8 +141,8 @@ const ManageKoiJudgingPage = () => {
     },
   ];
   
-  const handleJudgeClick = (koiId, koiName, imageUrl) => {
-      navigate(`/referee/manage-judging/scoring/${koiId}`, { state: { koiId, koiName, compId, imageUrl } });
+  const handleJudgeClick = (koiId, koiName, imageUrl ) => {
+      navigate(`/referee/manage-judging/scoring/${koiId}`, { state: { koiId, koiName, compId,compName, imageUrl } });
   };
 
   return (
