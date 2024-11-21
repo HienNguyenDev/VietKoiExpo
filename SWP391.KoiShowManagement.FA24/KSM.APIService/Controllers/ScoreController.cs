@@ -304,7 +304,7 @@ namespace KSM.APIService.Controllers
         {
             try
             {
-                // Lấy tất cả kết quả của cuộc thi
+                // Lấy tất cả dữ liệu cần thiết
                 var results = await _resultRepo.GetAllAsync();
                 var koiFish = await _koiFishRepository.GetAllAsync();
                 var scores = await _scoreRepo.GetAllAsync();
@@ -319,16 +319,30 @@ namespace KSM.APIService.Controllers
                         {
                             KoiId = k.KoiId,
                             KoiName = k.KoiName,
-                            r.CompId
+                            CompId = r.CompId,
+                            k.Age,
+                            k.Size
                         });
 
-                // Lấy danh sách cá và trạng thái ScoreStatus
+                // Kết hợp với dữ liệu từ Tblscore để xác định trạng thái và điểm số
                 var koiWithStatus = competitionResults
-                    .Select(koi => new
+                    .Select(koi =>
                     {
-                        koi.KoiId,
-                        koi.KoiName,
-                        ScoreStatus = scores.Any(s => s.KoiId == koi.KoiId && s.CompId == koi.CompId && s.UserId == userId) ? 1 : 0
+                        var score = scores.FirstOrDefault(s => s.KoiId == koi.KoiId && s.CompId == koi.CompId && s.UserId == userId);
+
+                        return new
+                        {
+                            koi.KoiId,
+                            koi.KoiName,
+                            koi.CompId,
+                            koi.Age,
+                            koi.Size,
+                            ScoreShape = score?.ScoreShape,
+                            ScoreColor = score?.ScoreColor,
+                            ScorePattern = score?.ScorePattern,
+                            TotalScore = score?.TotalScore,
+                            ScoreStatus = score != null ? 1 : 0
+                        };
                     })
                     .ToList();
 
@@ -339,6 +353,7 @@ namespace KSM.APIService.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
 
         [HttpGet("CheckedInFishWithScoreStatus")]
         public async Task<IActionResult> GetCheckedInFishWithScoreStatus(Guid compId, Guid userId)
@@ -361,6 +376,7 @@ namespace KSM.APIService.Controllers
                 return BadRequest($"An error occurred: {ex.Message}");
             }
         }
+
     }
 
 }

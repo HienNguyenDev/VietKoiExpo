@@ -62,6 +62,30 @@ namespace KSM.Repository.Repositories.KoifishRepository
             }
         }
 
+        //public async Task<IEnumerable<object>> GetCheckedInKoiWithScoreStatus(Guid compId, Guid userId)
+        //{
+        //    var result = await (from koi in _context.TblkoiFishes
+        //                        join registration in _context.Tblregistrations
+        //                        on koi.KoiId equals registration.KoiId
+        //                        join checkIn in _context.TblcheckIns
+        //                        on registration.RegistrationId equals checkIn.RegistrationId
+        //                        where registration.CompId == compId && checkIn.Status == 1
+        //                        join score in _context.Tblscores
+        //                        on koi.KoiId equals score.KoiId into scoreGroup
+        //                        from subScore in scoreGroup.DefaultIfEmpty() // Left join
+        //                        select new
+        //                        {
+        //                            KoiId = koi.KoiId,
+        //                            KoiName = koi.KoiName,
+        //                            UserId = koi.UserId,
+        //                            CompId = compId,
+        //                            StatusCheckIn = checkIn.Status,
+        //                            ScoreStatus = subScore != null && subScore.UserId == userId ? 1 : 0
+        //                        })
+        //                        .ToListAsync();
+
+        //    return result;
+        //}
         public async Task<IEnumerable<object>> GetCheckedInKoiWithScoreStatus(Guid compId, Guid userId)
         {
             var result = await (from koi in _context.TblkoiFishes
@@ -77,14 +101,19 @@ namespace KSM.Repository.Repositories.KoifishRepository
                                 {
                                     KoiId = koi.KoiId,
                                     KoiName = koi.KoiName,
-                                    UserId = koi.UserId,
                                     CompId = compId,
-                                    StatusCheckIn = checkIn.Status,
+                                    Age = koi.Age,
+                                    Size = koi.Size,
+                                    ScoreShape = subScore != null && subScore.UserId == userId ? subScore.ScoreShape : null,
+                                    ScoreColor = subScore != null && subScore.UserId == userId ? subScore.ScoreColor : null,
+                                    ScorePattern = subScore != null && subScore.UserId == userId ? subScore.ScorePattern : null,
+                                    TotalScore = subScore != null && subScore.UserId == userId ? subScore.TotalScore : null,
                                     ScoreStatus = subScore != null && subScore.UserId == userId ? 1 : 0
                                 })
                                 .ToListAsync();
 
             return result;
         }
+
     }
 }
