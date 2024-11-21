@@ -57,7 +57,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, 'home/view-koi')}>
+                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, '/home/view-koi')}>
                     Quản lí cá Koi
                   </a>
                 </li>

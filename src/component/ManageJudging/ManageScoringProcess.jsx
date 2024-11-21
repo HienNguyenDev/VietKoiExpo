@@ -9,7 +9,6 @@ const ManageScoringProcess = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { koiId, koiName, compId, userId, compName, imageUrl } = location.state || {};
-
   // State for scores
   const [shapeScore, setShapeScore] = useState(0);
   const [colorScore, setColorScore] = useState(0);
@@ -45,7 +44,7 @@ const ManageScoringProcess = () => {
   const totalScore = calculateTotalScore();
 
   const handleBack = () => {
-    navigate(-1); // Go back to the previous route
+    navigate(`/referee/manage-judging/comp/${compName}`, { state: { compId, compName } });
   };
 
   const handleSubmit = () => {
@@ -56,7 +55,9 @@ const ManageScoringProcess = () => {
       patternScore,
       totalScore: parseFloat(totalScore),
     };
-    dispatch(submitScoreAction(compId, userId, scoreData, true, navigate, compName));
+    dispatch(submitScoreAction(compId, userId, scoreData, true, navigate, compName)).then(() => {
+          navigate(`/referee/manage-judging/comp/${compName}`, { state: { compId, compName } });
+    });
   };
 
   if (loading) {
