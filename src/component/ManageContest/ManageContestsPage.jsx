@@ -344,7 +344,7 @@ const hasMemberPermission = userRole === 'member';
               rules={[{ required: true, message: 'Hãy chọn trạng thái' }]}
             >
               <Radio.Group
-                disabled={koiList.length > 0 || selectedContest && selectedContest.status === 1 || drawerTitle === 'Xem Chi Tiết Cuộc Thi'}>
+                /*disabled={koiList.length > 0 || selectedContest && selectedContest.status === 1 || drawerTitle === 'Xem Chi Tiết Cuộc Thi'}*/>
                 <Radio value={0} disabled={koiList.length > 0 && selectedContest && selectedContest.status !== 0 || drawerTitle === 'Xem Chi Tiết Cuộc Thi'}>Sắp Diễn Ra</Radio>
                 <Radio value={1}>Đang Diễn Ra</Radio>
                 <Radio value={2} disabled={koiList.length > 0 && selectedContest && selectedContest.status === 1 || drawerTitle === 'Xem Chi Tiết Cuộc Thi'}>Đã Hoàn Thành</Radio>
