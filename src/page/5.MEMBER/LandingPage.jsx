@@ -23,8 +23,8 @@ const LandingPage = () => {
   const competitions = useSelector(state => state.contestReducer.contestList);
   const registeredKoi = useSelector(state => state.RegisterKoiReducer.koiList);
   const registrationList = useSelector(state => state.RegisterKoiReducer.registrationList); // Get registration list from Redux state
-  console.log(contestReducer.contestList);
-  const userId = useSelector(state => state.userReducer.userLogin.userId); // Select userId
+  const userLogin = useSelector(state => state.userReducer.userLogin);
+  
   const koiList = useSelector(state => state.RegisterKoiReducer.koiList); // Get koiList from Redux state
   
   const [loading, setLoading] = useState(true);
@@ -46,10 +46,11 @@ const LandingPage = () => {
 
   useEffect(() => { 
     const fetchData = async () => {
-      await dispatch(fetchAllContests());
-      await dispatch(getAllRegistrations());
-      await dispatch(getKoiById(userId));
-
+      if (userLogin && userLogin.userId) {
+        await dispatch(fetchAllContests());
+        await dispatch(getAllRegistrations());
+        await dispatch(getKoiById(userLogin.userId));
+      }
       setLoading(false);
     };
     fetchData();
@@ -59,7 +60,7 @@ const LandingPage = () => {
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);
-  }, [dispatch, userId]);
+  }, [dispatch, userLogin]);
 
   useEffect(() => {
     console.log('koiList:', koiList); // Log koiList to verify data
@@ -67,8 +68,10 @@ const LandingPage = () => {
   }, [koiList]);
 
   const reloadKoiList = async () => {
-    await dispatch(getAllRegistrations());
-    await dispatch(getKoiById(userId));
+    if (userLogin && userLogin.userId) {
+      await dispatch(getAllRegistrations());
+      await dispatch(getKoiById(userLogin.userId));
+    }
   };
 
   const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
@@ -282,9 +285,6 @@ const LandingPage = () => {
           </Row>
         )}
       </div>
-
-
-
 
     <Modal
       title={`Đăng ký cho cuộc thi ${selectedCompetition?.compName}`}
