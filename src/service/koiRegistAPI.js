@@ -42,7 +42,7 @@ export const getKoiVarietiesApi = async () => {
 
 export const updateKoiDetailApi = async (id, newDetail) => {
   try {
-    const response = await axios.put(`${API_URL}/koi/${id}`, newDetail,
+    const response = await axios.put(`https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/${id}`, newDetail,
       {
         headers: {
           'Content-Type': 'application/json',

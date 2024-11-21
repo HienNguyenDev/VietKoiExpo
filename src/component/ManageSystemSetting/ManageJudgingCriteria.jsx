@@ -9,47 +9,47 @@ const ManageJudgingCriteria = () => {
     <div >
       <Card style={{ maxWidth: '900px', margin: '0 auto', padding: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}>
         <Typography>
-          <Title level={2} style={{ textAlign: 'center', marginBottom: '30px' }}>Koi Judging Criteria & Categories</Title>
+          <Title level={2} style={{ textAlign: 'center', marginBottom: '30px' }}>Tiêu Chí & Hạng Mục Đánh Giá Koi</Title>
           <Paragraph style={{ fontSize: '16px', lineHeight: '1.6' }}>
-            In Koi fish competitions, the beauty and quality of each fish is carefully evaluated by expert judges. 
-            The judging process is based on three essential criteria. Let’s walk through the steps on how these Koi fish are judged, 
-            with the most stunning Koi emerging as the winner. 
+            Trong các cuộc thi cá Koi, vẻ đẹp và chất lượng của mỗi con cá được các giám khảo chuyên gia đánh giá cẩn thận. 
+            Quá trình đánh giá dựa trên ba tiêu chí chính. Hãy cùng tìm hiểu các bước đánh giá cá Koi, 
+            với những con cá Koi đẹp nhất sẽ trở thành người chiến thắng. 
           </Paragraph>
 
           <Divider />
 
-          <Title level={4}>Step-by-Step Judging Process:</Title>
+          <Title level={4}>Quy Trình Đánh Giá Từng Bước:</Title>
 
           <Steps direction="vertical" size="default" current={3}>
             <Step
-              title="Step 1: Evaluating the Shape (50%)"
+              title="Bước 1: Đánh Giá Hình Dáng (50%)"
               description={
                 <Paragraph>
-                  The first and most important criterion is the <Text strong>shape</Text> of the Koi fish. Judges carefully examine 
-                  the overall body structure, ensuring that the fish has a balanced and proportionate form. The ideal Koi should have 
-                  a smooth, streamlined body that is symmetrical from head to tail. Any deformities or imperfections in shape 
-                  will result in a lower score. Shape carries the most weight, accounting for <Text strong>50%</Text> of the total score.
+                  Tiêu chí đầu tiên và quan trọng nhất là <Text strong>hình dáng</Text> của cá Koi. Các giám khảo sẽ kiểm tra cẩn thận 
+                  cấu trúc cơ thể tổng thể, đảm bảo rằng cá có hình dáng cân đối và tỷ lệ. Cá Koi lý tưởng nên có thân hình mượt mà, 
+                  thon dài và đối xứng từ đầu đến đuôi. Bất kỳ khuyết điểm hoặc khiếm khuyết nào về hình dáng 
+                  sẽ dẫn đến điểm số thấp hơn. Hình dáng chiếm <Text strong>50%</Text> tổng điểm.
                 </Paragraph>
               }
             />
             <Step
-              title="Step 2: Analyzing the Color (30%)"
+              title="Bước 2: Phân Tích Màu Sắc (30%)"
               description={
                 <Paragraph>
-                  The second criterion is <Text strong>color</Text>, which makes up <Text strong>30%</Text> of the score. Judges look 
-                  for vivid, deep, and vibrant colors that stand out. The color must be consistent across the entire body, 
-                  with no fading or irregularities. A Koi with striking and pure colors will score highly in this category.
+                  Tiêu chí thứ hai là <Text strong>màu sắc</Text>, chiếm <Text strong>30%</Text> tổng điểm. Các giám khảo tìm kiếm 
+                  màu sắc sống động, sâu và rực rỡ. Màu sắc phải đồng nhất trên toàn bộ cơ thể, 
+                  không có sự phai màu hoặc không đều. Cá Koi có màu sắc nổi bật và tinh khiết sẽ đạt điểm cao trong hạng mục này.
                 </Paragraph>
               }
             />
             <Step
-              title="Step 3: Assessing the Pattern (20%)"
+              title="Bước 3: Đánh Giá Hoa Văn (20%)"
               description={
                 <Paragraph>
-                  The last criterion is the <Text strong>pattern</Text> of the Koi, contributing <Text strong>20%</Text> to the overall score. 
-                  The pattern is all about the unique arrangement of colors across the fish’s body. Judges prefer Koi that display 
-                  symmetry and balance in their patterns, with clean and well-defined borders between different color areas. 
-                  A beautifully patterned Koi can elevate its aesthetic appeal significantly.
+                  Tiêu chí cuối cùng là <Text strong>hoa văn</Text> của cá Koi, chiếm <Text strong>20%</Text> tổng điểm. 
+                  Hoa văn là sự sắp xếp độc đáo của các màu sắc trên cơ thể cá. Các giám khảo ưa thích những con cá Koi có 
+                  hoa văn đối xứng và cân đối, với các đường viền rõ ràng và sắc nét giữa các khu vực màu sắc khác nhau. 
+                  Một con cá Koi có hoa văn đẹp có thể nâng cao đáng kể vẻ đẹp thẩm mỹ của nó.
                 </Paragraph>
               }
             />
@@ -57,55 +57,55 @@ const ManageJudgingCriteria = () => {
 
           <Divider />
 
-          <Title level={4}>Final Result Calculation:</Title>
+          <Title level={4}>Tính Toán Kết Quả Cuối Cùng:</Title>
           <Paragraph style={{ fontSize: '16px', lineHeight: '1.6' }}>
-            Once each judge has scored the Koi in all three categories, the final score is calculated. There are a few methods 
-            to determine the winner:
+            Sau khi mỗi giám khảo đã chấm điểm cá Koi trong tất cả ba hạng mục, điểm số cuối cùng sẽ được tính toán. Có một số phương pháp 
+            để xác định người chiến thắng:
           </Paragraph>
           <List
-            header={<Text strong>Common Methods to Determine the Final Result:</Text>}
+            header={<Text strong>Các Phương Pháp Thông Thường Để Xác Định Kết Quả Cuối Cùng:</Text>}
             bordered
             dataSource={[
-              'Highest total score across all judges.',
-              'The Koi with the most number of high scores in individual categories.',
-              'Weighted average score combining all criteria scores based on their percentage weight (50% shape, 30% color, 20% pattern).'
+              'Tổng điểm cao nhất từ tất cả các giám khảo.',
+              'Cá Koi có số điểm cao nhất trong các hạng mục riêng lẻ.',
+              'Điểm trung bình có trọng số kết hợp tất cả các tiêu chí dựa trên tỷ lệ phần trăm của chúng (50% hình dáng, 30% màu sắc, 20% hoa văn).'
             ]}
             renderItem={item => <List.Item>{item}</List.Item>}
           />
 
           <Divider />
 
-          <Title level={4}>Automatic Category Assignment:</Title>
+          <Title level={4}>Phân Loại Tự Động:</Title>
           <Paragraph style={{ fontSize: '16px', lineHeight: '1.6' }}>
-            Each Koi fish will be automatically assigned to one of six competition categories based on predefined criteria. The assignment 
-            considers three main factors: <Text strong>variety (species)</Text>, <Text strong>size</Text>, and <Text strong>age</Text>. These categories ensure fair competition by grouping Koi with similar characteristics together.
+            Mỗi con cá Koi sẽ được tự động phân vào một trong sáu hạng mục thi đấu dựa trên các tiêu chí đã định trước. Việc phân loại 
+            xem xét ba yếu tố chính: <Text strong>giống loài</Text>, <Text strong>kích thước</Text>, và <Text strong>tuổi</Text>. Các hạng mục này đảm bảo sự công bằng bằng cách nhóm các con cá Koi có đặc điểm tương tự lại với nhau.
           </Paragraph>
 
           <List
-            header={<Text strong>Competition Categories:</Text>}
+            header={<Text strong>Các Hạng Mục Thi Đấu:</Text>}
             bordered
             dataSource={[
-              'Grand Champion - The most prestigious award, given to the overall best Koi fish.',
-              'Sakura Champion - Awarded to the best Koi fish within the "Sakura" variety.',
-              'Mature Champion - Given to the best Koi fish in the "Mature" category (larger, older fish).',
-              'Adult Champion - Best Koi in the adult age group.',
-              'Young Champion - Best Koi in the young category, focusing on promising future champions.',
-              'Baby Champion - Awarded to the best young Koi, showcasing potential for future growth and beauty.'
+              'Grand Champion - Giải thưởng danh giá nhất, dành cho con cá Koi xuất sắc nhất.',
+              'Sakura Champion - Trao cho con cá Koi xuất sắc nhất trong giống "Sakura".',
+              'Mature Champion - Dành cho con cá Koi xuất sắc nhất trong hạng mục "Mature" (cá lớn, già hơn).',
+              'Adult Champion - Cá Koi xuất sắc nhất trong nhóm tuổi trưởng thành.',
+              'Young Champion - Cá Koi xuất sắc nhất trong hạng mục trẻ, tập trung vào những nhà vô địch tương lai đầy triển vọng.',
+              'Baby Champion - Trao cho con cá Koi trẻ xuất sắc nhất, thể hiện tiềm năng phát triển và vẻ đẹp trong tương lai.'
             ]}
             renderItem={item => <List.Item>{item}</List.Item>}
           />
 
           <Paragraph style={{ marginTop: '20px', fontSize: '16px', lineHeight: '1.6' }}>
-            The assignment is based on the following criteria:
+            Việc phân loại dựa trên các tiêu chí sau:
           </Paragraph>
 
           <List
-            header={<Text strong>Assignment Criteria:</Text>}
+            header={<Text strong>Tiêu Chí Phân Loại:</Text>}
             bordered
             dataSource={[
-              'Variety (Species) - Different varieties of Koi are evaluated based on their unique characteristics.',
-              'Size - Koi are grouped into categories depending on their size to ensure fairness.',
-              'Age - Age plays a key role, with younger and older Koi competing in different categories.'
+              'Giống Loài - Các giống cá Koi khác nhau được đánh giá dựa trên các đặc điểm độc đáo của chúng.',
+              'Kích Thước - Cá Koi được nhóm vào các hạng mục tùy thuộc vào kích thước của chúng để đảm bảo sự công bằng.',
+              'Tuổi - Tuổi đóng vai trò quan trọng, với các con cá Koi trẻ và già thi đấu trong các hạng mục khác nhau.'
             ]}
             renderItem={item => <List.Item>{item}</List.Item>}
           />
@@ -113,7 +113,7 @@ const ManageJudgingCriteria = () => {
           <Divider />
 
           <Paragraph style={{ textAlign: 'center', marginTop: '20px', fontSize: '16px' }}>
-            <Text italic>“The true beauty of a Koi fish is not just in its appearance, but in how it captivates the eye across all categories, regardless of age or size.”</Text>
+            <Text italic>“Vẻ đẹp thực sự của một con cá Koi không chỉ nằm ở ngoại hình, mà còn ở cách nó thu hút ánh nhìn qua tất cả các hạng mục, bất kể tuổi tác hay kích thước.”</Text>
           </Paragraph>
         </Typography>
       </Card>

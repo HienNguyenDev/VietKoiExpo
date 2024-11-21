@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Typography, Row, Col, Card, Image, Spin, Button, Modal, Input, Form, Select, message } from 'antd';
+import { Layout, Typography, Row, Col, Card, Image, Spin, Button, Modal, Input, Form, Select, message, DatePicker } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateKoiDetail } from '../../store/redux/action/koiRegisterAction';
 import axios from 'axios';
 import UploadImageComponent from '../../component/shared/UploadImage/UploadImage';
 import AccountMenu from '../../component/shared/AccountMenu/AccountMenu';
+import moment from 'moment';
 
 const { Header, Content } = Layout;
 const { Option } = Select;
@@ -34,16 +35,14 @@ const ViewKoiEntries = () => {
   useEffect(() => {
     const fetchKoiEntries = async () => {
       try {
-        const response = await axios.get(`https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/user/${userId}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            }
+        const response = await axios.get(`https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Koifish/user/${userId}`, {
+          headers: {
+            'Content-Type': 'application/json',
           }
-        );
+        });
         setLocalKoi(response.data);
       } catch (error) {
-        message.error('Error fetching Koi entries');
+        message.error('Lỗi khi lấy dữ liệu cá Koi');
       } finally {
         setLoading(false);
       }
@@ -55,17 +54,22 @@ const ViewKoiEntries = () => {
   }, [userId]);
 
   const handleUpdate = (koi) => {
+    console.log('Bắt đầu cập nhật cá Koi:', koi);
     setCurrentKoi(koi);
     setIsModalVisible(true);
-    form.setFieldsValue({
+    const formValues = {
       koiName: koi.koiName,
-      size: koi.size,
+      size: Number(koi.size),
       age: koi.age,
       varietyId: koi.varietyId,
       imageUrl: koi.imageUrl,
+      certificateImageUrl: koi.certificateImageUrl,
+      birthDate: koi.birthDate ? moment(koi.birthDate) : null,
       userId: userId,
       status: koi.status
-    });
+    };
+    console.log('Thiết lập giá trị form:', formValues);
+    form.setFieldsValue(formValues);
   };
 
   const handleDelete = (koi) => {
@@ -75,25 +79,52 @@ const ViewKoiEntries = () => {
       age: koi.age,
       varietyId: koi.varietyId,
       imageUrl: koi.imageUrl,
+      certificateImageUrl: koi.certificateImageUrl,
+      birthDate: koi.birthDate,
       userId,
       status: false
     }));
     setLocalKoi((prev) => prev.filter((a) => a.koiId !== koi.koiId));
-    message.success('Koi entry deleted successfully');
+    message.success('Xóa cá Koi thành công');
   };
 
-  const handleModalOk = (values) => {
-    const { koiName, size, age, varietyId, imageUrl } = values;
-    const updatedData = { koiName, size, age, varietyId, imageUrl, userId, status: true };
-    dispatch(updateKoiDetail(currentKoi.koiId, updatedData));
-    setLocalKoi((prev) => 
-      prev.map((koi) => 
-        koi.koiId === currentKoi.koiId ? { ...koi, ...updatedData } : koi
-      )
-    );
-    setIsModalVisible(false);
-    message.success('Koi entry updated successfully');
+  const handleModalOk = async (values) => {
+    try {
+      const { koiName, size, age, varietyId, imageUrl, certificateImageUrl, birthDate } = values;
+  
+      // Format birthDate using native JavaScript Date methods
+      const formattedBirthDate = birthDate ? new Date(birthDate).toISOString().split('T')[0] : currentKoi?.birthDate;
+  
+      const updatedData = { 
+        koiName, 
+        size: Number(size), // Ensure size is a number
+        age: Number(age), // Ensure age is a number
+        varietyId, 
+        imageUrl, 
+        certificateImageUrl, 
+        birthDate: formattedBirthDate,
+        userId, 
+        status: true 
+      };
+  
+      console.log('Sending update data:', updatedData); // Debug log
+  
+      await dispatch(updateKoiDetail(currentKoi.koiId, updatedData));
+  
+      setLocalKoi((prev) =>
+        prev.map((koi) =>
+          koi.koiId === currentKoi.koiId ? { ...koi, ...updatedData } : koi
+        )
+      );
+  
+      setIsModalVisible(false);
+      message.success('Cập nhật cá Koi thành công');
+    } catch (error) {
+      console.error('Lỗi cập nhật:', error);
+      message.error('Cập nhật thất bại: ' + error.response?.data?.BirthDate?.[0] || error.message);
+    }
   };
+  
 
   if (loading) {
     return <Spin size="large" />;
@@ -109,106 +140,74 @@ const ViewKoiEntries = () => {
           alignItems: 'center',
           backgroundColor: currentTheme.palette.background.default,
           position: 'fixed',
-          width: '100%',
-          zIndex: 1000,
-          color: currentTheme.palette.text.primary,
+          width: '100%'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src="https://imgur.com/V1zXtZN.jpg"
-            alt="VietKoiExpo Logo"
-            style={{ height: '40px', marginRight: '12px' }}
-          />
-          <Typography.Title level={3} style={{ fontWeight: 'bold', color: currentTheme.palette.primary.main, margin: 0 }}>
-            VietKoiExpo
-          </Typography.Title>
+        <div>
+          <Title style={{ color: currentTheme.palette.text.primary }}>
+            Danh sách cá Koi của {fullName}
+          </Title>
         </div>
+        <AccountMenu />
       </Header>
-
-      <Content style={{ padding: '80px 24px', marginTop: '64px', maxWidth: '1200px', margin: 'auto' }}> {/* Account for fixed header height */}
-        <Button style={{ marginBottom: '20px' }} onClick={() => navigate('/')} type="primary">
-          Back to Homepage
-        </Button>
-        <Title level={2}>View Koi Entries</Title>
-        
-        <Row gutter={[24, 24]} justify="center">
-          {localKoi.map(koi => (
-            <Col style={{marginRight:'70px'}} span={6} key={koi.koiId} xs={24} sm={12} md={8} lg={6}>
+      <Content style={{ marginTop: 64 }}>
+        <Row gutter={[16, 16]}>
+          {localKoi.map((koi) => (
+            <Col span={8} key={koi.koiId}>
               <Card
                 hoverable
-                style={{ width:'300px',borderRadius: '10px', overflow: 'hidden' }}
-                cover={
-                  <Image
-                    alt={koi.koiName}
-                    src={koi.imageUrl || 'https://via.placeholder.com/150'}
-                    style={{ width: '100%', height: '200px', objectFit: 'cover' }}
-                  />
-                }
+                cover={<Image alt="Koi" src={koi.imageUrl} />}
                 actions={[
-                  <Button type="link" onClick={() => handleUpdate(koi)}>Edit</Button>,
-                  <Button type="link" danger onClick={() => handleDelete(koi)}>Delete</Button>
+                  <Button type="link" onClick={() => handleUpdate(koi)}>Cập nhật</Button>,
+                  <Button type="link" danger onClick={() => handleDelete(koi)}>Xóa</Button>,
                 ]}
               >
-                <Card.Meta 
-                  title={<Title level={4} style={{ margin: 0 }}>{koi.koiName}</Title>} 
-                  description={
-                    <>
-                      <Text strong>Variety:</Text> {koi.varietyId}<br />
-                      <Text strong>Owner:</Text> {fullName}<br />
-                      <Text strong>Size:</Text> {koi.size} cm<br />
-                      <Text strong>Age:</Text> {koi.age} years<br />
-                      <Text strong>Status:</Text> {koi.status ? 'Active' : 'Inactive'}
-                    </>
-                  } 
-                />
+                <Title level={4}>{koi.koiName}</Title>
+                <Text>{`Kích thước: ${koi.size}, Tuổi: ${koi.age}, Giống: ${koi.varietyId}`}</Text>
               </Card>
             </Col>
           ))}
         </Row>
 
+        {/* Modal for updating koi details */}
         <Modal
-          title="Update Koi Details"
+          title="Cập nhật cá Koi"
           visible={isModalVisible}
           onCancel={() => setIsModalVisible(false)}
-          footer={null}
+          onOk={() => form.submit()}
         >
           <Form
             form={form}
-            layout="vertical"
             onFinish={handleModalOk}
+            layout="vertical"
           >
-            <Form.Item label="Koi Name" name="koiName" rules={[{ required: true, message: 'Please enter a koi name' }]}>
-              <Input />
+            <Form.Item name="koiName" label="Tên cá" rules={[{ required: true }]}>
+              <Input placeholder="Vui lòng nhập tên cá Koi" />
             </Form.Item>
-            <Form.Item label="Size (cm)" name="size" rules={[{ required: true, message: 'Please enter the size' }]}>
-              <Input type="number" />
+            <Form.Item name="size" label="Kích thước" rules={[{ required: true }]}>
+              <Input type="number" placeholder="Vui lòng nhập kích thước" />
             </Form.Item>
-            <Form.Item label="Age (years)" name="age" rules={[{ required: true, message: 'Please enter the age' }]}>
-              <Input type="number" />
+            <Form.Item name="age" label="Tuổi" rules={[{ required: true }]}>
+              <Input type="number" placeholder="Vui lòng nhập tuổi cá" />
             </Form.Item>
-            <Form.Item label="Variety" name="varietyId" rules={[{ required: true, message: 'Please select a variety' }]}>
-              <Select>
-                <Option value="kohaku">Kohaku</Option>
-                <Option value="sanke">Sanke (Taisho Sanke)</Option>
-                <Option value="showa">Showa (Showa Sanshoku)</Option>
-                <Option value="utsuri">Utsuri</Option>
-                <Option value="tancho">Tancho</Option>
-                <Option value="bekko">Bekko</Option>
-                <Option value="asagi">Asagi</Option>
-                <Option value="koromo">Koromo</Option>
-                <Option value="goromo">Goromo</Option>
-                <Option value="shiroUtsuri">Shiro Utsuri</Option>
+            <Form.Item name="varietyId" label="Giống cá" rules={[{ required: true }]}>
+              <Select placeholder="Chọn giống cá">
+                <Option value="1">Giống 1</Option>
+                <Option value="2">Giống 2</Option>
+                {/* Add other varieties here */}
               </Select>
             </Form.Item>
-            <Form.Item label="Upload Image" name="imageUrl">
-              <UploadImageComponent 
-                onSuccess={(url) => form.setFieldsValue({ imageUrl: url })}
-                defaultUrl={form.getFieldValue('imageUrl')}
-              />
+            {currentKoi && (
+  <Form.Item name="birthDate" label="Ngày sinh">
+    <DatePicker value={currentKoi?.birthDate ? moment(currentKoi.birthDate) : null} format="YYYY-MM-DD" />
+  </Form.Item>
+)}
+
+            <Form.Item name="imageUrl" label="Hình ảnh">
+              <UploadImageComponent />
             </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" block>Update</Button>
+            <Form.Item name="certificateImageUrl" label="Hình ảnh chứng nhận">
+              <UploadImageComponent />
             </Form.Item>
           </Form>
         </Modal>

@@ -1,11 +1,12 @@
 // src/components/Header/Header.jsx
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.scss';
 import MenuAccount from '../../component/shared/AccountMenu/AccountMenu';
 import HistoryComp from './HistoryComp';
 import { Button, Modal } from 'antd';
+import { fetchUserByIdActionApi } from '../../store/redux/action/userAction';
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -13,7 +14,12 @@ const Header = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const userLogin = useSelector((state) => state.userReducer.userLogin);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (userLogin && userLogin.userId) {
+      dispatch(fetchUserByIdActionApi(userLogin.userId)); // Re-fetch user data
+    }
+  }, [userLogin, dispatch]);
   const handleNavToggle = (e) => {
     e.preventDefault();
     setIsNavOpen(!isNavOpen);
@@ -53,7 +59,7 @@ const Header = () => {
               <ul className="navbar-nav">
                 <li className="nav-item active">
                   <Link className="nav-link" to="/">
-                    Home
+                    Trang chủ
                   </Link>
                 </li>
                 <li className="nav-item">

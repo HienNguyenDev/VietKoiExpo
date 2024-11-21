@@ -28,6 +28,12 @@ const ManageContestsPage = () => {
   const contestsData = useSelector(state => state.contestReducer.contestList);
   const categoriesList = useSelector(state => state.contestReducer.categoriesList);
 
+  const userRole = useSelector(state => state.userReducer.userLogin.roleId);
+const hasManagerPermission = userRole === 'manager';
+const hasStaffPermission = userRole === 'staff';
+const hasJudgePermission = userRole === 'judge';
+const hasMemberPermission = userRole === 'member';
+
   useEffect(() => {
     dispatch(fetchAllContests());
   }, [dispatch]);
@@ -98,6 +104,13 @@ const ManageContestsPage = () => {
 
     return matchesSearchTerm && matchesStatus;
   });
+
+  const showPermissionAlert = () => {
+    Modal.warning({
+      title: 'Thông Báo',
+      content: 'Bạn không có quyền thực hiện hành động này.',
+    });
+  };
 
   const showDrawer = async (title, contest = null) => {
     setDrawerTitle(title);
@@ -214,19 +227,46 @@ const ManageContestsPage = () => {
       key: 'actions',
       render: (text, record) => (
         <span>
-          <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.compId)}>Xem</Button>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.compId)} disabled={record.status === 3}>Cập Nhật</Button>
-          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.compId)} disabled={record.status === 3}>Xóa</Button>
+          <Button
+            type="link"
+            icon={<EyeOutlined />}
+            onClick={() => handleView(record.compId)}
+          >
+            Xem
+          </Button>
+          <Button
+            type="link"
+            icon={<EditOutlined />}
+            onClick={hasManagerPermission ? () => handleUpdate(record.compId) : showPermissionAlert}
+            disabled={!hasManagerPermission || record.status === 3}
+          >
+            {hasManagerPermission ? 'Cập Nhật' : 'Không Được Phép'}
+          </Button>
+          <Button
+            type="link"
+            icon={<DeleteOutlined />}
+            onClick={hasManagerPermission ? () => handleDelete(record.compId) : showPermissionAlert}
+            disabled={!hasManagerPermission || record.status === 3}
+          >
+            {hasManagerPermission ? 'Xóa' : 'Không Được Phép'}
+          </Button>
         </span>
       ),
-    },
+    }
+    
   ];
 
   return (
     <div className={styles.manageContestsPage}>
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginBottom: 16 }}>
-        Tạo Cuộc Thi
-      </Button>
+      <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={hasManagerPermission ? handleCreate : showPermissionAlert}
+          disabled={!hasManagerPermission}
+          style={{ marginBottom: 16 }}
+        >
+          {hasManagerPermission ? 'Tạo Cuộc Thi' : 'Không Được Phép'}
+        </Button>
       <br/>
       <div style={{ marginBottom: 16 }}>
         <Input 

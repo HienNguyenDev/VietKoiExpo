@@ -110,9 +110,9 @@ const ApproveKoiEntries = () => {
 
   const handleConfirm = async () => {
     setOpen(false);
-    console.log("userIduserIduserId",userId)
+    console.log("userIduserIduserId", userId);
     if (!userId) {
-      setErrorMessage('User information is missing. Please log in again.');
+      setErrorMessage('Thông tin người dùng bị thiếu. Vui lòng đăng nhập lại.');
       return;
     }
     const dataToSend = {
@@ -121,13 +121,13 @@ const ApproveKoiEntries = () => {
       age: calculateAge(formik.values.birthDate)
     };
 
-    try { 
-      console.log("registerkoi")
+    try {
+      console.log("registerkoi");
       await dispatch(registerKoi(dataToSend));
       formik.resetForm();
-      alert('Registration successful. Awaiting approval.');
+      alert('Đăng ký thành công. Đang chờ phê duyệt.');
     } catch (error) {
-      setErrorMessage('Failed to register koi. Please try again.');
+      setErrorMessage('Đăng ký cá Koi thất bại. Vui lòng thử lại.');
       console.error(error);
     }
   };
@@ -249,31 +249,31 @@ const ApproveKoiEntries = () => {
           type="submit"
           className={styles.submitButton}
         >
-          Register
+          Đăng kí?
         </MuiButton>
       </Box>
 
       <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="confirm-dialog-title">
-        <DialogTitle id="confirm-dialog-title" className={styles.dialogTitle}>Confirm Registration</DialogTitle>
+        <DialogTitle id="confirm-dialog-title" className={styles.dialogTitle}>Xác nhận đăng ký</DialogTitle>
         <DialogContent>
           <DialogContentText className={styles.dialogContentText}>
-            Are you sure you want to register this Koi entry with the following details?
+            Bạn có chắc chắn muốn đăng ký mục cá Koi này với các chi tiết sau không?
           </DialogContentText>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>Variety ID:</strong> {formik.values.varietyId}</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>Koi Name:</strong> {formik.values.koiName}</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>Size:</strong> {formik.values.size} cm</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>Age:</strong> {calculateAge(formik.values.birthDate)} years</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>Birth Date:</strong> {new Date(formik.values.birthDate).toLocaleDateString()}</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>Image URL:</strong> {formik.values.imageUrl || 'No Image Provided'}</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>Certificate Image URL:</strong> {formik.values.certificateImageUrl || 'No Image Provided'}</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>Status:</strong> {formik.values.status ? 'Active' : 'Inactive'}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Giống cá:</strong> {formik.values.varietyId}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Tên cá Koi:</strong> {formik.values.koiName}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Kích thước:</strong> {formik.values.size} cm</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Tuổi:</strong> {calculateAge(formik.values.birthDate)} năm</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Ngày sinh:</strong> {new Date(formik.values.birthDate).toLocaleDateString()}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>URL ảnh:</strong> {formik.values.imageUrl || 'Không có ảnh'}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>URL ảnh chứng chỉ:</strong> {formik.values.certificateImageUrl || 'Không có ảnh'}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Trạng thái:</strong> {formik.values.status ? 'Hoạt động' : 'Không hoạt động'}</Typography>
         </DialogContent>
         <DialogActions>
           <MuiButton onClick={() => setOpen(false)} className={styles.dialogButton}>
-            Cancel
+            Hủy
           </MuiButton>
           <MuiButton onClick={handleConfirm} className={styles.dialogButton}>
-            Confirm
+            Xác nhận
           </MuiButton>
         </DialogActions>
       </Dialog>

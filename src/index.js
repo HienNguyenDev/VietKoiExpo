@@ -81,54 +81,54 @@ const App = () => {
           <Route path="view-koi" element={<ReviewKoiEntries />} />
           
           {/* Main Route for Manager */}
-          <Route path="admin" element={<AdminPage/>}>
-            <Route path="manage-contests" element={<ManageContestsPage/>} />
-            <Route path="manage-users" element={<ManageUsersPage/>} />
-            <Route path="view-contest-reports" element={<StatisticDiagram/>} />
-            <Route path="assign-judges-to-contest" element={<AsssignJugingProcess/>} />
-            <Route path="finalize-contest-results" element={<FinalizeContestResults/>} />
-            <Route path="manage-news" element={<ManageNewsUpdatesPage/>} />
-            <Route path="manage-judging-criteria" element={<ManageJudgingCriteria/>} />
-            <Route path="manage-task-allocation" element={<AssignTaskPage/>} />
-            <Route path="manage-task-allocation/process/:compID" element={<TaskAllocationProcess/>} />
-            <Route path="manage-koi-entries" element={<ManageKoiEntriesPage/>} />
-            <Route path="manage-koi-entries/review-koi-entries/:compName" element={<ReviewKoiEntries/>} />
-            <Route path="manage-koi-checkin" element={<ManageKoiCheckIn/>} />
-            <Route path="manage-koi-checkin/review-koi-checkin/:compName" element={<ReviewKoiCheckIn/>} />
-            <Route path="manage-all-koi" element={<ManageAllKoiPage/>} />
+          <Route path="admin" element={<PrivateRoute element={AdminPage} />}>
+            <Route path="manage-contests" element={<PrivateRoute element={ManageContestsPage} />} />
+            <Route path="manage-users" element={<PrivateRoute element={ManageUsersPage} />} />
+            <Route path="view-contest-reports" element={<PrivateRoute element={StatisticDiagram} />} />
+            <Route path="assign-judges-to-contest" element={<PrivateRoute element={AsssignJugingProcess} />} />
+            <Route path="finalize-contest-results" element={<PrivateRoute element={FinalizeContestResults} />} />
+            <Route path="manage-news" element={<PrivateRoute element={ManageNewsUpdatesPage} />} />
+            <Route path="manage-judging-criteria" element={<PrivateRoute element={ManageJudgingCriteria} />} />
+            <Route path="manage-task-allocation" element={<PrivateRoute element={AssignTaskPage} />} />
+            <Route path="manage-task-allocation/process/:compID" element={<PrivateRoute element={TaskAllocationProcess} />} />
+            <Route path="manage-koi-entries" element={<PrivateRoute element={ManageKoiEntriesPage} />} />
+            <Route path="manage-koi-entries/review-koi-entries/:compName" element={<PrivateRoute element={ReviewKoiEntries} />} />
+            <Route path="manage-koi-checkin" element={<PrivateRoute element={ManageKoiCheckIn} />} />
+            <Route path="manage-koi-checkin/review-koi-checkin/:compName" element={<PrivateRoute element={ReviewKoiCheckIn} />} />
+            <Route path="manage-all-koi" element={<PrivateRoute element={ManageAllKoiPage} />} />
           </Route>
           
-          <Route path="assignKoi" element={<ApproveKoiEntries/>} />
-          <Route path="referee" element={<RefereePage/>}>
+          <Route path="assignKoi" element={<PrivateRoute element={ApproveKoiEntries} />} />
+          <Route path="referee" element={<PrivateRoute element={RefereePage} />}>
             {/* Step 1: Show all contests */}
-            <Route path="manage-judging" element={<ManageShowJudgingPage/>} />
-            <Route path="manage-judging/comp/:compName" element={<ManageKoiJudgingPage/>} />
-            <Route path="manage-judging/scoring/:koiId" element={<ManageScoringProcess/>} />
+            <Route path="manage-judging" element={<PrivateRoute element={ManageShowJudgingPage} />} />
+            <Route path="manage-judging/comp/:compName" element={<PrivateRoute element={ManageKoiJudgingPage} />} />
+            <Route path="manage-judging/scoring/:koiId" element={<PrivateRoute element={ManageScoringProcess} />} />
           </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-          <Route path="notif" element={<NotificationPage/>} />
-          <Route path="fishkoi" element={<FishKoiEventDetail/>} />
+          <Route path="notif" element={<PrivateRoute element={NotificationPage} />} />
+          <Route path="fishkoi" element={<PrivateRoute element={FishKoiEventDetail} />} />
           <Route path="/competition">
-            <Route path="landing" element={<LandingPage/>} />
-            <Route path="/competition/:compId" element={<CompetitionBracket/>} />
-            <Route path="advancement" element={<AdvancementView/>} />
-            <Route path="leaderboard" element={<Leaderboard/>} />
-            <Route path="announcement" element={<Announcement/>} />
-
+            <Route path="landing" element={<PrivateRoute element={LandingPage} />} />
+            <Route path="/competition/:compId" element={<PrivateRoute element={CompetitionBracket} />} />
+            <Route path="advancement" element={<PrivateRoute element={AdvancementView} />} />
+            <Route path="leaderboard" element={<PrivateRoute element={Leaderboard} />} />
+            <Route path="announcement" element={<PrivateRoute element={Announcement} />} />
+            <Route path="admin" element={<PrivateRoute element={AdminPanel} />} />
           </Route>
-          <Route path="notifications" element={<NotificationPage/>} />
-          <Route path="myprofile" element={<MyProfile/>} />
-          <Route path="/results/:compId" element={<UserViewResultsPage/>} />
-          <Route path="home/view-koi" element={<ViewKoiEntries/>} />
-          <Route path="home/view-contests" element={<ApproveKoiEntries/>} />
+          <Route path="notifications" element={<PrivateRoute element={NotificationPage} />} />
+          <Route path="myprofile" element={<PrivateRoute element={MyProfile} />} />
+          <Route path="/results/:compId" element={<PrivateRoute element={UserViewResultsPage} />} />
+          <Route path="home/view-koi" element={<PrivateRoute element={ViewKoiEntries} />} />
+          <Route path="home/view-contests" element={<PrivateRoute element={ApproveKoiEntries} />} />
           <Route path="/forget-password" element={<ForgetPass />} />
-          <Route path="/checkin/:competitionId" element={<KoiListForCompetition/>} />
-          <Route path="/competitionMatch/:compId" element={<CompetitionPage/>} />
-          <Route path="/news/:newsTypeId" element={<NewsPage/>} />
+          <Route path="/checkin/:competitionId" element={<PrivateRoute element={KoiListForCompetition} />} />
+          <Route path="/competitionMatch/:compId" element={<PrivateRoute element={CompetitionPage} />} />
+          <Route path="/news/:newsTypeId" element={<PrivateRoute element={NewsPage} />} />
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-          <Route path="/dashboard/:compId" element={<Dashboard/>} />
-          <Route path='/competition-results' element={<ResultPage/>} />
+          <Route path="/dashboard/:compId" element={<PrivateRoute element={Dashboard} />} />
+          <Route path='/competition-results' element={<PrivateRoute element={ResultPage} />} />
           <Route path='view-all-contest' element={<ListCompetitionComp/>}/>
           <Route path='history' element={<HistoryComp/>}></Route>
           {/* Catch-all route to redirect to home */}

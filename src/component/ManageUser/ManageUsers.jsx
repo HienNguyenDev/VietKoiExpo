@@ -26,6 +26,11 @@ const ManageUsersPage = () => {
   const [searchValue, setSearchValue] = useState(''); // State for search value
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.userReducer.listUser);
+  const userRole = useSelector(state => state.userReducer.userLogin.roleId);
+  const hasManagerPermission = userRole === 'manager';
+  const hasStaffPermission = userRole === 'staff';
+  const hasJudgePermission = userRole === 'judge';
+  const hasMemberPermission = userRole === 'member';
   
   const userDetailData = useSelector(state => state.userReducer.userDetail);
 
@@ -193,19 +198,25 @@ const ManageUsersPage = () => {
       render: (text, record) => (
         <span>
           <Button type="link" icon={<EyeOutlined />} onClick={() => handleView(record.userId)}>Xem</Button>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.userId)}>Cập nhật</Button>
-          <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.userId)}>Xóa</Button>
+          {hasManagerPermission && (
+            <>
+              <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.userId)}>Cập nhật</Button>
+              <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDelete(record.userId)}>Xóa</Button>
+            </>
+          )}
         </span>
-      ),
+      )
     },
   ];
 
   return (
     <div className={styles.manageUsersPage}>
       
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginBottom: 16 }}>
-        Thêm người dùng
-      </Button>
+      {hasManagerPermission && (
+  <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} style={{ marginBottom: 16 }}>
+    Thêm người dùng
+  </Button>
+)}
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
         <Col span={8}>
           <Input

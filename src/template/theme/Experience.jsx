@@ -26,10 +26,10 @@ const Experience = () => {
                 </p>
               <div className="btn-box">
                 <a href="" className="btn-1">
-                  Read More
+                  Đọc Thêm
                 </a>
                 <a href="" className="btn-2">
-                  Hire
+                  Rút gọn
                 </a>
               </div>
             </div>
