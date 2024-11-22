@@ -104,6 +104,7 @@ namespace KSM.Repository.Repositories.KoifishRepository
                                     CompId = compId,
                                     Age = koi.Age,
                                     Size = koi.Size,
+                                    ImageUrl = koi.ImageUrl,
                                     ScoreShape = subScore != null && subScore.UserId == userId ? subScore.ScoreShape : null,
                                     ScoreColor = subScore != null && subScore.UserId == userId ? subScore.ScoreColor : null,
                                     ScorePattern = subScore != null && subScore.UserId == userId ? subScore.ScorePattern : null,
