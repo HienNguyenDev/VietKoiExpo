@@ -79,7 +79,11 @@ namespace KSM.APIService.Controllers
                 koiFishCategory.KoiId = koiFishID;
                 koiFishCategory.CompId = await _registRepo.GetCompIDByRegistIdAsync(registrationID);
                 koiFishCategory.CompetitionCategoryId = Guid.NewGuid();
-                if (koiFish.Size < 40 && koiFish.Age == 2)
+                if (koiFish.Size >= 50 && koiFish.Age >= 3 && (koiFish.VarietyId == "kohaku" || koiFish.VarietyId == "sanke" || koiFish.VarietyId == "showa"))
+                {
+                    koiFishCategory.CategoryId = "sakura";
+                }
+                else if (koiFish.Size < 40 && koiFish.Age <= 2)
                 {
                     koiFishCategory.CategoryId = "baby";
                 }
@@ -87,21 +91,17 @@ namespace KSM.APIService.Controllers
                 {
                     koiFishCategory.CategoryId = "young";
                 }
-                else if (koiFish.Size >= 55 && koiFish.Size <= 70 && koiFish.Age >= 3 && koiFish.Age <= 7)
+                else if (koiFish.Size > 55 && koiFish.Size <= 70 && koiFish.Age >= 3 && koiFish.Age <= 4)
                 {
                     koiFishCategory.CategoryId = "adult";
                 }
-                else if (koiFish.Size >= 70 && koiFish.Size <= 80 && koiFish.Age >= 4)
+                else if (koiFish.Size > 70 && koiFish.Size <= 80 && koiFish.Age >= 4)
                 {
                     koiFishCategory.CategoryId = "mature";
                 }
-                else if (koiFish.Size >= 80 && koiFish.Age >= 4)
+                else if (koiFish.Size > 80 && koiFish.Age >= 4)
                 {
                     koiFishCategory.CategoryId = "grand";
-                }
-                else if (koiFish.Size >= 50 && koiFish.Age >= 3 && (koiFish.VarietyId == "kohaku" || koiFish.VarietyId == "sanke" || koiFish.VarietyId == "showa"))
-                {
-                    koiFishCategory.CategoryId = "sakura";
                 }
 
                 var categories = await _compCateRepo.GetAllCategoryIdsByCompetitionId((Guid)koiFishCategory.CompId);
