@@ -30,7 +30,7 @@ const Header = () => {
       setIsModalVisible(true);
       return;
     }
-    if (path === 'history') {
+    if (path === '/home/history') {
       setShowHistory(!showHistory);
     } else {
       navigate(path);
@@ -73,7 +73,7 @@ const Header = () => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, '/history')}>
+                  <a className="nav-link" href="#" onClick={(e) => handleProtectedRoute(e, '/home/history')}>
                     Lịch sử
                   </a>
                 </li>
@@ -100,7 +100,7 @@ const Header = () => {
       {showHistory && userLogin && <HistoryComp />}
       
       <Modal
-        title="Login Required"
+        title="Yêu cầu đăng nhập"
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={[
@@ -114,11 +114,11 @@ const Header = () => {
               navigate('/login');
             }}
           >
-            Go to Login
+           Tới trang đăng nhập
           </Button>
         ]}
       >
-        <p>You need to log in to access this feature.</p>
+        <p>Bạn cần phải đăng nhập để có thể sử dụng!</p>
       </Modal>
     </>
   );

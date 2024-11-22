@@ -14,7 +14,6 @@
   }
 
   .backButton {
-    margin-bottom: 20px;
     background-color: #ff6f61; // Pastel Coral
     color: #fff;
     border: none;
@@ -60,3 +59,18 @@
     }
   }
 }
+.backButton {
+    margin-bottom: 20px;
+    background-color: #ff6d1f; // New color
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+
+    &:hover {
+      background-color: #60badb; // New color
+      transform: translateY(-2px);
+    }
+  }

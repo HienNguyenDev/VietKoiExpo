@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { ReactComponent as KoiIcon } from '../../asset/icon/koi-svgrepo-com.svg';
 import { ReactComponent as DarumaIcon } from '../../asset/icon/daruma-svgrepo-com.svg';
@@ -24,12 +24,11 @@ import {
   SolutionOutlined,
   RocketOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, message } from 'antd';
 import ContentAdminHomePage from './content/ContentAdminHomePage';
 import ControlledOpenSpeedDialCustom from '../../component/shared/speed dial/SpeedDial';
 import AccountMenu from '../../component/shared/AccountMenu/AccountMenu'; // Your existing AccountMenu component
 import { dark, light } from '@mui/material/styles/createPalette';
-
 import NotificationPage from '../../component/shared/notification/NotificationPage';
 import { useSelector } from 'react-redux';
 
@@ -56,9 +55,9 @@ const items = [
     getItem('Xem Báo cáo Cuộc thi', '91', <FileOutlined />, undefined, 'view-contest-reports'),
   ]),
   getItem('Quản lý Tiêu chí Chấm thi', '102', <SettingOutlined />, undefined, 'manage-judging-criteria'),
- // getItem('Phân công nhiệm vụ', 'sub9', <DarumaIcon />, [
-   // getItem('Phân công Nhiệm vụ', '111', <SensuFanIcon />, undefined, 'manage-task-allocation'),
- // ]),
+  // getItem('Phân công nhiệm vụ', 'sub9', <DarumaIcon />, [
+  // getItem('Phân công Nhiệm vụ', '111', <SensuFanIcon />, undefined, 'manage-task-allocation'),
+  // ]),
 ];
 
 // Function to flatten the nested menu items for easier access
@@ -83,14 +82,23 @@ const breadcrumbItems = flattenedItems.map((item) => (
 ));
 
 const AdminPage = () => {
+  const navigate = useNavigate();
+  const userLogin = useSelector(state => state.userReducer.userLogin);
+
+  useEffect(() => {
+    console.log('User login:', userLogin);
+    if (!userLogin || !['staff', 'manager'].includes(userLogin.roleId)) {
+      message.error('Bạn không có quyền truy cập trang này.');
+      navigate('/home'); // Điều hướng về trang chủ nếu không phải staff hoặc admin
+    }
+  }, [userLogin, navigate]);
 
   const [collapsed, setCollapsed] = useState(false);
   // State để quản lý hiển thị thông báo
-  const [showNotifications, setShowNotifications] = useState(false); 
+  const [showNotifications, setShowNotifications] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  const navigate = useNavigate();
 
   const handleMenuClick = (key) => {
     const item = flattenedItems.find((item) => item.key === key);
@@ -105,7 +113,7 @@ const AdminPage = () => {
   const handleShowNotifications = () => {
     setShowNotifications(true); // Hiển thị thông báo khi người dùng chọn Thông báo
   };
-  const userLogin = useSelector(state => state.userReducer.userLogin);
+
   if (!userLogin) {
     return null; // Render nothing if userLogin is null
   }
@@ -126,14 +134,14 @@ const AdminPage = () => {
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <img
-            src="https://imgur.com/V1zXtZN.jpg" 
+            src="https://imgur.com/V1zXtZN.jpg"
             alt="VietKoiExpo Logo"
             style={{ height: '40px', marginRight: '12px' }}
           />
           <h2 style={{ margin: 0, color: 'cyan' }}>VietKoiExpo</h2>
         </div>
         <div>
-        <AccountMenu  /> {/* Truyền hàm vào AccountMenu */}
+          <AccountMenu /> {/* Truyền hàm vào AccountMenu */}
         </div>
       </Header>
       <Layout>
@@ -164,6 +172,5 @@ const AdminPage = () => {
     </Layout>
   );
 };
-
 
 export default AdminPage;

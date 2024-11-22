@@ -1,0 +1,163 @@
+// src/components/ViewKoiEntries/ViewKoiEntries.scss
+
+$black: #252525;
+$white: #ffffff;
+$primary1: #ff6d1f;
+$primary2: #60badb;
+$btnColor: #ff4f5a;
+
+@mixin main-font {
+  font-family: 'Poppins', sans-serif;
+}
+
+@mixin second-font {
+  font-family: "Poppins", sans-serif;
+}
+
+@mixin hero_btn($col1, $col2, $pad1, $pad2, $bRadius) {
+  display: inline-block;
+  padding: $pad1 $pad2;
+  background-color: $col1;
+  color: $col2;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+  border-radius: $bRadius;
+
+  &:hover {
+    background-color: transparent;
+    border-color: $col1;
+    color: $col1;
+  }
+}
+
+@mixin upperBold {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+body {
+  @include main-font();
+  color: #0c0c0c;
+  background-color: #ffffff;
+}
+
+.layout_padding {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+.layout_padding2 {
+  padding: 45px 0;
+}
+
+.layout_padding2-top {
+  padding-top: 45px;
+  padding-bottom: 45px;
+}
+
+.layout_padding2-bottom {
+  padding-bottom: 45px;
+}
+
+.layout_padding-top {
+  padding-top: 90px;
+}
+
+.layout_padding-bottom {
+  padding-bottom: 90px;
+}
+
+.heading_container {
+  display: flex;
+
+  h2 {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+.viewKoiEntriesPage {
+  .header {
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $primary2;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+
+    .backButton {
+      background-color: $primary1;
+      color: $white;
+      border: none;
+      &:hover {
+        background-color: $btnColor;
+        color: $white;
+      }
+    }
+
+    h2 {
+      color: $white;
+    }
+  }
+
+  .content {
+    margin-top: 64px;
+    padding: 20px;
+    background-color: $white;
+  }
+
+  .koiCard {
+    .ant-card {
+      border-radius: 10px;
+      box-shadow: 0px 0px 20px 0 rgba(0, 0, 0, 0.2);
+      .ant-card-cover img {
+        border-radius: 10px 10px 0 0;
+      }
+      .ant-card-actions {
+        border-top: 1px solid #f0f0f0;
+      }
+    }
+    .ant-card-meta-title {
+      color: $primary1;
+    }
+    .ant-card-meta-description {
+      color: $black;
+    }
+  }
+
+  .modal {
+    .ant-modal-header {
+      background-color: $primary2;
+      .ant-modal-title {
+        color: $white;
+      }
+    }
+    .ant-modal-body {
+      background-color: $white;
+    }
+    .ant-modal-footer {
+      background-color: $primary2;
+      .ant-btn-primary {
+        background-color: $primary1;
+        border-color: $primary1;
+        &:hover {
+          background-color: $btnColor;
+          border-color: $btnColor;
+        }
+      }
+    }
+  }
+
+  .form {
+    .ant-form-item-label > label {
+      color: $black;
+    }
+    .ant-input,
+    .ant-select-selector,
+    .ant-picker {
+      border-radius: 5px;
+    }
+  }
+}

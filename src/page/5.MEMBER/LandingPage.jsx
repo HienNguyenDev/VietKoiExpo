@@ -24,7 +24,8 @@ const LandingPage = () => {
   const registeredKoi = useSelector(state => state.RegisterKoiReducer.koiList);
   const registrationList = useSelector(state => state.RegisterKoiReducer.registrationList); // Get registration list from Redux state
   const userLogin = useSelector(state => state.userReducer.userLogin);
-  
+  const [form] = Form.useForm();
+
   const koiList = useSelector(state => state.RegisterKoiReducer.koiList); // Get koiList from Redux state
   
   const [loading, setLoading] = useState(true);
@@ -113,7 +114,11 @@ const LandingPage = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setSelectedCompetition(null);
+    setCategories([]);
+    form.resetFields();
   };
+  
 
   const handleFormSubmit = async (values) => {
     const { koiIds } = values;
@@ -121,22 +126,39 @@ const LandingPage = () => {
       message.error('Please select a competition to register.');
       return;
     }
-
-    try {
-      for (const koiId of koiIds) {
-        const koi = mockKoiList.find(k => k.koiId === koiId);
-        console.log(`Registering Koi "${koi.koiName}" for competition "${selectedCompetition.compName}" with compId: ${selectedCompetition.compId}`); // Debug compId
-        await registerKoiForCompetitionApi(koiId, selectedCompetition.compId, 0); // Register each koi individually
+  
+    const registerKoi = async () => {
+      try {
+        for (const koiId of koiIds) {
+          const koi = mockKoiList.find((k) => k.koiId === koiId);
+          console.log(
+            `Registering Koi "${koi.koiName}" for competition "${selectedCompetition.compName}" with compId: ${selectedCompetition.compId}`
+          );
+          await registerKoiForCompetitionApi(koiId, selectedCompetition.compId, 0);
+  
+          // Cập nhật danh sách mockKoiList và availableKoiList
+          setMockKoiList((prevList) => prevList.filter((koi) => koi.koiId !== koiId));
+        }
+        message.success('Tất cả cá koi đã dduoc đăng ký thành công!');
+        await reloadKoiList(); // Reload the Koi list after registration
+      } catch (error) {
+        message.error('Đăng kí cá Koi thất bại. Vui lòng thử lại.');
+        console.error('Error during koi registration:', error);
       }
-      message.success('All selected Koi successfully registered!');
-      await reloadKoiList(); // Reload the Koi list after registration
-    } catch (error) {
-      message.error('Registration failed for some Koi.');
-      console.error('Error during koi registration:', error);
-    }
-
-    setIsModalVisible(false); // Close modal after processing all koi
+      setIsModalVisible(false); // Close modal after processing all koi
+    };
+  
+    // Hiển thị cảnh báo trước khi đăng ký
+    Modal.confirm({
+      title: 'Xác nhận đăng ký',
+      content:
+        'Lựa chọn cá Koi phù hợp với các hạng mục thi đấu. Nếu không đạt tiêu chí, cá có thể bị từ chối. Hãy kiểm tra kỹ trước khi đăng ký.',
+      okText: 'Đồng ý',
+      cancelText: 'Hủy',
+      onOk: registerKoi, // Gọi hàm async đã tách ra
+    });
   };
+  
 
   // Filter out Koi fish that have already been registered for the selected competition
   const availableKoiList = mockKoiList.filter(koi => {
@@ -257,7 +279,7 @@ const LandingPage = () => {
                             )}
                             {status === 'ongoing' && userRegistered && (
                               <Button style={{ color: '#e162c1',
-                                textShadow: '0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1',fontWeight:'600'}} type="link" onClick={() => navigate(`/checkin/${competition.compId}`)}>
+                                textShadow: '0 0 10px #e162c1, 0 0 20px #e162c1, 0 0 30px #e162c1',fontWeight:'600'}} type="link" onClick={() => navigate(`/competitionMatch/${competition.compId}`)}>
                                 Theo dõi cuộc thi
                               </Button>
                             )}
@@ -294,7 +316,7 @@ const LandingPage = () => {
       footer={null}
       width={800}
     >
-      <Form onFinish={handleFormSubmit}>
+      <Form  form={form} onFinish={handleFormSubmit}>
         <Form.Item label="Chọn Koi" name="koiIds" rules={[{ required: true, message: 'Vui lòng chọn ít nhất một Koi' }]}>
           <Select mode="multiple" placeholder="Chọn Koi" optionLabelProp="label">
             {availableKoiList.map((koi) => (

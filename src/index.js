@@ -130,7 +130,7 @@ const App = () => {
           <Route path="/dashboard/:compId" element={<PrivateRoute element={Dashboard} />} />
           <Route path='/competition-results' element={<PrivateRoute element={ResultPage} />} />
           <Route path='view-all-contest' element={<ListCompetitionComp/>}/>
-          <Route path='history' element={<HistoryComp/>}></Route>
+          <Route path='/home/history' element={<HistoryComp/>}></Route>
           {/* Catch-all route to redirect to home */}
           <Route path="slider" element={<MainPage/>}></Route>
           <Route path="*" element={<Navigate to="/" />} />

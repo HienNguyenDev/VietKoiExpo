@@ -191,7 +191,7 @@ const hasMemberPermission = userRole === 'member';
 
   const disabledEndDate = (current) => {
     const startDate = form.getFieldValue('startDate');
-    return current && (current < moment().startOf('day') || (startDate && current < startDate));
+    return current && (current < moment().startOf('day') || (startDate && (current < startDate || current.isSame(startDate, 'day'))));
   };
 
   const updateContestStatus = () => {
@@ -204,7 +204,7 @@ const hasMemberPermission = userRole === 'member';
   };
 
   useEffect(() => {
-    const interval = setInterval(updateContestStatus, 240000); // Kiểm tra mỗi phút
+    const interval = setInterval(updateContestStatus, 900000);
     return () => clearInterval(interval);
   }, [contestsData, dispatch]);
 

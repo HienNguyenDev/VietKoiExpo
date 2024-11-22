@@ -29,7 +29,8 @@ const PredictionComp = () => {
   const [koiDetails, setKoiDetails] = useState({});
 
   const [users, setUsers] = useState([]);
-  const [compDetails, setCompDetails] = useState({});
+  const [compDetails, setCompDetails] = useState([]);
+
   useEffect(() => {
     fetchPredictions();
   }, []);

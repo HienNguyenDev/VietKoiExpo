@@ -5,8 +5,10 @@
   import { fetchUserByIdActionApi, updateUserActionApi } from '../../../../src/store/redux/action/userAction';
   import AccountMenu from '../../shared/AccountMenu/AccountMenu';
   import { updateUserLoginAction } from '../../../store/redux/reducers/userReducer';
+  import styles from './MyProfile.module.scss';
   import UploadImageComponent from '../UploadImage/UploadImage';
-  const { Header, Content } = Layout;
+import Header from '../../../template/theme/Header';
+  const { Content } = Layout;
   const { Title } = Typography;
 
     const MyProfile = () => {
@@ -103,13 +105,7 @@
       <Layout style={{ minHeight: '100vh', width: '100vw' }}>
         <div>
           {/* back to home page */}
-          <Button
-            type="primary"
-          
-            onClick={() => navigate(-1)}
-          >
-            Quay lại neeeeeeeeeeeeeeeeeeeeeeeeeee
-          </Button>
+         
         </div>
         <Header
           style={{
@@ -131,6 +127,7 @@
             />
             <h2 style={{ margin: 0, color: 'cyan' }}>VietKoiExpo</h2>
           </div>
+          <Button className={styles.backButton} onClick={() => navigate('/')}>Quay về trang chủ</Button>
           <AccountMenu userAvatar={<Avatar src={userLogin?.imageUrl || 'https://via.placeholder.com/80'} size={40} />} />
         </Header>
         <Content style={{ padding: '80px 24px', marginTop: '64px' }}>
@@ -189,9 +186,7 @@
                   <Form.Item label="Vai trò" name="roleId">
                     <Input disabled />
                   </Form.Item>
-                  <Form.Item label="Trạng thái" name="status">
-                    <Input disabled />
-                  </Form.Item>
+               
                   <Form.Item>
                     <Space>
                       <Button type="default" onClick={() => navigate(-1)}>

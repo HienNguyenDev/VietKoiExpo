@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateKoiDetail } from '../../store/redux/action/koiRegisterAction';
 import axios from 'axios';
+import styles from './ViewKoiEntries.module.scss';
 import UploadImageComponent from '../../component/shared/UploadImage/UploadImage';
 import AccountMenu from '../../component/shared/AccountMenu/AccountMenu';
 import moment from 'moment';
-
 const { Header, Content } = Layout;
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -17,6 +17,7 @@ const ViewKoiEntries = () => {
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentKoi, setCurrentKoi] = useState(null);
+  const [varieties, setVarieties] = useState([]);
   const [form] = Form.useForm();
   
   const userId = useSelector(state => state.userReducer.userLogin.userId);
@@ -52,6 +53,19 @@ const ViewKoiEntries = () => {
       fetchKoiEntries();
     }
   }, [userId]);
+
+  useEffect(() => {
+    const fetchVarieties = async () => {
+      try {
+        const response = await axios.get('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Variety');
+        setVarieties(response.data);
+      } catch (error) {
+        message.error('Lỗi khi lấy dữ liệu giống cá');
+      }
+    };
+
+    fetchVarieties();
+  }, []);
 
   const handleUpdate = (koi) => {
     console.log('Bắt đầu cập nhật cá Koi:', koi);
@@ -139,16 +153,21 @@ const ViewKoiEntries = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: currentTheme.palette.background.default,
-          position: 'fixed',
           width: '100%'
         }}
-      >
+      > 
+      
         <div>
-          <Title style={{ color: currentTheme.palette.text.primary }}>
+          <Row>
+        <Col style={{marginTop:'40px'}} span={24}>
+        <Button className={styles.backButton} onClick={() => navigate('/')}>Quay về trang chủ</Button></Col>
+          <Title  style={{ color: currentTheme.palette.text.primary }}>
             Danh sách cá Koi của {fullName}
           </Title>
+          </Row>
         </div>
-        <AccountMenu />
+        
+        
       </Header>
       <Content style={{ marginTop: 64 }}>
         <Row gutter={[16, 16]}>
@@ -192,17 +211,18 @@ const ViewKoiEntries = () => {
             </Form.Item>
             <Form.Item name="varietyId" label="Giống cá" rules={[{ required: true }]}>
               <Select placeholder="Chọn giống cá">
-                <Option value="1">Giống 1</Option>
-                <Option value="2">Giống 2</Option>
-                {/* Add other varieties here */}
+                {varieties.map((variety) => (
+                  <Option key={variety.varietyId} value={variety.varietyId}>
+                    {variety.varietyName}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
             {currentKoi && (
-  <Form.Item name="birthDate" label="Ngày sinh">
-    <DatePicker value={currentKoi?.birthDate ? moment(currentKoi.birthDate) : null} format="YYYY-MM-DD" />
-  </Form.Item>
-)}
-
+              <Form.Item name="birthDate" label="Ngày sinh">
+                <DatePicker value={currentKoi?.birthDate ? moment(currentKoi.birthDate) : null} format="YYYY-MM-DD" />
+              </Form.Item>
+            )}
             <Form.Item name="imageUrl" label="Hình ảnh">
               <UploadImageComponent />
             </Form.Item>

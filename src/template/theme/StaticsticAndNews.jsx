@@ -1,7 +1,6 @@
-// src/components/StatisticsAndNews/StatisticsAndNews.jsx
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Row, Col, Carousel } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import './Slider.scss';
 import './StatisticsAndNews.scss';
 import { fetchAllNews } from '../../store/redux/action/NewsAction'; 
@@ -11,7 +10,6 @@ import f2 from '../../asset/images/f2.png';
 import f3 from '../../asset/images/f3.png';
 import f4 from '../../asset/images/f4.png';
 import freelanceImg from '../../asset/images/freelance-img.jpg';
-import quoteImg from '../../asset/images/quote.png';
 
 const statisticsData = [
   {
@@ -49,6 +47,14 @@ const StatisticsAndNews = () => {
   useEffect(() => {
     // Dispatch action to fetch news when component mounts
     dispatch(fetchAllNews());
+
+    // Set interval to fetch news every 5 seconds
+    const intervalId = setInterval(() => {
+      dispatch(fetchAllNews());
+    }, 5000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
   }, [dispatch]);
 
   const handlePrev = () => {
@@ -122,7 +128,7 @@ const StatisticsAndNews = () => {
                       key={newsItem.id}
                       className={`carousel-item ${index === activeIndex ? 'active' : ''}`}
                     >
-                      <div className="detail-box">
+                      <div style={{ borderRadius: '20px' }} className="detail-box">
                         <h4>{(newsItem.newsDescription.match(/<(h[1-6])>(.*?)<\/\1>/)?.[2] || '').substring(0, 40) + '...'}</h4>
                         <p>{newsItem.newsDescription.replace(/<[^>]*>/g, '')}</p>
                         <img src={newsItem.imageUrl} alt="NewsImage" style={{ width: '100%', height: '300px', objectFit: 'cover' }} />

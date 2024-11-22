@@ -22,10 +22,9 @@ import { getKoiVarietiesApi } from '../../service/koiRegistAPI';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import styles from './ApproveKoiEntries.module.scss';
-import BackButton from '../shared/button/BackButton'; // Import the BackButton component
-import UploadImageComponent from '../shared/UploadImage/UploadImage';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
+import UploadImageComponent from '../shared/UploadImage/UploadImage';
 
 const ApproveKoiEntries = () => {
   const dispatch = useDispatch();
@@ -110,7 +109,6 @@ const ApproveKoiEntries = () => {
 
   const handleConfirm = async () => {
     setOpen(false);
-    console.log("userIduserIduserId", userId);
     if (!userId) {
       setErrorMessage('Thông tin người dùng bị thiếu. Vui lòng đăng nhập lại.');
       return;
@@ -122,10 +120,9 @@ const ApproveKoiEntries = () => {
     };
 
     try {
-      console.log("registerkoi");
       await dispatch(registerKoi(dataToSend));
       formik.resetForm();
-      alert('Đăng ký thành công. Đang chờ phê duyệt.');
+      message.success('Đăng ký thành công. Đang chờ phê duyệt.');
     } catch (error) {
       setErrorMessage('Đăng ký cá Koi thất bại. Vui lòng thử lại.');
       console.error(error);
@@ -218,12 +215,18 @@ const ApproveKoiEntries = () => {
           onSuccess={handleKoiImageUpload}
           defaultUrl={formik.values.imageUrl}
         />
+        {formik.touched.imageUrl && formik.errors.imageUrl && (
+          <Typography color="error">{formik.errors.imageUrl}</Typography>
+        )}
 
         <p>Ảnh chứng chỉ</p>
         <UploadImageComponent
           onSuccess={handleCertificateImageUpload}
           defaultUrl={formik.values.certificateImageUrl}
         />
+        {formik.touched.certificateImageUrl && formik.errors.certificateImageUrl && (
+          <Typography color="error">{formik.errors.certificateImageUrl}</Typography>
+        )}
 
         <FormControlLabel
           control={
@@ -264,8 +267,10 @@ const ApproveKoiEntries = () => {
           <Typography variant="body1" style={{ color: '#000000' }}><strong>Kích thước:</strong> {formik.values.size} cm</Typography>
           <Typography variant="body1" style={{ color: '#000000' }}><strong>Tuổi:</strong> {calculateAge(formik.values.birthDate)} năm</Typography>
           <Typography variant="body1" style={{ color: '#000000' }}><strong>Ngày sinh:</strong> {new Date(formik.values.birthDate).toLocaleDateString()}</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>URL ảnh:</strong> {formik.values.imageUrl || 'Không có ảnh'}</Typography>
-          <Typography variant="body1" style={{ color: '#000000' }}><strong>URL ảnh chứng chỉ:</strong> {formik.values.certificateImageUrl || 'Không có ảnh'}</Typography>
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Ảnh cá Koi:</strong></Typography>
+          {formik.values.imageUrl && <img src={formik.values.imageUrl} alt="Koi" style={{ maxWidth: '100%', height: 'auto' }} />}
+          <Typography variant="body1" style={{ color: '#000000' }}><strong>Ảnh chứng chỉ:</strong></Typography>
+          {formik.values.certificateImageUrl && <img src={formik.values.certificateImageUrl} alt="Certificate" style={{ maxWidth: '100%', height: 'auto' }} />}
           <Typography variant="body1" style={{ color: '#000000' }}><strong>Trạng thái:</strong> {formik.values.status ? 'Hoạt động' : 'Không hoạt động'}</Typography>
         </DialogContent>
         <DialogActions>
