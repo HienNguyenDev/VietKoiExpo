@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication;
 using static KSM.APIService.Controllers.UserController;
 using Microsoft.AspNetCore.Authentication.Google;
 using Google.Apis.Auth;
+using AutoMapper;
 namespace KSM.APIService.Controllers
 {
     [Route("api/[controller]")]
@@ -68,9 +69,29 @@ namespace KSM.APIService.Controllers
                 //Trả về token và dữ liệu user
                 return Ok(new { loginResponse, user});
         }
+        public class UserModelCreate
+        {
+            public string RoleId { get; set; }
+
+            public string Password { get; set; }
+
+            public string Email { get; set; }
+
+            public string FullName { get; set; }
+
+            public string Phone { get; set; }
+
+            public string Address { get; set; }
+
+            public string? ImageUrl { get; set; }
+
+            public int? Experience { get; set; }
+
+            public bool? Status { get; set; }
+        }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(Register registerUser)
+        public async Task<IActionResult> Register(UserModelCreate registerUser)
         {
             // Check if username or email already exists
             var existingUserByUsername = await _userRepository.GetByEmail(registerUser.Email);
@@ -84,11 +105,17 @@ namespace KSM.APIService.Controllers
             // Create a new user entity
             try
             {
-                var newUser = new Tbluser
+                var newUser = new Tbluser()
                 {
                     UserId = Guid.NewGuid(),
                     Email = registerUser.Email,
                     Password = registerUser.Password,
+                    FullName = registerUser.FullName,
+                    Phone = registerUser.Phone,
+                    Address = registerUser.Address,
+                    ImageUrl = registerUser.ImageUrl,
+                    Experience = registerUser.Experience,
+                    Status = registerUser.Status,
                     RoleId = "member",
                 };
             
@@ -130,7 +157,7 @@ namespace KSM.APIService.Controllers
                 {
                     var newUser = new Tbluser
                     {
-                        UserId = Guid.NewGuid(),
+                        UserId = Guid.NewGuid(),    
                         Email = userEmail,
                         FullName = userName,
                         RoleId = "member"
