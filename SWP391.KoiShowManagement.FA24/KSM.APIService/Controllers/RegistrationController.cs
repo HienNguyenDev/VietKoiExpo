@@ -83,7 +83,7 @@ namespace KSM.APIService.Controllers
                 {
                     koiFishCategory.CategoryId = "sakura";
                 }
-                else if (koiFish.Size < 40 && koiFish.Age == 2)
+                else if (koiFish.Size < 40 && koiFish.Age <= 2)
                 {
                     koiFishCategory.CategoryId = "baby";
                 }
@@ -91,7 +91,7 @@ namespace KSM.APIService.Controllers
                 {
                     koiFishCategory.CategoryId = "young";
                 }
-                else if (koiFish.Size > 55 && koiFish.Size <= 70 && koiFish.Age >= 3 && koiFish.Age <= 7)
+                else if (koiFish.Size > 55 && koiFish.Size <= 70 && koiFish.Age >= 3 && koiFish.Age <= 4)
                 {
                     koiFishCategory.CategoryId = "adult";
                 }
