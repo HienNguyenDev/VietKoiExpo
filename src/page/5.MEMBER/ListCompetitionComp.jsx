@@ -58,7 +58,7 @@ const ListCompetitionComp = () => {
   };
 
   const filteredCompetitions = competitions.filter(competition => {
-    return competition.compName.toLowerCase().includes(searchTerm.toLowerCase());
+    return competition.status !== 3 && competition.compName.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
   return (
@@ -108,7 +108,7 @@ const ListCompetitionComp = () => {
                           <Col span={8}>
                             <Typography.Title style={{ color: '#fff', fontWeight: '600' }} level={4}>{competition.compName}</Typography.Title>
                             <Typography.Paragraph style={{ color: '#ffffff' }}>{competition.compDescription}</Typography.Paragraph>
-                            <Typography.Paragraph style={{ color: '#ffffff' }}>Location: {competition.location}</Typography.Paragraph>
+                            <Typography.Paragraph style={{ color: '#ffffff' }}>Địa điểm: {competition.location}</Typography.Paragraph>
                           </Col>
                           <Col span={8}>
                             <Typography.Paragraph>

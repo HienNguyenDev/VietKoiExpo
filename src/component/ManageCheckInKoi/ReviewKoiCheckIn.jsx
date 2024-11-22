@@ -221,9 +221,9 @@ const ReviewKoiCheckInPage = () => {
         style={{ marginBottom: 16 }}
       >
         <Radio.Button value="all">Tất cả</Radio.Button>
-        <Radio.Button value="pending">Chờ Duyệt</Radio.Button>
-        <Radio.Button value="checkin">Đã CheckIn</Radio.Button>
-        <Radio.Button value="rejected">Bị Từ Chối</Radio.Button>
+        <Radio.Button value={0}>Chờ Duyệt</Radio.Button>
+        <Radio.Button value={1}>Đã CheckIn</Radio.Button>
+        <Radio.Button value={2}>Bị Từ Chối</Radio.Button>
       </Radio.Group>
       <Table
         columns={columns}

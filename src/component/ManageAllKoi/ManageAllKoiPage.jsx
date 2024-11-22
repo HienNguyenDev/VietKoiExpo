@@ -71,7 +71,7 @@ const ManageAllKoiPage = () => {
                               (filterVariety === 'asagi' && koi.varietyId === 'asagi') ||
                               (filterVariety === 'koromo' && koi.varietyId === 'koromo') ||
                               (filterVariety === 'goromo' && koi.varietyId ==='goromo') ||
-                              (filterVariety === 'shiroUtsuri' && koi.varietyId === 'shiroUtsuri');
+                              (filterVariety === 'shiroutsuri' && koi.varietyId === 'shiroutsuri');
                               
         const matchesSearch = koi.koiName.toLowerCase().includes(searchQuery.toLowerCase()) ||
                               userNames[koi.userId].toLowerCase().includes(searchQuery.toLowerCase());
@@ -176,7 +176,7 @@ const ManageAllKoiPage = () => {
                 <Radio.Button value="asagi">Asagi</Radio.Button>
                 <Radio.Button value="koromo">Koromo</Radio.Button>
                 <Radio.Button value="goromo">Goromo</Radio.Button>
-                <Radio.Button value="shiroUtsuri">Shiro Utsuri</Radio.Button>
+                <Radio.Button value="shiroutsuri">Shiro Utsuri</Radio.Button>
             </Radio.Group>
 
             {/* Table hiển thị các cá Koi đã lọc */}

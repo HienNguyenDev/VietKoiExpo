@@ -47,7 +47,7 @@ const ManageKoiJudgingPage = () => {
     return () => clearInterval(intervalId); // Dọn dẹp interval khi thành phần unmount
   }, [dispatch, compId]);
 
-  const areAllKoiJudged = koiList.every(koi => koi.status); // Kiểm tra nếu tất cả cá Koi đã được đánh giá
+  const areAllKoiJudged = koiList.length > 0 && koiList.every(koi => koi.status); // Kiểm tra nếu tất cả cá Koi đã được đánh giá
 
   useEffect(() => {
     console.log("areAllKoiJudged", areAllKoiJudged);

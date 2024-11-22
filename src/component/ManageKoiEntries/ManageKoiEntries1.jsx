@@ -31,10 +31,10 @@ const ManageKoiEntriesPage = () => {
 
   // Lọc danh sách các cuộc thi theo trạng thái
   const filteredCompetitions = contests.filter(competition => {
-    const matchesStatus = filterStatus === 'all' || 
+    const matchesStatus = (competition.status !== 3) && (filterStatus === 'all' || 
                           (filterStatus === 'upcoming' && competition.status === 0) ||
                           (filterStatus === 'ongoing' && competition.status === 1) ||
-                          (filterStatus === 'completed' && competition.status === 2);
+                          (filterStatus === 'completed' && competition.status === 2));
 
     const matchesSearch = competition.compName.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           competition.location.toLowerCase().includes(searchQuery.toLowerCase());
