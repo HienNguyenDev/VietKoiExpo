@@ -69,29 +69,8 @@ namespace KSM.APIService.Controllers
                 //Trả về token và dữ liệu user
                 return Ok(new { loginResponse, user});
         }
-        public class UserModelCreate
-        {
-            public string RoleId { get; set; }
-
-            public string Password { get; set; }
-
-            public string Email { get; set; }
-
-            public string FullName { get; set; }
-
-            public string Phone { get; set; }
-
-            public string Address { get; set; }
-
-            public string? ImageUrl { get; set; }
-
-            public int? Experience { get; set; }
-
-            public bool? Status { get; set; }
-        }
-
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(UserModelCreate registerUser)
+        public async Task<IActionResult> Register(Register registerUser)
         {
             // Check if username or email already exists
             var existingUserByUsername = await _userRepository.GetByEmail(registerUser.Email);
@@ -114,8 +93,7 @@ namespace KSM.APIService.Controllers
                     Phone = registerUser.Phone,
                     Address = registerUser.Address,
                     ImageUrl = registerUser.ImageUrl,
-                    Experience = registerUser.Experience,
-                    Status = registerUser.Status,
+                    Status = true,
                     RoleId = "member",
                 };
             
