@@ -96,7 +96,9 @@ namespace KSM.Repository.Repositories.KoifishRepository
                                 where registration.CompId == compId && checkIn.Status == 1
                                 join score in _context.Tblscores
                                 on koi.KoiId equals score.KoiId into scoreGroup
-                                from subScore in scoreGroup.DefaultIfEmpty() // Left join
+                                from subScore in scoreGroup
+                                .Where(s => s.UserId == userId) // Chỉ lấy điểm từ UserId khớp
+                                .DefaultIfEmpty() // Nếu không có điểm khớp, để null
                                 select new
                                 {
                                     KoiId = koi.KoiId,
@@ -105,16 +107,17 @@ namespace KSM.Repository.Repositories.KoifishRepository
                                     Age = koi.Age,
                                     Size = koi.Size,
                                     ImageUrl = koi.ImageUrl,
-                                    ScoreShape = subScore != null && subScore.UserId == userId ? subScore.ScoreShape : null,
-                                    ScoreColor = subScore != null && subScore.UserId == userId ? subScore.ScoreColor : null,
-                                    ScorePattern = subScore != null && subScore.UserId == userId ? subScore.ScorePattern : null,
-                                    TotalScore = subScore != null && subScore.UserId == userId ? subScore.TotalScore : null,
-                                    ScoreStatus = subScore != null && subScore.UserId == userId ? 1 : 0
+                                    ScoreShape = subScore != null ? subScore.ScoreShape : null,
+                                    ScoreColor = subScore != null ? subScore.ScoreColor : null,
+                                    ScorePattern = subScore != null ? subScore.ScorePattern : null,
+                                    TotalScore = subScore != null ? subScore.TotalScore : null,
+                                    ScoreStatus = subScore != null ? 1 : 0 // 1 nếu có điểm từ UserId này, 0 nếu không
                                 })
                                 .ToListAsync();
 
             return result;
         }
+
 
     }
 }
