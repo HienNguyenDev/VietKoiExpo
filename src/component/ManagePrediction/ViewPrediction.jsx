@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Badge, Spinner, Pagination, Form } from 'react-bootstrap';
 import './PredictionComp.scss';
 
-const ITEMS_PER_PAGE = 30;
+const ITEMS_PER_PAGE = 24;
 
 const SCORE_FILTERS = [
   { label: 'Tất cả', value: 'all' },
@@ -179,7 +179,7 @@ const PredictionComp = () => {
                   
                   {prediction.koiId && koiDetails[prediction.koiId] ? (
                     <>
-                      <div className="koi-image-container mb-3">
+                      <div style={{height:'450px'}} className="koi-image-container mb-6">
                         <img 
                           src={koiDetails[prediction.koiId].imageUrl} 
                           alt="Koi fish"

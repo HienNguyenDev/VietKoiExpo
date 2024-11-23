@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import styles from './LandingPage.module.scss';
 import BackButton from '../../component/shared/button/BackButton';
 import { registerKoiForCompetitionApi } from '../../service/koiRegistAPI';
-import contestReducer from '../../store/redux/reducers/contestReducer';
 import axios from 'axios';
 import Header from '../../template/theme/Header';
 import InfoSection from '../../template/theme/InforSection';
@@ -91,14 +90,14 @@ const LandingPage = () => {
     const status = getCompetitionStatus(competition);
     if (status === 'ongoing') {
       Modal.warning({
-        title: 'Competition Ongoing',
+        title: 'Cuộc thi đang diễn ra',
         content: 'Cuộc thi hiện tại đang diễn ra. Không thể đăng ký.',
       });
       return;
     }
     if (status === 'completed') {
       Modal.warning({
-        title: 'Competition Completed',
+        title: 'Cuộc thi đã kết thúc',
         content: 'Cuộc thi đã kết thúc. Vui lòng chọn cuộc thi khác.',
       });
       return;
@@ -139,8 +138,9 @@ const LandingPage = () => {
           // Cập nhật danh sách mockKoiList và availableKoiList
           setMockKoiList((prevList) => prevList.filter((koi) => koi.koiId !== koiId));
         }
-        message.success('Tất cả cá koi đã dduoc đăng ký thành công!');
+        message.success('Tất cả cá koi đã được đăng ký thành công!');
         await reloadKoiList(); // Reload the Koi list after registration
+        window.location.reload(); // Reload the page after registration
       } catch (error) {
         message.error('Đăng kí cá Koi thất bại. Vui lòng thử lại.');
         console.error('Error during koi registration:', error);
@@ -160,9 +160,9 @@ const LandingPage = () => {
   };
   
 
-  // Filter out Koi fish that have already been registered for the selected competition
+  // Filter out Koi fish that have already been registered for the selected competition and have status true
   const availableKoiList = mockKoiList.filter(koi => {
-    return !registrationList.some(registration => registration.koiId === koi.koiId && registration.compId === selectedCompetition?.compId);
+    return koi.status === true && !registrationList.some(registration => registration.koiId === koi.koiId && registration.compId === selectedCompetition?.compId);
   });
 
   const getCompetitionStatus = (competition) => {

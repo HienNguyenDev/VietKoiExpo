@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, Navigate } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import { ReactComponent as RefereeIcon } from '../../asset/icon/geisha-svgrepo-com.svg';
 import { ReactComponent as JudgeIcon } from '../../asset/icon/sensu-fan-svgrepo-com.svg';
@@ -27,6 +27,7 @@ const items = [
 const RefereePage = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const userLogin = useSelector(state => state.userReducer.userLogin);
 
   const handleMenuClick = (key) => {
     const item = items.find((item) => item.key === key);
@@ -36,9 +37,14 @@ const RefereePage = () => {
       console.error(`No item found with key: ${key}`);
     }
   };
-  const userLogin = useSelector(state => state.userReducer.userLogin);
+
+  // Check if the user is logged in and has the role of "judge"
   if (!userLogin) {
     return null; // Render nothing if userLogin is null
+  }
+
+  if (userLogin.roleId !== 'judge') {
+    return <Navigate to="/unauthorized" />; // Redirect to an unauthorized page if the user is not a judge
   }
 
   return (

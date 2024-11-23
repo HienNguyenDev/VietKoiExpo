@@ -204,7 +204,7 @@ const hasMemberPermission = userRole === 'member';
   };
 
   useEffect(() => {
-    const interval = setInterval(updateContestStatus, 900000);
+    const interval = setInterval(updateContestStatus, 9000000);
     return () => clearInterval(interval);
   }, [contestsData, dispatch]);
 
@@ -295,23 +295,28 @@ const hasMemberPermission = userRole === 'member';
         visible={drawerVisible}
       >
         <Form layout="vertical" form={form}>
-          <Form.Item name="categoryId" label="Chọn thể loại" rules={[{ required: true, message: 'Hãy chọn ít nhất hai!' }]}>            
-            <Checkbox.Group>
-              <Row>
-                {allCategories.map((category, index) => (
-                  <Col span={24} key={index}>
-                    <Checkbox
-                      value={category.name}
-                      checked={checkedCategories.includes(category.name)} 
-                      disabled={(drawerTitle === 'Xem Chi Tiết Cuộc Thi' )}
-                    >
-                      {category.name}
-                    </Checkbox>
-                  </Col>
-                ))}
-              </Row>
-            </Checkbox.Group>
-          </Form.Item>
+        <Form.Item
+  name="categoryId"
+  label="Chọn thể loại"
+  rules={[{ required: true, message: 'Hãy chọn ít nhất hai!' }]}
+>
+  <Checkbox.Group>
+    <Row>
+      {allCategories.map((category, index) => (
+        <Col span={24} key={index}>
+          <Checkbox
+            value={category.name}
+            checked={checkedCategories.includes(category.name)}
+            disabled={drawerTitle === 'Cập Nhật Cuộc Thi' || drawerTitle === 'Xem Chi Tiết Cuộc Thi'}
+          >
+            {category.name}
+          </Checkbox>
+        </Col>
+      ))}
+    </Row>
+  </Checkbox.Group>
+</Form.Item>
+
           <Form.Item name="compName" label="Tên Cuộc Thi" rules={[{ required: true, message: 'Hãy nhập tên cuộc thi' }]}>            
             <Input placeholder="Hãy nhập tên cuộc thi" disabled={drawerTitle === 'Xem Chi Tiết Cuộc Thi'} />
           </Form.Item>

@@ -65,6 +65,7 @@ import ResultPage from './page/5.MEMBER/ResultPage';
 import MainPage from './template/theme/MainPage';
 import HistoryComp from './template/theme/HistoryComp';
 import ListCompetitionComp from './page/5.MEMBER/ListCompetitionComp';
+import AllResultsPage from './component/shared/DashBoard/AllResultsPage';
 
 const App = () => {
   const location = useLocation();

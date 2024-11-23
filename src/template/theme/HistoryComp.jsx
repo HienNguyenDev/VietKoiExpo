@@ -202,7 +202,7 @@ const HistoryComp = () => {
             <table className="koi-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                       
                         <th>Tên Cá Koi</th>
                         <th>Trạng Thái Check-In</th>
                     </tr>
@@ -213,7 +213,6 @@ const HistoryComp = () => {
                         return (
                             koi && (
                                 <tr key={check.koiId}>
-                                    <td>{koi.koiId}</td>
                                     <td>{koi.koiName}</td>
                                     <td>{status === 1 ? 'Đã duyệt' : 'Từ chối'}</td>
                                 </tr>
