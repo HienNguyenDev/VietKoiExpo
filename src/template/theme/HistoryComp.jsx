@@ -12,7 +12,8 @@ const HistoryComp = () => {
     const [competitionNames, setCompetitionNames] = useState({}); // To store competition names
     const [loading, setLoading] = useState(false);
     const userId = useSelector((state) => state.userReducer.userLogin.userId);
-
+    const [startDate,setStartDate]=useState({});
+    const [endDate,setEndDate]=useState({});
     // Function to fetch competition name by compId
     const fetchCompetitionName = async (compId) => {
         try {
@@ -25,6 +26,31 @@ const HistoryComp = () => {
             return 'Cuộc thi không có tên';
         }
     };
+
+    const fetchCompetitionStartDate = async (compId) => {
+        try {
+            const response = await axios.get(
+                `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Competition/${compId}`
+            );
+            return response.data?.startDate || '';
+        } catch (error) {
+            console.error("Error fetching competition:", error);
+            return '';
+        }
+    };
+
+    const fetchCompetitionEndDate = async (compId) => {
+        try {
+            const response = await axios.get(
+                `https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Competition/${compId}`
+            );
+            return response.data?.endDate;
+        } catch (error) {
+            console.error("Error fetching competition:", error);
+            return '';
+        }
+    };
+
 
     // Function to fetch check-in data by compId
     const fetchCheckInDataByCompId = async (compId) => {
@@ -67,15 +93,30 @@ const HistoryComp = () => {
                 );
                 const compNames = {};
                 const allCheckInData = [];
+                const startDate={};
+                const endDate={};
                 for (let comp of competitionResponse.data) {
                     if (comp.compId && !compNames[comp.compId]) {
                         const compName = await fetchCompetitionName(comp.compId);
                         compNames[comp.compId] = compName;
                     }
+                    if(comp.compId&&!startDate[comp.compId]){
+                        const startDateDisplay=await fetchCompetitionStartDate(comp.compId);
+                        console.log(startDateDisplay);
+                        startDate[comp.compId]=startDateDisplay;
+
+                    }
+                    if(comp.compId&&!endDate[comp.compId]){
+                        const endDateDisplay=await fetchCompetitionEndDate(comp.compId);
+                        endDate[comp.compId]=endDateDisplay;
+                    }
+
                     const checkInData = await fetchCheckInDataByCompId(comp.compId);
                     allCheckInData.push(...checkInData);
                 }
                 setCompetitionNames(compNames);
+                setStartDate(startDate);
+                setEndDate(endDate);
                 setCheckInData(allCheckInData);
             } catch (error) {
                 message.error('Lỗi khi tải dữ liệu, vui lòng thử lại!');
@@ -123,19 +164,25 @@ const HistoryComp = () => {
                         <th>Tên Cá Koi</th>
                         <th>Trạng Thái</th>
                         <th>Cuộc Thi</th>
+                        <th>Ngày thi đấu</th>
+                        <th>Ngày kết thúc</th>
                     </tr>
                 </thead>
                 <tbody>
                     {filteredRegistration.map((reg) => {
                         const koi = koiData.find((k) => k.koiId === reg.koiId);
                         const competitionName = competitionNames[reg.compId] || 'N/A'; // Get competition name from state
-
+                        const startDateDisplay=startDate[reg.compId]|| 'N/A';
+                        console.log("check date",startDate);
+                        const endDateDisplay=endDate[reg.compId]|| 'N/A';
                         return (
                             koi && (
                                 <tr key={reg.registrationId}>
                                     <td>{koi.koiName}</td>
                                     <td>{status === 1 ? 'Đã duyệt' : 'Từ chối'}</td>
                                     <td>{competitionName}</td>
+                                    <td>{startDateDisplay}</td>
+                                    <td>{endDateDisplay}</td>
                                 </tr>
                             )
                         );
