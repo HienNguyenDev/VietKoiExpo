@@ -18,6 +18,8 @@ const ViewKoiEntries = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentKoi, setCurrentKoi] = useState(null);
   const [varieties, setVarieties] = useState([]);
+  const [registrations, setRegistrations] = useState([]);
+  const [competitions, setCompetitions] = useState([]);
   const [form] = Form.useForm();
   
   const userId = useSelector(state => state.userReducer.userLogin.userId);
@@ -65,6 +67,32 @@ const ViewKoiEntries = () => {
     };
 
     fetchVarieties();
+  }, []);
+
+  useEffect(() => {
+    const fetchRegistrations = async () => {
+      try {
+        const response = await axios.get('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Registration');
+        setRegistrations(response.data);
+      } catch (error) {
+        message.error('Lỗi khi lấy dữ liệu đăng ký');
+      }
+    };
+
+    fetchRegistrations();
+  }, []);
+
+  useEffect(() => {
+    const fetchCompetitions = async () => {
+      try {
+        const response = await axios.get('https://vietkoiexpo-backend.hiennguyendev.id.vn/api/Competition');
+        setCompetitions(response.data);
+      } catch (error) {
+        message.error('Lỗi khi lấy dữ liệu cuộc thi');
+      }
+    };
+
+    fetchCompetitions();
   }, []);
 
   const handleUpdate = (koi) => {
@@ -138,11 +166,23 @@ const ViewKoiEntries = () => {
       message.error('Cập nhật thất bại: ' + error.response?.data?.BirthDate?.[0] || error.message);
     }
   };
-  
+
+  const canEditOrDelete = (koiId) => {
+    const koiRegistrations = registrations.filter(reg => reg.koiId === koiId);
+    if (koiRegistrations.length === 0) {
+      return true; // No registrations, can edit or delete
+    }
+    return koiRegistrations.some(reg => reg.status === 2) || koiRegistrations.some(reg => {
+      const competition = competitions.find(comp => comp.compId === reg.compId);
+      return competition && competition.status === 2;
+    });
+  };
 
   if (loading) {
     return <Spin size="large" />;
   }
+
+  const filteredKoi = localKoi.filter(koi => koi.status === true);
 
   return (
     <Layout style={{ minHeight: '100vh', width: '100vw', backgroundColor: currentTheme.palette.background.default }}>
@@ -171,14 +211,14 @@ const ViewKoiEntries = () => {
       </Header>
       <Content style={{ marginTop: 64 }}>
         <Row gutter={[16, 16]}>
-          {localKoi.map((koi) => (
+          {filteredKoi.map((koi) => (
             <Col span={8} key={koi.koiId}>
               <Card
                 hoverable
                 cover={<Image alt="Koi" src={koi.imageUrl} />}
                 actions={[
-                  <Button type="link" onClick={() => handleUpdate(koi)}>Cập nhật</Button>,
-                  <Button type="link" danger onClick={() => handleDelete(koi)}>Xóa</Button>,
+                  canEditOrDelete(koi.koiId) && <Button type="link" onClick={() => handleUpdate(koi)}>Cập nhật</Button>,
+                  canEditOrDelete(koi.koiId) && <Button type="link" danger onClick={() => handleDelete(koi)}>Xóa</Button>,
                 ]}
               >
                 <Title level={4}>{koi.koiName}</Title>

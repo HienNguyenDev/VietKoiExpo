@@ -9,7 +9,7 @@
     };
 
     const checkInReducer = createSlice({
-        name: 'checkInReducer',
+        name: 'resultReducer',
         initialState,
         reducers: {
             
@@ -25,13 +25,16 @@
             setLoading: (state, action) => {
                 state.loading = action.payload;
             },    
+            setAllCompetitionsAction: (state, action) => {
+                state.competitionList = action.payload;
+            }
         },
     });
     export const {
 
 
         setAllResultByCompAction,
-
+        setAllCompetitionsAction,
         setError,
         setLoading,
     } = checkInReducer.actions;

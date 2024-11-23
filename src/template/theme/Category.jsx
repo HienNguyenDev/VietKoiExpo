@@ -42,7 +42,7 @@ const Category = () => {
               </div>
             </div>
             <div className="box" 
-                 onClick={() => handleRedirect('/bang-thanh-tich')} 
+                 onClick={() => handleRedirect('/all-results')} 
                  style={{ cursor: 'pointer' }}>
               <div className="img-box">
                 <img src={logo3} alt="" />

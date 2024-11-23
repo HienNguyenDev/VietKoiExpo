@@ -65,6 +65,7 @@ import ResultPage from './page/5.MEMBER/ResultPage';
 import MainPage from './template/theme/MainPage';
 import HistoryComp from './template/theme/HistoryComp';
 import ListCompetitionComp from './page/5.MEMBER/ListCompetitionComp';
+import AllResultsPage from './component/shared/DashBoard/AllResultsPage';
 
 const App = () => {
   const location = useLocation();
@@ -131,6 +132,8 @@ const App = () => {
           <Route path='/competition-results' element={<PrivateRoute element={ResultPage} />} />
           <Route path='view-all-contest' element={<ListCompetitionComp/>}/>
           <Route path='/home/history' element={<HistoryComp/>}></Route>
+          <Route path="/all-results" element={<AllResultsPage />} />
+    
           {/* Catch-all route to redirect to home */}
           <Route path="slider" element={<MainPage/>}></Route>
           <Route path="*" element={<Navigate to="/" />} />

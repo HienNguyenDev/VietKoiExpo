@@ -3,9 +3,8 @@ import { Layout, Typography, Spin, notification, Card, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchCheckInData } from '../../store/redux/action/checkInAction';
-import { fetchCompetitionData, fetchCategoriesByCompId, fetchKoiEntries, fetchCheckedInKoiForCompetition } from '../../store/redux/action/competitionAction';
+import { fetchCompetitionData, fetchCategoriesByCompId, fetchKoiEntries, fetchCheckedInKoiForCompetition, fetchKoiStatus } from '../../store/redux/action/competitionAction';
 import { fetchScores } from '../../store/redux/action/scoreAction';
-import { fetchKoiStatus } from '../../store/redux/action/competitionAction'; // Import action fetchKoiStatus
 import BracketList from './competition/BracketList';
 import KoiList from './competition/KoiList';
 import styles from './CompetitionPage.module.scss';
@@ -68,26 +67,16 @@ const CompetitionPage = () => {
     }
   }, [selectedCategory, dispatch, compId]);
 
-  // Check competition status and koi judgment status
+  // Check competition status and koi judgment status every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(fetchCheckedInKoiForCompetition(compId));
       dispatch(fetchScores(compId));
-    }, 5000);
+    }, 10000); // Check every 10 seconds
     
     return () => clearInterval(interval);
   }, [dispatch, compId]);
-  // Display notification if all koi are judged or competition is completed
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Fetch the koi status from your API
-      dispatch(fetchCheckedInKoiForCompetition(compId)); // Assuming this action fetches the koi fish data
-  
-    }, 3000); // Check every 3 seconds
-    
-    return () => clearInterval(interval);
-  }, [dispatch, compId]);
-  
+
   // Check if all Koi are judged
   useEffect(() => {
     // Only process if we have koiStatus data
