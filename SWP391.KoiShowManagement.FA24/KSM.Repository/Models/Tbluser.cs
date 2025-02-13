@@ -36,4 +36,6 @@ public partial class Tbluser
     public virtual ICollection<Tblscore> Tblscores { get; set; } = new List<Tblscore>();
 
     public virtual ICollection<Tbltask> Tbltasks { get; set; } = new List<Tbltask>();
+    //testcode
+
 }
